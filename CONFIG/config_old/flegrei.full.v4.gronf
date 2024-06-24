@@ -1,0 +1,193 @@
+--- !grond.Config
+rundir_template: runs/${problem_name}.grun
+dataset_config: !grond.DatasetConfig
+  stations_path: '../META_DATA/stations_flegrei_INGV.pf'
+  events_path: '../CAT/catologue_flegrei_mag2_5.pf'
+  waveform_paths: ['../DATA/${event_name}']
+  responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV.xml']
+  extend_incomplete: true
+  picks_paths: ['../MARKERS/${event_name}']
+  blacklist_paths: ['../BLACKLIST/${event_name}.black']
+  whitelist_paths: []
+target_groups:
+- !grond.WaveformTargetGroup
+  normalisation_family: 'td'
+  path: 'td.r'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: campiflegrei
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [Z]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 0.25
+    fmax: 1.0
+    ffactor: 1.5
+    domain: 'time_domain'
+    norm_exponent: 1
+    tmin: '{stored:P}-0.5'
+    tmax: '{stored:S}+1.5'
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: 'td'
+  path: 'td.l'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: campiflegrei
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [T]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 0.25
+    fmax: 1.0
+    ffactor: 1.5
+    domain: 'time_domain'
+    norm_exponent: 1
+    tmin: '{stored:P}-0.5'
+    tmax: '{stored:S}+1.5'
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: 'fd'
+  path: 'fd.r'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: campiflegrei
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [Z]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 0.25
+    fmax: 1.0
+    ffactor: 1.5
+    domain: 'frequency_domain'
+    norm_exponent: 1
+    tmin: '{stored:P}-0.5'
+    tmax: '{stored:S}+1.5'
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: 'fd'
+  path: 'fd.l'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: campiflegrei
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [T]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 0.25
+    fmax: 1.0
+    ffactor: 1.5
+    domain: 'frequency_domain'
+    norm_exponent: 1
+    tmin: '{stored:P}-0.5'
+    tmax: '{stored:S}+1.5'
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: 'cc'
+  path: 'cc.p'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: campiflegrei
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [Z]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 1.0
+    fmax: 4.0
+    ffactor: 1.5
+    domain: 'cc_max_norm'
+    norm_exponent: 1
+    tmin: '{stored:P}-0.5'
+    tmax: '{stored:P}+0.5'
+    tautoshift_max: 0.15
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: 'cc'
+  path: 'cc.s'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: campiflegrei
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [T]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 1.0
+    fmax: 4.0
+    ffactor: 1.5
+    domain: 'cc_max_norm'
+    norm_exponent: 1
+    tmin: '{stored:S}-0.5'
+    tmax: '{stored:S}+1.0'
+    tautoshift_max: 0.15
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: 'cc'
+  path: 'cc.fw'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: campiflegrei
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [Z,R,T]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 1.0
+    fmax: 4.0
+    ffactor: 1.5
+    domain: 'cc_max_norm'
+    norm_exponent: 1
+    tmin: '{stored:P}-0.5'
+    tmax: '{stored:S}+1.0'
+    tautoshift_max: 0.15
+    autoshift_penalty_max: 0.2
+problem_config: !grond.CMTProblemConfig
+  name_template: cmt_full_vrs4_${event_name}
+  norm_exponent: 2
+  ranges:
+    depth: 200 .. 5000
+    duration: 0.1 .. 0.1
+    east_shift: -1000 .. 1000
+    magnitude: 1. .. 4.
+    north_shift: -1000 .. 1000
+    rmdd: -1.5708 .. 1.5708
+    rmed: -1 .. 1
+    rmee: -1.5708 .. 1.5708
+    rmnd: -1 .. 1
+    rmne: -1 .. 1
+    rmnn: -1.5708 .. 1.5708
+    time: -0.25 .. 0.25 | add
+  distance_min: 100.0
+  mt_type: full
+analyser_configs:
+- !grond.TargetBalancingAnalyserConfig
+  niterations: 10000
+optimiser_config: !grond.HighScoreOptimiserConfig
+  sampler_phases:
+  - !grond.UniformSamplerPhase
+    niterations: 10000
+    ntries_preconstrain_limit: 1000
+  - !grond.DirectedSamplerPhase
+    niterations: 100000
+    ntries_preconstrain_limit: 1000
+    starting_point: excentricity_compensated
+    sampler_distribution: normal
+    standard_deviation_estimator: median_density_single_chain
+    ntries_sample_limit: 1000
+  chain_length_factor: 8.0
+  nbootstrap: 100
+engine_config: !grond.EngineConfig
+  gf_stores_from_pyrocko_config: true
+  gf_store_superdirs: [../GF_STORES]
+  gf_store_dirs: []
+event_names: []
+event_names_exclude: []
