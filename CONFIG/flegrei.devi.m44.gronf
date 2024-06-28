@@ -3,7 +3,7 @@ rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
   stations_path: '../META_DATA/stations_flegrei_INGV_simone.pf'
   events_path: '../CAT/m44.pf'
-  waveform_paths: ['../DATA3/${event_name}']
+  waveform_paths: ['../DATA_simone/${event_name}']
   responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_simone.xml']
   extend_incomplete: true
   blacklist_paths: ['../BLACKLIST/${event_name}.black']

@@ -3,7 +3,7 @@ rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
   stations_path: '../META_DATA/stations_flegrei_INGV_simone.pf'
   events_path: '../CAT/m44.pf'
-  waveform_paths: ['../DATA3/${event_name}']
+  waveform_paths: ['../DATA_simone/${event_name}']
   responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_simone.xml']
   extend_incomplete: true
   picks_paths: ['../MARKERS/${event_name}']
@@ -26,6 +26,8 @@ target_groups:
     ffactor: 1.5
     domain: 'time_domain'
     norm_exponent: 1
+    pick_synthetic_traveltime: '{stored:P}'
+    pick_phasename: 'P'
     tmin: '{stored:P}-1.0'
     tmax: '{stored:P}+1.0'
     tautoshift_max: 1.0
