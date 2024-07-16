@@ -35,16 +35,16 @@ problem_config: !grond.CMTProblemConfig
   ranges:
     depth: 1000 .. 5000
     duration: 0.1 .. 0.1
-    east_shift: -1000 .. 1000
+    east_shift: -7000 .. 7000
     magnitude: 3. .. 5.
-    north_shift: -1000 .. 1000
+    north_shift: -7000 .. 7000
     rmdd: -1.5708 .. 1.5708
     rmed: -1 .. 1
     rmee: -1.5708 .. 1.5708
     rmnd: -1 .. 1
     rmne: -1 .. 1
     rmnn: -1.5708 .. 1.5708
-    time: -1. .. 1. | add
+    time: -1. .. 4. | add
   distance_min: 10000.0
   mt_type: deviatoric
 analyser_configs:
