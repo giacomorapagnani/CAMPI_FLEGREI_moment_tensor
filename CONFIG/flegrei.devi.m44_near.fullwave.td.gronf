@@ -12,21 +12,13 @@ dataset_config: !grond.DatasetConfig
 target_groups:
 - !grond.WaveformTargetGroup
   normalisation_family: 'td'
-<<<<<<< HEAD
-  path: 'td_near'
-=======
   path: 'td.near'
->>>>>>> 9f2c5c8 (up)
   weight: 1.0
   interpolation: 'nearest_neighbor'
   store_id: campiflegrei_near
   distance_min: 0.1e3
   distance_max: 10e3
-<<<<<<< HEAD
-  channels: [Z]
-=======
   channels: [Z, R, T]
->>>>>>> 9f2c5c8 (up)
   exclude: []
   misfit_config: !grond.WaveformMisfitConfig
     fmin: 0.5
@@ -34,15 +26,8 @@ target_groups:
     ffactor: 1.5
     domain: 'time_domain'
     norm_exponent: 1
-<<<<<<< HEAD
-    pick_synthetic_traveltime: '{stored:P}'
-    pick_phasename: 'P'
-    tmin: '{stored:P}-1.0'
-    tmax: '{stored:P}+1.0'
-=======
     tmin: '{stored:P}-0.5'
     tmax: '{stored:S}+1.5'
->>>>>>> 9f2c5c8 (up)
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 - !grond.WaveformTargetGroup
@@ -66,11 +51,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-<<<<<<< HEAD
-  name_template: cmt_devi_m44_near${event_name}
-=======
   name_template: cmt_devi_m44_near_fullwave_td_${event_name}
->>>>>>> 9f2c5c8 (up)
   norm_exponent: 2
   ranges:
     depth: 1000 .. 5000
