@@ -11,69 +11,28 @@ dataset_config: !grond.DatasetConfig
   whitelist_paths: []
 target_groups:
 - !grond.WaveformTargetGroup
-<<<<<<< HEAD
   normalisation_family: 'td'
-  path: 'td_near'
-=======
-  normalisation_family: 'fd'
-  path: 'fd.near'
->>>>>>> 9f2c5c8 (up)
+  path: 'td.near'
   weight: 1.0
   interpolation: 'nearest_neighbor'
   store_id: campiflegrei_near
   distance_min: 0.1e3
   distance_max: 10e3
-<<<<<<< HEAD
-  channels: [Z]
-=======
   channels: [Z, R, T]
->>>>>>> 9f2c5c8 (up)
   exclude: []
   misfit_config: !grond.WaveformMisfitConfig
     fmin: 0.5
     fmax: 2.0
     ffactor: 1.5
-<<<<<<< HEAD
     domain: 'time_domain'
     norm_exponent: 1
-    pick_synthetic_traveltime: '{stored:P}'
-    pick_phasename: 'P'
-    tmin: '{stored:P}-1.0'
-    tmax: '{stored:P}+1.0'
-    tautoshift_max: 1.0
-    autoshift_penalty_max: 0.2
-- !grond.WaveformTargetGroup
-=======
-    domain: 'frequency_domain'
-    norm_exponent: 1
     tmin: '{stored:P}-0.5'
     tmax: '{stored:S}+1.5'
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 - !grond.WaveformTargetGroup
-  normalisation_family: 'cc'
-  path: 'cc.near'
-  weight: 1.0
-  interpolation: 'nearest_neighbor'
-  store_id: campiflegrei_near
-  distance_min: 0.1e3
-  distance_max: 10e3
-  channels: [Z,R,T]
-  exclude: []
-  misfit_config: !grond.WaveformMisfitConfig
-    fmin: 0.5
-    fmax: 2.0
-    ffactor: 1.5
-    domain: 'cc_max_norm'
-    norm_exponent: 1
-    tmin: '{stored:P}-0.5'
-    tmax: '{stored:S}+1.5'
-    tautoshift_max: 0.15
-    autoshift_penalty_max: 0.2
-- !grond.WaveformTargetGroup
->>>>>>> 9f2c5c8 (up)
-  normalisation_family: 'td'
-  path: 'td'
+  normalisation_family: 'fd'
+  path: 'fd'
   weight: 1.0
   interpolation: 'nearest_neighbor'
   store_id: crust2_2hz_m1
@@ -85,18 +44,34 @@ target_groups:
     fmin: 0.03
     fmax: 0.08
     ffactor: 1.5
-    domain: 'time_domain'
+    domain: 'frequency_domain'
+    norm_exponent: 1
+    tmin: '{stored:any_P}-5.'
+    tmax: '{vel_surface:2.0}+5.'
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: 'cc'
+  path: 'cc'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: crust2_2hz_m1
+  distance_min: 20e3
+  distance_max: 120e3
+  channels: [Z, R, T]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 0.03
+    fmax: 0.08
+    ffactor: 1.5
+    domain: 'cc_max_norm'
     norm_exponent: 1
     tmin: '{stored:any_P}-5.'
     tmax: '{vel_surface:2.0}+5.'
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-<<<<<<< HEAD
-  name_template: cmt_devi_m44_near${event_name}
-=======
-  name_template: cmt_devi_m44_near_fullwave_fd_cc_${event_name}
->>>>>>> 9f2c5c8 (up)
+  name_template: cmt_devi_m44_near_fullwave_fd_cc_v2_${event_name}
   norm_exponent: 2
   ranges:
     depth: 1000 .. 5000
