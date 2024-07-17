@@ -171,7 +171,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_devi_vrs_mid_eq_far_${event_name}
+  name_template: cmt_devi_vrs_mid_eq_far_td_fd_${event_name}
   norm_exponent: 2
   ranges:
     depth: 250 .. 8000
