@@ -1,3 +1,4 @@
+# definitive config setup for magnitude m44 event
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
