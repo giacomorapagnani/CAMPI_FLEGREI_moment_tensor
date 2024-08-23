@@ -1,8 +1,8 @@
 import os
 import subprocess
 
-basedir = '/home/giaco/WORKS/FLEGREI_moment_tensor_work/GROND_inversion/report' #remote
-#basedir = '/Users/giaco/UNI/PhD_CODE/WORKS/FLEGREI_moment_tensor_work/GROND_inversion/report' #local
+basedir = '/home/giaco/GIT/CAMPI_FLEGREI_moment_tensor/report' #remote
+#basedir = '/Users/giaco/UNI/PhD_CODE/GIT/CAMPI_FLEGREI_moment_tensor/report' #local
 
 for fn in os.listdir(basedir):
 

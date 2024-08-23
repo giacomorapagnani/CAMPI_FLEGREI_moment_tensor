@@ -59125,7 +59125,7 @@
         </creationInfo>
       </magnitude>
     </event>
-    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=35594331">
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=35594321">
       <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=119379021</preferredOriginID>
       <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=128405351</preferredMagnitudeID>
       <type>earthquake</type>
@@ -59135,9 +59135,9 @@
       </description>
       <creationInfo>
         <agencyID>INGV</agencyID>
-        <author>SURVEY-INGV-OV#SiSmi</author>
-        <creationTime>2023-07-18T22:49:01.000000Z</creationTime>
-        <ingv:id_locator>27693</ingv:id_locator>
+        <author>hew10_mole#MOD_EQASSEMBLE</author>
+        <creationTime>2023-07-18T22:33:05.000000Z</creationTime>
+        <ingv:id_locator>516556</ingv:id_locator>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=119379021">
         <time>
@@ -59170,7 +59170,7 @@
         <creationInfo>
           <agencyID>INGV</agencyID>
           <author>SURVEY-INGV-OV#SiSmi</author>
-          <creationTime>2023-07-18T22:49:01.000000Z</creationTime>
+          <creationTime>2024-08-06T09:33:15.000000Z</creationTime>
           <version>200</version>
           <ingv:quality>DD</ingv:quality>
         </creationInfo>

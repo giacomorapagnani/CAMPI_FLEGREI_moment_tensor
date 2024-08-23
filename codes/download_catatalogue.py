@@ -40,11 +40,12 @@ etime=UTCDateTime('2024-08-01T00:00:00')        # CHANGE set end time
 
 ######################################################################################
 ######################################################################################
-switch_get_events_and_save=True                ############################### SWITCH
+switch_get_events_and_save=False                ############################### SWITCH
 ######################################################################################
 ######################################################################################
 
 if switch_get_events_and_save:
+    print('downloading events from INGV database')
     cat_INGV=client.get_events(starttime=stime,endtime=etime,
                         minlatitude=40.75,maxlatitude=40.90,minlongitude=14.00,
                         maxlongitude=14.20)
@@ -279,8 +280,10 @@ if switch_merge_csv_and_convert_to_PF_GOSSIP:
     for file in os.listdir(directory):
         filename = os.fsdecode(file)
 
+        #if 'events' in filename:
         if filename.endswith(".csv"): 
             cat=pd.read_csv(workdir_GOSSIP + filename)
+            print(filename)
             cat=cat.drop(labels=['Area','Type'],axis=1)
             cat['Time'] = cat['Time'].apply(UTCDateTime)
             cat_all=pd.concat( [cat_all,cat] ,ignore_index=True)
@@ -288,7 +291,7 @@ if switch_merge_csv_and_convert_to_PF_GOSSIP:
             continue
 
     for location,id_event in enumerate(cat_all['#EventID']):
-        if cat_all['Latitude'].isna().loc[location] and cat_all['MagType'].isna().loc[location]:
+        if cat_all['Latitude'].isna().loc[location] and cat_all['Magnitude'].isna().loc[location]:
             cat_all=cat_all.drop(index=location)
 
     #all events
@@ -478,15 +481,7 @@ if switch_create_txt_file_with_catalogue:
             output.write(str(row) + '\n')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+# %% CHECK DATA NAME'S CONSISTENCIES:
+# DATA
+# BLACKLIST
+# MARKERS
