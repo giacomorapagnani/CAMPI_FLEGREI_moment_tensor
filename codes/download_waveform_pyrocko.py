@@ -32,7 +32,7 @@ import pytz
 workdir='../'
 catdir =  os.path.join(workdir,'CAT')
 meta_datadir=os.path.join(workdir,'META_DATA')
-datadir=os.path.join(workdir,'DATA2')                #CHANGE
+datadir=os.path.join(workdir,'DATA')                #CHANGE
 
 catname = os.path.join(catdir, 'catalogue_flegrei_mag_2_5.pf')           #CHANGE
 
@@ -40,7 +40,7 @@ cat = model.load_events(catname)
 print('Number of events:', len(cat))
 
 client=Client('INGV')
-stations_name=os.path.join(meta_datadir, 'stations_flegrei_INGV_2.xml')           #CHANGE
+stations_name=os.path.join(meta_datadir, 'stations_flegrei_INGV.xml')           #CHANGE
 stations=read_inventory(stations_name)                                 #read
 
 print(stations)
@@ -52,16 +52,16 @@ print(stations)
 ################################################################################
 #################### USE INSTEAD util.time_to_str(ev.time) ####################
 ################################################################################
-
-for ev in cat[-5:]:
+count=1
+for ev in cat:
     evID=ev.name
 
     #transform UTC time
     t = util.time_to_str(ev.time)
 
+    print('\nevent number:',count)
     print('origin UTC time event:',t)
-    print('extimated magnitude:',ev.magnitude)
-
+    
     event_start = UTCDateTime(t) - 40                               #CHANGE: -20 normal, -40 far_only
     #print('event starts at:',event_start)
 
@@ -94,3 +94,4 @@ for ev in cat[-5:]:
      
     wave.write(wavelet_name +'.mseed',format='MSEED')
     print('wavelet dowloaded and saved!')
+    count+=1
