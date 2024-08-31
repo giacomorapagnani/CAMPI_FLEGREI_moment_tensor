@@ -37,7 +37,7 @@ plotdir =  os.path.join(plotdir,'AMP_DIST2')                                    
 
 catdir =  os.path.join(workdir,'CAT')
 meta_datadir=os.path.join(workdir,'META_DATA')
-datadir=os.path.join(workdir,'DATA2_response')                                         #CHANGE
+datadir=os.path.join(workdir,'DATA_response')                                         #CHANGE
 
 #select stations (pyrocko)
 station_name = os.path.join(meta_datadir, 'stations_flegrei_INGV.pf')

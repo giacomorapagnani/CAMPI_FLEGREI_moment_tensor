@@ -31,8 +31,8 @@ import geopy.distance
 
 workdir='../'
 
-datadir=os.path.join(workdir,'DATA2')                                         #CHANGE
-newdatadir=os.path.join(workdir,'DATA2_response')                             #CHANGE
+datadir=os.path.join(workdir,'DATA')                                         #CHANGE
+newdatadir=os.path.join(workdir,'DATA_response')                             #CHANGE
 
 ###################################
 meta_datadir=os.path.join(workdir,'META_DATA')
