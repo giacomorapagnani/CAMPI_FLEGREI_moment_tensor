@@ -453,6 +453,13 @@ latitude = 40.814499
 longitude = 14.1542
 depth = 2360
 tags = GOSSIP_id:24688, mag:2.71, INGV_id:34689631, mag:2.8
+--------------------------------------------
+name = flegrei_2024_06_08_01_52_21                      #SN ratio too small, close to bigger eq
+time = 2024-06-08 01:52:21.670
+latitude = 40.8295
+longitude = 14.144167
+depth = 2080
+tags = GOSSIP_id:36952, mag:3.0, INGV_id:39089291, mag:3.0
 '''
 
 # %% EXTRA: create .txt file of the catalogue
