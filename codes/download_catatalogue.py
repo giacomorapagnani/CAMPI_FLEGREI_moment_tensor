@@ -111,6 +111,7 @@ else:
     cat_pf_INGV= model.load_events(catname_pf)
     cat_mag_pf_INGV= model.load_events(catname_mag_pf)
 '''
+#!!!NOT WORKING!!
 #compare PF catalogue with old versions
 #keep the old catalogue parameters
 def compare_old_new_pf_catalogues(cat_old,cat_new):
