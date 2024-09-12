@@ -41,11 +41,11 @@ target_groups:
   store_id: campiflegrei_far
   distance_min: 10e3
   distance_max: 60e3
-  channels: [R,Z,T]
+  channels: [Z,T]
   exclude: []
   misfit_config: !grond.WaveformMisfitConfig
-    fmin: 0.05
-    fmax: 0.1
+    fmin: 0.08
+    fmax: 0.3
     ffactor: 1.5
     domain: 'time_domain'
     norm_exponent: 1
@@ -54,7 +54,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_devi_near_05_2_far_005_01_td_RTZ_${event_name}
+  name_template: cmt_devi_near_05_2_far_008_03_td_${event_name}
   norm_exponent: 2
   ranges:
     depth: 250 .. 8000
