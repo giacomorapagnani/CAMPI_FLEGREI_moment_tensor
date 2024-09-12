@@ -1,6 +1,6 @@
 # CONFIG in time domain, with near and far velocity models, no pick used
 # frequency intervals:
-# near: 0.5-2.0 Hz  far: 0.05-0.1 Hz
+# near: 0.5-2.0 Hz  far: 0.08-0.3 Hz
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
