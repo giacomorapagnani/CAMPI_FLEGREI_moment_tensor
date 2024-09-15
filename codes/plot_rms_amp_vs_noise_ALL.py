@@ -168,7 +168,7 @@ for file in os.listdir(datadir):
 
         if save_fig:
 
-            figname = os.path.join(plotdir, name + '_rms_vs_distance.pdf')
+            figname = os.path.join(plotdir, 'ALL_rms_vs_distance.pdf')
             if os.path.isfile(figname):
                 os.remove(figname)
 
