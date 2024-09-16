@@ -53,6 +53,11 @@ events = model.load_events(catname)
 ###################################
 # RMS rumore da OT -10 a  OT
 
+save_fig=True
+
+# Creazione della figura e dei subplot
+fig, axs = plt.subplots(1, 1, figsize=(17, 11), sharex=False)
+
 for file in os.listdir(datadir):
     #select event
     name = os.fsdecode(file)
@@ -62,12 +67,24 @@ for file in os.listdir(datadir):
         ev_dir=os.path.join(datadir,name)
         ev_name=os.path.join(ev_dir,name + '.mseed')
 
+        mag_max=0.
+        mag_min=5.
+        for ev in events:  
+            mag_value=ev.tags[1]
+            mag_number=float(mag_value.split(':')[1])
+            if mag_max<mag_number:
+                mag_max=mag_number
+            if mag_min>mag_number:
+                mag_min=mag_number
+
         for ev in events:
+            
             if ev.name==name:
                 print('Selected event:',name)
                 #print('lat:',ev.lat,' lon:',ev.lon)
                 event=ev
                 mag_value=ev.tags[1]
+                mag_number=float(mag_value.split(':')[1])
 
         #select wavelet (obspy)  
         w=read(ev_name)
@@ -129,52 +146,47 @@ for file in os.listdir(datadir):
                 distance3.append(row[2])
                 channel3.append(row[0])
         
-        #SAVE FIGURE SWITCH
-        save_fig=True
-
-        # Creazione della figura e dei subplot
-        fig, axs = plt.subplots(1, 1, figsize=(17, 11), sharex=False)
-
         # Plot per il primo subplot
-        plt.title(name + ', '+ mag_value)
+        plt.title('ALL_rms_vs_distance.')
+        color_string=str( (mag_number-mag_min)/(mag_max-mag_min) )
         axs.scatter(num.array(distance1),
                         num.array(hhe),
-                        label='HHE', s=40, color='green')
+                        s=20,color=str(mag_number/mag_max))
         
         axs.scatter(num.array(distance2),
                         num.array(hhn),
-                        label='HHN', s=40, color='orange')
+                        s=20, color=str(mag_number/mag_max))
         
         axs.scatter(num.array(distance3),
                         num.array(hhz),
-                        label='HHZ', s=40, color='blue')
+                        s=20, color=str(mag_number/mag_max))
         
         axs.set_xlim(xmin=10.,xmax=50.) #max distance of x axis in Km
         axs.set_ylim(ymin=-11.,ymax=27.) #max distance of x axis in Km
 
-        axs.set_ylabel('Amplitude')
+        axs.set_ylabel('Db')
         axs.grid(True)
         axs.set_xlabel('Distance [km]')
         axs.legend()
 
-        for i, txt in enumerate(channel1):
-            axs.annotate(txt, (distance1[i]+distance1[i]/100, hhe[i]),color='tab:green',size=10)  # '+distance1[i]/50' to shift the name to the right
+        #for i, txt in enumerate(channel1):
+        #    axs.annotate(txt, (distance1[i]+distance1[i]/100, hhe[i]),color='tab:green',size=10)  # '+distance1[i]/50' to shift the name to the right
                                                                                                     
-        for i, txt in enumerate(channel2):
-            axs.annotate(txt, (distance2[i]+distance2[i]/80, hhn[i]),color='tab:orange',size=10)
+        #for i, txt in enumerate(channel2):
+        #    axs.annotate(txt, (distance2[i]+distance2[i]/80, hhn[i]),color='tab:orange',size=10)
 
-        for i, txt in enumerate(channel3):
-            axs.annotate(txt, (distance3[i]+distance3[i]/60, hhz[i]),color='tab:blue',size=10)
+        #for i, txt in enumerate(channel3):
+        #    axs.annotate(txt, (distance3[i]+distance3[i]/60, hhz[i]),color='tab:blue',size=10)
 
-        if save_fig:
+if save_fig:
 
-            figname = os.path.join(plotdir, 'ALL_rms_vs_distance.pdf')
-            if os.path.isfile(figname):
-                os.remove(figname)
+    figname = os.path.join(plotdir, 'ALL_rms_vs_distance.pdf')
+    if os.path.isfile(figname):
+        os.remove(figname)
 
-            plt.savefig(figname)
+    plt.savefig(figname)
 
-            print('Figure',figname.split('/')[-1],'saved!')
+    print('Figure',figname.split('/')[-1],'saved!')
 
-        #plt.show()
-        plt.close()   
+#plt.show()
+plt.close()   
