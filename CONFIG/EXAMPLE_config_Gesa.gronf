@@ -1,0 +1,377 @@
+%YAML 1.1
+# Example: Inversion of W-Phase from teleseismic observations.
+--- !grond.Config
+
+# All file paths referenced below are treated relative to the location of this
+# configuration file, here we may give a common prefix. E.g. setting it to '..'
+# if the configuration file is in the sub-directory '${project_root}/config'
+# allows us to give the paths below relative to '${project_root}'.
+path_prefix: '..'
+
+# Path, where to store output (run directories). The placeholder
+# '${problem_name}' will be expanded to a name configured below in
+# problem_config.name_template and will typically include a config identifier
+# and the event name.
+rundir_template: 'runs/${problem_name}.grun'
+
+# If given, restrict to processing of listed events
+#event_names:
+#- '2019-07-07_21-09-33.193'
+#2018-11-20_07-57-15.27'5 ERROR no targets
+
+# -----------------------------------------------------------------------------
+# Configuration section for dataset (input data)
+#
+# The placeholder '${event_name}' will be expanded to the current event. This
+# enables us to use the same configuration for multiple events. The available 
+# events are detected by looking into possible expansions of
+# dataset_config.events_path
+# -----------------------------------------------------------------------------
+
+dataset_config: !grond.DatasetConfig
+  # List of files with station coordinates.
+  events_path: 'catalogs/rerun_stelvio.yaml' 
+  
+  stations_stationxml_paths: 
+  - 'stations/resp_ZS_${event_name}_geofon.xml'
+  - 'stations/resp_${event_name}_lmu.xml'
+  - 'stations/resp_${event_name}_ethz.xml'
+  - 'stations/resp_${event_name}_ingv.xml'
+  - 'stations/resp_${event_name}_orfeus.xml'
+  - 'stations/resp_${event_name}_geofon.xml'
+
+  # List of directories with raw waveform data
+  waveform_paths: ['traces/${event_name}/', '../traces/${event_name}/',]
+
+  # List of stations/components to be excluded according to their STA, NET.STA,
+  # NET.STA.LOC, or NET.STA.2LOC.CHA codes
+  #blacklist: []
+
+  blacklist_paths:
+  - 'blocklists/${event_name}.txt'
+
+  #whitelist_paths: 
+  #- 'uselist.txt'
+
+  # List of files with additional exclusion lists (one entry per line, same 
+  # format as above)'
+  responses_stationxml_paths:
+  - 'stations/resp_ZS_${event_name}_geofon.xml'
+  - 'stations/resp_${event_name}_lmu.xml'
+  - 'stations/resp_${event_name}_ethz.xml'
+  - 'stations/resp_${event_name}_ingv.xml'
+  - 'stations/resp_${event_name}_orfeus.xml'
+  - 'stations/resp_${event_name}_geofon.xml'
+
+  picks_paths:
+  - 'picks/picks_${event_name}.txt'
+
+  # Apply correction factors from station corrections.                          
+  apply_correction_factors: false                                               
+                                                                                
+  # Extend incomplete seismic traces                                            
+  extend_incomplete: true  
+                                                 
+target_groups:
+- !grond.WaveformTargetGroup
+  
+  normalisation_family: 'cc'
+  path: 'cc.P'
+
+  distance_min: 3e3
+  distance_max: 56.0e3
+
+  channels: ['Z']
+  weight: 1.0
+
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 1.0
+    fmax: 3.
+    ffactor: 1.5
+
+    pick_synthetic_traveltime: '{stored:any_P}'
+    pick_phasename: 'P'
+    tmin: '{stored:any_P}-0.5'
+    tmax: '{stored:any_P}+1.0'
+
+    domain: 'cc_max_norm'
+
+    tautoshift_max: 0.3
+    autoshift_penalty_max: 0.0001
+    
+    norm_exponent: 1
+
+  interpolation: 'nearest_neighbor'
+  store_id: 'swath_stelvio_50Hz'
+
+- !grond.WaveformTargetGroup
+
+  normalisation_family: 'cc'
+
+  path: 'cc.S'
+  distance_min: 3e3
+  distance_max: 56.0e3
+
+  channels: ['T']
+  weight: 1.0
+
+  misfit_config: !grond.WaveformMisfitConfig
+
+    fmin: 1.0
+    fmax: 3.
+    ffactor: 1.5
+
+    pick_synthetic_traveltime: '{stored:any_S}'
+    pick_phasename: 'S'
+    tmin: '{stored:any_S}-0.5'
+    tmax: '{stored:any_S}+1.5'
+
+    domain: 'cc_max_norm'
+    tautoshift_max: 0.3
+    autoshift_penalty_max: 0.0001
+    norm_exponent: 1
+
+  interpolation: 'nearest_neighbor'
+  store_id: 'swath_stelvio_50Hz'
+
+- !grond.WaveformTargetGroup
+  
+  normalisation_family: 'td'
+  path: 'td.P'
+
+  distance_min: 3e3
+  distance_max: 56.0e3
+
+  channels: ['Z']
+  weight: 0.5
+
+  misfit_config: !grond.WaveformMisfitConfig
+
+    fmin: 1.0
+    fmax: 3.
+    ffactor: 1.5
+
+    pick_synthetic_traveltime: '{stored:any_S}'
+    pick_phasename: 'S'
+    tmin: '{stored:any_P}-0.5'
+    tmax: '{stored:any_P}+1.0'
+
+    domain: 'time_domain'
+    tautoshift_max: 0.3
+    autoshift_penalty_max: 0.0001
+    
+    norm_exponent: 1
+
+  interpolation: 'nearest_neighbor'
+  store_id: 'swath_stelvio_50Hz'
+
+- !grond.WaveformTargetGroup
+
+  normalisation_family: 'td'
+  path: 'td.S'
+
+  distance_min: 3e3
+  distance_max: 56.0e3
+
+  channels: ['T']
+  weight: 0.5
+
+  misfit_config: !grond.WaveformMisfitConfig
+
+    fmin: 1.0
+    fmax: 3.
+    ffactor: 1.5
+
+    pick_synthetic_traveltime: '{stored:any_S}'
+    pick_phasename: 'S'
+    tmin: '{stored:any_S}-0.5'
+    tmax: '{stored:any_S}+1.5'
+
+    domain: 'time_domain'
+
+    tautoshift_max: 0.3
+    autoshift_penalty_max: 0.0001
+    
+    norm_exponent: 1
+
+  interpolation: 'nearest_neighbor'
+
+  store_id: 'swath_stelvio_50Hz'
+
+- !grond.WaveformTargetGroup
+  
+  #include: ['DS.D103','SI.MOSI','DS.D083','DS.D084','DS.D082','DS.D123','DS.D104','IV.BRMO','DS.D124','Z3.A290A','ZS.D101','ZS.D125','ZS.D063','CH.FUORN','ZS.D065','ZS.D081','ZS.D062']
+
+  normalisation_family: 'fd'
+  path: 'fd.P'
+
+  distance_min: 3e3
+  distance_max: 56.0e3
+
+  channels: ['Z']
+  weight: 1.0
+
+  misfit_config: !grond.WaveformMisfitConfig
+
+    fmin: 1.0
+    fmax: 5.
+    ffactor: 1.5
+    
+    pick_synthetic_traveltime: '{stored:any_P}'
+    pick_phasename: 'P'
+    tmin: '{stored:any_P}-0.5'
+    tmax: '{stored:any_P}+2.5'
+
+    domain: 'frequency_domain'
+
+    tautoshift_max: 0.3
+    autoshift_penalty_max: 0.0001
+    
+    norm_exponent: 1
+
+  interpolation: 'nearest_neighbor'
+  store_id: 'swath_stelvio_50Hz'
+
+- !grond.WaveformTargetGroup
+
+  normalisation_family: 'fd'
+  path: 'fd.S'
+
+  distance_min: 3e3
+  distance_max: 56.0e3
+
+  channels: ['T']
+  weight: 1.0
+
+  misfit_config: !grond.WaveformMisfitConfig
+
+    fmin: 1.0
+    fmax: 5.
+    ffactor: 1.5
+    pick_synthetic_traveltime: '{stored:any_S}'
+    pick_phasename: 'S'
+    tmin: '{stored:any_S}-0.5'
+    tmax: '{stored:any_S}+2.5'
+
+    domain: 'frequency_domain'
+
+    tautoshift_max: 0.3
+    autoshift_penalty_max: 0.0001
+    
+    norm_exponent: 1
+
+  interpolation: 'nearest_neighbor'
+  store_id: 'swath_stelvio_50Hz'
+
+
+
+problem_config: !grond.CMTProblemConfig
+
+  name_template: 're_${event_name}_cft_gf_f1-5'
+
+  ranges:
+    time: '-1.0 .. 3.0 | add'
+
+    north_shift: '-3e3 .. 3e3'
+    east_shift: '-3e3 .. 3e3'
+    depth: '3e3 .. 19e3'
+
+    # Range of magnitudes to allow
+    magnitude: '0.1 .. 4.0'
+
+    # Relative moment tensor component ranges (don't touch)
+    rmnn: '-1.41421 .. 1.41421'
+    rmee: '-1.41421 .. 1.41421'
+    rmdd: '-1.41421 .. 1.41421'
+    rmne: '-1 .. 1'
+    rmnd: '-1 .. 1'
+    rmed: '-1 .. 1'
+
+    # Source duration range [s]
+    duration: '0. .. 2.'
+
+  # Clearance distance around stations (no models with origin closer than this
+  # distance to any station are produced by the sampler)
+  distance_min: 1e3
+
+  # Type of moment tensor to restrict to (choices: 'full', 'deviatoric', 'dc')
+  mt_type: 'deviatoric'
+
+  # How to combine the target misfits. For L1 norm: 1, L2 norm: 2, etc.
+  norm_exponent: 1
+
+
+# -----------------------------------------------------------------------------
+# Configuration of pre-optimisation analysis phases. 
+# determined during this phase.
+# -----------------------------------------------------------------------------
+#
+analyser_configs:
+
+# Balancing weights are determined with this analyser
+- !grond.TargetBalancingAnalyserConfig
+
+  # Number of models to forward model in the analysis, larger number -> better
+  # statistics)
+  niterations: 1000
+
+#- !grond.NoiseAnalyserConfig
+#  pre_event_noise_duration: 200.
+#  phase_def: '{stored:any_P}'
+#  statistic: 'std'
+#  mode: 'weeding'
+#  cutoff: 2.0
+#  cutoff_exception_on_high_snr: 3.0
+
+
+# -----------------------------------------------------------------------------
+# Configuration of the optimisation procedure
+# -----------------------------------------------------------------------------
+optimiser_config: !grond.HighScoreOptimiserConfig
+
+  # Number of bootstrap realisations to be tracked simultaneously in the
+  # optimisation
+  nbootstrap: 100
+
+  # stages of the sampler. Start with uniform sampling of the model space
+  # (!grond.UniformSamplerPhase), then narrow down to the interesting regions
+  # (!grond.DirectedSamplerPhase).
+  sampler_phases:
+
+  - !grond.UniformSamplerPhase
+      # Number of iterations
+      niterations: 2000
+
+  - !grond.DirectedSamplerPhase
+      # Number of iterations
+      niterations: 30000
+
+      # Multiplicator for width of sampler distribution at start of this phase
+      scatter_scale_begin: 2.0
+
+      # Multiplicator for width of sampler distribution at end of this phase
+      scatter_scale_end: 1.2
+
+  - !grond.DirectedSamplerPhase
+      # Number of iterations
+      niterations: 20000
+
+      # Multiplicator for width of sampler distribution at start of this phase
+      scatter_scale_begin: 1.2
+
+      # Multiplicator for width of sampler distribution at end of this phase
+      scatter_scale_end: 0.8
+
+# -----------------------------------------------------------------------------
+# Configuration section for synthetic seismogram engine
+#
+# Configures where to look for GF stores.
+# -----------------------------------------------------------------------------
+
+engine_config: !grond.EngineConfig
+
+  # Whether to use GF store directories listed in ~/.pyrocko/config.pf
+  gf_stores_from_pyrocko_config: false
+
+  # List of directories with GF stores
+  gf_store_superdirs: ['../../../alparray/gf_stores'] # /home/gesa/gf_stores
