@@ -1,6 +1,7 @@
 import pygmt
 import numpy as np
 import os
+import pandas as pd
 
 workdir='../../'
 catdir =  os.path.join(workdir,'CAT')
@@ -39,27 +40,14 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-focal_mechanism1 = {"strike": 241, "dip": 30, "rake": 125, "magnitude": 3.58}
+fm_events = pd.read_csv("focal_mechanism_catalogue_flegrei_mag_2_5.csv")
 
-# Pass the focal mechanism data through the spec parameter. In addition provide
-# scale, event location, and event depth
-fig.meca(
-    spec=focal_mechanism1,
-    scale="1c",  # in centimeters
-    longitude=14.094,
-    latitude=40.8085,
-    depth=2.0,
-    # Fill compressive quadrants with color "red"
-    # [Default is "black"]
-    compressionfill="#BD2025",
-    # Fill extensive quadrants with color "cornsilk"
-    # [Default is "white"]
-    extensionfill="cornsilk",
-    # Draw a 0.5 points thick dark gray ("gray30") solid outline via
-    # the pen parameter [Default is "0.25p,black,solid"]
-    pen="0.5p,gray30,solid",
-)
+# Itera sugli eventi e traccia i meccanismi focali
+for _, row in fm_events.iterrows():
+    fig.meca(spec=[row['longitude'], row['latitude'], row['strike'], row['dip'], row['rake'], row['magnitude']],depth=row['depth'],
+             scale="1c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid") 
 
+#   STATIONS
 f=open(metadatadir + '/stations_flegrei_INGV.pf','r')
 latsta=[]
 lonsta=[]
