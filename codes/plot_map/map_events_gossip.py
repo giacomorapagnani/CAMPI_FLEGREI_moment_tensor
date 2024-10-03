@@ -1,7 +1,12 @@
 import pygmt
 import numpy as np
+import os
 
-f=open('/Users/francesco/Downloads/catalogo_giacomo/cat_GOSSIP.txt','r')
+workdir='../../'
+catdir =  os.path.join(workdir,'CAT')
+metadatadir =  os.path.join(workdir,'META_DATA')
+
+f=open(catdir + '/catalogue_flegrei_GOSSIP.txt','r')
 latev=[]
 lonev=[]
 magev=[]
@@ -13,7 +18,7 @@ for line in f:
 latev=np.array(latev)
 lonev=np.array(lonev)
 
-f=open('/Users/francesco/Downloads/catalogo_giacomo/cat_final.txt','r')
+f=open(catdir + '/catalogue_flegrei_mag_2_5.txt','r')
 latevf=[]
 lonevf=[]
 magevf=[]
@@ -25,10 +30,17 @@ for line in f:
 latevf=np.array(latevf)
 lonevf=np.array(lonevf)
 
+#NEAR
 minlon=14.05
-maxlon=14.25
+maxlon=14.23
 minlat=40.75
 maxlat=40.90
+
+#FAR
+#minlon=13.6
+#maxlon=14.7
+#minlat=40.5
+#maxlat=41.3
 
 # Create a new figure
 fig = pygmt.Figure()
@@ -69,7 +81,7 @@ evf=np.array(evf)
 fig.plot(x=ev[:,0], y=ev[:,1], style="c0.1c", fill="#BD2025", pen="black")
 fig.plot(x=evf[:,0], y=evf[:,1], style="c0.25c", fill="#0066cc", pen="black")
 
-f=open('/Users/francesco/Downloads/catalogo_giacomo/stations_flegrei_INGV_2.pf','r')
+f=open(metadatadir + '/stations_flegrei_INGV.pf','r')
 latsta=[]
 lonsta=[]
 namsta=[]
