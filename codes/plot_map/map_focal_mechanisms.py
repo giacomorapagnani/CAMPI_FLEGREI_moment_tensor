@@ -1,7 +1,13 @@
 import pygmt
 import numpy as np
+import os
 
-f=open('/Users/francesco/Downloads/catalogo_giacomo/cat_final.txt','r')
+workdir='../../'
+catdir =  os.path.join(workdir,'CAT')
+metadatadir =  os.path.join(workdir,'META_DATA')
+
+#    ALL EVENTS IN CATALOGUE GOSSIP
+f=open(catdir + '/catalogue_flegrei_mag_2_5.txt','r')
 latev=[]
 lonev=[]
 magev=[]
@@ -12,12 +18,20 @@ for line in f:
     #namsta.append(toks[0])
 latev=np.array(latev)
 lonev=np.array(lonev)
+#   COORDINATES FOR NEAR MAP OD FAR MAP
+#NEAR
 minlon=14.05
-maxlon=14.25
+maxlon=14.23
 minlat=40.75
 maxlat=40.90
 
-# Create a new figure
+#FAR
+#minlon=13.6
+#maxlon=14.7
+#minlat=40.5
+#maxlat=41.3
+
+#   CREATE FIGURE
 fig = pygmt.Figure()
 pygmt.config(FORMAT_GEO_MAP="ddd.xxF")
 
@@ -36,12 +50,8 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 # Plot coastlines with high resolution
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
-
-
-# Generate random seismic events
-
-
-ev=[]
+# create arrays with events
+ev=[]   # mag>2.5
 for elat,elon in zip(latev,lonev):
     if (elon>minlon and elon<maxlon) and (elat>minlat and elat<maxlat):
         ev.append([elon,elat])
@@ -113,22 +123,6 @@ fig.meca(
     pen="0.5p,gray30,solid",
 )
 
-f=open('/Users/francesco/Downloads/catalogo_giacomo/stations_flegrei_INGV_2.pf','r')
-latsta=[]
-lonsta=[]
-namsta=[]
-for line in f:
-    toks=line.split()
-    latsta.append(eval(toks[1]))
-    lonsta.append(eval(toks[2]))
-    #namsta.append(toks[0])
-latsta=np.array(latsta)
-lonsta=np.array(lonsta)
-fig.plot(x=lonsta, y=latsta, style="t0.5", fill="#FFCC4E", pen="black", label='stazioni')
-#fig.text(x=station.lon+0.050, y=station.lat+0.008, text=station.sta, justify='BR',font='9p')
-
-#fig.legend(position="JTR+jTR+o0.1c", box= '+gwhite+p1p', S=0.7)
-
 focal_mechanism4 = {"strike": 200, "dip": 42, "rake": 113, "magnitude": 2.39}
 
 # Pass the focal mechanism data through the spec parameter. In addition provide
@@ -150,25 +144,21 @@ fig.meca(
     pen="0.5p,gray30,solid",
 )
 
-# Show the plot
+f=open(metadatadir + '/stations_flegrei_INGV.pf','r')
+latsta=[]
+lonsta=[]
+namsta=[]
+for line in f:
+    toks=line.split()
+    latsta.append(eval(toks[1]))
+    lonsta.append(eval(toks[2]))
+    namsta.append(toks[0].split('.')[1])
+latsta=np.array(latsta)
+lonsta=np.array(lonsta)
+
+# Plot stations
+fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='station') # yelow filling
+#fig.text(x=lonsta+0.01, y=latsta+0.004, text=namsta, justify='BR',font='8p',fill="#FFCC4E")
+
+fig.legend()
 fig.show()
-
-
-
-
-#dgrid = pygmt.grdgradient(grid=grid, radiance=[270, 20])
-
-#plot grid
-#pygmt.makecpt(transparency=60,cmap="gray", series=[-1.7, 0.2, 0.02])
-#fig.grdimage(
-#    projection="M12c",
-#    cmap=True,
-#    grid=dgrid,
-#)
-
-
-#plot stations
-#fig.plot(x=station.lon, y=station.lat, style="t0.5", color="darkred", pen="black", label='stazioni')
-#fig.text(x=station.lon+0.050, y=station.lat+0.008, text=station.sta, justify='BR',font='9p')
-
-#fig.legend(position="JTR+jTR+o0.1c", box= '+gwhite+p1p', S=0.7)
