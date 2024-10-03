@@ -6,6 +6,7 @@ workdir='../../'
 catdir =  os.path.join(workdir,'CAT')
 metadatadir =  os.path.join(workdir,'META_DATA')
 
+#    ALL EVENTS IN CATALOGUE GOSSIP
 f=open(catdir + '/catalogue_flegrei_GOSSIP.txt','r')
 latev=[]
 lonev=[]
@@ -18,6 +19,7 @@ for line in f:
 latev=np.array(latev)
 lonev=np.array(lonev)
 
+#   EVENTS IN FINAL CATALOGUE (MAG>2.5)
 f=open(catdir + '/catalogue_flegrei_mag_2_5.txt','r')
 latevf=[]
 lonevf=[]
@@ -30,6 +32,7 @@ for line in f:
 latevf=np.array(latevf)
 lonevf=np.array(lonevf)
 
+#   COORDINATES FOR NEAR MAP OD FAR MAP
 #NEAR
 minlon=14.05
 maxlon=14.23
@@ -42,7 +45,7 @@ maxlat=40.90
 #minlat=40.5
 #maxlat=41.3
 
-# Create a new figure
+#   CREATE FIGURE
 fig = pygmt.Figure()
 pygmt.config(FORMAT_GEO_MAP="ddd.xxF")
 
@@ -61,26 +64,24 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 # Plot coastlines with high resolution
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
-
-
-# Generate random seismic events
-
-
-ev=[]
+# create arrays with events
+ev=[]   # GOSSIP
 for elat,elon in zip(latev,lonev):
     if (elon>minlon and elon<maxlon) and (elat>minlat and elat<maxlat):
         ev.append([elon,elat])
 ev=np.array(ev)
 
-evf=[]
+evf=[] # mag>2.5
 for elatf,elonf in zip(latevf,lonevf):
     if (elon>minlon and elon<maxlon) and (elat>minlat and elat<maxlat):
         evf.append([elonf,elatf])
 evf=np.array(evf)
-# Plot the seismic events
-fig.plot(x=ev[:,0], y=ev[:,1], style="c0.1c", fill="#BD2025", pen="black")
-fig.plot(x=evf[:,0], y=evf[:,1], style="c0.25c", fill="#0066cc", pen="black")
 
+# Plot the seismic events
+fig.plot(x=ev[:,0], y=ev[:,1], style="c0.1c", fill="#BD2025", pen="black") # red filling
+fig.plot(x=evf[:,0], y=evf[:,1], style="c0.25c", fill="#0066cc", pen="black") # blue filling
+
+#   STATIONS NETWORK
 f=open(metadatadir + '/stations_flegrei_INGV.pf','r')
 latsta=[]
 lonsta=[]
@@ -92,31 +93,11 @@ for line in f:
     #namsta.append(toks[0])
 latsta=np.array(latsta)
 lonsta=np.array(lonsta)
+
+# Plot stations
 fig.plot(x=lonsta, y=latsta, style="t0.5", fill="#FFCC4E", pen="black", label='stazioni')
 #fig.text(x=station.lon+0.050, y=station.lat+0.008, text=station.sta, justify='BR',font='9p')
 
 #fig.legend(position="JTR+jTR+o0.1c", box= '+gwhite+p1p', S=0.7)
 
-
-# Show the plot
 fig.show()
-
-
-
-
-#dgrid = pygmt.grdgradient(grid=grid, radiance=[270, 20])
-
-#plot grid
-#pygmt.makecpt(transparency=60,cmap="gray", series=[-1.7, 0.2, 0.02])
-#fig.grdimage(
-#    projection="M12c",
-#    cmap=True,
-#    grid=dgrid,
-#)
-
-
-#plot stations
-#fig.plot(x=station.lon, y=station.lat, style="t0.5", color="darkred", pen="black", label='stazioni')
-#fig.text(x=station.lon+0.050, y=station.lat+0.008, text=station.sta, justify='BR',font='9p')
-
-#fig.legend(position="JTR+jTR+o0.1c", box= '+gwhite+p1p', S=0.7)
