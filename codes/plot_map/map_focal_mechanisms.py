@@ -6,18 +6,6 @@ workdir='../../'
 catdir =  os.path.join(workdir,'CAT')
 metadatadir =  os.path.join(workdir,'META_DATA')
 
-#    ALL EVENTS IN CATALOGUE GOSSIP
-f=open(catdir + '/catalogue_flegrei_mag_2_5.txt','r')
-latev=[]
-lonev=[]
-magev=[]
-for line in f:
-    toks=line.split()
-    latev.append(eval(toks[2]))
-    lonev.append(eval(toks[3]))
-    #namsta.append(toks[0])
-latev=np.array(latev)
-lonev=np.array(lonev)
 #   COORDINATES FOR NEAR MAP OD FAR MAP
 #NEAR
 minlon=14.05
@@ -50,16 +38,7 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 # Plot coastlines with high resolution
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
-# create arrays with events
-ev=[]   # mag>2.5
-for elat,elon in zip(latev,lonev):
-    if (elon>minlon and elon<maxlon) and (elat>minlat and elat<maxlat):
-        ev.append([elon,elat])
-ev=np.array(ev)
-# Plot the seismic events
-
-fig.plot(x=ev[:,0], y=ev[:,1], style="c0.3c", fill="#0066cc", pen="black")
-
+#   PLOT FOCAL MECHANISM
 focal_mechanism1 = {"strike": 241, "dip": 30, "rake": 125, "magnitude": 3.58}
 
 # Pass the focal mechanism data through the spec parameter. In addition provide
@@ -70,69 +49,6 @@ fig.meca(
     longitude=14.094,
     latitude=40.8085,
     depth=2.0,
-    # Fill compressive quadrants with color "red"
-    # [Default is "black"]
-    compressionfill="#BD2025",
-    # Fill extensive quadrants with color "cornsilk"
-    # [Default is "white"]
-    extensionfill="cornsilk",
-    # Draw a 0.5 points thick dark gray ("gray30") solid outline via
-    # the pen parameter [Default is "0.25p,black,solid"]
-    pen="0.5p,gray30,solid",
-)
-
-focal_mechanism2 = {"strike": 271, "dip": 33, "rake": -87, "magnitude": 2.63}
-
-# Pass the focal mechanism data through the spec parameter. In addition provide
-# scale, event location, and event depth
-fig.meca(
-    spec=focal_mechanism2,
-    scale="1c",  # in centimeters
-    longitude=14.1333,
-    latitude=40.8315,
-    depth=2.8,
-    # Fill compressive quadrants with color "red"
-    # [Default is "black"]
-    compressionfill="#BD2025",
-    # Fill extensive quadrants with color "cornsilk"
-    # [Default is "white"]
-    extensionfill="cornsilk",
-    # Draw a 0.5 points thick dark gray ("gray30") solid outline via
-    # the pen parameter [Default is "0.25p,black,solid"]
-    pen="0.5p,gray30,solid",
-)
-
-focal_mechanism3 = {"strike": 296, "dip": 41, "rake": -57, "magnitude": 2.29}
-
-# Pass the focal mechanism data through the spec parameter. In addition provide
-# scale, event location, and event depth
-fig.meca(
-    spec=focal_mechanism3,
-    scale="1c",  # in centimeters
-    longitude=14.1356,
-    latitude=40.8328,
-    depth=2.46,
-    # Fill compressive quadrants with color "red"
-    # [Default is "black"]
-    compressionfill="#BD2025",
-    # Fill extensive quadrants with color "cornsilk"
-    # [Default is "white"]
-    extensionfill="cornsilk",
-    # Draw a 0.5 points thick dark gray ("gray30") solid outline via
-    # the pen parameter [Default is "0.25p,black,solid"]
-    pen="0.5p,gray30,solid",
-)
-
-focal_mechanism4 = {"strike": 200, "dip": 42, "rake": 113, "magnitude": 2.39}
-
-# Pass the focal mechanism data through the spec parameter. In addition provide
-# scale, event location, and event depth
-fig.meca(
-    spec=focal_mechanism4,
-    scale="1c",  # in centimeters
-    longitude=14.1108,
-    latitude=40.8032,
-    depth=4.4,
     # Fill compressive quadrants with color "red"
     # [Default is "black"]
     compressionfill="#BD2025",
@@ -158,7 +74,7 @@ lonsta=np.array(lonsta)
 
 # Plot stations
 fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='station') # yelow filling
-#fig.text(x=lonsta+0.01, y=latsta+0.004, text=namsta, justify='BR',font='8p',fill="#FFCC4E")
+#fig.text(x=lonsta+0.005, y=latsta+0.002, text=namsta, justify='BR',font='5p',fill="#FFCC4E")
 
 fig.legend()
 fig.show()
