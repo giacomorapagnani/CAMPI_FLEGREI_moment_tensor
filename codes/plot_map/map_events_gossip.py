@@ -78,8 +78,8 @@ for elatf,elonf in zip(latevf,lonevf):
 evf=np.array(evf)
 
 # Plot the seismic events
-fig.plot(x=ev[:,0], y=ev[:,1], style="c0.1c", fill="#BD2025", pen="black") # red filling
-fig.plot(x=evf[:,0], y=evf[:,1], style="c0.25c", fill="#0066cc", pen="black") # blue filling
+fig.plot(x=ev[:,0], y=ev[:,1], style="c0.1c", fill="#BD2025", pen="black", label='event in catalogue') # red filling
+fig.plot(x=evf[:,0], y=evf[:,1], style="c0.25c", fill="#0066cc", pen="black", label='event selected') # blue filling
 
 #   STATIONS NETWORK
 f=open(metadatadir + '/stations_flegrei_INGV.pf','r')
@@ -90,14 +90,14 @@ for line in f:
     toks=line.split()
     latsta.append(eval(toks[1]))
     lonsta.append(eval(toks[2]))
-    #namsta.append(toks[0])
+    namsta.append(toks[0].split('.')[1])
 latsta=np.array(latsta)
 lonsta=np.array(lonsta)
 
 # Plot stations
-fig.plot(x=lonsta, y=latsta, style="t0.5", fill="#FFCC4E", pen="black", label='stazioni')
-#fig.text(x=station.lon+0.050, y=station.lat+0.008, text=station.sta, justify='BR',font='9p')
+fig.plot(x=lonsta, y=latsta, style="t0.5", fill="#FFCC4E", pen="black", label='station') # yelow filling
+#fig.text(x=lonsta+0.01, y=latsta+0.004, text=namsta, justify='BR',font='8p',fill="#FFCC4E")
 
-#fig.legend(position="JTR+jTR+o0.1c", box= '+gwhite+p1p', S=0.7)
+fig.legend()
 
 fig.show()
