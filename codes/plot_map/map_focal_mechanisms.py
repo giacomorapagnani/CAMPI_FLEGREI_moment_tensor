@@ -7,18 +7,18 @@ workdir='../../'
 catdir =  os.path.join(workdir,'CAT')
 metadatadir =  os.path.join(workdir,'META_DATA')
 
-#   COORDINATES FOR NEAR MAP OD FAR MAP
+#   COORDINATES FOR NEAR MAP OR SUPER NEAR MAP
 #NEAR
-minlon=14.05
-maxlon=14.23
-minlat=40.75
-maxlat=40.90
+#minlon=14.05
+#maxlon=14.23
+#minlat=40.75
+#maxlat=40.90
 
-#FAR
-#minlon=13.6
-#maxlon=14.7
-#minlat=40.5
-#maxlat=41.3
+#SUPERNEAR
+minlon=14.07
+maxlon=14.17
+minlat=40.77
+maxlat=40.85
 
 #   CREATE FIGURE
 fig = pygmt.Figure()
@@ -40,12 +40,13 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-fm_events = pd.read_csv("focal_mechanism_catalogue_flegrei_mag_2_5.csv")
+fm_events = pd.read_csv("focal_mechanism_events.csv")
 
 # Itera sugli eventi e traccia i meccanismi focali
 for _, row in fm_events.iterrows():
-    fig.meca(spec=[row['longitude'], row['latitude'], row['strike'], row['dip'], row['rake'], row['magnitude']],depth=row['depth'],
-             scale="1c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid") 
+    focal_mechanism = {"strike": row['strike'], "dip": row['dip'], "rake": row['rake'], "magnitude": row['magnitude'] }
+    fig.meca(spec=focal_mechanism, longitude =row['longitude'], latitude=row['latitude'], depth=row['depth'],
+                scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid") 
 
 #   STATIONS
 f=open(metadatadir + '/stations_flegrei_INGV.pf','r')
