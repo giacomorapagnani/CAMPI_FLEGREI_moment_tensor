@@ -40,7 +40,7 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-csv_name_str='focal_mechanism_cmt_devi_near_05_2_far_005_01_td_fd_flegrei'      #CHANGE NAME
+csv_name_str='focal_mechanism_test_2'      #CHANGE NAME
 fm_events = pd.read_csv(csv_name_str+'.csv')
 
 # Itera sugli eventi e traccia i meccanismi focali
