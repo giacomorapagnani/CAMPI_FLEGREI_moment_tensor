@@ -40,7 +40,7 @@ etime=UTCDateTime('2024-11-01T00:00:00')        # CHANGE set end time
 
 ######################################################################################
 ######################################################################################
-switch_get_events_and_save=True                ############################### SWITCH
+switch_get_events_and_save=False                ############################### SWITCH
 ######################################################################################
 ######################################################################################
 
@@ -261,8 +261,8 @@ def catalogue_GOSSIP_to_PF(catalogue,catalogue_path):
 
     return events
 
-workdir_GOSSIP='/Users/giaco/UNI/PhD_CODE/WORKS/FLEGREI_moment_tensor_work/flegrei_2014_2024_GOSSIP/csv/'
-save_dir_GOSSIP='/Users/giaco/UNI/PhD_CODE/WORKS/FLEGREI_moment_tensor_work/flegrei_2014_2024_GOSSIP/'
+workdir_GOSSIP='../CAT/GOSSIP_events_cvs/csv/'
+save_dir_GOSSIP='../CAT/GOSSIP_events_cvs/'
 
 GOSSIP_name_pf = os.path.join(catdir, 'catalogue_flegrei_GOSSIP.pf')
 GOSSIP_name_pf_mag = os.path.join(catdir, 'catalogue_flegrei_GOSSIP_mag_2_5.pf')

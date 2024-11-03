@@ -157,91 +157,70 @@ time = 2023-05-08 02:28:34.260
 latitude = 40.827702
 longitude = 14.1402
 depth = 2650
-tags = GOSSIP_id:25202, mag:3.48, INGV_id:34919151, mag:3.4
+tags = GOSSIP_id:25202, mag:3.48, INGV_id:34919151, mag:2.3
 --------------------------------------------
 name = flegrei_2023_05_08_22_33_17
 time = 2023-05-08 22:33:17.410
 latitude = 40.824799
 longitude = 14.1377
 depth = 2350
-tags = GOSSIP_id:25214, mag:2.69, INGV_id:34928001, mag:2.8
---------------------------------------------
-name = flegrei_2023_06_02_09_43_54
-time = 2023-06-02 09:43:54.900
-latitude = 40.827202
-longitude = 14.1423
-depth = 2210
-tags = GOSSIP_id:25913, mag:2.47, INGV_id:35173261, mag:2.6
+tags = GOSSIP_id:25214, mag:2.69, INGV_id:34928001, mag:1.7
 --------------------------------------------
 name = flegrei_2023_06_11_06_44_25
 time = 2023-06-11 06:44:25.720
 latitude = 40.834301
 longitude = 14.1102
 depth = 2710
-tags = GOSSIP_id:26132, mag:3.56, INGV_id:35278141, mag:3.6
+tags = GOSSIP_id:26132, mag:3.56, INGV_id:35278141, mag:2.4
 --------------------------------------------
 name = flegrei_2023_06_15_15_39_40
 time = 2023-06-15 15:39:40.320
 latitude = 40.831501
 longitude = 14.1402
 depth = 2790
-tags = GOSSIP_id:26290, mag:2.89, INGV_id:35317061, mag:2.9
---------------------------------------------
-name = flegrei_2023_08_14_22_46_51
-time = 2023-08-14 22:46:51.410
-latitude = 40.837002
-longitude = 14.1037
-depth = 2770
-tags = GOSSIP_id:28679, mag:2.47, INGV_id:35832921, mag:2.6
+tags = GOSSIP_id:26290, mag:2.89, INGV_id:35317061, mag:2.0
 --------------------------------------------
 name = flegrei_2023_08_18_00_01_28
 time = 2023-08-18 00:01:28.290
 latitude = 40.818802
 longitude = 14.1505
 depth = 560
-tags = GOSSIP_id:28790, mag:2.67, INGV_id:35870311, mag:2.5
+tags = GOSSIP_id:28790, mag:2.67, INGV_id:35870061, mag:2.1
 --------------------------------------------
 name = flegrei_2023_08_18_04_09_59
 time = 2023-08-18 04:09:59.430
 latitude = 40.826801
 longitude = 14.148
 depth = 2550
-tags = GOSSIP_id:28837, mag:3.2, INGV_id:35871201, mag:3.1
+tags = GOSSIP_id:28837, mag:3.2, INGV_id:35871201, mag:2.3
 --------------------------------------------
 name = flegrei_2023_08_18_04_10_30
 time = 2023-08-18 04:10:30.410
 latitude = 40.827702
 longitude = 14.1517
 depth = 2250
-tags = GOSSIP_id:28871, mag:2.53, INGV_id:35871881, mag:2.5
+tags = GOSSIP_id:28871, mag:2.53, INGV_id:35871241, mag:2.1
 --------------------------------------------
 name = flegrei_2023_08_18_04_18_05
 time = 2023-08-18 04:18:05.660
 latitude = 40.831501
 longitude = 14.1375
 depth = 2630
-tags = GOSSIP_id:28848, mag:3.64, INGV_id:35871351, mag:3.6
+tags = GOSSIP_id:28848, mag:3.64, INGV_id:35871351, mag:2.8
 --------------------------------------------
 name = flegrei_2023_08_18_04_22_49
 time = 2023-08-18 04:22:49.850
 latitude = 40.8297
 longitude = 14.1387
 depth = 2370
-tags = GOSSIP_id:28850, mag:3.12, INGV_id:35871681, mag:2.8
---------------------------------------------
-name = flegrei_2023_08_21_02_48_59
-time = 2023-08-21 02:48:59.340
-latitude = 40.8377
-longitude = 14.1235
-depth = 2650
-tags = GOSSIP_id:29048, mag:2.43, INGV_id:35901131, mag:2.5
+tags = GOSSIP_id:28850, mag:3.12, INGV_id:35871461, mag:2.3
 --------------------------------------------
 name = flegrei_2023_08_27_21_14_23
 time = 2023-08-27 21:14:23.450
 latitude = 40.801998
 longitude = 14.1142
 depth = 2990
-tags = GOSSIP_id:29141, mag:2.61, INGV_id:35963161, mag:2.6
+tags = GOSSIP_id:29141, mag:2.61, INGV_id:35963041, mag:1.6
 --------------------------------------------
 name = flegrei_2023_09_07_17_45_28
 time = 2023-09-07 17:45:28.780
@@ -255,35 +234,35 @@ time = 2023-09-12 02:28:50.200
 latitude = 40.828
 longitude = 14.139167
 depth = 2310
-tags = GOSSIP_id:29830, mag:2.9, INGV_id:36115691, mag:2.9
+tags = GOSSIP_id:29830, mag:2.9, INGV_id:36114561, mag:2.9
 --------------------------------------------
 name = flegrei_2023_09_20_22_54_29
 time = 2023-09-20 22:54:29.079
 latitude = 40.815833
 longitude = 14.158167
 depth = 2790
-tags = GOSSIP_id:30053, mag:2.7, INGV_id:36220721, mag:2.5
+tags = GOSSIP_id:30053, mag:2.7, INGV_id:36220591, mag:2.5
 --------------------------------------------
 name = flegrei_2023_09_22_09_01_59
 time = 2023-09-22 09:01:59.950
 latitude = 40.8315
 longitude = 14.143167
 depth = 2100
-tags = GOSSIP_id:30137, mag:3.2, INGV_id:36243651, mag:3.0
+tags = GOSSIP_id:30137, mag:3.2, INGV_id:36243631, mag:3.0
 --------------------------------------------
 name = flegrei_2023_09_24_15_35_02
 time = 2023-09-24 15:35:02.029
 latitude = 40.814
 longitude = 14.153667
 depth = 2980
-tags = GOSSIP_id:30310, mag:2.8, INGV_id:36272561, mag:2.8
+tags = GOSSIP_id:30310, mag:2.8, INGV_id:36272401, mag:2.8
 --------------------------------------------
 name = flegrei_2023_09_26_06_31_43
 time = 2023-09-26 06:31:43.579
 latitude = 40.8075
 longitude = 14.106667
 depth = 3340
-tags = GOSSIP_id:30417, mag:2.5, INGV_id:36288121, mag:2.4
+tags = GOSSIP_id:30417, mag:2.5, INGV_id:36287451, mag:2.4
 --------------------------------------------
 name = flegrei_2023_09_26_07_10_29
 time = 2023-09-26 07:10:29.589
@@ -304,21 +283,21 @@ time = 2023-09-27 09:16:18.140
 latitude = 40.818667
 longitude = 14.142333
 depth = 280
-tags = GOSSIP_id:30510, mag:2.8, INGV_id:36302331, mag:2.5
+tags = GOSSIP_id:30510, mag:2.8, INGV_id:36302081, mag:2.5
 --------------------------------------------
 name = flegrei_2023_09_29_21_57_58
 time = 2023-09-29 21:57:58.319
 latitude = 40.8265
 longitude = 14.139667
 depth = 2790
-tags = GOSSIP_id:30792, mag:2.7, INGV_id:36335801, mag:2.5
+tags = GOSSIP_id:30792, mag:2.7, INGV_id:36335741, mag:2.5
 --------------------------------------------
 name = flegrei_2023_10_01_13_33_09
 time = 2023-10-01 13:33:09.019
 latitude = 40.832833
 longitude = 14.135667
 depth = 2460
-tags = GOSSIP_id:30857, mag:2.9, INGV_id:36352871, mag:2.9
+tags = GOSSIP_id:30857, mag:2.9, INGV_id:36352551, mag:2.9
 --------------------------------------------
 name = flegrei_2023_10_02_20_08_26
 time = 2023-10-02 20:08:26.690
@@ -332,7 +311,7 @@ time = 2023-10-04 08:46:55.029
 latitude = 40.8295
 longitude = 14.134167
 depth = 2500
-tags = GOSSIP_id:31003, mag:2.6, INGV_id:36382041, mag:2.6
+tags = GOSSIP_id:31003, mag:2.6, INGV_id:36381821, mag:2.6
 --------------------------------------------
 name = flegrei_2023_10_16_10_36_21
 time = 2023-10-16 10:36:21.119
@@ -655,4 +634,39 @@ latitude = 40.805667
 longitude = 14.098333
 depth = 4150
 tags = GOSSIP_id:38245, mag:4.0, INGV_id:39858701, mag:4.0
+--------------------------------------------
+name = flegrei_2024_08_17_21_33_32
+time = 2024-08-17 21:33:32.390
+latitude = 40.817833
+longitude = 14.144333
+depth = 210
+tags = GOSSIP_id:38724, mag:2.6, INGV_id:40120181, mag:2.6
+--------------------------------------------
+name = flegrei_2024_08_18_00_29_21
+time = 2024-08-18 00:29:21.829
+latitude = 40.8185
+longitude = 14.140833
+depth = 400
+tags = GOSSIP_id:38766, mag:2.8, INGV_id:40121971, mag:2.8
+--------------------------------------------
+name = flegrei_2024_08_30_19_23_15
+time = 2024-08-30 19:23:15.839
+latitude = 40.828167
+longitude = 14.1445
+depth = 2690
+tags = GOSSIP_id:39108, mag:3.7, INGV_id:40271581, mag:3.7
+--------------------------------------------
+name = flegrei_2024_10_12_04_54_23
+time = 2024-10-12 04:54:23.829
+latitude = 40.802833
+longitude = 14.151
+depth = 3400
+tags = GOSSIP_id:39580, mag:2.5, INGV_id:40625901, mag:2.5
+--------------------------------------------
+name = flegrei_2024_10_13_06_07_53
+time = 2024-10-13 06:07:53.569
+latitude = 40.8345
+longitude = 14.147833
+depth = 2390
+tags = GOSSIP_id:39626, mag:2.6, INGV_id:40633931, mag:2.6
 --------------------------------------------
