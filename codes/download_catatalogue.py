@@ -1,6 +1,14 @@
 
 #download catalogue from INGV
 #create catalogue from CSV gossip
+
+########################################################################
+########################################################################
+#############IMPORTANT: before running, change #########################
+############# the column names in the .csv files ####################### 
+########################################################################
+########################################################################
+
 # %% LIB
 from obspy.clients.fdsn.client import Client
 from obspy import UTCDateTime
