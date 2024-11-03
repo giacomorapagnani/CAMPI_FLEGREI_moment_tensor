@@ -1,6 +1,6 @@
 # CONFIG in time domain, with near and far networks, no pick used.
 # frequency intervals:
-# near td: 0.5-2.0  Hz near fd: 0.8-2.0 Hz  
+# near td: 0.5-2.0  Hz
 # far  td: 0.05-0.1 Hz
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
@@ -35,26 +35,6 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 - !grond.WaveformTargetGroup
-  normalisation_family: 'fd'
-  path: 'fd.near'
-  weight: 1.0
-  interpolation: 'nearest_neighbor'
-  store_id: campiflegrei_near
-  distance_min: 0.1e3
-  distance_max: 10e3
-  channels: [Z,T,R]
-  exclude: []
-  misfit_config: !grond.WaveformMisfitConfig
-    fmin: 0.8
-    fmax: 2.0
-    ffactor: 1.5
-    domain: 'frequency_domain'
-    norm_exponent: 1
-    tmin: '{stored:P}-0.5'
-    tmax: '{stored:S}+1.5'
-    tautoshift_max: 1.0
-    autoshift_penalty_max: 0.2
-- !grond.WaveformTargetGroup
   normalisation_family: 'td'
   path: 'td.far'
   weight: 1.0
@@ -75,7 +55,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_devi_XL_${event_name}
+  name_template: cmt_devi_XL_only_td_${event_name}
   norm_exponent: 2
   ranges:
     depth: 250 .. 8000
