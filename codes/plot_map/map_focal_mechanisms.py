@@ -40,14 +40,18 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-csv_name_str='focal_mechanism_cmt_devi_XL_v2_flegrei'                              ###CHANGE NAME###
+csv_name_str='focal_mechanism_cmt_devi_XL_only_td_flegrei'                              ###CHANGE NAME###
 fm_events = pd.read_csv(csv_name_str+'.csv')
 
 # Itera sugli eventi e traccia i meccanismi focali
 for _, row in fm_events.iterrows():
     focal_mechanism = {"strike": row['strike'], "dip": row['dip'], "rake": row['rake'], "magnitude": row['magnitude'] }
+    #add event date
+    name=row['event_name'].split('_')[1:]
+    name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
+
     fig.meca(spec=focal_mechanism, longitude =row['longitude'], latitude=row['latitude'], depth=row['depth'],
-                scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid") 
+                scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid", event_name=name_ev ) 
 
 #   STATIONS
 f=open(metadatadir + '/stations_flegrei_INGV.pf','r')
