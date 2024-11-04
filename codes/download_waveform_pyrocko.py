@@ -52,46 +52,52 @@ print(stations)
 ################################################################################
 #################### USE INSTEAD util.time_to_str(ev.time) ####################
 ################################################################################
+
+# download waveforms strarting from this data:
+date_start_download='2024-08-01 00:00:00.000'                               #CHANGE
+sec_start_download=util.str_to_time(date_start_download)
+
 count=1
 for ev in cat:
-    evID=ev.name
+    if ev.time>=sec_start_download:
+        evID=ev.name
 
-    #transform UTC time
-    t = util.time_to_str(ev.time)
+        #transform UTC time
+        t = util.time_to_str(ev.time)
 
-    print('\nevent number:',count)
-    print('origin UTC time event:',t)
-    
-    event_start = UTCDateTime(t) - 40                               #CHANGE: -20 normal, -40 far_only
-    #print('event starts at:',event_start)
+        print('\nevent number:',count)
+        print('origin UTC time event:',t)
 
-    event_end=UTCDateTime(t) + 140                                    #CHANGE: +40 normal, +140 far_only
-    #print('event ends at:',event_end)
+        event_start = UTCDateTime(t) - 40                               #CHANGE: -20 normal, -40 far_only
+        #print('event starts at:',event_start)
+
+        event_end=UTCDateTime(t) + 140                                    #CHANGE: +40 normal, +140 far_only
+        #print('event ends at:',event_end)
 
 
-    wave=Stream()
-    for network in stations:
-        for  station in network.stations:
-            try:
-                wave += client.get_waveforms(starttime=event_start,endtime=event_end,
-                                    network=network.code,station=station.code,location='*', channel='HH?',
-                                    attach_response=True)
-            except:
-                #print(station.code , 'station not recording')
-                continue
+        wave=Stream()
+        for network in stations:
+            for  station in network.stations:
+                try:
+                    wave += client.get_waveforms(starttime=event_start,endtime=event_end,
+                                        network=network.code,station=station.code,location='*', channel='HH?',
+                                        attach_response=True)
+                except:
+                    #print(station.code , 'station not recording')
+                    continue
 
-    print('traces found:',len(wave.traces))    
+        print('traces found:',len(wave.traces))    
 
-    waveletdir=os.path.join(datadir,evID)
-    wavelet_name= os.path.join(waveletdir,evID) 
-    
-    if os.path.isdir(waveletdir):
-        os.remove(wavelet_name + '.mseed')
-        os.rmdir(waveletdir)
+        waveletdir=os.path.join(datadir,evID)
+        wavelet_name= os.path.join(waveletdir,evID) 
 
-    os.mkdir(waveletdir)
+        if os.path.isdir(waveletdir):
+            os.remove(wavelet_name + '.mseed')
+            os.rmdir(waveletdir)
 
-     
-    wave.write(wavelet_name +'.mseed',format='MSEED')
-    print('wavelet dowloaded and saved!')
-    count+=1
+        os.mkdir(waveletdir)
+
+
+        wave.write(wavelet_name +'.mseed',format='MSEED')
+        print('wavelet dowloaded and saved!')
+        count+=1
