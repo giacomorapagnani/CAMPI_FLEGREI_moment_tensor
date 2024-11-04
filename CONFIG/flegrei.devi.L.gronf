@@ -65,8 +65,8 @@ target_groups:
   channels: [R,Z,T]
   exclude: []
   misfit_config: !grond.WaveformMisfitConfig
-    fmin: 0.05
-    fmax: 0.1
+    fmin: 0.08
+    fmax: 0.2
     ffactor: 1.5
     domain: 'time_domain'
     norm_exponent: 1
@@ -78,7 +78,7 @@ problem_config: !grond.CMTProblemConfig
   name_template: cmt_devi_L_${event_name}
   norm_exponent: 2
   ranges:
-    depth: 250 .. 8000
+    depth: 1000 .. 5000
     duration: 0.1 .. 0.1
     east_shift: -4000 .. 4000
     magnitude: 1. .. 4.
