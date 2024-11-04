@@ -1,7 +1,7 @@
-# CONFIG in time and frequency domain, with near and far networks, no pick used.
+# CONFIG in time and frequency domain, with near network, no pick used.
 # frequency intervals:
 # near td: 0.5-2.0  Hz near fd: 0.8-2.0 Hz  
-# far  td: 0.05-0.1 Hz
+# 
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
