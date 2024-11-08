@@ -51,7 +51,7 @@ for _, row in fm_events.iterrows():
     name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
     fig.meca(spec=focal_mechanism, longitude =row['longitude'], latitude=row['latitude'], depth=row['depth'],
-                scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid", event_name=name_ev ) 
+                scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid")#, event_name=name_ev ) 
 
 #   STATIONS
 f=open(metadatadir + '/stations_flegrei_INGV.pf','r')
@@ -68,7 +68,7 @@ lonsta=np.array(lonsta)
 
 # Plot stations
 fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='station') # yelow filling
-#fig.text(x=lonsta+0.005, y=latsta+0.002, text=namsta, justify='BR',font='5p',fill="#FFCC4E")
+fig.text(x=lonsta+0.005, y=latsta+0.002, text=namsta, justify='BR',font='5p',fill="#FFCC4E")
 
 fig.legend()
 fig.show()

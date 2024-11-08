@@ -442,7 +442,7 @@ else:
  # %% manually eliminate events
 #no good signals, not enough stations, too close in time
 '''
-name = flegrei_2015_10_07_09_10_50
+name = flegrei_2015_10_07_09_10_50              #not enough stations
 time = 2015-10-07 09:10:50.680
 latitude = 40.825001
 longitude = 14.15033
@@ -469,6 +469,13 @@ latitude = 40.8295
 longitude = 14.144167
 depth = 2080
 tags = GOSSIP_id:36952, mag:3.0, INGV_id:39089291, mag:3.0
+--------------------------------------------
+name = flegrei_2024_05_10_11_26_10
+time = 2024-05-10 11:26:10.319
+latitude = 40.811
+longitude = 14.1145
+depth = 2170
+tags = GOSSIP_id:35387, mag:3.6, INGV_id:38580361, mag:3.6
 '''
 
 # %% EXTRA: create .txt file of the catalogue
