@@ -32,7 +32,7 @@ import geopy.distance
 workdir='../'
 
 plotdir =  os.path.join(workdir,'PLOTS')
-plotdir =  os.path.join(plotdir,'AMP_DIST2')                                         #CHANGE
+plotdir =  os.path.join(plotdir,'AMP_DIST_2')                                         #CHANGE
 #plotdir =  os.path.join(plotdir,'big_eq')                                       #SWITCH
 
 catdir =  os.path.join(workdir,'CAT')
