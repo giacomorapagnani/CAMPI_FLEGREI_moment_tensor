@@ -1,16 +1,17 @@
-# CONFIG in time domain, with near network, no pick used.
+# FINAL(?) CONFIG made from 'flegrei.devi.XL.only.td.v2'
+# CONFIG in time domain, with near and far networks, no pick used. smaller depth intervall
 # frequency intervals:
-# near td: 0.5-2.0  Hz 
-
+# near td: 0.5-2.0  Hz
+# far  td: 0.05-0.1 Hz
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
   stations_path: '../META_DATA/stations_flegrei_INGV.pf'
-  events_path: '../CAT/catalogue_flegrei_mag_2_5_S.pf'
+  events_path: '../CAT/catalogue_flegrei_mag_2_5.pf'
   waveform_paths: ['../DATA/${event_name}']
   responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV.xml']
   extend_incomplete: true
-  #picks_paths: ['../MARKERS/${event_name}']
+  picks_paths: ['../MARKERS/${event_name}']
   blacklist_paths: ['../BLACKLIST/${event_name}.black']
   whitelist_paths: []
 target_groups:
@@ -34,8 +35,28 @@ target_groups:
     tmax: '{stored:S}+1.5'
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: 'td'
+  path: 'td.far'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: campiflegrei_far
+  distance_min: 10e3
+  distance_max: 60e3
+  channels: [R,Z,T]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 0.05
+    fmax: 0.1
+    ffactor: 1.5
+    domain: 'time_domain'
+    norm_exponent: 1
+    tmin: '{stored:any_P}-5'
+    tmax: '{vel_surface:2.0}'
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_devi_S_${event_name}
+  name_template: cmt_devi_XL_final_${event_name}
   norm_exponent: 2
   ranges:
     depth: 1000 .. 5000

@@ -1,3 +1,4 @@
+# FINAL(?) CONFIG made from 'flegrei.devi.L.only.near'
 # CONFIG in time domain, with near network, no pick used.
 # frequency intervals:
 # near td: 0.5-2.0  Hz  
@@ -35,7 +36,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_devi_L_only_near_${event_name}
+  name_template: cmt_devi_L_final_${event_name}
   norm_exponent: 2
   ranges:
     depth: 1000 .. 5000
