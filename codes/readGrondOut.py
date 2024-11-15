@@ -26,28 +26,32 @@ import pickle
 import shutil
 import urllib.request
 
-km = 1000.
+workdir='../'
+reportdir=os.path.join(workdir,'report')
+reportdir=os.path.join('/Users/giaco/UNI/PhD_CODE/GIT/report_simone_M_S/grond-report')        #tmp
+catdir=os.path.join(workdir,'CAT')
+
+catname=os.path.join(catdir,'catalogue_flegrei_mag_2_5.pf')               # CHANGE
+new_cataloguename=os.path.join(catdir,'catalogue_flegrei_MT_final.pf')    # CHANGE
+
+refevents=model.load_events(catname)
 
 run_get_grond_results = True
 
 if run_get_grond_results:
     mttargets = [ev for ev in refevents]
-    badmtsols = ['nar_2022_09_28_02_55_24',
-                 'nar_2022_09_29_04_08_24',
-                 'nar_2022_09_29_04_45_07',
-                 'nar_2022_11_08_04_39_37']
-    print('prima', len(mttargets))
+    badmtsols = ['']
+    print('All events in catalogue:', len(mttargets))
     goodmttargets = [ev for ev in mttargets if ev.name not in badmtsols]
-    print('dopo', len(goodmttargets))
-    for vrs in ['v3', 'v4']:
+    print('Good events in catalogue:', len(goodmttargets))
+    for vrs in ['cmt_devi_M_', 'cmt_devi_S_']:                    # CHANGE
         grondevs = []
         for ev in goodmttargets:
-            targetdir = os.path.join(reportdir, ev.name,
-                                     'cmt_' + vrs + '_' + ev.name)
-            if not os.path.isdir(targetdir):
-                print(ev.name, 'missing report dir', targetdir)
+            targetdir = os.path.join(reportdir, ev.name, vrs + ev.name)
+            #if not os.path.isdir(targetdir):
+                #print(ev.name, 'missing report dir', targetdir)
             if os.path.isdir(targetdir):
-                fname = os.path.join(targetdir, 'event.solution.mean.yaml')
+                fname = os.path.join(targetdir, 'event.solution.best.yaml')     # takes BEST results
                 if os.path.isfile(fname):
                     fmean = open(fname, 'r')
                     for line in fmean:
@@ -91,6 +95,9 @@ if run_get_grond_results:
                                                  np.array([north]),
                                                  np.array([east]))
                     ev.lat, ev.lon = nlat[0], nlon[0]
-                    if ev.magnitude >= 4.0:
+                    if ev.magnitude >= 1.0:
                         grondevs.append(ev)
-        print(len(grondevs))
+                else:
+                    print('WARNING: no .yaml file found for event:',ev.name)
+    print('Total MT solutions found:',len(grondevs))
+    model.dump_events(grondevs, new_cataloguename)
