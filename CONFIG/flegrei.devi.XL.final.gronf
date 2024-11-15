@@ -75,7 +75,7 @@ problem_config: !grond.CMTProblemConfig
   mt_type: deviatoric
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
-  niterations: 5000
+  niterations: 1000
 optimiser_config: !grond.HighScoreOptimiserConfig
   sampler_phases:
   - !grond.UniformSamplerPhase
