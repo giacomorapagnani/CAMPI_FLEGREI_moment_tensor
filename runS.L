@@ -1,2 +1,2 @@
-srun -u --nodes=1  --ntasks=21 --mem=128G --cpus-per-task=2 --pty --reservation=GPU --gres=gpu:1 grond go CONFIG/flegrei.devi.S.final.gronf all --parallel=21 --force
-srun -u --nodes=1  --ntasks=21 --mem=128G --cpus-per-task=2 --pty --reservation=GPU --gres=gpu:1 grond report runs/cmt_devi_S_final_flegrei* --parallel=21
+srun -u --nodes=1  --ntasks=10 --mem=128G --cpus-per-task=10 --pty --reservation=GPU --gres=gpu:1 grond go CONFIG/flegrei.devi.S.final.gronf all --parallel=10 --force
+srun -u --nodes=1  --ntasks=10 --mem=128G --cpus-per-task=10 --pty --reservation=GPU --gres=gpu:1 grond report runs/cmt_devi_S_final_flegrei* --parallel=10
