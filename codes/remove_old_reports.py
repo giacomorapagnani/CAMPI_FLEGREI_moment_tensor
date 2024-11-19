@@ -1,9 +1,8 @@
 import os
 import subprocess
 
-basedir = '/home/giaco/GIT/CAMPI_FLEGREI_moment_tensor/report' #remote
-#basedir = '/Users/giaco/UNI/PhD_CODE/GIT/CAMPI_FLEGREI_moment_tensor/report' #local
-
+#basedir = '/home/giaco/GIT/CAMPI_FLEGREI_moment_tensor/report'
+basedir = '/Users/giaco/UNI/PhD_CODE/GIT/old_report_&_runs/report'
 for fn in os.listdir(basedir):
 
     if 'flegrei_' in fn:
@@ -51,5 +50,35 @@ for fn in os.listdir(basedir):
             invdir =  os.path.join(catdir,evn)
             subprocess.call( ["rm", "-rf",invdir] )
         elif 'cmt_devi_vrs_mid_eq_URG' in evn: #14
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_devi_near_05_2_far_005_01_td_fd_flegrei' in evn: #15
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_devi_near_05_2_far_005_01_td_RTZ_flegrei' in evn: #16
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_devi_near_05_2_far_005_01_tdflegrei' in evn: #17
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_devi_near_05_2_far_005_02_td_fd_flegrei' in evn: #18
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_devi_near_05_2_far_005_02_td_flegrei' in evn: #19
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_devi_near_05_2_far_008_03_td_fd_flegrei' in evn: #20
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_devi_XL_flegrei' in evn: #21
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_devi_XL_only_td_flegrei' in evn: #22
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_devi_XL_v2_flegrei' in evn: #23
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_devi_L_flegrei' in evn: #24
             invdir =  os.path.join(catdir,evn)
             subprocess.call( ["rm", "-rf",invdir] )

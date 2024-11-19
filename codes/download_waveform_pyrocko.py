@@ -54,7 +54,7 @@ print(stations)
 ################################################################################
 
 # download waveforms strarting from this data:
-date_start_download='2024-08-01 00:00:00.000'                               #CHANGE
+date_start_download='2024-11-01 00:00:00.000'                               #CHANGE
 sec_start_download=util.str_to_time(date_start_download)
 
 count=1
@@ -68,10 +68,10 @@ for ev in cat:
         print('\nevent number:',count)
         print('origin UTC time event:',t)
 
-        event_start = UTCDateTime(t) - 40                               #CHANGE: -20 normal, -40 far_only
+        event_start = UTCDateTime(t) - 40                               #CHANGE: -40 normal
         #print('event starts at:',event_start)
 
-        event_end=UTCDateTime(t) + 140                                    #CHANGE: +40 normal, +140 far_only
+        event_end=UTCDateTime(t) + 140                                    #CHANGE: +140 normal
         #print('event ends at:',event_end)
 
 
