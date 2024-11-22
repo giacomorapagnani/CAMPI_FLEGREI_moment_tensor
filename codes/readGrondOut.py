@@ -28,7 +28,7 @@ import urllib.request
 
 workdir='../'
 reportdir=os.path.join(workdir,'report')
-reportdir=os.path.join('/Users/giaco/UNI/PhD_CODE/GIT/report_simone_M_S/grond-report')        #tmp
+reportdir=os.path.join('/Users/giaco/UNI/PhD_CODE/GIT/CAMPI_FLEGREI_moment_tensor/report/report')
 catdir=os.path.join(workdir,'CAT')
 
 catname=os.path.join(catdir,'catalogue_flegrei_mag_2_5.pf')               # CHANGE
@@ -44,7 +44,7 @@ if run_get_grond_results:
     print('All events in catalogue:', len(mttargets))
     goodmttargets = [ev for ev in mttargets if ev.name not in badmtsols]
     print('Good events in catalogue:', len(goodmttargets))
-    for vrs in ['cmt_devi_M_', 'cmt_devi_S_']:                    # CHANGE
+    for vrs in ['cmt_devi_XL_final_', 'cmt_devi_L_final_', 'cmt_devi_M_final_']:                    # CHANGE
         grondevs = []
         for ev in goodmttargets:
             targetdir = os.path.join(reportdir, ev.name, vrs + ev.name)
