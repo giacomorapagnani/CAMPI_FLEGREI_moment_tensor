@@ -54,6 +54,7 @@ switch_deviatoric=True
 # loop on events in catalogue and plot FM
 for ev in fm_events:
     if switch_deviatoric:
+        mm=ev.moment_tensor.moment
         moment_tensor_par = {
             "mrr": ev.moment_tensor.mdd,  # Radial-Radial
             "mtt": ev.moment_tensor.mnn, # Tangential-Tangential
@@ -61,7 +62,7 @@ for ev in fm_events:
             "mrt": -ev.moment_tensor.mnd,     # Radial-Tangential
             "mrf": -ev.moment_tensor.med,     # Radial-Perpendicular
             "mtf": ev.moment_tensor.mne,   # Tangential-Perpendicular
-            "exponent": ev.moment_tensor.moment
+            "exponent": 7.
             }
 
         # event date
