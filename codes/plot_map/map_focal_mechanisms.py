@@ -41,35 +41,46 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-filename='catalogue_flegrei_MT_final_reloc'             ###CHANGE###
+filename='catalogue_flegrei_MT_final'             ###CHANGE###
 events_name=os.path.join(catdir,filename+'.pf')              
 fm_events = model.load_events(events_name)
 
-#plot DC or deviatoric MT
-switch_deviatoric=False                                                                 
+# TRUE if you want to plot deviatoric MT. FALSE for DC
+##########################################
+############## SWITCH ##############
+##########################################
+switch_deviatoric=True                                                                 
 
 # loop on events in catalogue and plot FM
 for ev in fm_events:
     if switch_deviatoric:
         moment_tensor_par = {
-            "Mrr": ev.moment_tensor.mdd,  # Radial-Radial
-            "Mtt": ev.moment_tensor.mnn, # Tangential-Tangential
-            "Mpp": ev.moment_tensor.mee,  # Perpendicular-Perpendicular
-            "Mrt": -ev.moment_tensor.mnd,     # Radial-Tangential
-            "Mrp": -ev.moment_tensor.med,     # Radial-Perpendicular
-            "Mtp": ev.moment_tensor.mne   # Tangential-Perpendicular
+            "mrr": ev.moment_tensor.mdd,  # Radial-Radial
+            "mtt": ev.moment_tensor.mnn, # Tangential-Tangential
+            "mff": ev.moment_tensor.mee,  # Perpendicular-Perpendicular
+            "mrt": -ev.moment_tensor.mnd,     # Radial-Tangential
+            "mrf": -ev.moment_tensor.med,     # Radial-Perpendicular
+            "mtf": ev.moment_tensor.mne,   # Tangential-Perpendicular
+            "exponent": ev.moment_tensor.moment
             }
+
+        # event date
+        name=ev.name.split('_')[1:]
+        name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
+
+        fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
+                    scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid")#, event_name=name_ev ) 
     else:
         moment_tensor_par = {"strike": ev.moment_tensor.strike1,
             "dip": ev.moment_tensor.dip1,
             "rake": ev.moment_tensor.rake1,
             "magnitude": ev.magnitude }
-    #add event date
-    name=ev.name.split('_')[1:]
-    name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
+        #add event date
+        name=ev.name.split('_')[1:]
+        name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
-    fig.meca(spec=moment_tensor_par, longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
-                scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid")#, event_name=name_ev ) 
+        fig.meca(spec=moment_tensor_par, longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
+                    scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid")#, event_name=name_ev ) 
 
 #   STATIONS
 f=open(metadatadir + '/stations_flegrei_INGV.pf','r')
@@ -90,4 +101,7 @@ fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='s
 
 fig.legend()
 fig.show()
-fig.savefig('../../PLOTS/MAPS/'+filename + '.pdf')
+if switch_deviatoric:
+    fig.savefig('../../PLOTS/MAPS/'+filename + '_deviatoric.pdf')
+else:
+    fig.savefig('../../PLOTS/MAPS/'+filename + '_dc.pdf')

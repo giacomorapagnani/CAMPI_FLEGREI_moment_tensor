@@ -42,7 +42,7 @@ run_get_grond_results = True
 #######################################
 ############# SWITCH #############
 #######################################
-switch_new_localization=True
+switch_new_localization=False
 
 if run_get_grond_results:
     mttargets = [ev for ev in refevents]
