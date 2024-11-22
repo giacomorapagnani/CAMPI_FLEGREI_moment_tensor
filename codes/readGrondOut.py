@@ -27,16 +27,22 @@ import shutil
 import urllib.request
 
 workdir='../'
-reportdir=os.path.join(workdir,'report')
-reportdir=os.path.join('/Users/giaco/UNI/PhD_CODE/GIT/CAMPI_FLEGREI_moment_tensor/report/report')
+reportdir=os.path.join(workdir,'report/report')
 catdir=os.path.join(workdir,'CAT')
 
 catname=os.path.join(catdir,'catalogue_flegrei_mag_2_5.pf')               # CHANGE
-new_cataloguename=os.path.join(catdir,'catalogue_flegrei_MT_final.pf')    # CHANGE
+
+new_catalogue_name='catalogue_flegrei_MT_final'                           # CHANGE
 
 refevents=model.load_events(catname)
 
 run_get_grond_results = True
+
+# TRUE if you want to use new localization of grond
+#######################################
+############# SWITCH #############
+#######################################
+switch_new_localization=True
 
 if run_get_grond_results:
     mttargets = [ev for ev in refevents]
@@ -44,8 +50,8 @@ if run_get_grond_results:
     print('All events in catalogue:', len(mttargets))
     goodmttargets = [ev for ev in mttargets if ev.name not in badmtsols]
     print('Good events in catalogue:', len(goodmttargets))
-    for vrs in ['cmt_devi_XL_final_', 'cmt_devi_L_final_', 'cmt_devi_M_final_']:                    # CHANGE
-        grondevs = []
+    grondevs = []
+    for vrs in ['cmt_devi_XL_final_', 'cmt_devi_M_final_', 'cmt_devi_L_final_']:                    # CHANGE
         for ev in goodmttargets:
             targetdir = os.path.join(reportdir, ev.name, vrs + ev.name)
             #if not os.path.isdir(targetdir):
@@ -91,13 +97,24 @@ if run_get_grond_results:
                                           moment=m0)
                     ev.moment_tensor = mt
                     fmean.close()
-                    nlat, nlon = od.ne_to_latlon(lat, lon,
-                                                 np.array([north]),
-                                                 np.array([east]))
-                    ev.lat, ev.lon = nlat[0], nlon[0]
+                    if switch_new_localization:
+                        nlat, nlon = od.ne_to_latlon(lat, lon,
+                                        np.array([north]),
+                                        np.array([east]))
+                        ev.lat, ev.lon = nlat[0], nlon[0]
+                    else:
+                        ev.lat, ev.lon = lat , lon
                     if ev.magnitude >= 1.0:
                         grondevs.append(ev)
                 else:
                     print('WARNING: no .yaml file found for event:',ev.name)
+        print('partial', len(grondevs))
     print('Total MT solutions found:',len(grondevs))
-    model.dump_events(grondevs, new_cataloguename)
+
+    if switch_new_localization:
+        new_catalogue_path=os.path.join(catdir,new_catalogue_name+'_reloc.pf')   
+        model.dump_events(grondevs, new_catalogue_path)
+    else:
+        new_catalogue_path=os.path.join(catdir,new_catalogue_name+'.pf')   
+        model.dump_events(grondevs, new_catalogue_path)
+

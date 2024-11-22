@@ -2,6 +2,7 @@ import pygmt
 import numpy as np
 import os
 import pandas as pd
+from pyrocko import util, model, io, trace, moment_tensor, gmtpy
 
 workdir='../../'
 catdir =  os.path.join(workdir,'CAT')
@@ -40,17 +41,34 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-csv_name_str='focal_mechanism_cmt_devi_all_final_flegrei'                              ###CHANGE NAME###
-fm_events = pd.read_csv(csv_name_str+'.csv')
+filename='catalogue_flegrei_MT_final_reloc'             ###CHANGE###
+events_name=os.path.join(catdir,filename+'.pf')              
+fm_events = model.load_events(events_name)
 
-# Itera sugli eventi e traccia i meccanismi focali
-for _, row in fm_events.iterrows():
-    focal_mechanism = {"strike": row['strike'], "dip": row['dip'], "rake": row['rake'], "magnitude": row['magnitude'] }
+#plot DC or deviatoric MT
+switch_deviatoric=False                                                                 
+
+# loop on events in catalogue and plot FM
+for ev in fm_events:
+    if switch_deviatoric:
+        moment_tensor_par = {
+            "Mrr": ev.moment_tensor.mdd,  # Radial-Radial
+            "Mtt": ev.moment_tensor.mnn, # Tangential-Tangential
+            "Mpp": ev.moment_tensor.mee,  # Perpendicular-Perpendicular
+            "Mrt": -ev.moment_tensor.mnd,     # Radial-Tangential
+            "Mrp": -ev.moment_tensor.med,     # Radial-Perpendicular
+            "Mtp": ev.moment_tensor.mne   # Tangential-Perpendicular
+            }
+    else:
+        moment_tensor_par = {"strike": ev.moment_tensor.strike1,
+            "dip": ev.moment_tensor.dip1,
+            "rake": ev.moment_tensor.rake1,
+            "magnitude": ev.magnitude }
     #add event date
-    name=row['event_name'].split('_')[1:]
+    name=ev.name.split('_')[1:]
     name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
-    fig.meca(spec=focal_mechanism, longitude =row['longitude'], latitude=row['latitude'], depth=row['depth'],
+    fig.meca(spec=moment_tensor_par, longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
                 scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid")#, event_name=name_ev ) 
 
 #   STATIONS
@@ -72,4 +90,4 @@ fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='s
 
 fig.legend()
 fig.show()
-fig.savefig('../../PLOTS/MAPS/'+csv_name_str + '.pdf')
+fig.savefig('../../PLOTS/MAPS/'+filename + '.pdf')
