@@ -106,7 +106,7 @@ def catalogue_INGV_to_PF(cat,cat_name):
 
 ######################################################################################
 ######################################################################################
-switch_convert_xml_to_pf=True                  ############################### SWITCH
+switch_convert_xml_to_pf=False                  ############################### SWITCH
 ######################################################################################
 ######################################################################################
 
@@ -277,7 +277,7 @@ GOSSIP_name_pf_mag = os.path.join(catdir, 'catalogue_flegrei_GOSSIP_mag_2_5.pf')
 
 ######################################################################################
 ######################################################################################
-switch_merge_csv_and_convert_to_PF_GOSSIP=  True              ##################SWITCH
+switch_merge_csv_and_convert_to_PF_GOSSIP=  False              ##################SWITCH
 ######################################################################################
 ######################################################################################
 
@@ -355,7 +355,7 @@ else:
 
 ######################################################################################
 ######################################################################################
-switch_compare_and_merge_INGV_and_GOSSIP_catalogue= True              ##################SWITCH
+switch_compare_and_merge_INGV_and_GOSSIP_catalogue= False              ##################SWITCH
 ######################################################################################
 ######################################################################################
 if switch_compare_and_merge_INGV_and_GOSSIP_catalogue:
@@ -441,42 +441,7 @@ else:
     events=model.load_events(catname)
  # %% manually eliminate events
 #no good signals, not enough stations, too close in time
-'''
-name = flegrei_2015_10_07_09_10_50              #not enough stations
-time = 2015-10-07 09:10:50.680
-latitude = 40.825001
-longitude = 14.15033
-depth = 1530
-tags = GOSSIP_id:4217, mag:2.5, INGV_id:6142151, mag:2.5
---------------------------------------------
-name = flegrei_2023_04_15_05_54_37                     #INGV didn't detect two separe events!
-time = 2023-04-15 05:54:37.220
-latitude = 40.814999
-longitude = 14.1563
-depth = 2750
-tags = GOSSIP_id:24645, mag:2.63, INGV_id:34689631, mag:2.8
---------------------------------------------
-name = flegrei_2023_04_15_05_54_40
-time = 2023-04-15 05:54:40.430
-latitude = 40.814499
-longitude = 14.1542
-depth = 2360
-tags = GOSSIP_id:24688, mag:2.71, INGV_id:34689631, mag:2.8
---------------------------------------------
-name = flegrei_2024_06_08_01_52_21                      #SN ratio too small, close to bigger eq
-time = 2024-06-08 01:52:21.670
-latitude = 40.8295
-longitude = 14.144167
-depth = 2080
-tags = GOSSIP_id:36952, mag:3.0, INGV_id:39089291, mag:3.0
---------------------------------------------
-name = flegrei_2024_05_10_11_26_10
-time = 2024-05-10 11:26:10.319
-latitude = 40.811
-longitude = 14.1145
-depth = 2170
-tags = GOSSIP_id:35387, mag:3.6, INGV_id:38580361, mag:3.6
-'''
+
 
 # %% EXTRA: create .txt file of the catalogue
 
