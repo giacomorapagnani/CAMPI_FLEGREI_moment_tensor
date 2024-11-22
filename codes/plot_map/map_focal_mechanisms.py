@@ -65,7 +65,7 @@ for ev in fm_events:
             "mrt": msix[3],         # Radial-Tangential
             "mrf": msix[4],         # Radial-Perpendicular
             "mtf": msix[5],         # Tangential-Perpendicular
-            "exponent": np.log10(mm)          # !!!WRONG!!!
+            "exponent": np.log10(mm)-7          # !!!WRONG!!!
             }
 
         # event date
@@ -73,7 +73,7 @@ for ev in fm_events:
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
         fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
-                    scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid", event_name=name_ev ) 
+                    scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid")#, event_name=name_ev ) 
     else:
         moment_tensor_par = {
             "strike": ev.moment_tensor.strike1,
