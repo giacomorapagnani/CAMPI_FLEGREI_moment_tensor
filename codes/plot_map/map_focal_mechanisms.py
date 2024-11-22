@@ -2,7 +2,8 @@ import pygmt
 import numpy as np
 import os
 import pandas as pd
-from pyrocko import util, model, io, trace, moment_tensor, gmtpy
+from pyrocko import util, model, io, trace, gmtpy
+import pyrocko.moment_tensor as pmt
 
 workdir='../../'
 catdir =  os.path.join(workdir,'CAT')
@@ -55,14 +56,16 @@ switch_deviatoric=True
 for ev in fm_events:
     if switch_deviatoric:
         mm=ev.moment_tensor.moment
+        #print(ev.moment_tensor)
+        msix = pmt.to6(ev.moment_tensor.m_up_south_east())
         moment_tensor_par = {
-            "mrr": ev.moment_tensor.mdd,  # Radial-Radial
-            "mtt": ev.moment_tensor.mnn, # Tangential-Tangential
-            "mff": ev.moment_tensor.mee,  # Perpendicular-Perpendicular
-            "mrt": -ev.moment_tensor.mnd,     # Radial-Tangential
-            "mrf": -ev.moment_tensor.med,     # Radial-Perpendicular
-            "mtf": ev.moment_tensor.mne,   # Tangential-Perpendicular
-            "exponent": 7.
+            "mrr": msix[0],         # Radial-Radial
+            "mtt": msix[1],         # Tangential-Tangential
+            "mff": msix[2],         # Perpendicular-Perpendicular
+            "mrt": msix[3],         # Radial-Tangential
+            "mrf": msix[4],         # Radial-Perpendicular
+            "mtf": msix[5],         # Tangential-Perpendicular
+            "exponent": np.log10(mm)          # !!!WRONG!!!
             }
 
         # event date
@@ -70,12 +73,14 @@ for ev in fm_events:
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
         fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
-                    scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid")#, event_name=name_ev ) 
+                    scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid", event_name=name_ev ) 
     else:
-        moment_tensor_par = {"strike": ev.moment_tensor.strike1,
+        moment_tensor_par = {
+            "strike": ev.moment_tensor.strike1,
             "dip": ev.moment_tensor.dip1,
             "rake": ev.moment_tensor.rake1,
-            "magnitude": ev.magnitude }
+            "magnitude": ev.magnitude 
+            }
         #add event date
         name=ev.name.split('_')[1:]
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
