@@ -27,7 +27,7 @@ import shutil
 import urllib.request
 
 workdir='../'
-reportdir=os.path.join(workdir,'report/report')
+reportdir=os.path.join(workdir,'report')
 catdir=os.path.join(workdir,'CAT')
 
 catname=os.path.join(catdir,'catalogue_flegrei_mag_2_5.pf')               # CHANGE
@@ -51,7 +51,7 @@ if run_get_grond_results:
     goodmttargets = [ev for ev in mttargets if ev.name not in badmtsols]
     print('Good events in catalogue:', len(goodmttargets))
     grondevs = []
-    for vrs in ['cmt_devi_XL_final_', 'cmt_devi_M_final_', 'cmt_devi_L_final_']:                    # CHANGE
+    for vrs in ['cmt_devi_XL_final_', 'cmt_devi_M_final_', 'cmt_devi_L_final_','cmt_devi_S_final_','cmt_devi_S_']:                    # CHANGE
         for ev in goodmttargets:
             targetdir = os.path.join(reportdir, ev.name, vrs + ev.name)
             #if not os.path.isdir(targetdir):
