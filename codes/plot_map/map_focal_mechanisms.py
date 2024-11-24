@@ -50,7 +50,7 @@ fm_events = model.load_events(events_name)
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_deviatoric=True                                                                 
+switch_deviatoric=False                                                                 
 
 # loop on events in catalogue and plot FM
 for ev in fm_events:
