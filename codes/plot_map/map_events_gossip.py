@@ -97,7 +97,7 @@ lonsta=np.array(lonsta)
 
 # Plot stations                    0.3 / 0.4
 fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='station') # yelow filling
-#fig.text(x=lonsta+0.01, y=latsta+0.004, text=namsta, justify='BR',font='8p',fill="#FFCC4E")
+#fig.text(x=lonsta+0.01, y=latsta+0.002, text=namsta, justify='BR',font='8p',fill="#FFCC4E")
 
 fig.legend()
 
