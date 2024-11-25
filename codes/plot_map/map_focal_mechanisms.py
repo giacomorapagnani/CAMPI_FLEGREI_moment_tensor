@@ -14,7 +14,7 @@ metadatadir =  os.path.join(workdir,'META_DATA')
 ##########################################
 # COORDINATES FOR GULF MAP OR POZZUOLI MAP
 
-switch_coord_pozzuoli=False
+switch_coord_pozzuoli=True
 
 if switch_coord_pozzuoli:
     # POZZUOLI COORD (SUPERNEAR)
@@ -59,25 +59,25 @@ fm_events = model.load_events(events_name)
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_deviatoric=True                                                                 
+switch_deviatoric=False                                                                 
 
 # loop on events in catalogue and plot FM
 for ev in fm_events:
     if switch_deviatoric:
 
-        mm_grond=ev.moment_tensor.moment            # == 10**( 3/2* (ev.magnitude + 10.7) -7 ) 
-        mm= 10**( 3/2* (ev.magnitude + 10.7) -7 )   #16.1
-        print(f'ratio between mm grond and mm GMT: {mm_grond/mm}')
+        #mm_grond=ev.moment_tensor.moment                        # == 10**( 3/2* (ev.magnitude + 10.7) -7 ) 
+        #mm= 10**( ( (3/2) * ev.magnitude ) + 16.1 ) *10**-7     # GMT magnitude -> moment conversion (?)
+        #print(f'ratio between mm grond and mm GMT: {mm_grond/mm}')
 
         msix = pmt.to6(ev.moment_tensor.m_up_south_east())
         moment_tensor_par = {
-            "mrr": msix[0],         # Radial-Radial
-            "mtt": msix[1],         # Tangential-Tangential
-            "mff": msix[2],         # Perpendicular-Perpendicular
-            "mrt": msix[3],         # Radial-Tangential
-            "mrf": msix[4],         # Radial-Perpendicular
-            "mtf": msix[5],         # Tangential-Perpendicular
-            "exponent": np.log10(mm)          # !!!WRONG!!!
+            "mrr": msix[0]* 10**7,         # Radial-Radial
+            "mtt": msix[1]* 10**7,         # Tangential-Tangential
+            "mff": msix[2]* 10**7,         # Perpendicular-Perpendicular
+            "mrt": msix[3]* 10**7,         # Radial-Tangential
+            "mrf": msix[4]* 10**7,         # Radial-Perpendicular
+            "mtf": msix[5]* 10**7,         # Tangential-Perpendicular
+            "exponent": 1                  # np.log10(mm) !!!WRONG!!!
             }
 
         # event date

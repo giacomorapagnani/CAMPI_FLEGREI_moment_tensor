@@ -7,7 +7,7 @@ catdir =  os.path.join(workdir,'CAT')
 metadatadir =  os.path.join(workdir,'META_DATA')
 
 #    ALL EVENTS IN CATALOGUE GOSSIP
-#f=open(catdir + '/catalogue_flegrei_GOSSIP.txt','r')
+#f=open(catdir + '/catalogue_flegrei_mag_2_5_excluded.txt','r')
 f=open(catdir + '/catalogue_flegrei_GOSSIP.txt','r')
 latev=[]
 lonev=[]
@@ -78,7 +78,7 @@ for elatf,elonf in zip(latevf,lonevf):
         evf.append([elonf,elatf])
 evf=np.array(evf)
 
-# Plot the seismic events               0.25
+# Plot the seismic events               0.15 / 0.1
 fig.plot(x=ev[:,0], y=ev[:,1], style="c0.1c", fill="#BD2025", pen="black", label='event in catalogue') # red filling
 fig.plot(x=evf[:,0], y=evf[:,1], style="c0.2c", fill="#0066cc", pen="black", label='event selected') # blue filling
 
@@ -95,8 +95,8 @@ for line in f:
 latsta=np.array(latsta)
 lonsta=np.array(lonsta)
 
-# Plot stations                     0.5
-fig.plot(x=lonsta, y=latsta, style="t0.4", fill="#FFCC4E", pen="black", label='station') # yelow filling
+# Plot stations                    0.3 / 0.4
+fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='station') # yelow filling
 #fig.text(x=lonsta+0.01, y=latsta+0.004, text=namsta, justify='BR',font='8p',fill="#FFCC4E")
 
 fig.legend()
