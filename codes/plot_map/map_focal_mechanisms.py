@@ -9,18 +9,27 @@ workdir='../../'
 catdir =  os.path.join(workdir,'CAT')
 metadatadir =  os.path.join(workdir,'META_DATA')
 
-#   COORDINATES FOR NEAR MAP OR SUPER NEAR MAP
-#NEAR
-#minlon=14.05
-#maxlon=14.23
-#minlat=40.75
-#maxlat=40.90
+##########################################
+############## SWITCH ##############
+##########################################
+# COORDINATES FOR GULF MAP OR POZZUOLI MAP
 
-#SUPERNEAR
-minlon=14.07
-maxlon=14.17
-minlat=40.77
-maxlat=40.85
+switch_coord_pozzuoli=False
+
+if switch_coord_pozzuoli:
+    # POZZUOLI COORD (SUPERNEAR)
+    minlon=14.12
+    maxlon=14.16
+    minlat=40.82
+    maxlat=40.84
+    map_name='pozzuoli'
+else:
+    # GULF COORD (NEAR)
+    minlon=14.07
+    maxlon=14.17
+    minlat=40.77
+    maxlat=40.85
+    map_name='gulf'
 
 #   CREATE FIGURE
 fig = pygmt.Figure()
@@ -50,13 +59,16 @@ fm_events = model.load_events(events_name)
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_deviatoric=False                                                                 
+switch_deviatoric=True                                                                 
 
 # loop on events in catalogue and plot FM
 for ev in fm_events:
     if switch_deviatoric:
-        mm=ev.moment_tensor.moment
-        #print(ev.moment_tensor)
+
+        mm_grond=ev.moment_tensor.moment            # == 10**( 3/2* (ev.magnitude + 10.7) -7 ) 
+        mm= 10**( 3/2* (ev.magnitude + 10.7) -7 )   #16.1
+        print(f'ratio between mm grond and mm GMT: {mm_grond/mm}')
+
         msix = pmt.to6(ev.moment_tensor.m_up_south_east())
         moment_tensor_par = {
             "mrr": msix[0],         # Radial-Radial
@@ -65,7 +77,7 @@ for ev in fm_events:
             "mrt": msix[3],         # Radial-Tangential
             "mrf": msix[4],         # Radial-Perpendicular
             "mtf": msix[5],         # Tangential-Perpendicular
-            "exponent": np.log10(mm)-7          # !!!WRONG!!!
+            "exponent": np.log10(mm)          # !!!WRONG!!!
             }
 
         # event date
@@ -108,6 +120,6 @@ fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='s
 fig.legend()
 fig.show()
 if switch_deviatoric:
-    fig.savefig('../../PLOTS/MAPS/'+filename + '_deviatoric.pdf')
+    fig.savefig('../../PLOTS/MAPS/'+filename + '_deviatoric_' + map_name + '.pdf')
 else:
-    fig.savefig('../../PLOTS/MAPS/'+filename + '_dc.pdf')
+    fig.savefig('../../PLOTS/MAPS/'+filename + '_dc_' + map_name + '.pdf')
