@@ -6,7 +6,8 @@ import cartopy.feature as cfeature
 import os
 import pickle
 from pyrocko import util, model, io, trace, moment_tensor, gmtpy
-
+import numpy as np
+from matplotlib import pyplot as plt
 
 import geopy.distance
 
@@ -22,10 +23,17 @@ stations=read_inventory(stations_name)
 cat_name=os.path.join(catdir,'catalogue_flegrei_mag_2_5.pf')               #CHANGE
 cat=model.load_events(cat_name)
 
-sel_tr_HHE=[]
-sel_tr_HHN=[]
-sel_tr_HHZ=[]
-sel_tr=[]
+def filter_and_normalize(trace, corner_frequency): # to do: band pass
+    tr= trace.copy()
+    tr.highpass(4,corner_frequency)
+    data_tr=tr.get_ydata().astype(float)
+    data_tr /= np.max( np.abs(data_tr) )
+    tr.set_ydata(data_tr)
+    return tr
+
+cmis_z=[]
+cque_z=[]
+corner_freq=0.01
 
 for ev in cat:
 
@@ -37,18 +45,30 @@ for ev in cat:
             ev_dir=os.path.join(datadir,name)
             ev_name=os.path.join(ev_dir,name + '.mseed')
 
-            #select wavelet (obspy)  
-            w=read(ev_name)
-            print('loading event:',ev_name.split('/')[2])
+            traces=io.load(ev_name)
+            #print('loading event:',ev_name.split('/')[2])
 
-            for tr in w:
-                if tr.stats.station=='CMIS':
-                    if tr.stats.channel=='HHE':
-                        sel_tr_HHE.append(tr)
-                    if tr.stats.channel=='HHN':
-                        sel_tr_HHN.append(tr)
-                    if tr.stats.channel=='HHZ':
-                        sel_tr_HHZ.append(tr)
-                    sel_tr.append(tr)
+            for tr in traces:
+                if tr.station=='CMIS' and tr.channel=='HHZ' :
+                        cmis_z.append( filter_and_normalize(tr,corner_freq) )
+                if tr.station=='CQUE' and tr.channel=='HHZ':
+                        cque_z.append( filter_and_normalize(tr,corner_freq) )
         else:
             continue
+
+mat=np.zeros((len(cque_z),len(cque_z)))
+
+for i,tr_row in enumerate(cque_z):
+    print(f'loading: {round(i/len(cque_z)*100)} % completed')
+    for j, tr_col in enumerate(cque_z):
+        c=trace.correlate(tr_row,tr_col,mode='same',normalization='normal')
+        t, coef = c.max()
+        #print(coef)
+        mat[i,j]=coef
+
+plt.figure('correlation matrix')
+plt.imshow(mat)
+plt.colorbar()
+
+
+plt.show()
