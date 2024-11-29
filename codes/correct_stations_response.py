@@ -102,6 +102,9 @@ if check_stations:
 remove_stations=False ########################SWITCH
 ####################################################
 
+#STATIONS REMOVED IN 'stations_flegrei_INGV_final.xml'
+# CAFL CAWE CCAP NAPI
+
 if remove_stations:
     inv_f=read_inventory(stations_xml_name)
     inv_new=inv_f.copy()
