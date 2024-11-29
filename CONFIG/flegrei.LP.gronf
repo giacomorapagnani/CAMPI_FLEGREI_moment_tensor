@@ -1,12 +1,11 @@
-# FINAL(?) CONFIG made from 'flegrei.devi.XL.only.td.v2'
-# CONFIG in time domain, with near and far networks, no pick used. smaller depth intervall
+# CONFIG in frequency domain, with near network, no pick used. narrow fband
 
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
   stations_path: '../META_DATA/stations_flegrei_INGV.pf'
   events_path: '../CAT/catalogue_flegrei_mag_2_5.pf'
-  waveform_paths: ['../DATA/${event_name}']
+  waveform_paths: ['../DATA_VLP/${event_name}']
   responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV.xml']
   extend_incomplete: true
   #picks_paths: ['../MARKERS/${event_name}']
@@ -26,7 +25,7 @@ target_groups:
   misfit_config: !grond.WaveformMisfitConfig
     fmin: 0.09
     fmax: 0.12
-    ffactor: 1.5
+    ffactor: 1.1
     domain: 'frequency_domain'
     norm_exponent: 1
     tmin: '{stored:P}-20.'
