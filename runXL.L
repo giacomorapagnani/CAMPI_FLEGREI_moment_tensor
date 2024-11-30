@@ -1,2 +1,0 @@
-srun -u --nodes=1  --ntasks=1 --mem=512G --cpus-per-task=7 --time=2880 grond go CONFIG/flegrei.devi.XL.final.gronf all --parallel=7 --force
-srun -u --nodes=1  --ntasks=1 --mem=512G --cpus-per-task=7 --time=2880 grond report runs/cmt_devi_XL_final_flegrei* --parallel=7
