@@ -14,7 +14,7 @@ metadatadir =  os.path.join(workdir,'META_DATA')
 ##########################################
 # COORDINATES FOR GULF MAP OR POZZUOLI MAP
 
-switch_coord_pozzuoli=True
+switch_coord_pozzuoli=False
 
 if switch_coord_pozzuoli:
     # POZZUOLI COORD (SUPERNEAR)
@@ -59,7 +59,7 @@ fm_events = model.load_events(events_name)
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_deviatoric=False                                                                 
+switch_deviatoric=True                                                                 
 
 # loop on events in catalogue and plot FM
 for ev in fm_events:

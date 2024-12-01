@@ -51,7 +51,7 @@ if run_get_grond_results:
     goodmttargets = [ev for ev in mttargets if ev.name not in badmtsols]
     print('Good events in catalogue:', len(goodmttargets))
     grondevs = []
-    for vrs in ['cmt_devi_XL_final_', 'cmt_devi_M_final_', 'cmt_devi_L_final_','cmt_devi_S_final_','cmt_devi_S_']:                    # CHANGE
+    for vrs in ['cmt_devi_XL_final_', 'cmt_devi_L_final_', 'cmt_devi_M_final_','cmt_devi_S_final_','cmt_devi_S_']:                    # CHANGE
         for ev in goodmttargets:
             targetdir = os.path.join(reportdir, ev.name, vrs + ev.name)
             #if not os.path.isdir(targetdir):
