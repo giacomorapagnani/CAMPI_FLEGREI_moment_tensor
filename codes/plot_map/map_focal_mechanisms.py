@@ -51,7 +51,7 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-filename='catalogue_flegrei_MT_final'             ###CHANGE###  'catalogue_flegrei_MT_final_reloc'
+filename='catalogue_flegrei_MT_full_final'             ###CHANGE###  'catalogue_flegrei_MT_final_reloc'
 events_name=os.path.join(catdir,filename+'.pf')              
 fm_events = model.load_events(events_name)
 
@@ -59,7 +59,14 @@ fm_events = model.load_events(events_name)
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_deviatoric=True                                                                 
+switch_deviatoric=False                                                                                                                               
+
+# TRUE if you want timestamps
+##########################################
+############## SWITCH ##############
+##########################################
+switch_timestamps=True                                                                 
+
 
 # loop on events in catalogue and plot FM
 for ev in fm_events:
@@ -85,7 +92,7 @@ for ev in fm_events:
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
         fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
-                    scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid")#, event_name=name_ev ) 
+                    scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid") 
     else:
         moment_tensor_par = {
             "strike": ev.moment_tensor.strike1,
@@ -98,7 +105,15 @@ for ev in fm_events:
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
         fig.meca(spec=moment_tensor_par, longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
-                    scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid")#, event_name=name_ev ) 
+                    scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid") 
+    if switch_timestamps:  
+        fig.text(
+            text=name_ev,
+            x=ev.lon,  
+            y=ev.lat + 0.0006,  
+            font="2p,Helvetica,black", 
+            justify="CM"
+            )
 
 #   STATIONS
 f=open(metadatadir + '/stations_flegrei_INGV.pf','r')

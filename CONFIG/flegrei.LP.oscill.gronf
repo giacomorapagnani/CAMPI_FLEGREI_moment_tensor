@@ -1,23 +1,20 @@
-# FINAL(?) CONFIG made from 'flegrei.devi.L.only.near'
-# CONFIG in time domain, with near network, no pick used.
-# frequency intervals:
-# near td: 0.5-2.0  Hz  
+# CONFIG in frequency domain, with near network, no pick used. narrow fband
 
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
   stations_path: '../META_DATA/stations_flegrei_INGV.pf'
-  events_path: '../CAT/catalogue_flegrei_mag_2_5_L.pf'
-  waveform_paths: ['../DATA/${event_name}']
-  responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_final.xml']
+  events_path: '../CAT/catalogue_flegrei_mag_2_5.pf'
+  waveform_paths: ['../DATA_VLP/${event_name}']
+  responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV.xml']
   extend_incomplete: true
   #picks_paths: ['../MARKERS/${event_name}']
   blacklist_paths: ['../BLACKLIST/${event_name}.black']
   whitelist_paths: []
 target_groups:
 - !grond.WaveformTargetGroup
-  normalisation_family: 'td'
-  path: 'td.near'
+  normalisation_family: 'fd'
+  path: 'fd.near'
   weight: 1.0
   interpolation: 'nearest_neighbor'
   store_id: campiflegrei_near
@@ -26,17 +23,17 @@ target_groups:
   channels: [Z,T,R]
   exclude: []
   misfit_config: !grond.WaveformMisfitConfig
-    fmin: 0.5
-    fmax: 2.0
-    ffactor: 1.5
-    domain: 'time_domain'
+    fmin: 0.09
+    fmax: 0.12
+    ffactor: 1.1
+    domain: 'frequency_domain'
     norm_exponent: 1
-    tmin: '{stored:P}-0.5'
-    tmax: '{stored:S}+1.5'
+    tmin: '{stored:P}-20.'
+    tmax: '{stored:P}+100.'
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_devi_L_final_${event_name}
+  name_template: cmt_LP_fd_${event_name}
   norm_exponent: 2
   ranges:
     depth: 1000 .. 5000
@@ -52,7 +49,10 @@ problem_config: !grond.CMTProblemConfig
     rmnn: -1.5708 .. 1.5708
     time: -2.0 .. 3.0 | add
   distance_min: 100.0
-  mt_type: deviatoric
+  mt_type: full
+  stf_type: ResonatorSTF
+    #duration:20
+    frequency:0.1
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
   niterations: 1000
