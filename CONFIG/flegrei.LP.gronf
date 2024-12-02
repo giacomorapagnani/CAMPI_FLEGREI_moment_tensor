@@ -28,12 +28,12 @@ target_groups:
     ffactor: 1.1
     domain: 'frequency_domain'
     norm_exponent: 1
-    tmin: '{stored:P}-20.'
-    tmax: '{stored:P}+100.'
+    tmin: '{stored:P}-60.'
+    tmax: '{stored:P}+120.'
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_LP_fd_${event_name}
+  name_template: cmt_LP_fd_2_${event_name}
   norm_exponent: 2
   ranges:
     depth: 1000 .. 5000
