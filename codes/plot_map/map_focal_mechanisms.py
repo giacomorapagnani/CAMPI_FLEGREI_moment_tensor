@@ -14,7 +14,7 @@ metadatadir =  os.path.join(workdir,'META_DATA')
 ##########################################
 # COORDINATES FOR GULF MAP OR POZZUOLI MAP
 
-switch_coord_pozzuoli=False
+switch_coord_pozzuoli=True
 
 if switch_coord_pozzuoli:
     # POZZUOLI COORD (SUPERNEAR)

@@ -53,11 +53,11 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_LP_oscill_${event_name}
+  name_template: cmt_LP_td_fd_${event_name}
   norm_exponent: 2
   ranges:
     depth: 1000 .. 5000
-    duration: 1. .. 40.
+    duration: 0.1 .. 0.1
     east_shift: -4000 .. 4000
     magnitude: 1. .. 4.
     north_shift: -4000 .. 4000
@@ -67,11 +67,9 @@ problem_config: !grond.CMTProblemConfig
     rmnd: -1 .. 1
     rmne: -1 .. 1
     rmnn: -1.5708 .. 1.5708
-    time: -2.0 .. 3.0 | add
-    frequency: 0.075 .. 0.15
+    time: -5.0 .. 5.0 | add
   distance_min: 100.0
   mt_type: full
-  stf_type: ResonatorSTF
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
   niterations: 1000
