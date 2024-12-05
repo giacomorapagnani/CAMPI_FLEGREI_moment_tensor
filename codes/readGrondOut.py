@@ -111,6 +111,8 @@ if run_get_grond_results:
                         grondevs.append(ev)
                 else:
                     print('WARNING: no .yaml file found for event:',ev.name)
+
+        grondevs.sort(key=lambda x: x.time, reverse=False)
         print('partial', len(grondevs))
     print('Total MT solutions found:',len(grondevs))
 
