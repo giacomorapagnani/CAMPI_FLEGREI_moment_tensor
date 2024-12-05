@@ -33,6 +33,19 @@ for line in f:
 latevf=np.array(latevf)
 lonevf=np.array(lonevf)
 
+#    EVENTS EXCLUDED
+f=open(catdir + '/catalogue_flegrei_mag_2_5_excluded.txt','r')
+latev_ex=[]
+lonev_ex=[]
+magev_ex=[]
+for line in f:
+    toks=line.split()
+    latev_ex.append(eval(toks[2]))
+    lonev_ex.append(eval(toks[3]))
+    #namsta.append(toks[0])
+latev_ex=np.array(latev_ex)
+lonev_ex=np.array(lonev_ex)
+
 #   COORDINATES FOR NEAR MAP OD FAR MAP
 #NEAR
 minlon=14.05
@@ -73,13 +86,20 @@ for elat,elon in zip(latev,lonev):
 ev=np.array(ev)
 
 evf=[] # mag>2.5
-for elatf,elonf in zip(latevf,lonevf):
+for elat,elon in zip(latevf,lonevf):
     if (elon>minlon and elon<maxlon) and (elat>minlat and elat<maxlat):
-        evf.append([elonf,elatf])
+        evf.append([elon,elat])
 evf=np.array(evf)
 
-# Plot the seismic events               0.15 / 0.1
+evex=[] # ev excluded
+for elat,elon in zip(latev_ex,lonev_ex):
+    if (elon>minlon and elon<maxlon) and (elat>minlat and elat<maxlat):
+        evex.append([elon,elat])
+evex=np.array(evex)
+
+# Plot the seismic events               
 fig.plot(x=ev[:,0], y=ev[:,1], style="c0.1c", fill="#BD2025", pen="black", label='event in catalogue') # red filling
+fig.plot(x=evex[:,0], y=evex[:,1], style="c0.15c", fill="gray", pen="black", label='event excluded') # blue filling
 fig.plot(x=evf[:,0], y=evf[:,1], style="c0.2c", fill="#0066cc", pen="black", label='event selected') # blue filling
 
 #   STATIONS NETWORK
@@ -95,7 +115,7 @@ for line in f:
 latsta=np.array(latsta)
 lonsta=np.array(lonsta)
 
-# Plot stations                    0.3 / 0.4
+# Plot stations
 fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='station') # yelow filling
 #fig.text(x=lonsta+0.01, y=latsta+0.002, text=namsta, justify='BR',font='8p',fill="#FFCC4E")
 
