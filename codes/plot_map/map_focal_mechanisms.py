@@ -59,13 +59,13 @@ fm_events = model.load_events(events_name)
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_deviatoric=False                                                                                                                               
+switch_deviatoric=True                                                                                                                               
 
 # TRUE if you want timestamps
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_timestamps=True                                                                 
+switch_timestamps=False                                                                 
 
 
 # loop on events in catalogue and plot FM
