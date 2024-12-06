@@ -1,8 +1,9 @@
 import os
 import subprocess
 
-#basedir = '/home/giaco/GIT/CAMPI_FLEGREI_moment_tensor/report'
-basedir = '/Users/giaco/UNI/PhD_CODE/GIT/old_report_&_runs/report'
+basedir = '../report'
+#basedir = '../../old_report_&_runs/report'
+
 for fn in os.listdir(basedir):
 
     if 'flegrei_' in fn:
@@ -80,5 +81,11 @@ for fn in os.listdir(basedir):
             invdir =  os.path.join(catdir,evn)
             subprocess.call( ["rm", "-rf",invdir] )
         elif 'cmt_devi_L_flegrei' in evn: #24
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_dc_' in evn: #25          ELIMINATE ALL DC REPORTS
+            invdir =  os.path.join(catdir,evn)
+            subprocess.call( ["rm", "-rf",invdir] )
+        elif 'cmt_full_' in evn: #26          ELIMINATE ALL FULL REPORTS
             invdir =  os.path.join(catdir,evn)
             subprocess.call( ["rm", "-rf",invdir] )

@@ -6,10 +6,10 @@
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
-  stations_path: '../META_DATA/stations_flegrei_INGV.pf'
+  stations_path: '../META_DATA/stations_flegrei_INGV_final.pf'
   events_path: '../CAT/catalogue_flegrei_mag_2_5_M.pf'
   waveform_paths: ['../DATA/${event_name}']
-  responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV.xml']
+  responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_final.xml']
   extend_incomplete: true
   #picks_paths: ['../MARKERS/${event_name}']
   blacklist_paths: ['../BLACKLIST/${event_name}.black']
