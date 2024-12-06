@@ -4,12 +4,12 @@
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
   stations_path: '../META_DATA/stations_flegrei_INGV_final.pf'
-  events_path: '../CAT/catalogue_flegrei_VLP.pf'
+  events_path: '../CAT/catalogue_flegrei_VLP_gilberto.pf'
   waveform_paths: ['../DATA_VLP/${event_name}']
   responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_final.xml']
   extend_incomplete: true
   #picks_paths: ['../MARKERS/${event_name}']
-  blacklist_paths: ['../BLACKLIST/${event_name}.black']
+  blacklist_paths: ['../BLACKLIST_VLP/${event_name}.black']
   whitelist_paths: []
 target_groups:
 - !grond.WaveformTargetGroup
@@ -58,9 +58,9 @@ problem_config: !grond.CMTProblemConfig
   ranges:
     depth: 1000 .. 5000
     duration: 1. .. 40.
-    east_shift: -4000 .. 4000
+    east_shift: -6000 .. 6000
     magnitude: 1. .. 4.
-    north_shift: -4000 .. 4000
+    north_shift: -6000 .. 6000
     rmdd: -1.5708 .. 1.5708
     rmed: -1 .. 1
     rmee: -1.5708 .. 1.5708

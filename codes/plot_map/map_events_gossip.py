@@ -99,7 +99,7 @@ evex=np.array(evex)
 
 # Plot the seismic events               
 fig.plot(x=ev[:,0], y=ev[:,1], style="c0.1c", fill="#BD2025", pen="black", label='event in catalogue') # red filling
-fig.plot(x=evex[:,0], y=evex[:,1], style="c0.15c", fill="gray", pen="black", label='event excluded') # blue filling
+fig.plot(x=evex[:,0], y=evex[:,1], style="c0.15c", fill="gray", pen="black", label='event excluded') # gray filling
 fig.plot(x=evf[:,0], y=evf[:,1], style="c0.2c", fill="#0066cc", pen="black", label='event selected') # blue filling
 
 #   STATIONS NETWORK
