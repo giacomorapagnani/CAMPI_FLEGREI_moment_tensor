@@ -86,9 +86,12 @@ for fn in os.listdir(basedir):
             elif 'cmt_devi_XL_final_lowf_' in evn: #25
                 invdir =  os.path.join(catdir,evn)
                 subprocess.call( ["rm", "-rf",invdir] )
-            elif 'cmt_dc_' in evn: #26          ELIMINATE ALL DC REPORTS
-                invdir =  os.path.join(catdir,evn)
-                subprocess.call( ["rm", "-rf",invdir] )
-            elif 'cmt_full_' in evn: #27          ELIMINATE ALL FULL REPORTS
-                invdir =  os.path.join(catdir,evn)
-                subprocess.call( ["rm", "-rf",invdir] )
+#            elif 'cmt_dc_' in evn: #26          ELIMINATE ALL DC REPORTS
+#                invdir =  os.path.join(catdir,evn)
+#                subprocess.call( ["rm", "-rf",invdir] )
+#            elif 'cmt_full_' in evn: #27          ELIMINATE ALL FULL REPORTS
+#                invdir =  os.path.join(catdir,evn)
+#                subprocess.call( ["rm", "-rf",invdir] )
+#            elif 'cmt_devi_' in evn: #28          ELIMINATE ALL DEVI REPORTS
+#                invdir =  os.path.join(catdir,evn)
+#                subprocess.call( ["rm", "-rf",invdir] )

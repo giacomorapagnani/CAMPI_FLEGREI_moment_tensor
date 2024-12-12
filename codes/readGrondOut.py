@@ -34,7 +34,7 @@ catdir=os.path.join(workdir,'CAT')
 
 catname=os.path.join(catdir,'catalogue_flegrei_VLP_gilberto.pf')               # CHANGE 'catalogue_flegrei_mag_2_5.pf'
 
-new_catalogue_name='catalogue_flegrei_MT_final_VLP_gilberto'                           # CHANGE
+new_catalogue_name='catalogue_flegrei_MT_final_VLP_gilberto_2'                           # CHANGE
 
 refevents=model.load_events(catname)
 
@@ -44,7 +44,7 @@ run_get_grond_results = True
 #######################################
 ############# SWITCH #############
 #######################################
-switch_new_localization=False
+switch_new_localization=True
 
 if run_get_grond_results:
     mttargets = [ev for ev in refevents]
