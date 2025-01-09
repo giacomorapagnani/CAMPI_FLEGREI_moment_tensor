@@ -4,7 +4,6 @@ plot_configs:
   variant: default
   formats:
   - !grond.PNG {}
-  - !grond.PDF {}
   font_size: 10.0
   size_cm:
   - 21.0
@@ -13,7 +12,6 @@ plot_configs:
   variant: default
   formats:
   - !grond.PNG {}
-  - !grond.PDF {}
   font_size: 10.0
   size_cm:
   - 21.0
@@ -40,7 +38,6 @@ plot_configs:
   variant: default
   formats:
   - !grond.PNG {}
-  - !grond.PDF {}
   size_cm:
   - 9.0
   - 5.0
@@ -64,7 +61,6 @@ plot_configs:
   variant: default
   formats:
   - !grond.PNG {}
-  - !grond.PDF {}
   font_size: 10.0
   size_cm:
   - 12.5
@@ -77,7 +73,6 @@ plot_configs:
   variant: default
   formats:
   - !grond.PNG {}
-  - !grond.PDF {}
   font_size: 10.0
   size_cm:
   - 17.5
@@ -88,7 +83,6 @@ plot_configs:
   variant: default
   formats:
   - !grond.PNG {}
-  - !grond.PDF {}
   font_size: 10.0
   size_cm:
   - 20.0
@@ -104,7 +98,6 @@ plot_configs:
   variant: default
   formats:
   - !grond.PNG {}
-  - !grond.PDF {}
   font_size: 10.0
   size_cm:
   - 20.0
@@ -140,7 +133,6 @@ plot_configs:
   variant: default
   formats:
   - !grond.PNG {}
-  - !grond.PDF {}
   size_cm:
   - 16.0
   - 13.0
@@ -150,7 +142,6 @@ plot_configs:
   variant: default
   formats:
   - !grond.PNG {}
-  - !grond.PDF {}
   font_size: 10.0
   size_cm:
   - 14.0
