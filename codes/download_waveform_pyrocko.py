@@ -68,10 +68,10 @@ for ev in cat:
         print('\nevent number:',count)
         print('origin UTC time event:',t)
 
-        event_start = UTCDateTime(t) - 300                               #CHANGE: -40 normal
+        event_start = UTCDateTime(t) - 300                               #CHANGE: -40 normal ; -300 VLP
         #print('event starts at:',event_start)
 
-        event_end=UTCDateTime(t) + 300                                    #CHANGE: +140 normal
+        event_end=UTCDateTime(t) + 300                                   #CHANGE: +140 normal ; +300 VLP
         #print('event ends at:',event_end)
 
 

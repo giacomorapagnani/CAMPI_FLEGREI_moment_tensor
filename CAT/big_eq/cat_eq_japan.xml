@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='utf-8'?>
+<q:quakeml xmlns:q="http://quakeml.org/xmlns/quakeml/1.2" xmlns="http://quakeml.org/xmlns/bed/1.2" xmlns:ingv="http://webservices.ingv.it/fdsnws/event/1">
+  <eventParameters publicID="smi:webservices.ingv.it/fdsnws/event/1/query">
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=39998581">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=130503611</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=140059131</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Kyushu, Japan [Sea: Japan]</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>early-est_ee1.2.10#ee</author>
+        <creationTime>2024-08-08T07:52:27.000000Z</creationTime>
+        <ingv:id_locator>1723102976975</ingv:id_locator>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=130503611">
+        <time>
+          <value>2024-08-08T07:42:54.173000Z</value>
+        </time>
+        <latitude>
+          <value>31.6898</value>
+        </latitude>
+        <longitude>
+          <value>131.551</value>
+        </longitude>
+        <depth>
+          <value>8594.0</value>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=141</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=1</earthModelID>
+        <quality>
+          <associatedPhaseCount>1</associatedPhaseCount>
+          <usedPhaseCount>1</usedPhaseCount>
+          <associatedStationCount>0</associatedStationCount>
+          <usedStationCount>0</usedStationCount>
+          <standardError>1.25555</standardError>
+          <azimuthalGap>34.9428</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>automatic</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-A</author>
+          <creationTime>2024-08-08T08:00:14.000000Z</creationTime>
+          <version>100</version>
+          <ingv:quality/>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>uncertainty ellipse</preferredDescription>
+          <horizontalUncertainty>24534200.0</horizontalUncertainty>
+          <minHorizontalUncertainty>24216257.0</minHorizontalUncertainty>
+          <maxHorizontalUncertainty>26153228.0</maxHorizontalUncertainty>
+          <azimuthMaxHorizontalUncertainty>340.0</azimuthMaxHorizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=140059131">
+        <mag>
+          <value>7.1</value>
+          <uncertainty>0.1</uncertainty>
+        </mag>
+        <type>Mwp</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=130503611</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=141</methodID>
+        <stationCount>171</stationCount>
+        <comment>
+          <text>Auto added</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>early-est_ee1.2.10#ee</author>
+          <creationTime>2024-08-08T08:00:14.000000Z</creationTime>
+          <ingv:mag_quality/>
+        </creationInfo>
+      </magnitude>
+    </event>
+  </eventParameters>
+</q:quakeml>

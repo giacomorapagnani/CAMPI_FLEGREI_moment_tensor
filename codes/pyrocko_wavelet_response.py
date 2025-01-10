@@ -37,7 +37,7 @@ newdatadir=os.path.join(workdir,'DATA_response')                             #CH
 ###################################
 meta_datadir=os.path.join(workdir,'META_DATA')
 
-stations_name=os.path.join(meta_datadir, 'stations_flegrei_INGV.xml')       #CHANGE(?)
+stations_name=os.path.join(meta_datadir, 'stations_flegrei_INGV_final.xml')
 stations=read_inventory(stations_name)                             
 
 #print(stations)
@@ -65,6 +65,8 @@ for file in os.listdir(datadir):
         
         #remove instrumental response
         pre_filt = [0.1, 0.2, 20,30]       # for small eq
+        #pre_filt = [0.02, 0.04, 10,15]       # for big eq
+
 
         #remove instrumental response
         w.remove_response(inventory=stations, output='DISP', pre_filt=pre_filt)
