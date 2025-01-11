@@ -27,14 +27,14 @@ import shutil
 import urllib.request
 
 workdir='../'
-reportdir=os.path.join(workdir,'report')                                #main report dir
+#reportdir=os.path.join(workdir,'report')                                #main report dir
 #reportdir=os.path.join(workdir,'../full_and_dc_report/report')        #cd and full report dir
-#reportdir=os.path.join(workdir,'../VLP_tmp/report')                     # VLP directory
+reportdir=os.path.join(workdir,'../VLP_no_CPOZ/report')                     # VLP directory
 catdir=os.path.join(workdir,'CAT')
 
 catname=os.path.join(catdir,'catalogue_flegrei_VLP_gilberto.pf')               # CHANGE 'catalogue_flegrei_mag_2_5.pf'
 
-new_catalogue_name='catalogue_flegrei_MT_final_VLP_gilberto_4'                           # CHANGE
+new_catalogue_name='catalogue_flegrei_MT_final_VLP_no_CPOZ'                           # CHANGE
 
 refevents=model.load_events(catname)
 

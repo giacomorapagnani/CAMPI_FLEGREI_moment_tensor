@@ -44,11 +44,11 @@ catdir =  os.path.join(workdir,'CAT')
 client=Client('INGV')
 
 stime=UTCDateTime('2014-01-01T00:00:00')        # CHANGE set start time
-etime=UTCDateTime('2024-11-01T00:00:00')        # CHANGE set end time
+etime=UTCDateTime('2025-01-01T00:00:00')        # CHANGE set end time
 
 ######################################################################################
 ######################################################################################
-switch_get_events_and_save=False                ############################### SWITCH
+switch_get_events_and_save=True                ############################### SWITCH
 ######################################################################################
 ######################################################################################
 
@@ -106,7 +106,7 @@ def catalogue_INGV_to_PF(cat,cat_name):
 
 ######################################################################################
 ######################################################################################
-switch_convert_xml_to_pf=False                  ############################### SWITCH
+switch_convert_xml_to_pf=True                  ############################### SWITCH
 ######################################################################################
 ######################################################################################
 
@@ -118,73 +118,6 @@ else:
     print('loading catalogues INGV in .pf')
     cat_pf_INGV= model.load_events(catname_pf)
     cat_mag_pf_INGV= model.load_events(catname_mag_pf)
-'''
-#!!!NOT WORKING!!
-#compare PF catalogue with old versions
-#keep the old catalogue parameters
-def compare_old_new_pf_catalogues(cat_old,cat_new):
-    time_shift=2. #seconds
-
-    def check_if_events_values_are_different(ev1,ev2): # 0 if all the values are the same, 1 if at least one is different
-        v1= ev1.name==ev2.name
-        v2= ev1.time==ev2.time
-        v3= ev1.lat==ev2.lat
-        v4= ev1.lon==ev2.lon
-        v5= ev1.magnitude==ev2.magnitude
-        v6= ev1.depth==ev2.depth
-        tot=v1*v2*v3*v4*v5*v6
-        tot=not(tot)
-        return tot
-
-    def substitute_event_values(ev1,ev2): #puts values of ev2 in ev1
-        ev1.name=ev2.name
-        ev1.time=ev2.time
-        ev1.lat=ev2.lat
-        ev1.lon=ev2.lon
-        ev1.depth=ev2.depth
-        ev1.magnitude=ev2.magnitude
-        return
-
-    ev_to_add=[]
-    for ev_old in cat_old:
-        t=ev_old.time
-        count=0
-        index=[]
-        for i,ev_new in enumerate(cat_new):
-            if t-time_shift<ev_new.time<t+time_shift:
-                count+=1
-                index.append(i)
-        if count==0: #add event
-            ev_to_add.append(ev_old)
-            print('adding event:',util.time_to_str(ev_old.time))
-        elif count==1: #compare events
-            if check_if_events_values_are_different(cat_new[index[0]],ev_old):#if values are not the same  
-                print('The old event:',util.time_to_str(ev_old.time),
-                      'has not the same value anymore, now the event is:',util.time_to_str(cat_new[index[0]].time),
-                      ' with mag:',cat_new[index[0]].magnitude,'--',ev_old.magnitude,'  ',cat_new[index[0]].magnitude==ev_old.magnitude)
-                substitute_event_values(cat_new[index[0]],ev_old)             #change them the with the old ones
-
-        elif count>=2:
-            print('WARNING: MORE THAN 1 EVENT IN THE TIME RANGE, CHECK THE CATALOGUE')
-            for ind in index:
-                print('The old event:',util.time_to_str(ev_old.time),
-                      'corresponds to event:',util.time_to_str(cat_new[ind].time))
-    for ev in ev_to_add:
-        cat_new.append(ev)
-    cat_new.sort(key=lambda x: x.time, reverse=False)
-    return cat_new
-
-print('checking coherency between old and new catalogues')
-catname_pf_old=os.path.join(catdir,'catalogue_flegrei_INGV_old.pf')
-cat_pf_INGV_old= model.load_events(catname_pf_old)
-cat_pf_INGV=compare_old_new_pf_catalogues(cat_pf_INGV_old,cat_pf_INGV)
-model.dump_events(cat_pf_INGV, catname_pf)
-
-catname_mag_pf_old=os.path.join(catdir,'catalogue_flegrei_INGV_mag_2_5_old.pf')
-cat_mag_pf_INGV_old= model.load_events(catname_mag_pf_old)
-cat_pf_INGV=compare_old_new_pf_catalogues(cat_mag_pf_INGV_old,cat_pf_INGV)
-model.dump_events(cat_pf_INGV, catname_mag_pf)
-'''
 
 # %% Create/load Gossip catalogue
 def create_obspy_catalogue(catalogue):
@@ -277,7 +210,7 @@ GOSSIP_name_pf_mag = os.path.join(catdir, 'catalogue_flegrei_GOSSIP_mag_2_5.pf')
 
 ######################################################################################
 ######################################################################################
-switch_merge_csv_and_convert_to_PF_GOSSIP=  False              ##################SWITCH
+switch_merge_csv_and_convert_to_PF_GOSSIP=  True              ##################SWITCH
 ######################################################################################
 ######################################################################################
 
@@ -355,7 +288,7 @@ else:
 
 ######################################################################################
 ######################################################################################
-switch_compare_and_merge_INGV_and_GOSSIP_catalogue= False              ##################SWITCH
+switch_compare_and_merge_INGV_and_GOSSIP_catalogue= True              ##################SWITCH
 ######################################################################################
 ######################################################################################
 if switch_compare_and_merge_INGV_and_GOSSIP_catalogue:
