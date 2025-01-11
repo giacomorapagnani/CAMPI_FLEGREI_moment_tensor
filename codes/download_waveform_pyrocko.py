@@ -32,7 +32,7 @@ import pytz
 workdir='../'
 catdir =  os.path.join(workdir,'CAT')
 meta_datadir=os.path.join(workdir,'META_DATA')
-datadir=os.path.join(workdir,'DATA_VLP')                #CHANGE
+datadir=os.path.join(workdir,'DATA')                #CHANGE
 
 catname = os.path.join(catdir, 'catalogue_flegrei_mag_2_5.pf')           #CHANGE
 
@@ -54,7 +54,7 @@ print(stations)
 ################################################################################
 
 # download waveforms strarting from this data:
-date_start_download='2014-01-01 00:00:00.000'                               #CHANGE
+date_start_download='2024-11-01 00:00:00.000'                               #CHANGE
 sec_start_download=util.str_to_time(date_start_download)
 
 count=1
@@ -68,10 +68,10 @@ for ev in cat:
         print('\nevent number:',count)
         print('origin UTC time event:',t)
 
-        event_start = UTCDateTime(t) - 300                               #CHANGE: -40 normal ; -300 VLP
+        event_start = UTCDateTime(t) - 40                               #CHANGE: -40 normal ; -300 VLP
         #print('event starts at:',event_start)
 
-        event_end=UTCDateTime(t) + 300                                   #CHANGE: +140 normal ; +300 VLP
+        event_end=UTCDateTime(t) + 140                                   #CHANGE: +140 normal ; +300 VLP
         #print('event ends at:',event_end)
 
 
