@@ -7,8 +7,8 @@ catdir =  os.path.join(workdir,'CAT')
 metadatadir =  os.path.join(workdir,'META_DATA')
 
 #    ALL EVENTS IN CATALOGUE GOSSIP
-#f=open(catdir + '/catalogue_flegrei_mag_2_5_excluded.txt','r')
-f=open(catdir + '/catalogue_flegrei_GOSSIP.txt','r')
+f=open(catdir + '/GOSSIP/catalogue_flegrei_GOSSIP.txt','r')
+#f=open(catdir + '/INGV/catalogue_flegrei_INGV.txt','r')
 latev=[]
 lonev=[]
 magev=[]
@@ -117,7 +117,7 @@ lonsta=np.array(lonsta)
 
 # Plot stations
 fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='station') # yelow filling
-#fig.text(x=lonsta+0.01, y=latsta+0.002, text=namsta, justify='BR',font='8p',fill="#FFCC4E")
+fig.text(x=lonsta+0.01, y=latsta+0.002, text=namsta, justify='BR',font='8p',fill="#FFCC4E")
 
 fig.legend()
 

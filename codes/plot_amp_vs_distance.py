@@ -32,7 +32,7 @@ import geopy.distance
 workdir='../'
 
 plotdir =  os.path.join(workdir,'PLOTS')
-plotdir =  os.path.join(plotdir,'AMP_DIST_2')                                         #CHANGE
+plotdir =  os.path.join(plotdir,'AMP_DIST')                                         #CHANGE
 #plotdir =  os.path.join(plotdir,'big_eq')                                       #SWITCH
 
 catdir =  os.path.join(workdir,'CAT')
@@ -40,7 +40,7 @@ meta_datadir=os.path.join(workdir,'META_DATA')
 datadir=os.path.join(workdir,'DATA_response')                                         #CHANGE
 
 #select stations (pyrocko)
-station_name = os.path.join(meta_datadir, 'stations_flegrei_INGV.pf')
+station_name = os.path.join(meta_datadir, 'stations_flegrei_INGV_final.pf')
 
 st = model.load_stations(station_name)
 #print('Number of stations', len(st))
