@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <q:quakeml xmlns="http://quakeml.org/xmlns/bed/1.2" xmlns:q="http://quakeml.org/xmlns/quakeml/1.2">
-  <eventParameters publicID="smi:local/f9acfb91-f1c7-44fc-b573-0da060633419">
+  <eventParameters publicID="smi:local/d3702410-cf43-48f7-8012-d4fd5bb2a938">
     <event publicID="smi:local/4217">
-      <origin publicID="smi:local/33b43a22-89ee-4ba5-a13c-0731c50cb68f">
+      <origin publicID="smi:local/bfdcefd0-1bc7-4a7c-a315-0a8d29bd86d0">
         <time>
           <value>2015-10-07T09:10:50.680000Z</value>
         </time>
@@ -16,7 +16,7 @@
           <value>1530.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/729651d0-f215-4203-96f5-615356a7cc47">
+      <magnitude publicID="smi:local/f8c00269-03a4-4b7a-bfbe-bbe1af10d495">
         <mag>
           <value>2.5</value>
           <uncertainty>0.3</uncertainty>
@@ -25,7 +25,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/32178">
-      <origin publicID="smi:local/108c9504-2c6a-4e5c-a9e2-ab18f0a8c1ad">
+      <origin publicID="smi:local/d7deda6a-832f-4aba-a045-0c2f6d6908bc">
         <time>
           <value>2024-01-21T09:35:04.859000Z</value>
         </time>
@@ -39,7 +39,7 @@
           <value>2960.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/c7c46b64-6305-4573-a47b-15aa1e17b7f7">
+      <magnitude publicID="smi:local/6062a587-f408-4d10-8e6e-3db06ad173b4">
         <mag>
           <value>2.6</value>
           <uncertainty>0.3</uncertainty>
@@ -48,7 +48,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/32701">
-      <origin publicID="smi:local/af3b6ef3-fb79-41fe-a9bc-711e778ce2de">
+      <origin publicID="smi:local/0d5da89c-4810-40a0-bdd0-45605128443d">
         <time>
           <value>2024-02-17T18:09:50.630000Z</value>
         </time>
@@ -62,7 +62,7 @@
           <value>2980.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/cfab6728-0380-476b-a6a5-c07be8e89f34">
+      <magnitude publicID="smi:local/5d4652b9-783a-4b98-8048-0c7192140eb5">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -71,7 +71,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/32704">
-      <origin publicID="smi:local/d7f01eb5-5b35-46ae-a414-4035243ac7d2">
+      <origin publicID="smi:local/b50d4f23-c885-41ab-a28d-33adb5fdde58">
         <time>
           <value>2024-02-17T19:22:09.220000Z</value>
         </time>
@@ -85,7 +85,7 @@
           <value>3190.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/79913985-494d-4726-8c59-b80a9a0dcf26">
+      <magnitude publicID="smi:local/ae681682-cf21-4d26-8ad0-055617e51336">
         <mag>
           <value>3.0</value>
           <uncertainty>0.3</uncertainty>
@@ -94,7 +94,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/32915">
-      <origin publicID="smi:local/0c6368b4-db42-421a-95d2-4e9c91499795">
+      <origin publicID="smi:local/ba95dd98-bead-43d2-af5f-87077a1dd708">
         <time>
           <value>2024-03-03T09:01:59.609000Z</value>
         </time>
@@ -108,7 +108,7 @@
           <value>2950.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/b573fe87-86b9-4e09-aad1-76e82aef3bb1">
+      <magnitude publicID="smi:local/a3601846-3b5a-4c5e-a3d1-2623991861a2">
         <mag>
           <value>3.2</value>
           <uncertainty>0.3</uncertainty>
@@ -117,7 +117,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/33522">
-      <origin publicID="smi:local/bef630dc-a85e-49d1-8c5f-9dc7b6e47ee6">
+      <origin publicID="smi:local/cf92270b-c884-419c-ac00-333170d575fb">
         <time>
           <value>2024-04-04T05:14:36.519000Z</value>
         </time>
@@ -131,7 +131,7 @@
           <value>2390.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/8d9044e4-1fba-497d-ac52-f08adcea529e">
+      <magnitude publicID="smi:local/050043d2-ec77-44a7-a16b-03e02f99fc3b">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -140,7 +140,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/33528">
-      <origin publicID="smi:local/3d49120f-c45a-49ce-9070-ff39840d6bd7">
+      <origin publicID="smi:local/f694fcd1-05f3-448e-8d92-166954e8e05e">
         <time>
           <value>2024-04-04T05:32:56.809000Z</value>
         </time>
@@ -154,7 +154,7 @@
           <value>2470.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/74ece961-d249-4f51-848c-ed0d0ae50382">
+      <magnitude publicID="smi:local/be833016-eacf-474f-8e25-3ea2fdf8fb18">
         <mag>
           <value>2.9</value>
           <uncertainty>0.3</uncertainty>
@@ -163,7 +163,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/33541">
-      <origin publicID="smi:local/80632916-1ea0-4243-8209-4d678b53218b">
+      <origin publicID="smi:local/7ed29b0f-8c1c-42f7-aed3-36bd756b4328">
         <time>
           <value>2024-04-04T05:33:01.619000Z</value>
         </time>
@@ -177,7 +177,7 @@
           <value>2310.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/4ce33e6c-7704-4271-9df2-e4919d392940">
+      <magnitude publicID="smi:local/c7256482-7974-4b03-985a-e9a0bf6eb411">
         <mag>
           <value>3.2</value>
           <uncertainty>0.3</uncertainty>
@@ -186,7 +186,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/33632">
-      <origin publicID="smi:local/03fe9a8a-9c1d-4b8e-ace0-4beb413fce95">
+      <origin publicID="smi:local/e211548f-c94d-4c74-b12b-e57319f2723e">
         <time>
           <value>2024-04-06T11:59:31.900000Z</value>
         </time>
@@ -200,7 +200,7 @@
           <value>2960.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/dbc378b1-ebce-498d-a4d3-b5e461a49b62">
+      <magnitude publicID="smi:local/cc5112b4-52f1-4fb3-aef9-b1dcd49c2bdb">
         <mag>
           <value>2.5</value>
           <uncertainty>0.3</uncertainty>
@@ -209,7 +209,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/33786">
-      <origin publicID="smi:local/fcf1a6cf-7051-464e-9e53-a56915c266e3">
+      <origin publicID="smi:local/b6824af1-e3d6-45b2-bc83-7188059b8b55">
         <time>
           <value>2024-04-09T20:32:10.109000Z</value>
         </time>
@@ -223,7 +223,7 @@
           <value>2780.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/ed6c6ca7-fb91-407f-9e93-1fc631dddde1">
+      <magnitude publicID="smi:local/3f4f0953-3412-4281-b7f9-ec82e4b50fbc">
         <mag>
           <value>2.8</value>
           <uncertainty>0.3</uncertainty>
@@ -232,7 +232,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/34048">
-      <origin publicID="smi:local/31c1e7a9-24d7-451c-bd1c-08a379ba6051">
+      <origin publicID="smi:local/fc4f2cdd-7045-4463-94f9-06c64c434c22">
         <time>
           <value>2024-04-14T07:44:24.099000Z</value>
         </time>
@@ -246,7 +246,7 @@
           <value>2650.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/c22ea098-3fc4-4078-a802-417169cb7e47">
+      <magnitude publicID="smi:local/83e6ff1e-409b-45ef-ad70-1ebde4424188">
         <mag>
           <value>3.7</value>
           <uncertainty>0.3</uncertainty>
@@ -255,7 +255,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/34050">
-      <origin publicID="smi:local/ccf39333-8470-4644-beb7-72c58223617b">
+      <origin publicID="smi:local/21cd181f-742b-4f83-9b4f-6c286e73af3a">
         <time>
           <value>2024-04-14T07:46:58.740000Z</value>
         </time>
@@ -269,7 +269,7 @@
           <value>2480.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/153901d7-2dc2-430d-ad57-eab6a9ea25ca">
+      <magnitude publicID="smi:local/c414b67a-f2db-45da-bf9f-2909a2852f9f">
         <mag>
           <value>3.1</value>
           <uncertainty>0.3</uncertainty>
@@ -278,7 +278,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/34085">
-      <origin publicID="smi:local/71b697ce-11ab-457c-8325-d7413facaa09">
+      <origin publicID="smi:local/cbbb8446-7626-435d-814a-ef73b787e567">
         <time>
           <value>2024-04-14T07:57:58.049000Z</value>
         </time>
@@ -292,7 +292,7 @@
           <value>920.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/2c293b1d-da7e-4061-9322-1bb4ee08bfb3">
+      <magnitude publicID="smi:local/0a8bf319-7685-487e-8ae6-6cf09275a4a5">
         <mag>
           <value>2.5</value>
           <uncertainty>0.3</uncertainty>
@@ -301,7 +301,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/34065">
-      <origin publicID="smi:local/e59fe4fb-2c2a-4e56-98c4-4170a3918d84">
+      <origin publicID="smi:local/689a576e-0ce6-4a74-86dd-67f80e86d81c">
         <time>
           <value>2024-04-14T08:01:43.700000Z</value>
         </time>
@@ -315,7 +315,7 @@
           <value>2350.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/9a8c4985-ddaf-4a13-b3dc-ddae7ba8e1ad">
+      <magnitude publicID="smi:local/99be4f4b-faf0-40dc-bbfa-d7e759050057">
         <mag>
           <value>3.0</value>
           <uncertainty>0.3</uncertainty>
@@ -324,7 +324,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/34212">
-      <origin publicID="smi:local/ec0ad25b-f212-42f7-8fc8-bb2556c66959">
+      <origin publicID="smi:local/274f8fc0-3bf4-4bee-b902-6f49527201f4">
         <time>
           <value>2024-04-16T03:38:05.549000Z</value>
         </time>
@@ -338,7 +338,7 @@
           <value>2820.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/95aafc71-1c16-4e53-9f1b-5468f19aae77">
+      <magnitude publicID="smi:local/98ab9aaf-93e0-40e0-bae2-ff6094e84ddb">
         <mag>
           <value>2.5</value>
           <uncertainty>0.3</uncertainty>
@@ -347,7 +347,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/34591">
-      <origin publicID="smi:local/fdab1cb2-6042-47fa-b112-70242248a2d2">
+      <origin publicID="smi:local/a7b02ce7-e1fe-4852-a958-16896f933bc1">
         <time>
           <value>2024-04-26T01:47:42.309000Z</value>
         </time>
@@ -361,7 +361,7 @@
           <value>2530.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/e96ae453-d5c9-4542-874e-8e9168f82ac3">
+      <magnitude publicID="smi:local/ec6138f6-19ae-400a-9156-f91e20f51283">
         <mag>
           <value>2.6</value>
           <uncertainty>0.3</uncertainty>
@@ -370,7 +370,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/34662">
-      <origin publicID="smi:local/f72580a1-ba86-434d-9269-892fe156d3ba">
+      <origin publicID="smi:local/2faab78b-077f-485d-99ed-9a65e3761c43">
         <time>
           <value>2024-04-27T03:44:56.289000Z</value>
         </time>
@@ -384,7 +384,7 @@
           <value>2780.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/ebd9713e-b8f9-4df5-b3fa-d446cc77d4ec">
+      <magnitude publicID="smi:local/36bd7a4e-8b03-4fe1-88e4-8468b4dff5b4">
         <mag>
           <value>3.9</value>
           <uncertainty>0.3</uncertainty>
@@ -393,7 +393,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35156">
-      <origin publicID="smi:local/a26a10fb-8504-409f-b1d0-b35f5fca654c">
+      <origin publicID="smi:local/60dc3fa5-c723-4d91-ab2f-24e855b178d3">
         <time>
           <value>2024-05-07T01:47:54.559000Z</value>
         </time>
@@ -407,7 +407,7 @@
           <value>1760.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/5fca5b1c-adbc-4597-a3d4-7a887b67b5f2">
+      <magnitude publicID="smi:local/3e402f63-5b98-45ee-8bc1-eff46b34de40">
         <mag>
           <value>3.2</value>
           <uncertainty>0.3</uncertainty>
@@ -416,7 +416,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35209">
-      <origin publicID="smi:local/632b7514-9bb3-4b2a-980d-fb0deffb1f5c">
+      <origin publicID="smi:local/b4ec0ac7-310d-418a-99e4-27f6a3b3d767">
         <time>
           <value>2024-05-07T03:53:22.359000Z</value>
         </time>
@@ -430,7 +430,7 @@
           <value>1350.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/16f0929d-df5f-469e-9900-deeda88fd672">
+      <magnitude publicID="smi:local/df322165-7af4-483d-8a5a-27eb215699a8">
         <mag>
           <value>2.9</value>
           <uncertainty>0.3</uncertainty>
@@ -439,7 +439,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35274">
-      <origin publicID="smi:local/f705b442-9164-4066-b06b-b983e5ba1059">
+      <origin publicID="smi:local/9f1448cd-2207-476d-91e0-eb8de6d5f3ea">
         <time>
           <value>2024-05-07T17:37:25.089000Z</value>
         </time>
@@ -453,7 +453,7 @@
           <value>2000.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/1a2367b4-a3e9-4d07-bfc5-ce78fe62fc22">
+      <magnitude publicID="smi:local/3ce9fcc4-a741-463d-b230-aecbedbc797d">
         <mag>
           <value>2.8</value>
           <uncertainty>0.3</uncertainty>
@@ -462,7 +462,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35293">
-      <origin publicID="smi:local/00774209-b0c8-4825-9c93-fa049779d0b9">
+      <origin publicID="smi:local/09d37d04-edd7-4897-8635-14f0f9c6613a">
         <time>
           <value>2024-05-08T05:29:10.440000Z</value>
         </time>
@@ -476,7 +476,7 @@
           <value>2950.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/8ebf5bfc-517c-41a5-8f26-af0a3ba82d69">
+      <magnitude publicID="smi:local/b8502a8f-d682-4a3d-99e5-bddba949fb18">
         <mag>
           <value>2.6</value>
           <uncertainty>0.3</uncertainty>
@@ -485,7 +485,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35381">
-      <origin publicID="smi:local/2734f3af-d115-4eec-9b49-1b55743fbc73">
+      <origin publicID="smi:local/9878ff99-7570-48b2-a318-3256b754b2f1">
         <time>
           <value>2024-05-10T11:25:52.089000Z</value>
         </time>
@@ -499,7 +499,7 @@
           <value>2440.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/fc07252a-3620-42d9-99e6-67c01e687478">
+      <magnitude publicID="smi:local/e82be9fd-3f50-4a8b-a6eb-5c151d12d07e">
         <mag>
           <value>3.7</value>
           <uncertainty>0.3</uncertainty>
@@ -508,7 +508,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35387">
-      <origin publicID="smi:local/e76d484d-ccfc-4d18-bfbd-c9da10e2829f">
+      <origin publicID="smi:local/ef15c788-2622-4f05-8567-828663483dd8">
         <time>
           <value>2024-05-10T11:26:10.319000Z</value>
         </time>
@@ -522,7 +522,7 @@
           <value>2170.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/b933a5c7-b49e-444e-a711-05d76a902a81">
+      <magnitude publicID="smi:local/e00c4b92-77d5-4985-a62f-124d292b05ba">
         <mag>
           <value>3.6</value>
           <uncertainty>0.3</uncertainty>
@@ -531,7 +531,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35467">
-      <origin publicID="smi:local/0b5ee088-51a0-4ebf-9874-14906ef9be31">
+      <origin publicID="smi:local/26e1e921-46aa-4da4-9999-7d5f3da8ff4f">
         <time>
           <value>2024-05-13T01:30:20.750000Z</value>
         </time>
@@ -545,7 +545,7 @@
           <value>2210.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/996926dc-46d4-499b-b383-22ec84e722bc">
+      <magnitude publicID="smi:local/940eb53e-ed78-4629-89f2-7d7794556e20">
         <mag>
           <value>2.9</value>
           <uncertainty>0.3</uncertainty>
@@ -554,7 +554,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35716">
-      <origin publicID="smi:local/b6757660-aad1-4913-9564-ee7613b95077">
+      <origin publicID="smi:local/155a36e8-5d44-4980-b61a-fc0d3e560234">
         <time>
           <value>2024-05-18T04:30:55.200000Z</value>
         </time>
@@ -568,7 +568,7 @@
           <value>2800.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/91e6d22b-6985-41fc-9e10-f5c2ab051a13">
+      <magnitude publicID="smi:local/363ac821-b8f5-458d-acbe-0e474c665a6d">
         <mag>
           <value>2.8</value>
           <uncertainty>0.3</uncertainty>
@@ -577,7 +577,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35838">
-      <origin publicID="smi:local/7beed736-ee35-4aac-9ae7-00997de00c81">
+      <origin publicID="smi:local/9f8a4a50-60e6-4a6b-85a0-7d43d1482ddb">
         <time>
           <value>2024-05-20T17:51:14.940000Z</value>
         </time>
@@ -591,7 +591,7 @@
           <value>2570.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/a6422e2a-b893-490b-a258-751b36e4ed7a">
+      <magnitude publicID="smi:local/40654e22-d12f-4282-94e4-fb5056312dd7">
         <mag>
           <value>3.5</value>
           <uncertainty>0.3</uncertainty>
@@ -600,7 +600,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35846">
-      <origin publicID="smi:local/1fcc3a08-3667-41d8-8fe6-6d27e2999d81">
+      <origin publicID="smi:local/6dba5d8f-81cd-49c6-a5a9-c7c43dfa2e51">
         <time>
           <value>2024-05-20T18:10:03.549000Z</value>
         </time>
@@ -614,7 +614,7 @@
           <value>2570.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/d2584891-4c3b-4e41-8a97-b4a68b000b5f">
+      <magnitude publicID="smi:local/2fe049d4-dd95-4f78-98bf-97c24ce68780">
         <mag>
           <value>4.4</value>
           <uncertainty>0.3</uncertainty>
@@ -623,7 +623,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35955">
-      <origin publicID="smi:local/319fd81d-e330-491d-9017-1ea4f3988433">
+      <origin publicID="smi:local/a8793330-138b-42ed-a6cf-dbf2f55d0852">
         <time>
           <value>2024-05-20T19:46:14.190000Z</value>
         </time>
@@ -637,7 +637,7 @@
           <value>2800.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/986059b2-dc6e-40bd-9250-5d19a2e7a036">
+      <magnitude publicID="smi:local/2682f516-6532-43ec-8093-a23869a597e3">
         <mag>
           <value>3.9</value>
           <uncertainty>0.3</uncertainty>
@@ -646,7 +646,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/35969">
-      <origin publicID="smi:local/3c8f9aec-7050-4cea-ac6d-3719ef5ac6dd">
+      <origin publicID="smi:local/7ad77327-beed-4681-a29d-7cf6171f0c86">
         <time>
           <value>2024-05-20T19:55:37.839000Z</value>
         </time>
@@ -660,7 +660,7 @@
           <value>2210.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/31e68702-c8ea-42a2-b452-b57175f0524a">
+      <magnitude publicID="smi:local/bcb435c1-051f-4ab4-9225-aae0a5dd5aa1">
         <mag>
           <value>3.1</value>
           <uncertainty>0.3</uncertainty>
@@ -669,7 +669,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/36042">
-      <origin publicID="smi:local/2908c96c-a6fe-45c3-a626-139fdc9208d4">
+      <origin publicID="smi:local/ad22e478-da10-4f52-8835-1cf21927ba94">
         <time>
           <value>2024-05-20T21:00:55.170000Z</value>
         </time>
@@ -683,7 +683,7 @@
           <value>2730.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/aa98ab2f-c2ab-4447-90ea-51218c88fc24">
+      <magnitude publicID="smi:local/89833a68-8d77-4f0b-8825-fe4d3ea5b25d">
         <mag>
           <value>3.6</value>
           <uncertainty>0.3</uncertainty>
@@ -692,7 +692,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/36125">
-      <origin publicID="smi:local/517a9159-5105-4398-ab4e-3836179d1630">
+      <origin publicID="smi:local/a2c7116f-16d5-4ccb-bdd3-c7d02295fc94">
         <time>
           <value>2024-05-20T22:55:54.160000Z</value>
         </time>
@@ -706,7 +706,7 @@
           <value>300.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/711ea2fe-fb3f-407f-8c9c-096242687ee4">
+      <magnitude publicID="smi:local/45d6e401-36ce-4d5f-b7c9-85f40419631f">
         <mag>
           <value>2.8</value>
           <uncertainty>0.3</uncertainty>
@@ -715,7 +715,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/36310">
-      <origin publicID="smi:local/79ff4170-6a89-4d36-94d1-c334705b90ef">
+      <origin publicID="smi:local/685e5a10-1a90-4054-9a7c-2c7f92196de7">
         <time>
           <value>2024-05-22T06:28:00.380000Z</value>
         </time>
@@ -729,7 +729,7 @@
           <value>2550.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/f074bba6-cd5d-494f-a78e-690e057ce1c5">
+      <magnitude publicID="smi:local/98b60cbd-5ae6-435d-911c-a6e00614a413">
         <mag>
           <value>3.6</value>
           <uncertainty>0.3</uncertainty>
@@ -738,7 +738,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/36479">
-      <origin publicID="smi:local/a78e9155-5bde-4b1c-9cae-19c7d926092e">
+      <origin publicID="smi:local/0c220127-491b-4415-93b4-69600b167b01">
         <time>
           <value>2024-05-25T01:03:23.859000Z</value>
         </time>
@@ -752,7 +752,7 @@
           <value>2410.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/b941f306-2ef7-499e-85e7-96ac766d6fdd">
+      <magnitude publicID="smi:local/7823f7b4-8c5a-4917-8f00-ccc3d5bcf6f1">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -761,7 +761,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/36917">
-      <origin publicID="smi:local/0fc873fc-fda9-4a53-a2f2-e651fe249c3b">
+      <origin publicID="smi:local/8b0bcafc-fe7c-45e7-b313-4b0f62333ffe">
         <time>
           <value>2024-06-08T01:52:04.829000Z</value>
         </time>
@@ -775,7 +775,7 @@
           <value>2440.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/66969313-449d-4537-978f-7ecb61b7de5f">
+      <magnitude publicID="smi:local/07a44dd7-7b83-4753-9a5d-2efbf616b7c0">
         <mag>
           <value>3.5</value>
           <uncertainty>0.3</uncertainty>
@@ -784,7 +784,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/36952">
-      <origin publicID="smi:local/d4055d76-195b-4d74-a294-7152ff0ffd1e">
+      <origin publicID="smi:local/bc17316c-b900-4aef-918a-7b79dd1d3cb2">
         <time>
           <value>2024-06-08T01:52:21.670000Z</value>
         </time>
@@ -798,7 +798,7 @@
           <value>2080.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/17c23b77-6adf-4ead-a2ac-be0346b235c1">
+      <magnitude publicID="smi:local/1878330b-40cd-4168-82a6-bd7ba03edab5">
         <mag>
           <value>3.0</value>
           <uncertainty>0.3</uncertainty>
@@ -807,7 +807,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/36927">
-      <origin publicID="smi:local/683403a3-36a7-453f-9e69-610e9811d1a4">
+      <origin publicID="smi:local/6bf4ffd3-c590-419a-90bf-c93ff6f2a9f1">
         <time>
           <value>2024-06-08T02:09:03.579000Z</value>
         </time>
@@ -821,7 +821,7 @@
           <value>2270.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/53b4103f-2c51-4adb-a6c8-52d7b73ffba3">
+      <magnitude publicID="smi:local/c40cb506-4285-4ef0-9cc7-2adefb1ab2a7">
         <mag>
           <value>3.7</value>
           <uncertainty>0.3</uncertainty>
@@ -830,7 +830,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/36955">
-      <origin publicID="smi:local/6477def0-33c8-43cd-b91d-cca2d87076ea">
+      <origin publicID="smi:local/62619614-307f-4427-9b0b-84b1e03f1d63">
         <time>
           <value>2024-06-08T02:10:16.279000Z</value>
         </time>
@@ -844,7 +844,7 @@
           <value>2360.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/b85a8de0-5357-4199-8188-69ea5a9d675b">
+      <magnitude publicID="smi:local/a939de14-8fd7-4597-b377-5b273f380565">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -853,7 +853,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/37228">
-      <origin publicID="smi:local/be70174a-ff3e-464d-a10e-a787c3c13595">
+      <origin publicID="smi:local/05b49ce5-047a-4315-b001-6bbe0b9a6652">
         <time>
           <value>2024-06-18T01:58:24.410000Z</value>
         </time>
@@ -867,7 +867,7 @@
           <value>2720.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/a697f606-8b0c-4481-8064-30910c4e163f">
+      <magnitude publicID="smi:local/c2cb9632-3a00-4879-852e-1e24255213da">
         <mag>
           <value>3.4</value>
           <uncertainty>0.3</uncertainty>
@@ -876,7 +876,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/37553">
-      <origin publicID="smi:local/a150e324-6ec1-480c-918b-4573204c6bc2">
+      <origin publicID="smi:local/e8ad9afd-9a59-430c-b91b-ff44527adfb6">
         <time>
           <value>2024-07-02T13:10:14.789000Z</value>
         </time>
@@ -890,7 +890,7 @@
           <value>2740.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/a1e1635e-cb2d-4104-b307-10451e44906b">
+      <magnitude publicID="smi:local/afc682ef-95cf-41d4-aec2-9a182041d7c7">
         <mag>
           <value>2.9</value>
           <uncertainty>0.3</uncertainty>
@@ -899,7 +899,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/37554">
-      <origin publicID="smi:local/f415e60a-1b35-4d91-a245-f1d6d12fe2b7">
+      <origin publicID="smi:local/a2a30c49-5614-44dc-b7b7-7b55cea1c431">
         <time>
           <value>2024-07-02T13:11:34.200000Z</value>
         </time>
@@ -913,7 +913,7 @@
           <value>2890.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/1c8e86ab-811c-46a2-ab2d-3a4f4fdcd012">
+      <magnitude publicID="smi:local/866e236b-78fe-44dd-8ecf-3a4f8030d4df">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -922,7 +922,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/37555">
-      <origin publicID="smi:local/b0cc43c1-2594-4b84-a006-afb0605c43d0">
+      <origin publicID="smi:local/d698bf79-bd43-49c8-a419-8896e176886d">
         <time>
           <value>2024-07-02T13:13:45.759000Z</value>
         </time>
@@ -936,7 +936,7 @@
           <value>2850.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/70b95ce3-e7c3-487e-8586-12beb1513520">
+      <magnitude publicID="smi:local/fda73abb-faba-46db-ae26-74d59b3c4af1">
         <mag>
           <value>2.8</value>
           <uncertainty>0.3</uncertainty>
@@ -945,7 +945,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/37559">
-      <origin publicID="smi:local/36d5baf5-b9ba-4cfa-ada6-ff7c0e73bfde">
+      <origin publicID="smi:local/d770f716-0521-49c5-843c-a33ed4f057fe">
         <time>
           <value>2024-07-02T13:14:02.259000Z</value>
         </time>
@@ -959,7 +959,7 @@
           <value>2930.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/dec6cf40-e728-490b-bbe4-341548a56330">
+      <magnitude publicID="smi:local/fa438647-95a2-40d2-b1a4-e9e275da8552">
         <mag>
           <value>2.5</value>
           <uncertainty>0.3</uncertainty>
@@ -968,7 +968,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/37591">
-      <origin publicID="smi:local/91b99414-809e-4931-b7a9-4b4c509cf528">
+      <origin publicID="smi:local/1b67f2dc-2d95-4d1e-8396-a0474e921131">
         <time>
           <value>2024-07-03T00:18:44.369000Z</value>
         </time>
@@ -982,7 +982,7 @@
           <value>2570.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/01440f97-64db-4f4f-8413-75eec26b1233">
+      <magnitude publicID="smi:local/49100658-c479-443e-814e-d921f4553e08">
         <mag>
           <value>3.2</value>
           <uncertainty>0.3</uncertainty>
@@ -991,7 +991,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/37827">
-      <origin publicID="smi:local/8a6dc980-d41e-4e7c-8166-a1b6bfac27ef">
+      <origin publicID="smi:local/9e086164-5574-4f1e-b48d-6887a8d46d8f">
         <time>
           <value>2024-07-11T09:59:20.049000Z</value>
         </time>
@@ -1005,7 +1005,7 @@
           <value>2770.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/924e230b-ee80-4464-82cb-66babd9e3def">
+      <magnitude publicID="smi:local/6270165d-cf20-474f-bf02-f2cfbae6df81">
         <mag>
           <value>2.6</value>
           <uncertainty>0.3</uncertainty>
@@ -1014,7 +1014,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/37980">
-      <origin publicID="smi:local/f51b8860-929d-4cfa-93c6-ac2d1ca24b1c">
+      <origin publicID="smi:local/dad1cb58-073d-4b56-aa98-d29e636bbd80">
         <time>
           <value>2024-07-18T06:08:37.640000Z</value>
         </time>
@@ -1028,7 +1028,7 @@
           <value>2460.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/0f401e30-0671-4753-8ae2-6e1ef2d93b2c">
+      <magnitude publicID="smi:local/e5efe297-4e77-4ec2-b8d0-f7d9bcc096e5">
         <mag>
           <value>3.6</value>
           <uncertainty>0.3</uncertainty>
@@ -1037,7 +1037,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/38245">
-      <origin publicID="smi:local/341b655d-edf3-4c6b-9e10-aca5d74eb0b2">
+      <origin publicID="smi:local/0a0c2709-1915-4b2e-a29e-29da8fdaf8f0">
         <time>
           <value>2024-07-26T11:46:21.119000Z</value>
         </time>
@@ -1051,7 +1051,7 @@
           <value>4150.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/25f8dc11-a6b6-4382-80c7-c9e5287bb2d6">
+      <magnitude publicID="smi:local/4d07e68e-41e8-46b3-9f91-891d107992d9">
         <mag>
           <value>4.0</value>
           <uncertainty>0.3</uncertainty>
@@ -1060,7 +1060,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/38724">
-      <origin publicID="smi:local/d71e86f3-2717-4029-9f91-f8fb39fe8e97">
+      <origin publicID="smi:local/b40491f5-827a-41a2-8414-f571567e246c">
         <time>
           <value>2024-08-17T21:33:32.390000Z</value>
         </time>
@@ -1074,7 +1074,7 @@
           <value>210.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/9d1f23ca-9fbf-488a-bc6d-13a43be71885">
+      <magnitude publicID="smi:local/acd2cb41-317d-4115-939a-25ea5ff20aa1">
         <mag>
           <value>2.6</value>
           <uncertainty>0.3</uncertainty>
@@ -1083,7 +1083,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/38766">
-      <origin publicID="smi:local/80b6571f-8c38-4c80-908d-5a8528aed553">
+      <origin publicID="smi:local/ee12b0db-f5b1-4304-9b7b-b7d9c843cc39">
         <time>
           <value>2024-08-18T00:29:21.829000Z</value>
         </time>
@@ -1097,7 +1097,7 @@
           <value>400.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/826e1265-0f2f-40e3-9149-da43c99fbb38">
+      <magnitude publicID="smi:local/daa7e47a-9191-41f8-9ac8-4df31f8c11a1">
         <mag>
           <value>2.8</value>
           <uncertainty>0.3</uncertainty>
@@ -1106,7 +1106,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/39108">
-      <origin publicID="smi:local/bd2690a2-d299-41f1-9857-3621586087a7">
+      <origin publicID="smi:local/4cd7895c-e17b-4933-bfec-54882d7365c6">
         <time>
           <value>2024-08-30T19:23:15.839000Z</value>
         </time>
@@ -1120,7 +1120,7 @@
           <value>2690.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/6c980627-072b-4637-a8c7-6b6f831d3053">
+      <magnitude publicID="smi:local/e100a5e6-3036-4861-95db-3a9cd004c7dc">
         <mag>
           <value>3.7</value>
           <uncertainty>0.3</uncertainty>
@@ -1129,21 +1129,21 @@
       </magnitude>
     </event>
     <event publicID="smi:local/39580">
-      <origin publicID="smi:local/f104b038-6e56-46a3-a9f3-f235c8734539">
+      <origin publicID="smi:local/11856b99-e07e-4931-8ad0-aeead15475e3">
         <time>
-          <value>2024-10-12T04:54:23.829000Z</value>
+          <value>2024-10-12T04:54:23.920000Z</value>
         </time>
         <latitude>
-          <value>40.802833</value>
+          <value>40.808167</value>
         </latitude>
         <longitude>
-          <value>14.151</value>
+          <value>14.152167</value>
         </longitude>
         <depth>
-          <value>3400.0</value>
+          <value>3040.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/6e103490-6b29-4588-bcca-af4a7cca92bf">
+      <magnitude publicID="smi:local/fc1b1f95-8c34-4129-ad19-48969253d2f3">
         <mag>
           <value>2.5</value>
           <uncertainty>0.3</uncertainty>
@@ -1152,21 +1152,67 @@
       </magnitude>
     </event>
     <event publicID="smi:local/39626">
-      <origin publicID="smi:local/faf0a3ea-0032-4d68-9554-4ee8e8c4233f">
+      <origin publicID="smi:local/5fb5cfbf-d368-48e9-a336-f4b85366bcf7">
         <time>
-          <value>2024-10-13T06:07:53.569000Z</value>
+          <value>2024-10-13T06:07:53.500000Z</value>
         </time>
         <latitude>
-          <value>40.8345</value>
+          <value>40.836167</value>
         </latitude>
         <longitude>
-          <value>14.147833</value>
+          <value>14.147333</value>
         </longitude>
         <depth>
           <value>2390.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/73f23374-799c-4c92-b0ea-c3a30d3a373b">
+      <magnitude publicID="smi:local/8ca2e1b2-83a6-42db-bbfa-ee3939aa43c2">
+        <mag>
+          <value>2.6</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>nan</type>
+      </magnitude>
+    </event>
+    <event publicID="smi:local/40479">
+      <origin publicID="smi:local/73df8ca7-b142-49ee-9c4f-005e638c2257">
+        <time>
+          <value>2024-12-06T04:33:59.779000Z</value>
+        </time>
+        <latitude>
+          <value>40.822667</value>
+        </latitude>
+        <longitude>
+          <value>14.133833</value>
+        </longitude>
+        <depth>
+          <value>520.0</value>
+        </depth>
+      </origin>
+      <magnitude publicID="smi:local/8f70dd0d-8323-423a-99c5-285ebf33f1e6">
+        <mag>
+          <value>3.4</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>nan</type>
+      </magnitude>
+    </event>
+    <event publicID="smi:local/40497">
+      <origin publicID="smi:local/aaa9ab39-25b1-400e-a9ec-2236d2722a4d">
+        <time>
+          <value>2024-12-06T08:59:10.559000Z</value>
+        </time>
+        <latitude>
+          <value>40.818333</value>
+        </latitude>
+        <longitude>
+          <value>14.1445</value>
+        </longitude>
+        <depth>
+          <value>250.0</value>
+        </depth>
+      </origin>
+      <magnitude publicID="smi:local/cbda0cd2-9d3f-460b-bd98-d3e0afc72578">
         <mag>
           <value>2.6</value>
           <uncertainty>0.3</uncertainty>
@@ -1175,7 +1221,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/677">
-      <origin publicID="smi:local/b9a6ae10-4d30-4a49-8d1d-18e224010359">
+      <origin publicID="smi:local/d7204f00-e157-4e88-94e4-ff1a1ba7c0b8">
         <time>
           <value>2018-09-18T21:36:41.940000Z</value>
         </time>
@@ -1189,7 +1235,7 @@
           <value>2320.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/4d789ecf-3b70-4aa7-b6eb-a3a600264656">
+      <magnitude publicID="smi:local/9a38d587-7328-47ef-a6a4-e99f96a45477">
         <mag>
           <value>2.5</value>
           <uncertainty>0.3</uncertainty>
@@ -1198,7 +1244,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/1159">
-      <origin publicID="smi:local/1638ed37-1656-4da9-a579-4b635cbec265">
+      <origin publicID="smi:local/ce95dd79-e63d-4f81-b480-9c218d659b4b">
         <time>
           <value>2019-03-15T04:26:41.820000Z</value>
         </time>
@@ -1212,7 +1258,7 @@
           <value>2130.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/286a1245-602d-4437-a238-4e692ae27e70">
+      <magnitude publicID="smi:local/305d55f1-b8ed-4fc3-9cfe-880c8c456cf1">
         <mag>
           <value>2.5</value>
           <uncertainty>0.3</uncertainty>
@@ -1221,7 +1267,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/2086">
-      <origin publicID="smi:local/d2ec59a3-154f-4ad8-95d6-f616888583d0">
+      <origin publicID="smi:local/2b25280d-35fd-43c5-8d4a-319865be61f3">
         <time>
           <value>2019-10-05T05:08:37.760000Z</value>
         </time>
@@ -1235,7 +1281,7 @@
           <value>1910.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/0b8a107b-a033-4100-8995-28890abe0dc8">
+      <magnitude publicID="smi:local/c0987d04-8ef4-473c-9107-0ac2ca5e0684">
         <mag>
           <value>2.5</value>
           <uncertainty>0.3</uncertainty>
@@ -1244,7 +1290,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/2508">
-      <origin publicID="smi:local/49e06d2e-fb1f-4139-a23a-c1448fb83b92">
+      <origin publicID="smi:local/f98c6778-ab80-4de4-b5dc-69b47965a7b2">
         <time>
           <value>2019-12-06T00:17:23.780000Z</value>
         </time>
@@ -1258,7 +1304,7 @@
           <value>2330.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/13f9f37e-2cea-48ab-84d8-0967830aa46e">
+      <magnitude publicID="smi:local/5290e4d7-e3ab-4287-a92d-afc0252f97f2">
         <mag>
           <value>3.1</value>
           <uncertainty>0.3</uncertainty>
@@ -1267,7 +1313,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/7102">
-      <origin publicID="smi:local/8a7a15af-c738-441c-8053-0bc566fbaf60">
+      <origin publicID="smi:local/74656e33-d0d9-454a-8b08-5456a700838b">
         <time>
           <value>2022-03-16T14:14:34.800000Z</value>
         </time>
@@ -1281,7 +1327,7 @@
           <value>2540.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/396a6b1c-8fdb-46a4-81ba-b9630b21afe0">
+      <magnitude publicID="smi:local/11bc437b-2e09-4d1d-bba0-0658cc2308a1">
         <mag>
           <value>3.47</value>
           <uncertainty>0.3</uncertainty>
@@ -1290,7 +1336,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/14725">
-      <origin publicID="smi:local/11a39655-e7a9-43be-898b-49a436f146cb">
+      <origin publicID="smi:local/821adaad-e9e9-4c04-a78e-3624b2251408">
         <time>
           <value>2022-03-29T17:45:32.360000Z</value>
         </time>
@@ -1304,7 +1350,7 @@
           <value>2490.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/7bbbbbf7-5df2-4a2a-a204-8ffb28974d60">
+      <magnitude publicID="smi:local/7c03c9f7-80cb-47fc-b37f-f7f0624b4dd9">
         <mag>
           <value>3.57</value>
           <uncertainty>0.3</uncertainty>
@@ -1313,7 +1359,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/14885">
-      <origin publicID="smi:local/98c22617-0393-4a3d-92ce-ac634b363aa4">
+      <origin publicID="smi:local/8c16e24b-cf6c-4402-be21-555b3e3a121f">
         <time>
           <value>2022-04-19T02:05:54.300000Z</value>
         </time>
@@ -1327,7 +1373,7 @@
           <value>2380.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/ba2b7f53-dfdc-4e00-8efb-0d36d889812b">
+      <magnitude publicID="smi:local/2d1a2e55-b353-4633-ab8b-365bac2b868d">
         <mag>
           <value>2.94</value>
           <uncertainty>0.3</uncertainty>
@@ -1336,7 +1382,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/16351">
-      <origin publicID="smi:local/e4c5f934-24e0-455e-9759-30ed4bf023d0">
+      <origin publicID="smi:local/328ab590-81f0-4287-9bbe-304981dd0fb9">
         <time>
           <value>2022-07-30T03:27:48.930000Z</value>
         </time>
@@ -1350,7 +1396,7 @@
           <value>1800.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/853b4455-329a-44ac-b02b-5ab93e31f2d1">
+      <magnitude publicID="smi:local/fa819f7a-3bee-494a-8f8c-7fa0e3be0694">
         <mag>
           <value>2.51</value>
           <uncertainty>0.3</uncertainty>
@@ -1359,7 +1405,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/17434">
-      <origin publicID="smi:local/09d409ee-1549-4ab9-a2f2-996ba264aec8">
+      <origin publicID="smi:local/4402012b-d4eb-408a-8466-3ec5697d131f">
         <time>
           <value>2022-11-12T21:37:54.760000Z</value>
         </time>
@@ -1373,7 +1419,7 @@
           <value>1740.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/5b6ea0fa-a33b-4963-b777-ed06ff424252">
+      <magnitude publicID="smi:local/00b34f71-9c7c-4dc9-9bcf-0e0c4c6caf15">
         <mag>
           <value>2.67</value>
           <uncertainty>0.3</uncertainty>
@@ -1382,7 +1428,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/17732">
-      <origin publicID="smi:local/267b4a93-8441-4c20-976f-7f92d55e5cea">
+      <origin publicID="smi:local/4acd66a3-0a54-415c-97e6-bca925953d1d">
         <time>
           <value>2022-11-30T02:34:39.010000Z</value>
         </time>
@@ -1396,7 +1442,7 @@
           <value>2380.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/2f17a239-5984-497c-a754-f3a5cd911e15">
+      <magnitude publicID="smi:local/76ca184c-e425-4584-9827-7d529b7fafe1">
         <mag>
           <value>2.53</value>
           <uncertainty>0.3</uncertainty>
@@ -1405,7 +1451,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/22730">
-      <origin publicID="smi:local/9a396fd0-643f-42d1-a8b7-3096a12c050a">
+      <origin publicID="smi:local/5c227b33-1ec1-4262-909d-ed2ee5b5e815">
         <time>
           <value>2022-12-28T02:35:57.520000Z</value>
         </time>
@@ -1419,7 +1465,7 @@
           <value>430.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/4cb52061-5985-4074-909d-4b35204ab82d">
+      <magnitude publicID="smi:local/47ae38cd-3d52-4749-b2ce-85af50aa738e">
         <mag>
           <value>2.67</value>
           <uncertainty>0.3</uncertainty>
@@ -1428,7 +1474,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/23194">
-      <origin publicID="smi:local/9efc44cc-9049-4281-90f0-555d938b82aa">
+      <origin publicID="smi:local/8bddff6e-b668-455b-8bd0-f6089db734a8">
         <time>
           <value>2023-01-19T08:44:30.190000Z</value>
         </time>
@@ -1442,7 +1488,7 @@
           <value>2540.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/59747f2e-fc91-415e-9666-51d0a4eb9b6c">
+      <magnitude publicID="smi:local/8f2ebc42-61a9-40a8-97dd-7ac4c4179fe3">
         <mag>
           <value>2.59</value>
           <uncertainty>0.3</uncertainty>
@@ -1451,7 +1497,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/23338">
-      <origin publicID="smi:local/2270a532-b4e8-4f02-94f0-a6f68dc1177b">
+      <origin publicID="smi:local/54845b68-d817-4131-af49-a4af85deb561">
         <time>
           <value>2023-02-05T00:45:36.160000Z</value>
         </time>
@@ -1465,7 +1511,7 @@
           <value>4460.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/b5213d9c-d382-40de-98ac-91ecb4e2300e">
+      <magnitude publicID="smi:local/9e96d633-5c0f-4fd5-a815-2dd1b6ae6610">
         <mag>
           <value>2.97</value>
           <uncertainty>0.3</uncertainty>
@@ -1474,7 +1520,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/23716">
-      <origin publicID="smi:local/6bc083d2-18df-4eef-a466-9eba4c11b9df">
+      <origin publicID="smi:local/532e5688-1a5f-4dff-91dd-a3d9746eb487">
         <time>
           <value>2023-03-04T13:15:20.410000Z</value>
         </time>
@@ -1488,7 +1534,7 @@
           <value>2460.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/b2b94d35-c427-4cb8-9d58-a64c2467e469">
+      <magnitude publicID="smi:local/a0f910c8-d27d-46bb-99b8-e27e6cf31cbe">
         <mag>
           <value>2.6</value>
           <uncertainty>0.3</uncertainty>
@@ -1497,7 +1543,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/23904">
-      <origin publicID="smi:local/ef005e64-1ac0-42df-982d-726343e8914a">
+      <origin publicID="smi:local/f4d07f24-1a8e-4a43-aa53-7ebb3d6d1d9f">
         <time>
           <value>2023-03-13T22:40:53.580000Z</value>
         </time>
@@ -1511,7 +1557,7 @@
           <value>2770.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/b419513e-82b1-46f3-a96c-304cf48d39f9">
+      <magnitude publicID="smi:local/7e8d831e-3b33-4f23-ae14-88167898d355">
         <mag>
           <value>2.83</value>
           <uncertainty>0.3</uncertainty>
@@ -1520,7 +1566,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/24146">
-      <origin publicID="smi:local/f4bd094e-a02e-4771-9a3b-2c27bc5db4c4">
+      <origin publicID="smi:local/4fe09685-4931-4776-b0cb-21207d00c588">
         <time>
           <value>2023-03-24T05:24:43.090000Z</value>
         </time>
@@ -1534,7 +1580,7 @@
           <value>2110.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/e77cd52a-5af3-413f-a0f2-0bcaf968f65f">
+      <magnitude publicID="smi:local/cf5904cb-6765-4039-ac57-a992bedd6a45">
         <mag>
           <value>2.59</value>
           <uncertainty>0.3</uncertainty>
@@ -1543,7 +1589,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/24479">
-      <origin publicID="smi:local/f37753a5-5bff-487c-a7fe-da2be7dc3dae">
+      <origin publicID="smi:local/f5cfeb29-02dc-4b71-919c-68b07a59ee6a">
         <time>
           <value>2023-04-10T03:54:45.480000Z</value>
         </time>
@@ -1557,7 +1603,7 @@
           <value>2580.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/e8bb3da9-f3c2-4611-8acc-2b74f5a9911d">
+      <magnitude publicID="smi:local/b4b1df18-832d-4d5b-bd3b-eec01972ee07">
         <mag>
           <value>2.92</value>
           <uncertainty>0.3</uncertainty>
@@ -1566,7 +1612,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/24645">
-      <origin publicID="smi:local/24cb2d27-fadb-425a-9955-f110297f8f35">
+      <origin publicID="smi:local/3fb3f54b-1035-40dc-a6a3-14fa6be6b7ff">
         <time>
           <value>2023-04-15T05:54:37.220000Z</value>
         </time>
@@ -1580,7 +1626,7 @@
           <value>2750.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/5b6f6d7a-b406-4c28-8ca9-92f9a52aa803">
+      <magnitude publicID="smi:local/377d294c-48c8-40cd-89f6-86ea7c3c3754">
         <mag>
           <value>2.63</value>
           <uncertainty>0.3</uncertainty>
@@ -1589,7 +1635,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/24688">
-      <origin publicID="smi:local/55248618-9675-449a-ba3a-fad98ecfcd19">
+      <origin publicID="smi:local/502fcbb1-62d5-4a45-bddb-3e68e447b029">
         <time>
           <value>2023-04-15T05:54:40.430000Z</value>
         </time>
@@ -1603,7 +1649,7 @@
           <value>2360.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/1eb83771-3b9d-46e3-a252-145a3f0023b0">
+      <magnitude publicID="smi:local/bf35b21b-57bb-467b-9c72-fe6937f0f510">
         <mag>
           <value>2.71</value>
           <uncertainty>0.3</uncertainty>
@@ -1612,7 +1658,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/25202">
-      <origin publicID="smi:local/4779a030-8822-4ec8-bc19-2005c05faef2">
+      <origin publicID="smi:local/245fcec4-1528-40bf-b611-722d1f770729">
         <time>
           <value>2023-05-08T02:28:34.260000Z</value>
         </time>
@@ -1626,7 +1672,7 @@
           <value>2650.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/347b9911-7cef-42a2-ae04-28dd36c69332">
+      <magnitude publicID="smi:local/253b1fa5-74e9-4c21-92b6-da688b4d0d21">
         <mag>
           <value>3.48</value>
           <uncertainty>0.3</uncertainty>
@@ -1635,7 +1681,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/25214">
-      <origin publicID="smi:local/4162748a-6a93-433a-af55-b5c6f77a8e1b">
+      <origin publicID="smi:local/4cb3a51c-d6fe-40d5-8754-2fe05ffcd423">
         <time>
           <value>2023-05-08T22:33:17.410000Z</value>
         </time>
@@ -1649,7 +1695,7 @@
           <value>2350.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/0040d7f1-730e-443f-ad43-2dd686ae4e5c">
+      <magnitude publicID="smi:local/be1b7e01-38c4-48cf-b8c1-c303c326ad99">
         <mag>
           <value>2.69</value>
           <uncertainty>0.3</uncertainty>
@@ -1658,7 +1704,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/26132">
-      <origin publicID="smi:local/be02dbcc-770c-4f05-a2e1-776892695b9f">
+      <origin publicID="smi:local/70b691f2-6292-4f7e-b464-94ebc3034b73">
         <time>
           <value>2023-06-11T06:44:25.720000Z</value>
         </time>
@@ -1672,7 +1718,7 @@
           <value>2710.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/584d6cdd-4d1b-4e87-93bd-26f2be84612e">
+      <magnitude publicID="smi:local/bb247f0e-f10c-44a9-9eb6-a9b1c91fae92">
         <mag>
           <value>3.56</value>
           <uncertainty>0.3</uncertainty>
@@ -1681,7 +1727,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/26290">
-      <origin publicID="smi:local/0e308579-97f9-4494-a1af-d0290cc89f61">
+      <origin publicID="smi:local/d22bfce0-b6db-45cf-b515-14864c07b0e8">
         <time>
           <value>2023-06-15T15:39:40.320000Z</value>
         </time>
@@ -1695,7 +1741,7 @@
           <value>2790.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/807a5d07-1446-49b9-8ae8-ff569dc52a19">
+      <magnitude publicID="smi:local/326727fc-2301-456b-a9dd-3da5f6ae2cc5">
         <mag>
           <value>2.89</value>
           <uncertainty>0.3</uncertainty>
@@ -1704,7 +1750,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/28790">
-      <origin publicID="smi:local/12c1ae44-54c3-4c02-bf2f-8c19fdee395f">
+      <origin publicID="smi:local/466a0022-4112-4e41-9986-d49eb7ddd7cf">
         <time>
           <value>2023-08-18T00:01:28.290000Z</value>
         </time>
@@ -1718,7 +1764,7 @@
           <value>560.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/2597bade-5d80-453f-a43c-ca30b15b187e">
+      <magnitude publicID="smi:local/259ae838-b86c-4086-9df4-e6bed7497c65">
         <mag>
           <value>2.67</value>
           <uncertainty>0.3</uncertainty>
@@ -1727,7 +1773,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/28837">
-      <origin publicID="smi:local/05b13875-e563-4ed4-975c-a3ca99e6f3d5">
+      <origin publicID="smi:local/79f858a4-e5ba-40df-9f6d-b2ac11821409">
         <time>
           <value>2023-08-18T04:09:59.430000Z</value>
         </time>
@@ -1741,7 +1787,7 @@
           <value>2550.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/0b97ad89-ee49-4d2d-8b58-1d6baf9bddd8">
+      <magnitude publicID="smi:local/0d23ed64-4025-4056-af13-cb631c1e7b23">
         <mag>
           <value>3.2</value>
           <uncertainty>0.3</uncertainty>
@@ -1750,7 +1796,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/28871">
-      <origin publicID="smi:local/98c1a6f5-2452-41bb-acf4-4f16118b7e2d">
+      <origin publicID="smi:local/9903094f-fa51-43a2-9a14-c259edc0f6df">
         <time>
           <value>2023-08-18T04:10:30.410000Z</value>
         </time>
@@ -1764,7 +1810,7 @@
           <value>2250.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/53bfdcab-5943-447b-81f7-d32d29c14855">
+      <magnitude publicID="smi:local/a506e547-48fc-45f5-b4c7-8bc79100de23">
         <mag>
           <value>2.53</value>
           <uncertainty>0.3</uncertainty>
@@ -1773,7 +1819,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/28848">
-      <origin publicID="smi:local/7f0d6185-d9b6-40db-b726-753f182e5126">
+      <origin publicID="smi:local/256629ca-ac71-4dc6-b786-d0ff9e855f37">
         <time>
           <value>2023-08-18T04:18:05.660000Z</value>
         </time>
@@ -1787,7 +1833,7 @@
           <value>2630.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/72a173f5-7169-4ea3-850f-f5e88329b4fd">
+      <magnitude publicID="smi:local/f47c8469-d77b-4624-b1d8-7ec264d7aa3b">
         <mag>
           <value>3.64</value>
           <uncertainty>0.3</uncertainty>
@@ -1796,7 +1842,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/28850">
-      <origin publicID="smi:local/f0ad7bae-9bb2-4758-9355-e78dd5513cec">
+      <origin publicID="smi:local/fa8d1b8d-1d2f-4e05-b22a-98ae160f9430">
         <time>
           <value>2023-08-18T04:22:49.850000Z</value>
         </time>
@@ -1810,7 +1856,7 @@
           <value>2370.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/5b0ad333-2f33-454c-bc22-373abdd1575d">
+      <magnitude publicID="smi:local/2e333f93-349a-42c1-8317-3089bc4b416e">
         <mag>
           <value>3.12</value>
           <uncertainty>0.3</uncertainty>
@@ -1819,7 +1865,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/29141">
-      <origin publicID="smi:local/61aa7f89-8f7f-49b6-81ae-5a1cdba3f14e">
+      <origin publicID="smi:local/17ca0cdf-2420-4827-8f58-9cc7a74c1af3">
         <time>
           <value>2023-08-27T21:14:23.450000Z</value>
         </time>
@@ -1833,7 +1879,7 @@
           <value>2990.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/73746f54-c4be-428a-a025-637bca0bc7c9">
+      <magnitude publicID="smi:local/9c84d26e-c759-43da-b96e-f9a4054e52fd">
         <mag>
           <value>2.61</value>
           <uncertainty>0.3</uncertainty>
@@ -1842,7 +1888,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/29728">
-      <origin publicID="smi:local/124669c4-5589-4e39-ac4f-2c31040da296">
+      <origin publicID="smi:local/d994015a-076b-498b-9ff6-e1806f35cc3b">
         <time>
           <value>2023-09-07T17:45:28.780000Z</value>
         </time>
@@ -1856,7 +1902,7 @@
           <value>2490.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/a78d72a3-304e-4f6c-820d-5f57d6863f39">
+      <magnitude publicID="smi:local/ee2ffa6b-c64c-4d5b-9c06-4d5a7d5eec9d">
         <mag>
           <value>3.79</value>
           <uncertainty>0.3</uncertainty>
@@ -1865,7 +1911,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/29830">
-      <origin publicID="smi:local/5ddab07c-1585-47a2-a44b-7d4261c0d953">
+      <origin publicID="smi:local/8cb58ba8-80ce-4c65-aad7-44a4ba8e0419">
         <time>
           <value>2023-09-12T02:28:50.200000Z</value>
         </time>
@@ -1879,7 +1925,7 @@
           <value>2310.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/9e1ee1ba-3cdc-4da7-8b6f-7e221ae3643b">
+      <magnitude publicID="smi:local/3bc77cf9-e62f-44ce-a933-b266931a7e93">
         <mag>
           <value>2.9</value>
           <uncertainty>0.3</uncertainty>
@@ -1888,7 +1934,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/30053">
-      <origin publicID="smi:local/b6615082-913b-4417-bda3-e837dab8d82d">
+      <origin publicID="smi:local/23842df8-41b3-4caf-921f-1baf52864c67">
         <time>
           <value>2023-09-20T22:54:29.079000Z</value>
         </time>
@@ -1902,7 +1948,7 @@
           <value>2790.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/67d34b3e-cbb5-4597-9100-a69e66bbe897">
+      <magnitude publicID="smi:local/90fc8998-c15d-484a-8076-6b1533d38f28">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -1911,7 +1957,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/30137">
-      <origin publicID="smi:local/0457a364-4eaf-4494-9880-a8adbae70f8f">
+      <origin publicID="smi:local/27775425-d5e3-4a71-a7c6-e73574f22660">
         <time>
           <value>2023-09-22T09:01:59.950000Z</value>
         </time>
@@ -1925,7 +1971,7 @@
           <value>2100.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/ce179db5-32a7-42dc-a7f6-6f2da37210a7">
+      <magnitude publicID="smi:local/568bb885-3bbc-4dae-a077-2f325d4b14f0">
         <mag>
           <value>3.2</value>
           <uncertainty>0.3</uncertainty>
@@ -1934,7 +1980,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/30310">
-      <origin publicID="smi:local/8c0fb8f6-64be-4e93-a91b-7c073af62119">
+      <origin publicID="smi:local/875b0404-1617-4a8b-9d46-00b4209db963">
         <time>
           <value>2023-09-24T15:35:02.029000Z</value>
         </time>
@@ -1948,7 +1994,7 @@
           <value>2980.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/8722695a-e98a-4c9d-9027-9ed3e8da9d78">
+      <magnitude publicID="smi:local/74d832db-5850-4374-b312-704185018a98">
         <mag>
           <value>2.8</value>
           <uncertainty>0.3</uncertainty>
@@ -1957,7 +2003,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/30417">
-      <origin publicID="smi:local/e069b65d-54b1-4963-a872-44afefd8e85f">
+      <origin publicID="smi:local/7e0d806b-803f-43bb-ac65-0de6521f6ab7">
         <time>
           <value>2023-09-26T06:31:43.579000Z</value>
         </time>
@@ -1971,7 +2017,7 @@
           <value>3340.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/70f6a444-aa60-452b-bcf4-a72bf4bc9fb2">
+      <magnitude publicID="smi:local/714866fc-deb5-4dbc-850d-3e45ae0e0f85">
         <mag>
           <value>2.5</value>
           <uncertainty>0.3</uncertainty>
@@ -1980,7 +2026,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/30421">
-      <origin publicID="smi:local/e1ccc9f6-e1f1-4dda-b93f-ef9c98f276af">
+      <origin publicID="smi:local/7f57185a-71a4-47b7-9d3b-7a7c1e8f4450">
         <time>
           <value>2023-09-26T07:10:29.589000Z</value>
         </time>
@@ -1994,7 +2040,7 @@
           <value>3690.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/4879cc9d-f114-4afe-9b14-f5878bbd43d8">
+      <magnitude publicID="smi:local/f7e65786-078f-42c1-ae08-09bd849a7e2b">
         <mag>
           <value>3.3</value>
           <uncertainty>0.3</uncertainty>
@@ -2003,7 +2049,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/30466">
-      <origin publicID="smi:local/67853d5b-6b97-49db-83de-4b4db84adc73">
+      <origin publicID="smi:local/895b9583-58f7-4eeb-ba88-41bd5094dc13">
         <time>
           <value>2023-09-27T01:35:34.349000Z</value>
         </time>
@@ -2017,7 +2063,7 @@
           <value>2830.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/b4853359-bb10-437d-9b22-79144cfb1eda">
+      <magnitude publicID="smi:local/59806767-afe7-4e58-bfbf-67497060b220">
         <mag>
           <value>4.2</value>
           <uncertainty>0.3</uncertainty>
@@ -2026,7 +2072,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/30510">
-      <origin publicID="smi:local/62d9d97d-3591-478e-9223-d036128c6f47">
+      <origin publicID="smi:local/0f58ab21-abd8-4026-add8-843a867d0d05">
         <time>
           <value>2023-09-27T09:16:18.140000Z</value>
         </time>
@@ -2040,7 +2086,7 @@
           <value>280.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/28bdbde8-478a-437a-b800-8afe712c8285">
+      <magnitude publicID="smi:local/c8b9478a-fde2-4f77-92aa-b5e04190deea">
         <mag>
           <value>2.8</value>
           <uncertainty>0.3</uncertainty>
@@ -2049,7 +2095,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/30792">
-      <origin publicID="smi:local/99299d74-2104-48ae-8119-f0b7040adb2e">
+      <origin publicID="smi:local/acb452d6-975e-4724-8986-3dc6dda67267">
         <time>
           <value>2023-09-29T21:57:58.319000Z</value>
         </time>
@@ -2063,7 +2109,7 @@
           <value>2790.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/063b32b7-7717-42f1-8c5f-15b92be1139a">
+      <magnitude publicID="smi:local/addeacc1-a8f2-405d-970d-538fad67d1ed">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -2072,7 +2118,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/30857">
-      <origin publicID="smi:local/bf7b7434-c71c-4f86-b483-d1c858f6519a">
+      <origin publicID="smi:local/cfc86a9a-783b-4e49-bc62-6ab741c0c250">
         <time>
           <value>2023-10-01T13:33:09.019000Z</value>
         </time>
@@ -2086,7 +2132,7 @@
           <value>2460.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/c7e0395a-0753-4d96-9120-6003d5dc4066">
+      <magnitude publicID="smi:local/329cf8b3-9689-46a1-b265-1bc887f5248e">
         <mag>
           <value>2.9</value>
           <uncertainty>0.3</uncertainty>
@@ -2095,7 +2141,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/30898">
-      <origin publicID="smi:local/0d000183-0482-4e05-9865-2652545c464a">
+      <origin publicID="smi:local/e1342868-cd57-4b39-afcb-063c8a974dfc">
         <time>
           <value>2023-10-02T20:08:26.690000Z</value>
         </time>
@@ -2109,7 +2155,7 @@
           <value>2630.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/a40fc0c0-d204-4995-8e42-b33fedd4f085">
+      <magnitude publicID="smi:local/65494003-9859-4b73-ac58-244520eb5677">
         <mag>
           <value>4.0</value>
           <uncertainty>0.3</uncertainty>
@@ -2118,7 +2164,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/31003">
-      <origin publicID="smi:local/cf5e4177-6316-4f75-9917-3375fa3e3eab">
+      <origin publicID="smi:local/ad3c8762-ed11-4a8b-b8da-fbf437a2d838">
         <time>
           <value>2023-10-04T08:46:55.029000Z</value>
         </time>
@@ -2132,7 +2178,7 @@
           <value>2500.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/fb59d7cf-e733-4356-a22c-eb341b9b9367">
+      <magnitude publicID="smi:local/f3ce5996-b369-4e4a-9330-43669c148e53">
         <mag>
           <value>2.6</value>
           <uncertainty>0.3</uncertainty>
@@ -2141,7 +2187,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/31411">
-      <origin publicID="smi:local/ce9e9c23-3e8f-4cd6-b5f4-9aa48913f3db">
+      <origin publicID="smi:local/e0d2d0ed-c1a0-4f36-91da-ff55edf8493b">
         <time>
           <value>2023-10-16T10:36:21.119000Z</value>
         </time>
@@ -2155,7 +2201,7 @@
           <value>2070.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/e2a662df-b934-43c5-8bdc-d99de8d5ab03">
+      <magnitude publicID="smi:local/c0723530-30c0-4993-9e61-b74d219695ad">
         <mag>
           <value>3.6</value>
           <uncertainty>0.3</uncertainty>
@@ -2164,7 +2210,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/31823">
-      <origin publicID="smi:local/27743929-5fcc-4c15-a6be-1d330d619d8f">
+      <origin publicID="smi:local/9f6457d5-3abe-4a57-9d8e-29f3b7b469b9">
         <time>
           <value>2023-11-23T18:41:46.900000Z</value>
         </time>
@@ -2178,7 +2224,7 @@
           <value>2810.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/379a487d-63c7-4503-95ba-f6f325a54e5d">
+      <magnitude publicID="smi:local/627cc087-86de-4bd8-b260-cd65ae0433c6">
         <mag>
           <value>3.0</value>
           <uncertainty>0.3</uncertainty>
@@ -2187,7 +2233,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/2943">
-      <origin publicID="smi:local/ce20ec08-dbb5-4661-bcdb-ac818d7f52bc">
+      <origin publicID="smi:local/2d836281-a96d-4976-8607-e3c540faf8b1">
         <time>
           <value>2020-04-08T00:50:29.280000Z</value>
         </time>
@@ -2201,7 +2247,7 @@
           <value>2250.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/95399625-4a96-4820-8121-907776b18ee7">
+      <magnitude publicID="smi:local/d4ebbc69-41d3-485b-aa1b-fd24cf3783d1">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -2210,7 +2256,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/3020">
-      <origin publicID="smi:local/169d7c5c-49f7-4365-93ac-f8471b586142">
+      <origin publicID="smi:local/88d178eb-bee5-4fa2-ab49-789ef716f241">
         <time>
           <value>2020-04-26T02:41:13.570000Z</value>
         </time>
@@ -2224,7 +2270,7 @@
           <value>2560.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/e4bde333-d13c-42b2-a07b-0c5cc49de9c9">
+      <magnitude publicID="smi:local/4922f36f-4aa8-4da3-ab72-a3f0dfe2963a">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -2233,7 +2279,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/3022">
-      <origin publicID="smi:local/f795824b-6dd1-4ea7-8dba-6e7f7a3d6dd5">
+      <origin publicID="smi:local/d49ea6fe-8782-4ba5-80ea-20f99c1711d4">
         <time>
           <value>2020-04-26T02:59:02.450000Z</value>
         </time>
@@ -2247,7 +2293,7 @@
           <value>2570.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/54e6e537-3e46-44ca-aed1-82ba04ced833">
+      <magnitude publicID="smi:local/9c2409d6-0c4a-4db6-a980-2b0f1fa42043">
         <mag>
           <value>3.3</value>
           <uncertainty>0.3</uncertainty>
@@ -2256,7 +2302,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/4350">
-      <origin publicID="smi:local/f636d7cf-30d0-425c-ac3d-d163acff2cd5">
+      <origin publicID="smi:local/b8e7d2a2-e6ea-436a-9064-df91159c2f7f">
         <time>
           <value>2020-12-19T21:54:53.200000Z</value>
         </time>
@@ -2270,7 +2316,7 @@
           <value>2260.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/562ab3d4-6e17-49d3-bd0f-13e9c53c107a">
+      <magnitude publicID="smi:local/bc98adf1-abc7-44a8-a125-07ebb4d18d7c">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -2279,7 +2325,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/4395">
-      <origin publicID="smi:local/bbbbedf7-4600-4620-9888-6557df6902af">
+      <origin publicID="smi:local/cd151425-856e-4a05-90ae-363568c6ff83">
         <time>
           <value>2020-12-19T21:54:57.430000Z</value>
         </time>
@@ -2293,7 +2339,7 @@
           <value>1680.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/cb901e40-d2b4-47ab-a8b1-aba7846217c8">
+      <magnitude publicID="smi:local/3de9e91f-f76d-48a1-9572-0bb19e6ba87b">
         <mag>
           <value>2.7</value>
           <uncertainty>0.3</uncertainty>
@@ -2302,7 +2348,7 @@
       </magnitude>
     </event>
     <event publicID="smi:local/4417">
-      <origin publicID="smi:local/c27848dc-5d88-41a0-8b4b-242674d1fd6c">
+      <origin publicID="smi:local/c0d00fab-48d9-4b59-90c0-f4c90237fe56">
         <time>
           <value>2020-12-28T08:09:43.020000Z</value>
         </time>
@@ -2316,7 +2362,7 @@
           <value>2310.0</value>
         </depth>
       </origin>
-      <magnitude publicID="smi:local/d81d8c23-4edc-42f9-96d8-33b9f68907ac">
+      <magnitude publicID="smi:local/ed3bdf61-368b-4290-a69f-00d4159809af">
         <mag>
           <value>2.6</value>
           <uncertainty>0.3</uncertainty>
