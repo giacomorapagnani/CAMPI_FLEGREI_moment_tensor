@@ -26,12 +26,12 @@ else:
     # GULF COORD (NEAR)
     minlon=14.07
     maxlon=14.17
-    minlat=40.77
+    minlat=40.78
     maxlat=40.85
     map_name='gulf'
 
 # Create a larger region for better interpolation
-padding = 0.02  # degrees
+padding = 0.05  # Increased padding for better edge interpolation
 region_extended = [
     minlon - padding,
     maxlon + padding,
@@ -39,43 +39,50 @@ region_extended = [
     maxlat + padding
 ]
 
-# Load higher resolution data for a larger area
+# Configure PyGMT settings for high quality output
+pygmt.config(
+    FORMAT_GEO_MAP="ddd.xxF",
+    PS_MEDIA="A3",
+    FONT_ANNOT_PRIMARY="8p",
+    FONT_LABEL="10p"
+)
+
+# Load the initial topography data
 topo_data = pygmt.datasets.load_earth_relief(
     resolution="01s",
     region=region_extended
 )
 
-# Calculate desired spacing in degrees (about 15 meters at this latitude)
-desired_spacing = 0.0001  # approximately 15 meters
+# Calculate ultra-high resolution spacing (approximately 5 meters)
+desired_spacing = 0.00005
 
-# Resample the grid to higher resolution
+# Resample to ultra-high resolution
 topo_resampled = pygmt.grdsample(
     grid=topo_data,
     spacing=[desired_spacing, desired_spacing],
     region=region_extended,
-    interpolation="b"  # Use spline interpolation
+    interpolation="c"  # Cubic spline interpolation
 )
 
-# Apply gradient operations to enhance topographic features
+# Create illumination for enhanced relief
 topo_gradient = pygmt.grdgradient(
     grid=topo_resampled,
     azimuth=45,
-    normalize="e0.7"
+    normalize="t0.5"
 )
 
 # CREATE FIGURE
 fig = pygmt.Figure()
-pygmt.config(FORMAT_GEO_MAP="ddd.xxF")
 
 # Define the actual map region and projection
 region = [minlon, maxlon, minlat, maxlat]
-projection = "M15c"  # 15cm width
+projection = "M20c"  # Increased size for better detail
 
 # Set up the basemap
 fig.basemap(
     region=region,
     projection=projection,
-    frame=["af", "WSen"]  # Properly formatted frame parameter
+    frame=["af", "WSen"]
 )
 
 # Plot the enhanced topography
@@ -83,26 +90,22 @@ fig.grdimage(
     grid=topo_resampled,
     region=region,
     projection=projection,
-    cmap="earth",
     shading=topo_gradient,
-    interpolation="l"  # Linear interpolation for display
+    cmap="gray",
 )
 
-# Add coastlines with corrected parameters
+# Add refined coastlines
 fig.coast(
-    shorelines=["1p,black"],  # Corrected syntax
+    region=region,
+    projection=projection,
+    shorelines="0.1p,black",
     resolution="f",
-    water="lightblue@50"
-)
-
-# Add scale bar
-fig.colorbar(
-    frame=["a200", "x+lElevation", "y+lm"],
-    position="JMR+o0.5c/0c+w8c/0.5c"
+    borders="1/0.1p,black",
+    water="#EBEBEE"
 )
 
 # Add map scale
-fig.basemap(map_scale="jBL+w5k+o0.5c/0.5c+f")
+fig.basemap(map_scale="jBL+w2k+o0.5c/0.5c+f+u")
 
 #   PLOT FOCAL MECHANISM
 filename='catalogue_flegrei_MT_final'             
@@ -193,20 +196,18 @@ fig.plot(
     label='station'
 )
 
-fig.legend(position="JTL+o0.2c/0.2c")
+fig.legend()
 
-# Save with high DPI
+# Save with ultra-high DPI
 if switch_deviatoric:
     fig.savefig(
         f'../../PLOTS/MAPS/{filename}_deviatoric_{map_name}_highres.pdf',
-        crop=True,
-        dpi=600
+        dpi=200,
     )
 else:
     fig.savefig(
         f'../../PLOTS/MAPS/{filename}_dc_{map_name}_highres.pdf',
-        crop=True,
-        dpi=600
+        dpi=200,
     )
 
 fig.show()

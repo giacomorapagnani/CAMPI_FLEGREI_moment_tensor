@@ -26,7 +26,7 @@ else:
     # GULF COORD (NEAR)
     minlon=14.07
     maxlon=14.17
-    minlat=40.77
+    minlat=40.78
     maxlat=40.85
     map_name='gulf'
 
