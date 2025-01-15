@@ -5,8 +5,8 @@ from pyrocko import util, model, io, trace, gmtpy
 import pyrocko.moment_tensor as pmt
 
 workdir='../../'
-catdir =  os.path.join(workdir,'CAT')
-metadatadir =  os.path.join(workdir,'META_DATA')
+catdir = os.path.join(workdir,'CAT')
+metadatadir = os.path.join(workdir,'META_DATA')
 
 ##########################################
 ############## SWITCH ##############
@@ -30,54 +30,79 @@ else:
     maxlat=40.85
     map_name='gulf'
 
-#   CREATE FIGURE
+# Create a larger region for better interpolation
+padding = 0.02  # degrees
+region_extended = [
+    minlon - padding,
+    maxlon + padding,
+    minlat - padding,
+    maxlat + padding
+]
+
+# Load higher resolution data for a larger area
+topo_data = pygmt.datasets.load_earth_relief(
+    resolution="01s",
+    region=region_extended
+)
+
+# Calculate desired spacing in degrees (about 15 meters at this latitude)
+desired_spacing = 0.0001  # approximately 15 meters
+
+# Resample the grid to higher resolution
+topo_resampled = pygmt.grdsample(
+    grid=topo_data,
+    spacing=[desired_spacing, desired_spacing],
+    region=region_extended,
+    interpolation="b"  # Use spline interpolation
+)
+
+# Apply gradient operations to enhance topographic features
+topo_gradient = pygmt.grdgradient(
+    grid=topo_resampled,
+    azimuth=45,
+    normalize="e0.7"
+)
+
+# CREATE FIGURE
 fig = pygmt.Figure()
 pygmt.config(FORMAT_GEO_MAP="ddd.xxF")
 
-# Define the region around the center coordinates
+# Define the actual map region and projection
 region = [minlon, maxlon, minlat, maxlat]
+projection = "M15c"  # 15cm width
 
-# Define the projection with increased width for better detail
-projection = "M8i"  # Increased from 6i to 8i for larger figure
-
-# Calculate grid spacing for higher resolution (approximately 30m)
-spacing = "0.0003"  # About 30 meters at this latitude
-
-# Create high-resolution grid
-topo_data = pygmt.datasets.load_earth_relief(
-    resolution="01s", 
-    region=region,
-    spacing=spacing
-)
-
-# Enhance the grid using continuous curvature splines in tension
-topo_high_res = pygmt.surface(
-    data=None,
-    region=region,
-    spacing=spacing,
-    grid=topo_data,
-    tension="0.25"  # Adjust tension parameter for smoother interpolation
-)
-
-fig.basemap(region=region, projection=projection, frame='a0.05', map_scale='x2c/0.5c+w10')
-
-# Plot the enhanced topography with improved shading
-fig.grdimage(
-    grid=topo_high_res,
+# Set up the basemap
+fig.basemap(
     region=region,
     projection=projection,
-    shading="+a45+ne0.7",  # Enhanced shading parameters
-    cmap="relief",  # Using relief colormap for better topographic visualization
-    transparency=20  # Slight transparency for better feature visibility
+    frame=["af", "WSen"]  # Properly formatted frame parameter
 )
 
-# Plot coastlines with highest resolution
-fig.coast(
-    shorelines="0.5/0.5p,black",
-    resolution="f",
-    water="#EBEBEE",
-    borders="1/0.5p,black"
+# Plot the enhanced topography
+fig.grdimage(
+    grid=topo_resampled,
+    region=region,
+    projection=projection,
+    cmap="earth",
+    shading=topo_gradient,
+    interpolation="l"  # Linear interpolation for display
 )
+
+# Add coastlines with corrected parameters
+fig.coast(
+    shorelines=["1p,black"],  # Corrected syntax
+    resolution="f",
+    water="lightblue@50"
+)
+
+# Add scale bar
+fig.colorbar(
+    frame=["a200", "x+lElevation", "y+lm"],
+    position="JMR+o0.5c/0c+w8c/0.5c"
+)
+
+# Add map scale
+fig.basemap(map_scale="jBL+w5k+o0.5c/0.5c+f")
 
 #   PLOT FOCAL MECHANISM
 filename='catalogue_flegrei_MT_final'             
@@ -99,7 +124,7 @@ for ev in fm_events:
             "mrf": msix[4]* 10**7,
             "mtf": msix[5]* 10**7,
             "exponent": 1
-            }
+        }
 
         name=ev.name.split('_')[1:]
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
@@ -113,7 +138,7 @@ for ev in fm_events:
             scale="0.8c",
             compressionfill="#BD2025",
             extensionfill="white",
-            pen="0.5p,gray30,solid"
+            pen="0.5p,black"
         )
     else:
         moment_tensor_par = {
@@ -121,7 +146,7 @@ for ev in fm_events:
             "dip": ev.moment_tensor.dip1,
             "rake": ev.moment_tensor.rake1,
             "magnitude": ev.magnitude 
-            }
+        }
         name=ev.name.split('_')[1:]
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
@@ -133,7 +158,7 @@ for ev in fm_events:
             scale="0.8c",
             compressionfill="#BD2025",
             extensionfill="white",
-            pen="0.5p,gray30,solid"
+            pen="0.5p,black"
         )
     
     if switch_timestamps:  
@@ -141,7 +166,7 @@ for ev in fm_events:
             text=name_ev,
             x=ev.lon,  
             y=ev.lat + 0.0006,  
-            font="2p,Helvetica,black", 
+            font="6p,Helvetica,black", 
             justify="CM"
         )
 
@@ -158,11 +183,30 @@ for line in f:
 latsta=np.array(latsta)
 lonsta=np.array(lonsta)
 
-fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black", label='station')
+# Plot stations with improved visibility
+fig.plot(
+    x=lonsta,
+    y=latsta,
+    style="t0.4c",
+    fill="#FFCC4E",
+    pen="0.5p,black",
+    label='station'
+)
 
-fig.legend()
-fig.show()
+fig.legend(position="JTL+o0.2c/0.2c")
+
+# Save with high DPI
 if switch_deviatoric:
-    fig.savefig('../../PLOTS/MAPS/'+filename + '_deviatoric_' + map_name + '_highres.pdf', dpi=300)
+    fig.savefig(
+        f'../../PLOTS/MAPS/{filename}_deviatoric_{map_name}_highres.pdf',
+        crop=True,
+        dpi=600
+    )
 else:
-    fig.savefig('../../PLOTS/MAPS/'+filename + '_dc_' + map_name + '_highres.pdf', dpi=300)
+    fig.savefig(
+        f'../../PLOTS/MAPS/{filename}_dc_{map_name}_highres.pdf',
+        crop=True,
+        dpi=600
+    )
+
+fig.show()
