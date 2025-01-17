@@ -1,4 +1,6 @@
-###  PARTICLE MOTION OF CATALOGUE  
+###  PARTICLE MOTION OF CATALOGUE 
+# NOT WORKING
+# INCOMPLETE 
 
 import matplotlib.pyplot as plt
 import numpy as num
