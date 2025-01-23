@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 
 
 # Read the XYZ data
-data = pd.read_csv('/Users/giaco/Downloads/CF-xyz_new.dat', sep='\s+', header=None, names=['lat', 'lon', 'z'])
+#data = pd.read_csv('/Users/giaco/Downloads/CF-xyz_new.dat', sep='\s+', header=None, names=['lat', 'lon', 'z'])
+data = pd.read_csv('/Users/giaco/Downloads/CF_LatLon.txt', sep=',', header=None, names=['lat', 'lon', 'z'])
 
 # Create the grid from XYZ data
 # Adjust the spacing (inc) and region according to your data
@@ -20,7 +21,7 @@ region = [
 grid = pygmt.surface(
     data=data,
     region=region,
-    spacing='0.05s',  # Adjust this value based on your data resolution
+    spacing='0.1s',  # Adjust this value based on your data resolution
 )
 
 # Create the figure and plot 
@@ -43,3 +44,4 @@ fig.grdimage(
 
 # Show the plot
 fig.show()
+fig.savefig('../../PLOTS/map_custom.pdf')
