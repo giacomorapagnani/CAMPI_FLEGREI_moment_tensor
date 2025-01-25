@@ -1,0 +1,97 @@
+# CONFIG in frequency domain, with near network, no pick used. narrow fband
+
+--- !grond.Config
+rundir_template: runs/${problem_name}.grun
+dataset_config: !grond.DatasetConfig
+  stations_path: '../META_DATA/stations_flegrei_INGV_final.pf'
+  events_path: '../CAT/catalogue_flegrei_VLP_gilberto_fix_location.pf'
+  waveform_paths: ['../DATA_VLP/${event_name}']
+  responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_final.xml']
+  extend_incomplete: true
+  #picks_paths: ['../MARKERS/${event_name}']
+  blacklist_paths: ['../BLACKLIST_VLP/${event_name}.black']
+  whitelist_paths: []
+target_groups:
+- !grond.WaveformTargetGroup
+  normalisation_family: 'fd'
+  path: 'fd.near'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: campiflegrei_near
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [Z,T,R]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 0.09
+    fmax: 0.12
+    ffactor: 1.1
+    domain: 'frequency_domain'
+    norm_exponent: 1
+    tmin: '{stored:P}-60.'
+    tmax: '{stored:P}+120.'
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: 'td'
+  path: 'td.near'
+  weight: 1.0
+  interpolation: 'nearest_neighbor'
+  store_id: campiflegrei_near
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [Z,T,R]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 0.09
+    fmax: 0.12
+    ffactor: 1.1
+    domain: 'time_domain'
+    norm_exponent: 1
+    tmin: '{stored:P}-60.'
+    tmax: '{stored:P}+120.'
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+problem_config: !grond.CMTProblemConfig
+  name_template: cmt_LP_oscill_${event_name}
+  norm_exponent: 2
+  ranges:
+    depth: 1000 .. 5000
+    duration: 1. .. 40.
+    east_shift: -6000 .. 6000
+    magnitude: 1. .. 4.
+    north_shift: -6000 .. 6000
+    rmdd: -1.5708 .. 1.5708
+    rmed: -1 .. 1
+    rmee: -1.5708 .. 1.5708
+    rmnd: -1 .. 1
+    rmne: -1 .. 1
+    rmnn: -1.5708 .. 1.5708
+    time: -2.0 .. 3.0 | add
+    frequency: 0.075 .. 0.15
+  distance_min: 100.0
+  mt_type: full
+  stf_type: ResonatorSTF
+analyser_configs:
+- !grond.TargetBalancingAnalyserConfig
+  niterations: 1000
+optimiser_config: !grond.HighScoreOptimiserConfig
+  sampler_phases:
+  - !grond.UniformSamplerPhase
+    niterations: 20000
+    ntries_preconstrain_limit: 1000
+  - !grond.DirectedSamplerPhase
+    niterations: 100000
+    ntries_preconstrain_limit: 1000
+    starting_point: excentricity_compensated
+    sampler_distribution: normal
+    standard_deviation_estimator: median_density_single_chain
+    ntries_sample_limit: 1000
+  chain_length_factor: 8.0
+  nbootstrap: 100
+engine_config: !grond.EngineConfig
+  gf_stores_from_pyrocko_config: true
+  gf_store_superdirs: [../GF_STORES]
+  gf_store_dirs: []
+event_names: []
+event_names_exclude: []
