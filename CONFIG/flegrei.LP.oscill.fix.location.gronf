@@ -53,7 +53,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_LP_oscill_${event_name}
+  name_template: cmt_LP_oscill_fix_location${event_name}
   norm_exponent: 2
   ranges:
     depth: 1000 .. 5000
