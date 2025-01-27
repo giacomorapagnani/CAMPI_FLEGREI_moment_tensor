@@ -33,7 +33,7 @@ catdir=os.path.join(workdir,'CAT')
 
 catname=os.path.join(catdir,'catalogue_flegrei_VLP_gilberto.pf')               # CHANGE catalogue_flegrei_mag_2_5
 
-new_catalogue_name='catalogue_flegrei_MT_final_VLP_2'                           # CHANGE
+new_catalogue_name='catalogue_flegrei_MT_final_VLP'                           # CHANGE
 
 refevents=model.load_events(catname)
 
