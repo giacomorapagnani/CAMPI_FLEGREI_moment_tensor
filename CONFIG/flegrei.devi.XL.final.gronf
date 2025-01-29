@@ -9,6 +9,7 @@ dataset_config: !grond.DatasetConfig
   stations_path: '../META_DATA/stations_flegrei_INGV_final.pf'
   events_path: '../CAT/catalogue_flegrei_mag_2_5_XL.pf'
   waveform_paths: ['../DATA_VLP/${event_name}']
+  #waveform_paths: ..path/to/waveforms work with continous data
   responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_final.xml']
   extend_incomplete: true
   #picks_paths: ['../MARKERS/${event_name}']
