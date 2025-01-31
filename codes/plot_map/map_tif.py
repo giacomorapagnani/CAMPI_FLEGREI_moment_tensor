@@ -1,50 +1,42 @@
-import rasterio
-import numpy as np
 import pygmt
+import rioxarray  # Per leggere il file .tif
+import geopandas as gpd
+from rasterio.warp import transform
 
-# Load the TIF file
-with rasterio.open('/Users/giaco/Downloads/w45090_s10_INGV/w45090_s10.tif') as src:
-    # Read the raster data
-    raster_data = src.read(1)  # Assumes first band
-    
-    # Get geotransform and bounds
-    transform = src.transform
-    bounds = src.bounds
+# Parametri della mappa
+region = [14.07, 14.175, 40.775, 40.855]
 
-# Create temporary grid file
-grid_filename = 'temp_grid.nc'
+# Caricare il file .tif
+topo = rioxarray.open_rasterio('/Users/giaco/Downloads/w45090_s10_INGV/w45090_s10.tif')
 
-# Prepare coordinate meshgrid
-x = np.linspace(bounds.left, bounds.right, raster_data.shape[1])
-y = np.linspace(bounds.bottom, bounds.top, raster_data.shape[0])
-xx, yy = np.meshgrid(x, y)
+# Verificare il sistema di riferimento
+crs = topo.rio.crs
+print("Sistema di riferimento del file:", crs)
 
-# Create grid using GMT
-pygmt.xyz2grd(
-    data=np.column_stack([xx.ravel(), yy.ravel(), raster_data.ravel()]),
-    outgrid=grid_filename,
-    region=[bounds.left, bounds.right, bounds.bottom, bounds.top],
-    spacing=[abs(transform.a), abs(transform.e)]
-)
+# Se necessario, convertire le coordinate
+if crs.to_epsg() != 4326:
+    x, y = topo.x.values, topo.y.values
+    lon, lat = transform(crs, "EPSG:4326", x, y)
+    topo = topo.assign_coords({"x": lon, "y": lat})
 
-# Create a figure
+
+# Creare la figura con PyGMT
 fig = pygmt.Figure()
+fig.basemap(region=region, projection="M10c", frame=["af", "WSne"])
+fig.grdimage(topo, cmap="gray", shading=True)
 
-# Use a custom projection that can handle large coordinate ranges
-fig.basemap(
-    region=[bounds.left, bounds.right, bounds.bottom, bounds.top],
-    projection='X15c',  # Simple linear projection
-    frame=['af', 'WSen']  # Add grid lines and annotations
-)
+# Aggiungere i terremoti
+earthquakes = [
+    (40.828671, 14.148), (40.83017, 14.1493), (40.826672, 14.143),
+    (40.829498, 14.148), (40.82917, 14.15), (40.831329, 14.145),
+    (40.8283, 14.1352), (40.8293, 14.1507), (40.828201, 14.142),
+    (40.827301, 14.140), (40.809799, 14.117), (40.827202, 14.133),
+    (40.8032, 14.1108)
+]
 
-# Plot the grid
-fig.grdimage(
-    grid=grid_filename,
-    cmap='relief'
-)
+# Convertire la lista in un array per PyGMT
+lon, lat = zip(*earthquakes)
+fig.plot(x=lat, y=lon, style="c0.2c", fill="#0066cc", pen="black")
 
-# Add a colorbar
-fig.colorbar(frame='+l"Elevation"')
-
-# Save the figure
-fig.savefig('output_map.png')
+# Mostrare la mappa
+fig.show()
