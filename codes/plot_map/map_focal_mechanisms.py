@@ -13,7 +13,7 @@ metadatadir =  os.path.join(workdir,'META_DATA')
 ##########################################
 # COORDINATES FOR GULF MAP OR POZZUOLI MAP
 
-switch_coord_pozzuoli=True
+switch_coord_pozzuoli=False
 
 if switch_coord_pozzuoli:
     # POZZUOLI COORD (SUPERNEAR)
@@ -25,9 +25,9 @@ if switch_coord_pozzuoli:
 else:
     # GULF COORD (NEAR)
     minlon=14.07
-    maxlon=14.17
-    minlat=40.78
-    maxlat=40.85
+    maxlon=14.175
+    minlat=40.775
+    maxlat=40.855
     map_name='gulf'
 
 #   CREATE FIGURE
@@ -58,13 +58,13 @@ fm_events = model.load_events(events_name)
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_deviatoric=True                                                                                                                               
+switch_deviatoric=False                                                                                                                               
 
 # TRUE if you want timestamps
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_timestamps=True                                                                 
+switch_timestamps=False                                                                 
 
 
 # loop on events in catalogue and plot FM
@@ -116,7 +116,7 @@ for ev in fm_events:
             )
 
 #   STATIONS
-f=open(metadatadir + '/stations_flegrei_INGV.pf','r')
+f=open(metadatadir + '/stations_flegrei_INGV_final.pf','r')
 latsta=[]
 lonsta=[]
 namsta=[]
