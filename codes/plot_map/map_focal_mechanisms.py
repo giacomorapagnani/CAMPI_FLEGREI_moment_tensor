@@ -40,7 +40,7 @@ region = [minlon, maxlon, minlat, maxlat]
 # Define the projection
 projection = "M6i"  # Mercator projection with a 6-inch width
 
-fig.basemap(region=region,projection=projection, frame='a0.05', map_scale='x2c/0.5c+w10')
+fig.basemap(region=region,projection=projection, frame='a0.05', map_scale='x3c/-0.7c+w3')
 # Load high-resolution topography data (1 arc-second resolution)
 topo_data = pygmt.datasets.load_earth_relief(resolution="01s", region=region)
 
@@ -58,7 +58,7 @@ fm_events = model.load_events(events_name)
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_deviatoric=False                                                                                                                               
+switch_deviatoric=True                                                                                                                               
 
 # TRUE if you want timestamps
 ##########################################
@@ -90,7 +90,12 @@ for ev in fm_events:
         name=ev.name.split('_')[1:]
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
-        fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
+        MT_white=False
+        if MT_white:
+            fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
+                    scale="1.7c", compressionfill="white",extensionfill="white", pen="1p,black",outline="2p,black")
+        else:
+            fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
                     scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid") 
     else:
         moment_tensor_par = {

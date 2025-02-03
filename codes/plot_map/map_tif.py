@@ -2,6 +2,12 @@ import pygmt
 import rioxarray  # Per leggere il file .tif
 import geopandas as gpd
 from rasterio.warp import transform
+import os
+import numpy as np
+
+workdir='../../'
+catdir =  os.path.join(workdir,'CAT')
+metadatadir =  os.path.join(workdir,'META_DATA')
 
 # Parametri della mappa
 region = [14.07, 14.175, 40.775, 40.855]
@@ -15,6 +21,7 @@ print("Sistema di riferimento del file:", crs)
 
 # Se necessario, convertire le coordinate
 if crs.to_epsg() != 4326:
+    print("trasforma sistema di riferimento")
     x, y = topo.x.values, topo.y.values
     lon, lat = transform(crs, "EPSG:4326", x, y)
     topo = topo.assign_coords({"x": lon, "y": lat})
@@ -22,21 +29,35 @@ if crs.to_epsg() != 4326:
 
 # Creare la figura con PyGMT
 fig = pygmt.Figure()
-fig.basemap(region=region, projection="M10c", frame=["af", "WSne"])
+fig.basemap(region=region, projection="M6i", frame='a0.05', map_scale='x2c/0.5c+w10')
 fig.grdimage(topo, cmap="gray", shading=True)
 
 # Aggiungere i terremoti
-earthquakes = [
-    (40.828671, 14.148), (40.83017, 14.1493), (40.826672, 14.143),
-    (40.829498, 14.148), (40.82917, 14.15), (40.831329, 14.145),
-    (40.8283, 14.1352), (40.8293, 14.1507), (40.828201, 14.142),
-    (40.827301, 14.140), (40.809799, 14.117), (40.827202, 14.133),
-    (40.8032, 14.1108)
-]
+f=open(catdir + '/catalogue_flegrei_mag_2_5.txt','r')
+latevf=[]
+lonevf=[]
+magevf=[]
+for line in f:
+    toks=line.split()
+    latevf.append(eval(toks[2]))
+    lonevf.append(eval(toks[3]))
+    #namsta.append(toks[0])
+latevf=np.array(latevf)
+lonevf=np.array(lonevf)
 
-# Convertire la lista in un array per PyGMT
-lon, lat = zip(*earthquakes)
-fig.plot(x=lat, y=lon, style="c0.2c", fill="#0066cc", pen="black")
+minlon=14.07
+maxlon=14.175
+minlat=40.775
+maxlat=40.855
+
+evf=[] # mag>2.5
+for elat,elon in zip(latevf,lonevf):
+    if (elon>minlon and elon<maxlon) and (elat>minlat and elat<maxlat):
+        evf.append([elon,elat])
+evf=np.array(evf)
+
+fig.plot(x=evf[:,0], y=evf[:,1], style="c0.2c", fill="#0066cc", pen="black", label='event selected') # blue filling
+
 
 # Mostrare la mappa
 fig.show()
