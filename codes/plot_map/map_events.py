@@ -7,15 +7,15 @@ catdir =  os.path.join(workdir,'CAT')
 metadatadir =  os.path.join(workdir,'META_DATA')
 
 #    ALL EVENTS IN CATALOGUE GOSSIP
-f=open(catdir + '/GOSSIP/catalogue_flegrei_GOSSIP.txt','r')
-#f=open(catdir + '/INGV/catalogue_flegrei_INGV.txt','r')
+f=open(catdir + '/GOSSIP/catalogue_flegrei_GOSSIP_filtered.txt','r')
 latev=[]
 lonev=[]
 magev=[]
+next(f)
 for line in f:
-    toks=line.split()
-    latev.append(eval(toks[2]))
-    lonev.append(eval(toks[3]))
+    toks=line.split(',')
+    latev.append(eval(toks[1]))
+    lonev.append(eval(toks[2]))
     #namsta.append(toks[0])
 latev=np.array(latev)
 lonev=np.array(lonev)
@@ -69,7 +69,7 @@ region = [minlon, maxlon, minlat, maxlat]
 # Define the projection
 projection = "M6i"  # Mercator projection with a 6-inch width
 
-fig.basemap(region=region,projection=projection, frame='a0.05', map_scale='x2c/0.5c+w10')
+fig.basemap(region=region,projection=projection, frame='a0.05', map_scale='x3c/-0.7c+w3')
 # Load high-resolution topography data (1 arc-second resolution)
 topo_data = pygmt.datasets.load_earth_relief(resolution="01s", region=region)
 
@@ -98,9 +98,9 @@ for elat,elon in zip(latev_ex,lonev_ex):
 evex=np.array(evex)
 
 # Plot the seismic events               
-fig.plot(x=ev[:,0], y=ev[:,1], style="c0.1c", fill="#BD2025", pen="#BD2025", label='event in catalogue',transparency=70) # red filling
-fig.plot(x=evex[:,0], y=evex[:,1], style="c0.15c", fill="gray", pen="black", label='event excluded') # gray filling
-fig.plot(x=evf[:,0], y=evf[:,1], style="c0.2c", fill="#0066cc", pen="black", label='event selected') # blue filling
+fig.plot(x=ev[:,0], y=ev[:,1], style="c0.15c", fill="#BD2025", pen="#BD2025", label='event in catalogue',transparency=50) # red filling
+fig.plot(x=evex[:,0], y=evex[:,1], style="c0.20c", fill="gray", pen="black", label='event excluded') # gray filling
+fig.plot(x=evf[:,0], y=evf[:,1], style="c0.30c", fill="#0066cc", pen="0.5p,black", label='event selected') # blue filling
 
 #   STATIONS NETWORK
 f=open(metadatadir + '/stations_flegrei_INGV_final.pf','r')
