@@ -93,7 +93,7 @@ for ev in fm_events:
         MT_white=True
         if MT_white:
             fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
-                    scale="1.7c", compressionfill="white",extensionfill="white", pen="1p,black",outline="2p,black")
+                    scale="1.2c", compressionfill="white",extensionfill="white", pen="1p,black",outline="1p,black")
         else:
             fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
                     scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid") 
