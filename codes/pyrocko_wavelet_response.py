@@ -31,8 +31,8 @@ import geopy.distance
 
 workdir='../'
 
-datadir=os.path.join(workdir,'DATA')                                         #CHANGE
-newdatadir=os.path.join(workdir,'DATA_response')                             #CHANGE
+datadir=os.path.join(workdir,'DATA_VLP')                                         #CHANGE
+newdatadir=os.path.join(workdir,'DATA_VLP_response')                             #CHANGE
 
 ###################################
 meta_datadir=os.path.join(workdir,'META_DATA')
@@ -64,8 +64,8 @@ for file in os.listdir(datadir):
         w.detrend("demean")
         
         #remove instrumental response
-        pre_filt = [0.1, 0.2, 20,30]       # for small eq
-        #pre_filt = [0.02, 0.04, 10,15]       # for big eq
+        #pre_filt = [0.1, 0.2, 20,30]       # for small eq
+        pre_filt = [0.01, 0.03, 10,15]       # for big eq
 
 
         #remove instrumental response
