@@ -24,7 +24,7 @@ from pyrocko import util
 workdir= '../'
 catdir =  os.path.join(workdir,'CAT')
 meta_data_dir= os.path.join(workdir,'META_DATA')
-stations_xml_name=os.path.join(meta_data_dir,'stations_flegrei_INGV.xml')          #CHANGE
+stations_xml_name=os.path.join(meta_data_dir,'stations_flegrei_INGV_simone.xml')          #CHANGE
 
 
 #%%% list of stations with GURALP CMG-40T-60S sensor

@@ -1,16 +1,15 @@
-# FINAL(?) CONFIG made from 'flegrei.devi.XL.only.td.v2'
+# FINAL(?) CONFIG made from 'flegrei.devi.m44.near.fullwave.td'
 # CONFIG in time domain, with near and far networks, no pick used. smaller depth intervall
 # frequency intervals:
 # near td: 0.5-2.0  Hz
-# far  td: 0.05-0.1 Hz
+# far  td: 0.03-0.8 Hz
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
-  stations_path: '../META_DATA/stations_flegrei_INGV_final.pf'
+  stations_path: '../META_DATA/stations_flegrei_INGV_simone.pf'
   events_path: '../CAT/catalogue_flegrei_mag_2_5_XL.pf'
   waveform_paths: ['../DATA_VLP/${event_name}']
-  #waveform_paths: ..path/to/waveforms work with continous data
-  responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_final.xml']
+  responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_simone.xml']
   extend_incomplete: true
   #picks_paths: ['../MARKERS/${event_name}']
   blacklist_paths: ['../BLACKLIST/${event_name}.black']
@@ -19,12 +18,12 @@ target_groups:
 - !grond.WaveformTargetGroup
   normalisation_family: 'td'
   path: 'td.near'
-  weight: 1.0
+  weight: 0.8
   interpolation: 'nearest_neighbor'
   store_id: campiflegrei_near
-  distance_min: 0.1e3
+  distance_min: 3e3
   distance_max: 10e3
-  channels: [Z,T,R]
+  channels: [Z, R, T]
   exclude: []
   misfit_config: !grond.WaveformMisfitConfig
     fmin: 0.5
@@ -39,39 +38,39 @@ target_groups:
 - !grond.WaveformTargetGroup
   normalisation_family: 'td'
   path: 'td.far'
-  weight: 0.6
+  weight: 1.0
   interpolation: 'nearest_neighbor'
-  store_id: campiflegrei_far
-  distance_min: 10e3
-  distance_max: 60e3
-  channels: [R,Z,T]
+  store_id: crust2_2hz_m1
+  distance_min: 20e3
+  distance_max: 120e3
+  channels: [Z, R, T]
   exclude: []
   misfit_config: !grond.WaveformMisfitConfig
-    fmin: 0.05
-    fmax: 0.1
+    fmin: 0.03
+    fmax: 0.08
     ffactor: 1.5
     domain: 'time_domain'
     norm_exponent: 1
-    tmin: '{stored:any_P}-5'
-    tmax: '{vel_surface:2.0}'
+    tmin: '{stored:any_P}-5.'
+    tmax: '{vel_surface:2.0}+5.'
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_devi_XL_final_${event_name}
+  name_template: cmt_devi_XXL_final_${event_name}
   norm_exponent: 2
   ranges:
-    depth: 100 .. 5000
+    depth: 1000 .. 5000
     duration: 0.1 .. 0.1
-    east_shift: -4000 .. 4000
-    magnitude: 1. .. 4.
-    north_shift: -4000 .. 4000
+    east_shift: -7000 .. 7000
+    magnitude: 3. .. 5.
+    north_shift: -7000 .. 7000
     rmdd: -1.5708 .. 1.5708
     rmed: -1 .. 1
     rmee: -1.5708 .. 1.5708
     rmnd: -1 .. 1
     rmne: -1 .. 1
     rmnn: -1.5708 .. 1.5708
-    time: -2.0 .. 3.0 | add
+    time: -1. .. 4. | add
   distance_min: 100.0
   mt_type: deviatoric
 analyser_configs:
@@ -83,6 +82,8 @@ optimiser_config: !grond.HighScoreOptimiserConfig
     niterations: 20000
     ntries_preconstrain_limit: 1000
   - !grond.DirectedSamplerPhase
+    scatter_scale_begin: 2.5
+    scatter_scale_end: 1.5
     niterations: 100000
     ntries_preconstrain_limit: 1000
     starting_point: excentricity_compensated
