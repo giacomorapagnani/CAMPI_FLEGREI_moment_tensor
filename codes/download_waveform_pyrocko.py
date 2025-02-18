@@ -54,7 +54,7 @@ print(stations)
 ################################################################################
 
 # download waveforms strarting from this data:
-date_start_download='2025-02-17 16:00:00.000'                               #CHANGE
+date_start_download='2025-02-16 20:00:00.000'                               #CHANGE
 sec_start_download=util.str_to_time(date_start_download)
 
 count=1
