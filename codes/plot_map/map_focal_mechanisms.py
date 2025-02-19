@@ -42,15 +42,15 @@ projection = "M6i"  # Mercator projection with a 6-inch width
 
 fig.basemap(region=region,projection=projection, frame='a0.05', map_scale='x3c/-0.7c+w3')
 # Load high-resolution topography data (1 arc-second resolution)
-topo_data = pygmt.datasets.load_earth_relief(resolution="01s", region=region)
+#topo_data = pygmt.datasets.load_earth_relief(resolution="01s", region=region)
 
 # Plot the topography with shading
-fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45+ne0.5", cmap="gray")
+#fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45+ne0.5", cmap="gray")
 # Plot coastlines with high resolution
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-filename='catalogue_flegrei_MT_final_VLP_reloc'             ###CHANGE###  'catalogue_flegrei_MT_final'
+filename='catalogue_flegrei_MT_final_VLP_2_reloc'             ###CHANGE###  'catalogue_flegrei_MT_final'
 events_name=os.path.join(catdir,filename+'.pf')              
 fm_events = model.load_events(events_name)
 
@@ -64,7 +64,7 @@ switch_deviatoric=True
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_timestamps=False                                                                 
+switch_timestamps=True                                                                 
 
 
 # loop on events in catalogue and plot FM
@@ -90,7 +90,7 @@ for ev in fm_events:
         name=ev.name.split('_')[1:]
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
-        MT_white=True
+        MT_white=False
         if MT_white:
             fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
                     scale="1.2c", compressionfill="white",extensionfill="white", pen="1p,black",outline="1p,black")

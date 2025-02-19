@@ -54,12 +54,14 @@ print(stations)
 ################################################################################
 
 # download waveforms strarting from this data:
-date_start_download='2025-02-16 20:00:00.000'                               #CHANGE
+date_start_download='2005-02-16 20:00:00.000'                               #CHANGE
 sec_start_download=util.str_to_time(date_start_download)
+date_end_download='2026-01-01 00:00:00.000'                               #CHANGE
+sec_end_download=util.str_to_time(date_end_download)
 
 count=1
 for ev in cat:
-    if ev.time>=sec_start_download:
+    if ev.time>=sec_start_download and ev.time<=sec_end_download:
         evID=ev.name
 
         #transform UTC time
