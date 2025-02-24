@@ -71,7 +71,7 @@ problem_config: !grond.CMTProblemConfig
     rmnd: -1 .. 1
     rmne: -1 .. 1
     rmnn: -1.5708 .. 1.5708
-    time: -2.0 .. 3.0 | add
+    time: -2.0 .. 1.0 | add
   distance_min: 100.0
   mt_type: deviatoric
 analyser_configs:

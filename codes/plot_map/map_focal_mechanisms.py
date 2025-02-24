@@ -64,7 +64,7 @@ switch_deviatoric=True
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_timestamps=True                                                                 
+switch_timestamps=False                                                                 
 
 
 # loop on events in catalogue and plot FM
@@ -90,7 +90,7 @@ for ev in fm_events:
         name=ev.name.split('_')[1:]
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
-        MT_white=False
+        MT_white=True
         if MT_white:
             fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
                     scale="1.2c", compressionfill="white",extensionfill="white", pen="1p,black",outline="1p,black")
