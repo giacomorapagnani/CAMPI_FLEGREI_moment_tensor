@@ -50,7 +50,7 @@ fig.basemap(region=region,projection=projection, frame='a0.05', map_scale='x3c/-
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-filename='catalogue_flegrei_MT_final_VLP_2_reloc'             ###CHANGE###  'catalogue_flegrei_MT_final'
+filename='catalogue_flegrei_MT_final'             ###CHANGE###  'catalogue_flegrei_MT_final'
 events_name=os.path.join(catdir,filename+'.pf')              
 fm_events = model.load_events(events_name)
 
@@ -58,13 +58,13 @@ fm_events = model.load_events(events_name)
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_deviatoric=True                                                                                                                               
+switch_deviatoric=False                                                                                                                               
 
 # TRUE if you want timestamps
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_timestamps=False                                                                 
+switch_timestamps=True                                                                 
 
 
 # loop on events in catalogue and plot FM
@@ -90,7 +90,7 @@ for ev in fm_events:
         name=ev.name.split('_')[1:]
         name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
-        MT_white=True
+        MT_white=False
         if MT_white:
             fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
                     scale="1.2c", compressionfill="white",extensionfill="white", pen="1p,black",outline="1p,black")
