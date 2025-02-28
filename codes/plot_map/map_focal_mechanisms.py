@@ -42,10 +42,10 @@ projection = "M6i"  # Mercator projection with a 6-inch width
 
 fig.basemap(region=region,projection=projection, frame='a0.05', map_scale='x3c/-0.7c+w3')
 # Load high-resolution topography data (1 arc-second resolution)
-#topo_data = pygmt.datasets.load_earth_relief(resolution="01s", region=region)
+topo_data = pygmt.datasets.load_earth_relief(resolution="01s", region=region)
 
 # Plot the topography with shading
-#fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45+ne0.5", cmap="gray")
+fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45+ne0.5", cmap="gray")
 # Plot coastlines with high resolution
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
@@ -58,13 +58,13 @@ fm_events = model.load_events(events_name)
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_deviatoric=False                                                                                                                               
+switch_deviatoric=True                                                                                                                               
 
 # TRUE if you want timestamps
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_timestamps=True                                                                 
+switch_timestamps=False                                                                 
 
 
 # loop on events in catalogue and plot FM
