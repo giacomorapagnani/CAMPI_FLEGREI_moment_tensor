@@ -28,7 +28,7 @@ import urllib.request
 
 workdir='../'
 reportdir=os.path.join(workdir,'report')                                #main report dir
-#reportdir=os.path.join(workdir,'../FULL_DC_runs_and_report/report')        #cd and full report dir
+#reportdir=os.path.join(workdir,'../FULL_and_DC_report/report')        #cd and full report dir
 catdir=os.path.join(workdir,'CAT')
 
 catname=os.path.join(catdir,'catalogue_flegrei_mag_2_5.pf')    # CHANGE  catalogue_flegrei_VLP_gilberto catalogue_flegrei_mag_2_5

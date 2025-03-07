@@ -50,7 +50,7 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-filename='catalogue_flegrei_MT_final'             ###CHANGE###  'catalogue_flegrei_MT_final'
+filename='catalogue_flegrei_MT_final_DC'             ###CHANGE###  'catalogue_flegrei_MT_final'
 events_name=os.path.join(catdir,filename+'.pf')              
 fm_events = model.load_events(events_name)
 
@@ -137,7 +137,7 @@ lonsta=np.array(lonsta)
 fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black") # yelow filling
 #fig.text(x=lonsta+0.005, y=latsta+0.002, text=namsta, justify='BR',font='5p',fill="#FFCC4E")
 
-fig.legend()
+#fig.legend()
 fig.show()
 if switch_deviatoric:
     fig.savefig('../../PLOTS/MAPS/'+filename + '_deviatoric_' + map_name + '.pdf')
