@@ -48,7 +48,7 @@ target_groups:
   misfit_config: !grond.WaveformMisfitConfig
     fmin: 0.03
     fmax: 0.08
-    ffactor: 1.5
+    ffactor: 1.25
     domain: 'time_domain'
     norm_exponent: 1
     tmin: '{stored:any_P}-5.'

@@ -56,7 +56,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
-  name_template: cmt_full_XXL_final_${event_name}
+  name_template: cmt_devi_XXL_final_3_${event_name}
   norm_exponent: 2
   ranges:
     depth: 1000 .. 5000
@@ -70,9 +70,9 @@ problem_config: !grond.CMTProblemConfig
     rmnd: -1 .. 1
     rmne: -1 .. 1
     rmnn: -1.5708 .. 1.5708
-    time: -1. .. 4. | add
+    time: -1. .. 1. | add
   distance_min: 100.0
-  mt_type: full
+  mt_type: deviatoric
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
   niterations: 1000
