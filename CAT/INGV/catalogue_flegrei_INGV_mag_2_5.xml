@@ -1,6 +1,302 @@
 <?xml version='1.0' encoding='utf-8'?>
 <q:quakeml xmlns="http://quakeml.org/xmlns/bed/1.2" xmlns:q="http://quakeml.org/xmlns/quakeml/1.2" xmlns:ns0="http://webservices.ingv.it/fdsnws/event/1">
-  <eventParameters publicID="smi:local/a85fa7ff-3b18-479d-96eb-9bbca4891958">
+  <eventParameters publicID="smi:local/949d9b64-c4c3-4534-a569-5e41c99fda06">
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=41908352">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=135085111</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=145063091</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2025-03-13T00:39:04.000000Z</creationTime>
+        <ns0:id_locator>44246</ns0:id_locator>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=135085111">
+        <time>
+          <value>2025-03-13T00:25:02.509000Z</value>
+        </time>
+        <latitude>
+          <value>40.8175</value>
+        </latitude>
+        <longitude>
+          <value>14.149</value>
+        </longitude>
+        <depth>
+          <value>2500.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>16</associatedPhaseCount>
+          <usedPhaseCount>16</usedPhaseCount>
+          <associatedStationCount>9</associatedStationCount>
+          <usedStationCount>9</usedStationCount>
+          <standardError>0.08</standardError>
+          <azimuthalGap>140.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2025-03-13T00:39:01.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>DD</ns0:quality>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>400.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=145063091">
+        <mag>
+          <value>4.4</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=135085111</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2025-03-13T00:39:01.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=41892682">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=135045921</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=145016541</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#SiSmi</author>
+        <creationTime>2025-03-11T02:27:04.000000Z</creationTime>
+        <ns0:id_locator>44086</ns0:id_locator>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=135045921">
+        <time>
+          <value>2025-03-11T02:04:09.559000Z</value>
+        </time>
+        <latitude>
+          <value>40.827</value>
+        </latitude>
+        <longitude>
+          <value>14.138167</value>
+        </longitude>
+        <depth>
+          <value>2390.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>1</associatedPhaseCount>
+          <usedPhaseCount>1</usedPhaseCount>
+          <associatedStationCount>0</associatedStationCount>
+          <usedStationCount>0</usedStationCount>
+          <standardError>0.08</standardError>
+          <azimuthalGap>66.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2025-03-11T02:27:04.000000Z</creationTime>
+          <version>200</version>
+          <ns0:quality>DD</ns0:quality>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>200.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=145016541">
+        <mag>
+          <value>3.0</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=135045921</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2025-03-11T02:27:04.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=41883812">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=135021901</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=144992181</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#SiSmi</author>
+        <creationTime>2025-03-10T00:21:02.000000Z</creationTime>
+        <ns0:id_locator>44043</ns0:id_locator>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=135021901">
+        <time>
+          <value>2025-03-09T23:59:14.549000Z</value>
+        </time>
+        <latitude>
+          <value>40.830333</value>
+        </latitude>
+        <longitude>
+          <value>14.083333</value>
+        </longitude>
+        <depth>
+          <value>3500.0</value>
+          <uncertainty>400.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>1</associatedPhaseCount>
+          <usedPhaseCount>1</usedPhaseCount>
+          <associatedStationCount>0</associatedStationCount>
+          <usedStationCount>0</usedStationCount>
+          <standardError>0.06</standardError>
+          <azimuthalGap>122.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2025-03-10T00:21:02.000000Z</creationTime>
+          <version>200</version>
+          <ns0:quality>DD</ns0:quality>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>300.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=144992181">
+        <mag>
+          <value>2.6</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=135021901</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2025-03-10T00:21:02.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=41859192">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=134960231</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=144921601</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#SiSmi</author>
+        <creationTime>2025-03-06T23:57:02.000000Z</creationTime>
+        <ns0:id_locator>43940</ns0:id_locator>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=134960231">
+        <time>
+          <value>2025-03-06T23:38:43.099000Z</value>
+        </time>
+        <latitude>
+          <value>40.823833</value>
+        </latitude>
+        <longitude>
+          <value>14.135</value>
+        </longitude>
+        <depth>
+          <value>810.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>1</associatedPhaseCount>
+          <usedPhaseCount>1</usedPhaseCount>
+          <associatedStationCount>0</associatedStationCount>
+          <usedStationCount>0</usedStationCount>
+          <standardError>0.1</standardError>
+          <azimuthalGap>64.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2025-03-06T23:57:01.000000Z</creationTime>
+          <version>200</version>
+          <ns0:quality>DD</ns0:quality>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>100.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=144921601">
+        <mag>
+          <value>3.2</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=134960231</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2025-03-06T23:57:01.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
     <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=41756082">
       <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=134645541</preferredOriginID>
       <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=144574671</preferredMagnitudeID>
@@ -441,6 +737,80 @@
           <agencyID>INGV</agencyID>
           <author>SURVEY-INGV-OV#SiSmi</author>
           <creationTime>2025-02-17T20:42:03.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=41610421">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=135076851</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=145053301</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2025-03-12T14:33:42.000000Z</creationTime>
+        <ns0:id_locator>42682</ns0:id_locator>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=135076851">
+        <time>
+          <value>2025-02-17T20:23:44.000000Z</value>
+        </time>
+        <latitude>
+          <value>40.828667</value>
+        </latitude>
+        <longitude>
+          <value>14.140167</value>
+        </longitude>
+        <depth>
+          <value>1860.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>26</associatedPhaseCount>
+          <usedPhaseCount>26</usedPhaseCount>
+          <associatedStationCount>21</associatedStationCount>
+          <usedStationCount>21</usedStationCount>
+          <standardError>0.08</standardError>
+          <azimuthalGap>63.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2025-03-12T14:33:42.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>DD</ns0:quality>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>100.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=145053301">
+        <mag>
+          <value>2.6</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=135076851</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2025-03-12T14:33:42.000000Z</creationTime>
           <ns0:mag_quality>A</ns0:mag_quality>
         </creationInfo>
       </magnitude>
