@@ -50,7 +50,7 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-filename='catalogue_flegrei_MT_final_2'             ###CHANGE###  'catalogue_flegrei_MT_final'
+filename='catalogue_flegrei_MT_final'             ###CHANGE###  'catalogue_flegrei_MT_final'
 events_name=os.path.join(catdir,filename+'.pf')              
 fm_events = model.load_events(events_name)
 
@@ -64,7 +64,7 @@ switch_deviatoric=False
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_timestamps=True                                                                 
+switch_timestamps=False                                                                 
 
 
 # loop on events in catalogue and plot FM

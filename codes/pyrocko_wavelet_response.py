@@ -54,7 +54,7 @@ for file in os.listdir(datadir):
 
         waveletdir=os.path.join(newdatadir,name)
         wavelet_name= os.path.join(waveletdir,name)  
-        if os.path.isdir(waveletdir):
+        if os.path.isdir(waveletdir): # check if file already exist
             continue
         else:
             #select wavelet (obspy)  
