@@ -4,7 +4,7 @@ import os
 from pyrocko import util, model, io, trace, gmtpy
 import pyrocko.moment_tensor as pmt
 
-workdir='../../'
+workdir='../'
 catdir =  os.path.join(workdir,'CAT')
 metadatadir =  os.path.join(workdir,'META_DATA')
 
@@ -140,6 +140,6 @@ fig.plot(x=lonsta, y=latsta, style="t0.3", fill="#FFCC4E", pen="black") # yelow 
 #fig.legend()
 fig.show()
 if switch_deviatoric:
-    fig.savefig('../../PLOTS/MAPS/'+filename + '_deviatoric_' + map_name + '.pdf')
+    fig.savefig('../PLOTS/MAPS/'+filename + '_deviatoric_' + map_name + '.pdf')
 else:
-    fig.savefig('../../PLOTS/MAPS/'+filename + '_dc_' + map_name + '.pdf')
+    fig.savefig('../PLOTS/MAPS/'+filename + '_dc_' + map_name + '.pdf')
