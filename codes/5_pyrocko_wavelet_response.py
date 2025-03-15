@@ -31,8 +31,18 @@ import geopy.distance
 
 workdir='../'
 
-datadir=os.path.join(workdir,'DATA_VLP')                                         #CHANGE
-newdatadir=os.path.join(workdir,'DATA_VLP_response')                             #CHANGE
+switch_VLP=False                         # SWITCH
+
+if switch_VLP:
+    dataname='DATA_VLP'
+    responsedataname='DATA_VLP_response'
+else:
+    dataname='DATA'
+    responsedataname='DATA_response'
+
+
+datadir=os.path.join(workdir,dataname)
+newdatadir=os.path.join(workdir,responsedataname)
 
 ###################################
 meta_datadir=os.path.join(workdir,'META_DATA')

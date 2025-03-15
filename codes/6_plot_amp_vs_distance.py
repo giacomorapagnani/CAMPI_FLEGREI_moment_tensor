@@ -32,8 +32,7 @@ import geopy.distance
 workdir='../'
 
 plotdir =  os.path.join(workdir,'PLOTS')
-plotdir =  os.path.join(plotdir,'AMP_DIST')                                         #CHANGE
-#plotdir =  os.path.join(plotdir,'big_eq')                                       #SWITCH
+plotdir =  os.path.join(plotdir,'AMP_DIST')                                        
 
 catdir =  os.path.join(workdir,'CAT')
 meta_datadir=os.path.join(workdir,'META_DATA')
@@ -183,11 +182,12 @@ for file in os.listdir(datadir):
 
             plt.savefig(figname)
 
-            figname_svg = os.path.join(plotdir, name + '_amplitude_vs_distance.svg')
-            if os.path.isfile(figname_svg):
-                os.remove(figname_svg)
+            # SVG format
+            #figname_svg = os.path.join(plotdir, name + '_amplitude_vs_distance.svg')
+            #if os.path.isfile(figname_svg):
+            #    os.remove(figname_svg)
 
-            plt.savefig(figname_svg)
+            #plt.savefig(figname_svg)
             print('Figure',figname.split('/')[-1],'saved!')
 
         #plt.show()

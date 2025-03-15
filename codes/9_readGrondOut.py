@@ -33,7 +33,7 @@ catdir=os.path.join(workdir,'CAT')
 
 catname=os.path.join(catdir,'catalogue_flegrei_VLP.pf')    # CHANGE  catalogue_flegrei_VLP catalogue_flegrei_mag_2_5
 
-new_catalogue_name='catalogue_flegrei_MT_final_VT_VLP'                           # CHANGE
+new_catalogue_name='catalogue_flegrei_MT_final_VLP'                           # CHANGE
 
 refevents=model.load_events(catname)
 
@@ -43,7 +43,7 @@ run_get_grond_results = True
 #######################################
 ############# SWITCH #############
 #######################################
-switch_new_localization=False
+switch_new_localization=True
 
 if run_get_grond_results:
     mttargets = [ev for ev in refevents]
@@ -52,11 +52,11 @@ if run_get_grond_results:
     goodmttargets = [ev for ev in mttargets if ev.name not in badmtsols]
     print('Good events in catalogue:', len(goodmttargets))
     grondevs = []
-    for vrs in ['cmt_devi_XL_final_', 'cmt_devi_L_final_', 'cmt_devi_M_final_','cmt_devi_S_final_','cmt_devi_S_']:                    # main report
+    #for vrs in ['cmt_devi_XXL_final_','cmt_devi_XL_final_', 'cmt_devi_L_final_', 'cmt_devi_M_final_','cmt_devi_S_final_','cmt_devi_S_']:                    # main report
     #for vrs in ['cmt_devi_XXL_final_']:                    # main report
     #for vrs in ['cmt_dc_XL_final_', 'cmt_dc_L_final_', 'cmt_dc_M_final_','cmt_dc_S_final_']:                    # dc reports
     #for vrs in ['cmt_full_XL_final_', 'cmt_full_L_final_', 'cmt_full_M_final_','cmt_full_S_final_']:                    # full reports
-    #for vrs in ['cmt_LP_oscill_']:
+    for vrs in ['cmt_LP_oscill_']:
         for ev in goodmttargets:
             targetdir = os.path.join(reportdir, ev.name, vrs + ev.name)
             #if not os.path.isdir(targetdir):

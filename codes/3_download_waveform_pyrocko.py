@@ -29,10 +29,21 @@ import pytz
 
 # %% code
 
+switch_VLP=True                         # SWITCH
+
+if switch_VLP:
+    dataname='DATA_VLP'
+    tshifth_1=300
+    tshifth_2=300
+else:
+    dataname='DATA'
+    tshifth_1=40
+    tshifth_2=140
+
 workdir='../'
 catdir =  os.path.join(workdir,'CAT')
 meta_datadir=os.path.join(workdir,'META_DATA')
-datadir=os.path.join(workdir,'DATA_VLP')                #CHANGE
+datadir=os.path.join(workdir,dataname)
 
 catname = os.path.join(catdir, 'catalogue_flegrei_mag_2_5.pf')           #CHANGE
 
@@ -40,10 +51,10 @@ cat = model.load_events(catname)
 print('Number of events:', len(cat))
 
 client=Client('INGV')
-stations_name=os.path.join(meta_datadir, 'stations_flegrei_INGV_final.xml')           #CHANGE
-stations=read_inventory(stations_name)                                 #read
+stations_name=os.path.join(meta_datadir, 'stations_flegrei_INGV_final.xml') #CHANGE
+stations=read_inventory(stations_name)                                 
 
-print(stations)
+#print(stations)
 
 ################################################################################
 ########## DO NOT USE !!!datetime.datetime.fromtimestamp(ev.time)!!! ##########
@@ -70,10 +81,10 @@ for ev in cat:
         print('\nevent number:',count)
         print('origin UTC time event:',t)
 
-        event_start = UTCDateTime(t) - 300                               #CHANGE: -40 normal ; -300 VLP
+        event_start = UTCDateTime(t) - tshifth_1              # -40 normal ; -300 VLP
         #print('event starts at:',event_start)
 
-        event_end=UTCDateTime(t) + 300                                   #CHANGE: +140 normal ; +300 VLP
+        event_end=UTCDateTime(t) + tshifth_2                  # +140 normal ; +300 VLP
         #print('event ends at:',event_end)
 
 
@@ -82,7 +93,8 @@ for ev in cat:
             for  station in network.stations:
                 try:
                     wave += client.get_waveforms(starttime=event_start,endtime=event_end,
-                                        network=network.code,station=station.code,location='*', channel='HH?',
+                                        network=network.code,station=station.code,
+                                        location='*', channel='HH?',
                                         attach_response=True)
                 except:
                     #print(station.code , 'station not recording')

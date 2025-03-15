@@ -4,7 +4,8 @@
 
 ########################################################################
 ########################################################################
-#############IMPORTANT: before running, change #########################
+#############IMPORTANT: download data from GOSSIP,######################
+############## before running, change ##################################
 ############# the column names in the .csv files ####################### 
 ########################################################################
 ########################################################################
@@ -59,30 +60,30 @@ if switch_get_events_and_save:
                         maxlongitude=14.20)
 
 
-    cat_name=os.path.join(catdir,'catalogue_flegrei_INGV.xml')
+    cat_name=os.path.join(catdir,'INGV/catalogue_flegrei_INGV.xml')
     cat_INGV.write(cat_name,format='QUAKEML')
 
     cat_mag_INGV = cat_INGV.filter("magnitude >= 2.5")
     
     #cat_mag_INGV.plot(projection='local',resolution='i') #plot
 
-    cat_mag_name=os.path.join(catdir,'catalogue_flegrei_INGV_mag_2_5.xml')
+    cat_mag_name=os.path.join(catdir,'INGV/catalogue_flegrei_INGV_mag_2_5.xml')
     cat_mag_INGV.write(cat_mag_name,format='QUAKEML')
     print('creating catalogue INGV in .xml')
     print('number of events selected:', len(cat_mag_INGV), 'out of:',len(cat_INGV))
 else:
-    cat_name=os.path.join(catdir,'catalogue_flegrei_INGV.xml')
+    cat_name=os.path.join(catdir,'INGV/catalogue_flegrei_INGV.xml')
     cat_INGV=read_events(cat_name)
 
-    cat_mag_name=os.path.join(catdir,'catalogue_flegrei_INGV_mag_2_5.xml')
+    cat_mag_name=os.path.join(catdir,'INGV/catalogue_flegrei_INGV_mag_2_5.xml')
     cat_mag_INGV=read_events(cat_mag_name)
     #cat_mag_INGV.plot(projection='local',resolution='i') #plot
     print('loading catalogue INGV in .xml')
     print('number of events selected:', len(cat_mag_INGV), 'out of:',len(cat_INGV))
 
 # create/load pf catalogue
-catname_pf = os.path.join(catdir, 'catalogue_flegrei_INGV.pf')
-catname_mag_pf = os.path.join(catdir, 'catalogue_flegrei_INGV_mag_2_5.pf')
+catname_pf = os.path.join(catdir, 'INGV/catalogue_flegrei_INGV.pf')
+catname_mag_pf = os.path.join(catdir, 'INGV/catalogue_flegrei_INGV_mag_2_5.pf')
 
 def catalogue_INGV_to_PF(cat,cat_name):
     events = []
@@ -205,8 +206,8 @@ def catalogue_GOSSIP_to_PF(catalogue,catalogue_path):
 workdir_GOSSIP='../CAT/GOSSIP_events_cvs/csv/'
 save_dir_GOSSIP='../CAT/GOSSIP_events_cvs/'
 
-GOSSIP_name_pf = os.path.join(catdir, 'catalogue_flegrei_GOSSIP.pf')
-GOSSIP_name_pf_mag = os.path.join(catdir, 'catalogue_flegrei_GOSSIP_mag_2_5.pf')
+GOSSIP_name_pf = os.path.join(catdir, 'GOSSIP/catalogue_flegrei_GOSSIP.pf')
+GOSSIP_name_pf_mag = os.path.join(catdir, 'GOSSIP/catalogue_flegrei_GOSSIP_mag_2_5.pf')
 
 ######################################################################################
 ######################################################################################
@@ -247,38 +248,38 @@ if switch_merge_csv_and_convert_to_PF_GOSSIP:
     cat_all_GOSSIP=create_obspy_catalogue(cat_all)
 
     cat_all_GOSSIP.write(save_dir_GOSSIP + 'catalogue_flegrei_GOSSIP.xml',format='QUAKEML')
-    cat_all_name=os.path.join(catdir,'catalogue_flegrei_GOSSIP.xml')
+    cat_all_name=os.path.join(catdir,'GOSSIP/catalogue_flegrei_GOSSIP.xml')
     cat_all_GOSSIP.write(cat_all_name,format='QUAKEML')
     
     #create obspy catalogue for events >2.5 M
     cat_mag_GOSSIP=create_obspy_catalogue(cat_mag_csv)
     cat_mag_GOSSIP.write(save_dir_GOSSIP + 'catalogue_flegrei_GOSSIP_mag_2_5.xml',format='QUAKEML')
-    cat_mag_name=os.path.join(catdir,'catalogue_flegrei_GOSSIP_mag_2_5.xml')
+    cat_mag_name=os.path.join(catdir,'GOSSIP/catalogue_flegrei_GOSSIP_mag_2_5.xml')
     cat_mag_GOSSIP.write(cat_mag_name,format='QUAKEML')
 
     print('number of events selected:', len(cat_mag_GOSSIP), 'out of:',len(cat_all_GOSSIP))
 
     #create pf catalogue for all events
-    cat_all_name=os.path.join(catdir,'catalogue_flegrei_GOSSIP.pf')
+    cat_all_name=os.path.join(catdir,'GOSSIP/catalogue_flegrei_GOSSIP.pf')
     cat_all_GOSSIP_pf=catalogue_GOSSIP_to_PF(cat_all_GOSSIP,cat_all_name)
 
     #create pf catalogue for events >2.5 M
-    cat_mag_name=os.path.join(catdir,'catalogue_flegrei_GOSSIP_mag_2_5.pf')
+    cat_mag_name=os.path.join(catdir,'GOSSIP/catalogue_flegrei_GOSSIP_mag_2_5.pf')
     cat_mag_GOSSIP_pf=catalogue_GOSSIP_to_PF(cat_mag_GOSSIP,cat_mag_name)
 else:
     print('loading catalogue GOSSIP in .xml and .pf')
     #load all events
-    cat_all_name=os.path.join(catdir,'catalogue_flegrei_GOSSIP.xml')
+    cat_all_name=os.path.join(catdir,'GOSSIP/catalogue_flegrei_GOSSIP.xml')
     cat_all_GOSSIP=read_events(cat_all_name)
 
-    cat_all_name=os.path.join(catdir,'catalogue_flegrei_GOSSIP.pf')
+    cat_all_name=os.path.join(catdir,'GOSSIP/catalogue_flegrei_GOSSIP.pf')
     cat_all_GOSSIP_pf=model.load_events(cat_all_name)
 
     #load events >2.5 M
-    cat_mag_name=os.path.join(catdir,'catalogue_flegrei_GOSSIP_mag_2_5.xml')
+    cat_mag_name=os.path.join(catdir,'GOSSIP/catalogue_flegrei_GOSSIP_mag_2_5.xml')
     cat_mag_GOSSIP=read_events(cat_mag_name)
 
-    cat_mag_name=os.path.join(catdir,'catalogue_flegrei_GOSSIP_mag_2_5.pf')
+    cat_mag_name=os.path.join(catdir,'GOSSIP/catalogue_flegrei_GOSSIP_mag_2_5.pf')
     cat_mag_GOSSIP_pf=model.load_events(cat_mag_name)
     print('number of events selected:', len(cat_mag_GOSSIP), 'out of:',len(cat_all_GOSSIP))
 # %% compare the catalogues
