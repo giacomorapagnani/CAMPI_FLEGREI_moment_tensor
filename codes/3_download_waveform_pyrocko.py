@@ -65,7 +65,7 @@ stations=read_inventory(stations_name)
 ################################################################################
 
 # download waveforms strarting from this data:
-date_start_download='2025-03-13 00:00:00.000'                               #CHANGE
+date_start_download='2025-03-14 00:00:00.000'                               #CHANGE
 sec_start_download=util.str_to_time(date_start_download)
 date_end_download='2026-01-01 00:00:00.000'                               #CHANGE
 sec_end_download=util.str_to_time(date_end_download)

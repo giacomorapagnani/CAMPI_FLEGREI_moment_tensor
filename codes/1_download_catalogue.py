@@ -45,7 +45,7 @@ catdir =  os.path.join(workdir,'CAT')
 client=Client('INGV')
 
 stime=UTCDateTime('2014-01-01T00:00:00')        # CHANGE set start time
-etime=UTCDateTime('2025-03-13T08:00:00')        # CHANGE set end time
+etime=UTCDateTime('2025-03-16T15:00:00')        # CHANGE set end time
 
 ######################################################################################
 ######################################################################################
@@ -375,33 +375,6 @@ else:
     events=model.load_events(catname)
  # %% manually eliminate events
 #no good signals, not enough stations, too close in time
-
-
-# %% EXTRA: create .txt file of the catalogue
-
-# columns:  TIME    LAT     LON     DEPTH   MAGNITUDE
-######################################################################################
-######################################################################################
-switch_create_txt_file_with_catalogue= True      ########################SWITCH
-######################################################################################
-######################################################################################
-def create_txt_catalogue(catalogue):
-    list_events=[]
-    for ev in catalogue:
-        list_events.append( util.time_to_str(ev.time)+'\t'+str(ev.lat)
-                           +'\t'+str(ev.lon)+'\t' +str(ev.depth)+'\t'+str(ev.magnitude) )
-    return list_events
-
-if switch_create_txt_file_with_catalogue:
-    print('Creating a txt file of the selected catalogue')
-    cat=events                                                          #CHANGE
-    l_ev=create_txt_catalogue(cat)
-    catname = os.path.join(catdir, 'catalogue_flegrei_mag_2_5.txt')     #CHANGE
-
-    with open(catname, 'w') as output:
-        for row in l_ev:
-            output.write(str(row) + '\n')
-
 
 # %% CHECK DATA NAME'S CONSISTENCIES:
 # DATA
