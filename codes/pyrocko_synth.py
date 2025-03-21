@@ -1,13 +1,13 @@
 # libs
 import os
 
-from pyrocko import gf
+from pyrocko import gf,trace,model,util,io
 from pyrocko.gf import LocalEngine, Target, DCSource, ws,MTSource
-from pyrocko import trace,model
 from pyrocko.gui.marker import PhaseMarker
 
 import numpy as np
 import matplotlib.pyplot as plt
+import datetime
 
 # dirs
 catdir='../CAT'
@@ -139,50 +139,65 @@ trs.extend(newtrs_VT)
 trs.extend(newtrs_VLP)
 trs.extend(trs_sum)
 
-# matplotlib figure
-fig, axs = plt.subplots(9, 2, figsize=(10,20))
-axs = axs.ravel()
-i=0
+# save traces (watch out for the 'location' parameter: max 2 letters)
+#io.save(trs, '../PLOTS/SYNTH/synth_traces.mseed')
 
+#load observed traces
+datadir='../DATA_VLP'
+dir_name=os.path.join(datadir,e_name)
+file_name=os.path.join(dir_name,e_name+'.mseed')
+obs_trs_all = io.load(file_name)
+obs_trs = [ tr for tr in obs_trs_all if tr.station == s_name]
+# Plots 
+
+colors=['#BD2025','#FFCC4E','#FF7400']    # red, yellow, orange
 freq_ranges= [ [0.5,2],[0.075,0.125] ]
-for tr in trs:
-    
-    for fq in freq_ranges:
+trs_mseed=[]
+for fq in freq_ranges:
+    fig, axs =   plt.subplots(3, 3, figsize=(20,10), sharex=True,sharey=True)
+    axs = axs.ravel()
+    i=0
+    for n,tr in enumerate(trs):
         tmp_trace= tr.copy() 
         tmp_trace.lowpass(4,fq[1])
         tmp_trace.highpass(4,fq[0])
-        o_t = int( round( ev_VT.time ) ) 
+
         if fq == [0.5,2] :
             chop1,chop2= 10 , 20
-        else:
+        elif fq == [0.075,0.125] :
             chop1,chop2= 60 , 120
+        else:
+            print('Error: frequency range not correct')
+        # chop 
+        #o_t = int( round( ev_VT.time - tr.tmin ) )
+        o_t = ev_VT.time
         tmp_trace.chop(o_t-chop1, o_t + chop2)
-        tax=np.arange(o_t-chop1, o_t + chop2, tr.deltat)
+        # shift to 0, actually not to 00:00:00 but to 23:00:00 (DNW)
+        new_tmin= 23*60*60.         #23:00:00
+        new_tmax = new_tmin + (tmp_trace.tmax - tmp_trace.tmin) 
+        tmp_trace.tmin= new_tmin
+        tmp_trace.tmax= new_tmax
 
-        axs[i].plot( tax, tmp_trace.get_ydata(),color='k', label=f'{tmp_trace.location}, {tmp_trace.channel}')    
+        tax=np.arange(new_tmin,new_tmax, tmp_trace.deltat)
+        eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax]
+
+        axs[i].plot( eq_dates, tmp_trace.get_ydata(),color=colors[n//3], linewidth=2, 
+                    label=f'{tmp_trace.location}')    
         axs[i].grid(True)
-        #axs[i].set_ylabel('Counts')
+        if i==0 or i==3 or i==6:
+            axs[i].set_ylabel('Displacement [m]')
+        if i<3:
+            axs[i].set_title(f'{tmp_trace.channel} channel',fontsize=15)
+        if i>5:
+            axs[i].set_xlabel('Time')
         axs[i].legend(loc=1)
 
+        trs_mseed.append(tmp_trace)
+
         i+=1
+    fig.tight_layout()
+    fig.savefig(f'../PLOTS/SYNTH/sum_traces_{fq[0]}_{fq[1]}_Hz.pdf')
 #plt.show()
-fig.savefig('../PLOTS/synth_test.pdf')
 
-'''
-# In addition to that it is also possible to extract interpolated travel times
-# of phases which have been defined in the store's config file.
-store = engine.get_store(store_id)
-
-markers = []
-for t in targets:
-    dist = t.distance_to(source_mt)
-    depth = source_mt.depth
-    arrival_time = store.t('begin', (depth, dist))
-    m = PhaseMarker(tmin=arrival_time,
-                    tmax=arrival_time,
-                    phasename='P',
-                    nslc_ids=(t.codes,))
-    markers.append(m)
-'''
 # snuffler
 #trace.snuffle(trs)      #, markers=markers)
