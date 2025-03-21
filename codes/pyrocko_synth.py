@@ -23,7 +23,7 @@ catname_VT=os.path.join(catdir,'catalogue_flegrei_MT_final.pf')
 events_VT = model.load_events(catname_VT)
 
 # Select station
-s_name='CPOZ'                           #CHANGE
+s_name='CPOZ'                                                   #CHANGE
 st=False
 for s in stations:
     if s.station==s_name:
@@ -32,7 +32,7 @@ if not st:
     print(f'Error: station {s_name} not found')
 
 # Select event
-e_name='flegrei_2024_04_27_03_44_56'    #CHANGE reference: flegrei_2024_04_27_03_44_56
+e_name='flegrei_2024_04_27_03_44_56'                            #CHANGE reference: flegrei_2024_04_27_03_44_56
 
 ev_VT=False
 for e in events_VT:
@@ -158,9 +158,10 @@ trs.extend(obs_trs)     # obs
 # Figures 
 colors=['#BD2025','#FFCC4E','#FF7400','#64DC89']    # red, yellow, orange, green
 freq_ranges= [ [0.5,2],[0.075,0.125] ]
+# y limits
 ylims= [ [4.5e-4 , 4.5e-4] , [0.6e-4 , 1.1e-4] ]          # reference (medium) flegrei_2024_04_27_03_44_56
-#ylims= [ [35e-4 , 20e-4] , [3e-4 , 10e-4] ]          # flegrei_2025_03_13_00_25_02 (large)
-#ylims= [ [25e-4 , 25e-4] , [0.2e-4 , 0.2e-4] ]          # flegrei_2023_09_26_07_10_29 (small)
+#ylims= [ [35e-4 , 20e-4] , [3e-4 , 10e-4] ]              # flegrei_2025_03_13_00_25_02 (large)
+#ylims= [ [25e-4 , 25e-4] , [0.2e-4 , 0.2e-4] ]           # flegrei_2023_09_26_07_10_29 (small)
 
 trs_mseed=[]
 for l,fq in enumerate(freq_ranges):
