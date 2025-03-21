@@ -32,8 +32,7 @@ if not st:
     print(f'Error: station {s_name} not found')
 
 # Select event
-e_name='flegrei_2024_04_27_03_44_56'    #CHANGE
-#e_name='flegrei_2025_02_16_14_20_02'    #CHANGE
+e_name='flegrei_2024_04_27_03_44_56'    #CHANGE reference: flegrei_2024_04_27_03_44_56
 
 ev_VT=False
 for e in events_VT:
@@ -89,8 +88,8 @@ synthetic_traces_VLP = response_VLP.pyrocko_traces()
 # chop heads and tails
 trs_VT= [ x.chop(x.tmin+1,x.tmax-1) for x in synthetic_traces_VT ]
 trs_VLP= [ x.chop(x.tmin+1,x.tmax-1) for x in synthetic_traces_VLP ]
-
-tlen = 120.
+# add longer heads and tails
+tlen = 180.
 newtrs_VT = []
 for tr in trs_VT:
     newtr = tr.copy()
@@ -103,7 +102,7 @@ for tr in trs_VT:
     newtr.tmax+= 2* tlen
     newtrs_VT.append(newtr)
 
-tlen = 120.
+tlen = 240.
 newtrs_VLP = []
 for tr in trs_VLP:
     newtr = tr.copy()
@@ -131,30 +130,41 @@ for n,ch in enumerate(channels):
     trs_sum.append(trace.Trace(
                 station=s_name, channel=ch,location='VLP + VT', deltat=dt, tmin=tmin, ydata=trsum))
 
-trs=[]
-#trs.extend(trs_VT)
-#trs.extend(trs_VLP)
 
-trs.extend(newtrs_VT)
-trs.extend(newtrs_VLP)
-trs.extend(trs_sum)
-
-# save traces (watch out for the 'location' parameter: max 2 letters)
+# save synth traces (watch out for the 'location' parameter: max 2 letters)
 #io.save(trs, '../PLOTS/SYNTH/synth_traces.mseed')
 
-#load observed traces
-datadir='../DATA_VLP'
+# load observed traces
+datadir='../DATA_VLP_RESPONSE'
 dir_name=os.path.join(datadir,e_name)
 file_name=os.path.join(dir_name,e_name+'.mseed')
 obs_trs_all = io.load(file_name)
 obs_trs = [ tr for tr in obs_trs_all if tr.station == s_name]
-# Plots 
+for tr in obs_trs:
+    tr.location='recorded'
 
-colors=['#BD2025','#FFCC4E','#FF7400']    # red, yellow, orange
+# Create trace list with all traces
+trs=[]
+#trs.extend(trs_VT)     # non chopped
+#trs.extend(trs_VLP)    # non chopped
+trs.extend(newtrs_VT)   # chopped
+trs.extend(newtrs_VLP)  # chopped
+trs.extend(trs_sum)     # sum
+trs.extend(obs_trs)     # obs
+
+# snuffler
+#trace.snuffle(trs)
+
+# Figures 
+colors=['#BD2025','#FFCC4E','#FF7400','#64DC89']    # red, yellow, orange, green
 freq_ranges= [ [0.5,2],[0.075,0.125] ]
+ylims= [ [4.5e-4 , 4.5e-4] , [0.6e-4 , 1.1e-4] ]          # reference (medium) flegrei_2024_04_27_03_44_56
+#ylims= [ [35e-4 , 20e-4] , [3e-4 , 10e-4] ]          # flegrei_2025_03_13_00_25_02 (large)
+#ylims= [ [25e-4 , 25e-4] , [0.2e-4 , 0.2e-4] ]          # flegrei_2023_09_26_07_10_29 (small)
+
 trs_mseed=[]
-for fq in freq_ranges:
-    fig, axs =   plt.subplots(3, 3, figsize=(20,10), sharex=True,sharey=True)
+for l,fq in enumerate(freq_ranges):
+    fig, axs =   plt.subplots(4, 3, figsize=(20,14), sharex=True)
     axs = axs.ravel()
     i=0
     for n,tr in enumerate(trs):
@@ -163,9 +173,9 @@ for fq in freq_ranges:
         tmp_trace.highpass(4,fq[0])
 
         if fq == [0.5,2] :
-            chop1,chop2= 10 , 20
+            chop1,chop2= 5 , 15
         elif fq == [0.075,0.125] :
-            chop1,chop2= 60 , 120
+            chop1,chop2= 30 , 150
         else:
             print('Error: frequency range not correct')
         # chop 
@@ -178,17 +188,35 @@ for fq in freq_ranges:
         tmp_trace.tmin= new_tmin
         tmp_trace.tmax= new_tmax
 
+        # Check if arrays are of the same length
         tax=np.arange(new_tmin,new_tmax, tmp_trace.deltat)
-        eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax]
+        yax=tmp_trace.get_ydata()
+        len_t, len_y = len(tax) , len(yax)
+        if len_t < len_y:
+            eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax]
+            yax= yax[0:len_t]
+            print(f'Warning: {tmp_trace.location} time ax length smaller than displacement\n {len_t} =/= {len_y}')
+        elif len_t > len_y:
+            eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax[0:len_y]]
+            print(f'Warning: {tmp_trace.location} time ax length larger than displacement\n {len_t} =/= {len_y}')
+        else:
+            eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax]
 
-        axs[i].plot( eq_dates, tmp_trace.get_ydata(),color=colors[n//3], linewidth=2, 
-                    label=f'{tmp_trace.location}')    
+        # Plot
+        axs[i].plot( eq_dates, yax,color=colors[n//3], linewidth=2, 
+                    label=f'{tmp_trace.location}')
+
+        # add flavor    
         axs[i].grid(True)
-        if i==0 or i==3 or i==6:
+        if i < 9 :
+            axs[i].set_ylim(- ylims[l][0], + ylims[l][0])
+        elif i >= 9:
+            axs[i].set_ylim(- ylims[l][1], + ylims[l][1])
+        if i==0 or i==3 or i==6 or i==9:
             axs[i].set_ylabel('Displacement [m]')
         if i<3:
             axs[i].set_title(f'{tmp_trace.channel} channel',fontsize=15)
-        if i>5:
+        if i>8:
             axs[i].set_xlabel('Time')
         axs[i].legend(loc=1)
 
@@ -196,8 +224,5 @@ for fq in freq_ranges:
 
         i+=1
     fig.tight_layout()
-    fig.savefig(f'../PLOTS/SYNTH/sum_traces_{fq[0]}_{fq[1]}_Hz.pdf')
+    fig.savefig(f'../PLOTS/SYNTH/{e_name}_{s_name}_sum_traces_{fq[0]}_{fq[1]}_Hz.pdf')
 #plt.show()
-
-# snuffler
-#trace.snuffle(trs)      #, markers=markers)
