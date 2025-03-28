@@ -7,7 +7,8 @@ dataset_config: !grond.DatasetConfig
   stations_stationxml_paths:
   - ../META_DATA/stations_flegrei_INGV_final.xml
   events_path: ../CAT/catalogue_flegrei_VLP.pf
-  waveform_paths: ['../DATA_VLP/${event_name}']
+  waveform_paths: 
+  - ../DATA_VLP
   responses_stationxml_paths:
   - ../META_DATA/stations_flegrei_INGV_final.xml
   extend_incomplete: false
@@ -23,8 +24,8 @@ target_groups:
   weight: 1.0
   interpolation: 'nearest_neighbor'
   store_id: campiflegrei_near
-  distance_min: 0.1e3
-  distance_max: 10e3
+  distance_min: 100
+  distance_max: 10000
   exclude: []
   channels:
   - Z
@@ -53,9 +54,9 @@ problem_config: !grond.CompositeProblemConfig
     ranges:
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
-      east_shift: -6000 .. 6000
+      east_shift: -3000 .. 3000
       magnitude: 1. .. 4.
-      north_shift: -6000 .. 6000
+      north_shift: -3000 .. 3000
       rmdd: -1.5708 .. 1.5708
       rmed: -1 .. 1
       rmee: -1.5708 .. 1.5708
@@ -72,9 +73,9 @@ problem_config: !grond.CompositeProblemConfig
     ranges:
       depth: 1000 .. 5000
       duration: 1 .. 40
-      east_shift: -6000 .. 6000
+      east_shift: -3000 .. 3000
       magnitude: 1. .. 4.
-      north_shift: -6000 .. 6000
+      north_shift: -3000 .. 3000
       rmdd: -1.5708 .. 1.5708
       rmed: -1 .. 1
       rmee: -1.5708 .. 1.5708
