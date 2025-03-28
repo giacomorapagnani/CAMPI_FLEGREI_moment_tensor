@@ -45,13 +45,13 @@ catdir =  os.path.join(workdir,'CAT')
 meta_datadir=os.path.join(workdir,'META_DATA')
 datadir=os.path.join(workdir,dataname)
 
-catname = os.path.join(catdir, 'catalogue_flegrei_mag_2_5.pf')           #CHANGE
+catname = os.path.join(catdir, 'catalogue_flegrei_mag_2_5.pf')           #CHANGE catalogue_flegrei_mag_2_5
 
 cat = model.load_events(catname)
 print('Number of events:', len(cat))
 
 client=Client('INGV')
-stations_name=os.path.join(meta_datadir, 'stations_flegrei_INGV_final.xml') #CHANGE
+stations_name=os.path.join(meta_datadir, 'stations_flegrei_INGV_final.xml') #CHANGE stations_flegrei_INGV_final
 stations=read_inventory(stations_name)                                 
 
 #print(stations)
@@ -99,19 +99,23 @@ for ev in cat:
                 except:
                     #print(station.code , 'station not recording')
                     continue
+        
+        ntr= len(wave.traces)
+        print('traces found:',ntr) 
 
-        print('traces found:',len(wave.traces))    
+        if ntr == 0:
+            print(f'WARNING: no traces found for {evID}\nNo wavalet saved.')
+        else:
+            waveletdir=os.path.join(datadir,evID)
+            wavelet_name= os.path.join(waveletdir,evID) 
 
-        waveletdir=os.path.join(datadir,evID)
-        wavelet_name= os.path.join(waveletdir,evID) 
+            if os.path.isdir(waveletdir):
+                os.remove(wavelet_name + '.mseed')
+                os.rmdir(waveletdir)
 
-        if os.path.isdir(waveletdir):
-            os.remove(wavelet_name + '.mseed')
-            os.rmdir(waveletdir)
-
-        os.mkdir(waveletdir)
+            os.mkdir(waveletdir)
 
 
-        wave.write(wavelet_name +'.mseed',format='MSEED')
-        print('wavelet dowloaded and saved!')
+            wave.write(wavelet_name +'.mseed',format='MSEED')
+            print('wavelet dowloaded and saved!')
         count+=1

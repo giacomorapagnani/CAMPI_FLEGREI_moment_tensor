@@ -24,7 +24,8 @@ from pyrocko import util
 workdir= '../'
 catdir =  os.path.join(workdir,'CAT')
 meta_data_dir= os.path.join(workdir,'META_DATA')
-stations_xml_name=os.path.join(meta_data_dir,'stations_flegrei_INGV_simone.xml')          #CHANGE
+filename='stations_flegrei_INGV_1980'                             #CHANGE
+stations_xml_name=os.path.join(meta_data_dir, filename + '.xml')          
 
 
 #%%% list of stations with GURALP CMG-40T-60S sensor
@@ -91,7 +92,7 @@ if check_stations:
     save_list=True
     if save_list:
         file_dir=os.path.join(meta_data_dir,'extra')
-        file_st_list=os.path.join(file_dir,'stations_w_GURALP_40T_60S.txt')
+        file_st_list=os.path.join(file_dir, filename + '_w_GURALP_40T_60S.txt')
 
         with open(file_st_list, 'w') as output:
             for row in st_list:
@@ -137,12 +138,12 @@ if remove_stations:
     save_xml=True
 
     if save_xml:
-        inv_new.write(meta_data_dir+'/stations_flegrei_INGV_2.xml',format='STATIONXML')                        #save
+        inv_new.write(meta_data_dir+'/' + filename + '_stations_removed.xml',format='STATIONXML')                        #save
         print('station.xml SAVED!')
 
 #%%% correct stations values in xml file
 ####################################################
-correct_stations=False ########################SWITCH
+correct_stations=True ########################SWITCH
 ####################################################
 
 if correct_stations:
@@ -253,5 +254,5 @@ if correct_stations:
     save_xml=True
 
     if save_xml:
-        inv_f.write(meta_data_dir+'/stations_flegrei_INGV_CORRECTED.xml',format='STATIONXML')                        #save
+        inv_f.write(meta_data_dir+'/' + filename + '_CORRECTED.xml',format='STATIONXML')                        #save
         print('station.xml SAVED!')
