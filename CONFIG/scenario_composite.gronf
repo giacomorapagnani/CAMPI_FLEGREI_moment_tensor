@@ -1,0 +1,108 @@
+%YAML 1.1
+# Grond configuration file, version 1.6.1
+--- !grond.Config
+path_prefix: ..
+rundir_template: runs/${problem_name}.grun
+dataset_config: !grond.DatasetConfig
+  stations_stationxml_paths:
+  - data/scenario/meta/waveform_response.xml
+  events_path: data/scenario/events.txt
+  waveform_paths:
+  - data/scenario/waveforms
+  responses_stationxml_paths:
+  - data/scenario/meta/waveform_response.xml
+  extend_incomplete: false
+  picks_paths: []
+  exclude_paths: []
+  exclude: []
+  include_paths: []
+target_groups:
+- !grond.WaveformTargetGroup
+  normalisation_family: time_domain
+  path: all
+  weight: 1.0
+  interpolation: multilinear
+  store_id: crust2_ib
+  distance_min: 10000.0
+  distance_max: 1000000.0
+  exclude: []
+  channels:
+  - Z
+  - R
+  - T
+  misfit_config: !grond.WaveformMisfitConfig
+    quantity: displacement
+    fmin: 0.01
+    fmax: 0.1
+    ffactor: 1.5
+    tmin: vel_surface:5.5
+    tmax: vel_surface:3.0
+    domain: time_domain
+    norm_exponent: 2
+    tautoshift_max: 0.0
+    autoshift_penalty_max: 0.0
+problem_config: !grond.CompositeProblemConfig
+  name_template: cmt_composite_${event_name}
+  norm_exponent: 2
+  subproblem_configs:
+  - !grond.CMTSubProblemConfig
+    name: a
+    distance_min: 2000.0
+    mt_type: dc
+    mt_random: uniform
+    ranges:
+      depth: 5000 .. 20000
+      duration: 1 .. 15
+      east_shift: -15000 .. 15000
+      magnitude: 6 .. 7
+      north_shift: -15000 .. 15000
+      rmdd: -1 .. 1
+      rmed: -1.41421 .. 1.41421
+      rmee: -1 .. 1
+      rmnd: -1.41421 .. 1.41421
+      rmne: -1.41421 .. 1.41421
+      rmnn: -1 .. 1
+      time: '-5 .. 5 | add'
+  - !grond.CMTSubProblemConfig
+    name: b
+    distance_min: 2000.0
+    mt_type: dc
+    mt_random: uniform
+    ranges:
+      depth: 5000 .. 20000
+      duration: 1 .. 15
+      east_shift: -15000 .. 15000
+      magnitude: 6 .. 7
+      north_shift: -15000 .. 15000
+      rmdd: -1 .. 1
+      rmed: -1.41421 .. 1.41421
+      rmee: -1 .. 1
+      rmnd: -1.41421 .. 1.41421
+      rmne: -1.41421 .. 1.41421
+      rmnn: -1 .. 1
+      time: '-5 .. 5 | add'
+analyser_configs:
+- !grond.TargetBalancingAnalyserConfig
+  niterations: 1000
+  use_reference_magnitude: false
+optimiser_config: !grond.HighScoreOptimiserConfig
+  sampler_phases:
+  - !grond.UniformSamplerPhase
+    niterations: 1000
+    ntries_preconstrain_limit: 1000
+  - !grond.DirectedSamplerPhase
+    niterations: 20000
+    ntries_preconstrain_limit: 1000
+    starting_point: excentricity_compensated
+    sampler_distribution: normal
+    standard_deviation_estimator: median_density_single_chain
+    ntries_sample_limit: 1000
+  chain_length_factor: 8.0
+  nbootstrap: 100
+engine_config: !grond.EngineConfig
+  gf_stores_from_pyrocko_config: false
+  gf_store_superdirs:
+  - gf_stores
+  gf_store_dirs: []
+event_names: []
+event_names_exclude: []
