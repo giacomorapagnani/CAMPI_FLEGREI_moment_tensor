@@ -4,17 +4,41 @@
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
   stations_path: '../META_DATA/stations_flegrei_INGV_final.pf'
-  events_path: '../CAT/catalogue_flegrei_mag_2_5.pf'
-  waveform_paths: ['../DATA/${event_name}']
+  events_path: '../CAT/catalogue_flegrei_VLP.pf'
+  waveform_paths: ['../DATA_VLP/${event_name}']
   responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_final.xml']
   extend_incomplete: true
   #picks_paths: ['../MARKERS/${event_name}']
-  blacklist_paths: ['../BLACKLIST/${event_name}.black']
+  blacklist_paths: ['../BLACKLIST_VLP/${event_name}.black']
   whitelist_paths: []
 target_groups:
 - !grond.WaveformTargetGroup
   normalisation_family: time_domain
-  path: all
+  path: low.freq
+  weight: 1.0
+  interpolation: multilinear
+  store_id: campiflegrei_near
+  distance_min: 100.0
+  distance_max: 10000.0
+  exclude: []
+  channels:
+  - Z
+  - R
+  - T
+  misfit_config: !grond.WaveformMisfitConfig
+    quantity: displacement
+    fmin: 0.09
+    fmax: 0.12
+    ffactor: 1.1
+    tmin: stored:P - 60
+    tmax: stored:P + 120
+    domain: time_domain
+    norm_exponent: 1
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: time_domain
+  path: high.freq
   weight: 1.0
   interpolation: multilinear
   store_id: campiflegrei_near
@@ -37,44 +61,47 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_dc_dc_${event_name}
+  name_template: cmt_composite_VT_VLP_${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig
-    name: a
+    name: vt
     distance_min: 100.0
-    mt_type: dc
+    mt_type: deviatoric
     mt_random: uniform
     ranges:
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
-      east_shift: -3000 .. 3000
+      east_shift: -2000 .. 2000
       magnitude: 1 .. 4
-      north_shift: -3000 .. 3000
-      rmdd: -1 .. 1
-      rmed: -1.41421 .. 1.41421
-      rmee: -1 .. 1
-      rmnd: -1.41421 .. 1.41421
-      rmne: -1.41421 .. 1.41421
-      rmnn: -1 .. 1
+      north_shift: -2000 .. 2000
+      rmdd: -1.5708 .. 1.5708
+      rmed: -1 .. 1
+      rmee: -1.5708 .. 1.5708
+      rmnd: -1 .. 1
+      rmne: -1 .. 1
+      rmnn: -1.5708 .. 1.5708
       time: '-2 .. 3 | add'
   - !grond.CMTSubProblemConfig
-    name: b
+    name: vlp
     distance_min: 100.0
-    mt_type: dc
+    mt_type: full
+    stf_type: ResonatorSTF
     mt_random: uniform
     ranges:
       depth: 1000 .. 5000
-      duration: 0.1 .. 0.1
-      east_shift: -3000 .. 3000
+      duration: 1. .. 40
+      east_shift: -5000 .. 5000
       magnitude: 1 .. 4
-      north_shift: -3000 .. 3000
-      rmdd: -1 .. 1
-      rmed: -1.41421 .. 1.41421
-      rmee: -1 .. 1
-      rmnd: -1.41421 .. 1.41421
-      rmne: -1.41421 .. 1.41421
-      rmnn: -1 .. 1
+      north_shift: -5000 .. 5000
+      rmdd: -1.5708 .. 1.5708
+      rmed: -1 .. 1
+      rmee: -1.5708 .. 1.5708
+      rmnd: -1 .. 1
+      rmne: -1 .. 1
+      rmnn: -1.5708 .. 1.5708
+      time: -2.0 .. 3.0 | add
+      frequency: 0.075 .. 0.15
       time: '-2 .. 3 | add'
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
@@ -83,10 +110,10 @@ analyser_configs:
 optimiser_config: !grond.HighScoreOptimiserConfig
   sampler_phases:
   - !grond.UniformSamplerPhase
-    niterations: 1000
+    niterations: 5000
     ntries_preconstrain_limit: 1000
   - !grond.DirectedSamplerPhase
-    niterations: 5000
+    niterations: 30000
     ntries_preconstrain_limit: 1000
     starting_point: excentricity_compensated
     sampler_distribution: normal

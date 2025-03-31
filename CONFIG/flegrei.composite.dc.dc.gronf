@@ -18,7 +18,7 @@ target_groups:
   weight: 1.0
   interpolation: multilinear
   store_id: campiflegrei_near
-  distance_min: 100.0
+  distance_min: 400.0
   distance_max: 10000.0
   exclude: []
   channels:
@@ -48,9 +48,9 @@ problem_config: !grond.CompositeProblemConfig
     ranges:
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
-      east_shift: -3000 .. 3000
+      east_shift: -4000 .. 4000
       magnitude: 1 .. 4
-      north_shift: -3000 .. 3000
+      north_shift: -4000 .. 4000
       rmdd: -1 .. 1
       rmed: -1.41421 .. 1.41421
       rmee: -1 .. 1
@@ -66,9 +66,9 @@ problem_config: !grond.CompositeProblemConfig
     ranges:
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
-      east_shift: -3000 .. 3000
+      east_shift: -4000 .. 4000
       magnitude: 1 .. 4
-      north_shift: -3000 .. 3000
+      north_shift: -4000 .. 4000
       rmdd: -1 .. 1
       rmed: -1.41421 .. 1.41421
       rmee: -1 .. 1
@@ -83,10 +83,10 @@ analyser_configs:
 optimiser_config: !grond.HighScoreOptimiserConfig
   sampler_phases:
   - !grond.UniformSamplerPhase
-    niterations: 1000
+    niterations: 10000
     ntries_preconstrain_limit: 1000
   - !grond.DirectedSamplerPhase
-    niterations: 5000
+    niterations: 100000
     ntries_preconstrain_limit: 1000
     starting_point: excentricity_compensated
     sampler_distribution: normal
