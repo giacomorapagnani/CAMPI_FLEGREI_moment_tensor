@@ -50,7 +50,7 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-filename='catalogue_flegrei_MT_final_FULL_devi'             ###CHANGE###  catalogue_flegrei_MT_final 
+filename='catalogue_flegrei_MT_composite_VT_VLP'             ###CHANGE###  catalogue_flegrei_MT_final 
                                                             # catalogue_flegrei_MT_final_VLP_reloc
 events_name=os.path.join(catdir,filename+'.pf')              
 fm_events = model.load_events(events_name)
@@ -65,7 +65,7 @@ switch_deviatoric=True
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_timestamps=False                                                                 
+switch_timestamps=True                                                                 
 
 
 # loop on events in catalogue and plot FM
@@ -87,10 +87,6 @@ for ev in fm_events:
             "exponent": 1                  # np.log10(mm) !!!WRONG!!!
             }
 
-        # event date
-        name=ev.name.split('_')[1:]
-        name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
-
         MT_white=False
         if MT_white:
             fig.meca(spec=moment_tensor_par,convention='mt', longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
@@ -105,19 +101,20 @@ for ev in fm_events:
             "rake": ev.moment_tensor.rake1,
             "magnitude": ev.magnitude 
             }
-        #add event date
-        name=ev.name.split('_')[1:]
-        name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
 
         fig.meca(spec=moment_tensor_par, longitude =ev.lon, latitude=ev.lat, depth=ev.depth,
                     scale="0.8c", compressionfill="#BD2025",extensionfill="white", pen="0.5p,gray30,solid") 
                     # blue : #0066cc        red :  #BD2025
-    if switch_timestamps:  
+    if switch_timestamps:
+        #add event date
+        name=ev.name.split('_')[1:]
+        #name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
+        name_ev= str(ev.tags[1] + ':' + name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])  
         fig.text(
             text=name_ev,
             x=ev.lon,  
             y=ev.lat + 0.0006,  
-            font="2p,Helvetica,black", 
+            font="5p,Helvetica,black", 
             justify="CM"
             )
 

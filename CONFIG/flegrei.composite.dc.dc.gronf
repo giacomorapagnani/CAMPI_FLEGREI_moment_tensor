@@ -17,8 +17,8 @@ target_groups:
   path: all
   weight: 1.0
   interpolation: multilinear
-  store_id: campiflegrei_near
-  distance_min: 400.0
+  store_id: campiflegrei_near_0_dist
+  distance_min: 100.0
   distance_max: 10000.0
   exclude: []
   channels:
