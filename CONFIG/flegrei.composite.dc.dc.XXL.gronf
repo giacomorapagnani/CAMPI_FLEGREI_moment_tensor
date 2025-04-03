@@ -73,7 +73,7 @@ problem_config: !grond.CompositeProblemConfig
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
       east_shift: -7000 .. 7000
-      magnitude: 1 .. 5
+      magnitude: 2 .. 5
       north_shift: -7000 .. 7000
       rmdd: -1 .. 1
       rmed: -1.41421 .. 1.41421
@@ -91,7 +91,7 @@ problem_config: !grond.CompositeProblemConfig
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
       east_shift: -7000 .. 7000
-      magnitude: 1 .. 5
+      magnitude: 2 .. 5
       north_shift: -7000 .. 7000
       rmdd: -1 .. 1
       rmed: -1.41421 .. 1.41421
@@ -112,7 +112,7 @@ optimiser_config: !grond.HighScoreOptimiserConfig
   - !grond.DirectedSamplerPhase
     #scatter_scale_begin: 2.
     #scatter_scale_end: 0.8
-    niterations: 200000
+    niterations: 100000
     ntries_preconstrain_limit: 1000
     starting_point: excentricity_compensated
     sampler_distribution: normal

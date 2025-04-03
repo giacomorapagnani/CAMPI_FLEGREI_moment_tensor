@@ -61,44 +61,44 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_dc_dc_XXL_${event_name}
+  name_template: cmt_composite_devi_devi_XXL_${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig
     name: a
     distance_min: 100.0
-    mt_type: dc
+    mt_type: deviatoric
     mt_random: uniform
     ranges:
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
       east_shift: -7000 .. 7000
-      magnitude: 1 .. 5
+      magnitude: 2 .. 5
       north_shift: -7000 .. 7000
-      rmdd: -1 .. 1
-      rmed: -1.41421 .. 1.41421
-      rmee: -1 .. 1
-      rmnd: -1.41421 .. 1.41421
-      rmne: -1.41421 .. 1.41421
-      rmnn: -1 .. 1
+      rmdd: -1.5708 .. 1.5708
+      rmed: -1 .. 1
+      rmee: -1.5708 .. 1.5708
+      rmnd: -1 .. 1
+      rmne: -1 .. 1
+      rmnn: -1.5708 .. 1.5708
       time: '-1 .. 4 | add'
   - !grond.CMTSubProblemConfig
     name: b
     distance_min: 100.0
-    mt_type: dc
+    mt_type: deviatoric
     mt_random: uniform
     ranges:
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
       east_shift: -7000 .. 7000
-      magnitude: 1 .. 5
+      magnitude: 2 .. 5
       north_shift: -7000 .. 7000
-      rmdd: -1 .. 1
-      rmed: -1.41421 .. 1.41421
-      rmee: -1 .. 1
-      rmnd: -1.41421 .. 1.41421
-      rmne: -1.41421 .. 1.41421
-      rmnn: -1 .. 1
+      rmdd: -1.5708 .. 1.5708
+      rmed: -1 .. 1
+      rmee: -1.5708 .. 1.5708
+      rmnd: -1 .. 1
+      rmne: -1 .. 1
+      rmnn: -1.5708 .. 1.5708
       time: '-1 .. 4 | add'
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
@@ -112,7 +112,7 @@ optimiser_config: !grond.HighScoreOptimiserConfig
   - !grond.DirectedSamplerPhase
     #scatter_scale_begin: 2.
     #scatter_scale_end: 0.8
-    niterations: 200000
+    niterations: 100000
     ntries_preconstrain_limit: 1000
     starting_point: excentricity_compensated
     sampler_distribution: normal
