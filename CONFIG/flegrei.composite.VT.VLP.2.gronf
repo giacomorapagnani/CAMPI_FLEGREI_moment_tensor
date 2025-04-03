@@ -39,7 +39,7 @@ target_groups:
 - !grond.WaveformTargetGroup
   normalisation_family: time_domain
   path: high.freq
-  weight: 1.0
+  weight: 0.5
   interpolation: multilinear
   store_id: campiflegrei_near_0_dist
   distance_min: 100.0
@@ -61,7 +61,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_VT_VLP_${event_name}
+  name_template: cmt_composite_VT_VLP_2_${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig

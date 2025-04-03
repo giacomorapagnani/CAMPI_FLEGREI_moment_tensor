@@ -61,7 +61,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_VT_VLP_${event_name}
+  name_template: cmt_composite_VT_VLP_3_${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig
@@ -72,16 +72,16 @@ problem_config: !grond.CompositeProblemConfig
     ranges:
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
-      east_shift: -3000 .. 3000
+      east_shift: -2000 .. 2000
       magnitude: 1 .. 5
-      north_shift: -3000 .. 3000
+      north_shift: -2000 .. 2000
       rmdd: -1.5708 .. 1.5708
       rmed: -1 .. 1
       rmee: -1.5708 .. 1.5708
       rmnd: -1 .. 1
       rmne: -1 .. 1
       rmnn: -1.5708 .. 1.5708
-      time: '-2 .. 3 | add'
+      time: '-1 .. 1 | add'
   - !grond.CMTSubProblemConfig
     name: vlp
     distance_min: 100.0
@@ -91,9 +91,9 @@ problem_config: !grond.CompositeProblemConfig
     ranges:
       depth: 1000 .. 5000
       duration: 1. .. 40
-      east_shift: -6000 .. 6000
+      east_shift: -8000 .. 8000
       magnitude: 1 .. 5
-      north_shift: -6000 .. 6000
+      north_shift: -8000 .. 8000
       rmdd: -1.5708 .. 1.5708
       rmed: -1 .. 1
       rmee: -1.5708 .. 1.5708
@@ -102,7 +102,7 @@ problem_config: !grond.CompositeProblemConfig
       rmnn: -1.5708 .. 1.5708
       time: -2.0 .. 3.0 | add
       frequency: 0.075 .. 0.15
-      time: '-2 .. 6 | add'
+      time: '-2 .. 8 | add'
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
   niterations: 1000
