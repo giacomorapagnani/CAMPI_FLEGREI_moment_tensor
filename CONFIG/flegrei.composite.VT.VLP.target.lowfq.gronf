@@ -54,8 +54,8 @@ target_groups:
     fmin: 0.5
     fmax: 2.0
     ffactor: 1.5
-    tmin: stored:P - 1.5
-    tmax: stored:S + 1.
+    tmin: stored:P - 0.5
+    tmax: stored:S + 1.5
     domain: time_domain
     norm_exponent: 1
     tautoshift_max: 1.0
@@ -73,7 +73,7 @@ problem_config: !grond.CompositeProblemConfig
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
       east_shift: -3000 .. 3000
-      magnitude: 3.3 .. 3.6
+      magnitude: 1. .. 4.
       north_shift: -3000 .. 3000
       rmdd: -1.5708 .. 1.5708
       rmed: -1 .. 1
@@ -81,7 +81,7 @@ problem_config: !grond.CompositeProblemConfig
       rmnd: -1 .. 1
       rmne: -1 .. 1
       rmnn: -1.5708 .. 1.5708
-      time: '0. .. 2. | add'
+      time: '-2. .. 3. | add'
   - !grond.CMTSubProblemConfig
     name: vlp
     distance_min: 100.0
@@ -90,9 +90,9 @@ problem_config: !grond.CompositeProblemConfig
     mt_random: uniform
     ranges:
       depth: 1000 .. 5000
-      duration: 1. .. 40
+      duration: 1. .. 40.
       east_shift: -6000 .. 6000
-      magnitude: 2 .. 5
+      magnitude: 1. .. 4.
       north_shift: -6000 .. 6000
       rmdd: -1.5708 .. 1.5708
       rmed: -1 .. 1
