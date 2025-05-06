@@ -110,9 +110,9 @@ optimiser_config: !grond.HighScoreOptimiserConfig
     niterations: 10000
     ntries_preconstrain_limit: 1000
   - !grond.DirectedSamplerPhase
-    #scatter_scale_begin: 2.
-    #scatter_scale_end: 0.8
-    niterations: 100000
+    scatter_scale_begin: 2.
+    scatter_scale_end: 0.7
+    niterations: 200000
     ntries_preconstrain_limit: 1000
     starting_point: excentricity_compensated
     sampler_distribution: normal

@@ -50,7 +50,7 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-filename='catalogue_flegrei_MT_composite_vlp'             ###CHANGE###  catalogue_flegrei_MT_final 
+filename='catalogue_flegrei_MT_final_VLP'             ###CHANGE###  catalogue_flegrei_MT_final 
                                                             # catalogue_flegrei_MT_final_VLP_reloc
 events_name=os.path.join(catdir,filename+'.pf')              
 fm_events = model.load_events(events_name)
@@ -108,8 +108,8 @@ for ev in fm_events:
     if switch_timestamps:
         #add event date
         name=ev.name.split('_')[1:]
-        #name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])
-        name_ev= str(ev.tags[1] + ':' + name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5])  
+        name_ev= str(name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5]) # date
+        #name_ev= str(ev.tags[1] + ':' + name[0] +'-'+ name[1] +'-'+ name[2] +'_'+ name[3] +':'+ name[4] +':'+ name[5]) # magnitude + date
         fig.text(
             text=name_ev,
             x=ev.lon,  
