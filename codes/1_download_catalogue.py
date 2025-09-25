@@ -45,7 +45,7 @@ catdir =  os.path.join(workdir,'CAT')
 client=Client('INGV')
 
 stime=UTCDateTime('2014-01-01T00:00:00')        # CHANGE set start time
-etime=UTCDateTime('2025-03-16T15:00:00')        # CHANGE set end time
+etime=UTCDateTime('2025-07-02T00:00:00')        # CHANGE set end time
 
 ######################################################################################
 ######################################################################################
@@ -54,12 +54,29 @@ switch_get_events_and_save=True                ############################### S
 ######################################################################################
 
 if switch_get_events_and_save:
-    print('downloading events from INGV database')
-    cat_INGV=client.get_events(starttime=stime,endtime=etime,
+
+    days_shift= 365   # days (CHANGE)
+    steptime1=stime
+    steptime2=stime + 60*60*24 *days_shift
+    cat_INGV=Catalog()
+    while etime>steptime2:
+        print(f'downloading INGV events from {steptime1} to {steptime2}')
+        try: 
+            cat_tmp=client.get_events(starttime=steptime1,endtime=steptime2,
                         minlatitude=40.75,maxlatitude=40.90,minlongitude=14.00,
                         maxlongitude=14.20)
+            cat_INGV.extend(cat_tmp)
+        except Exception as e: print(e)
+        
+        steptime1 =  steptime2
+        steptime2 += 60*60*24 *days_shift
 
-
+    print(f'downloading INGV events from {steptime1} to {etime}')
+    cat_tmp=client.get_events(starttime=steptime1,endtime=etime,
+                        minlatitude=40.75,maxlatitude=40.90,minlongitude=14.00,
+                        maxlongitude=14.20)
+    cat_INGV.extend(cat_tmp)
+    
     cat_name=os.path.join(catdir,'INGV/catalogue_flegrei_INGV.xml')
     cat_INGV.write(cat_name,format='QUAKEML')
 

@@ -23,7 +23,7 @@ catname_VT=os.path.join(catdir,'catalogue_flegrei_MT_final.pf')
 events_VT = model.load_events(catname_VT)
 
 # Select station
-s_name='CPOZ'                                                   #CHANGE
+s_name='CBAC'                                                   #CHANGE
 st=False
 for s in stations:
     if s.station==s_name:
@@ -225,5 +225,5 @@ for l,fq in enumerate(freq_ranges):
 
         i+=1
     fig.tight_layout()
-    fig.savefig(f'../PLOTS/SYNTH/{e_name}_{s_name}_sum_traces_{fq[0]}_{fq[1]}_Hz.pdf')
-#plt.show()
+    #fig.savefig(f'../PLOTS/SYNTH/{e_name}_{s_name}_sum_traces_{fq[0]}_{fq[1]}_Hz.pdf')
+plt.show()

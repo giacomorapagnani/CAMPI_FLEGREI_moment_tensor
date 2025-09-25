@@ -1,0 +1,3225 @@
+%YAML 1.1
+--- !pf.Event
+lat: 40.827499
+lon: 14.148
+time: '2018-09-18 21:36:41.940000057'
+depth: 1373.456976
+name: 'flegrei_2018_09_18_21_36_41'
+magnitude: 2.05404
+moment_tensor: !pf.MomentTensor
+  mnn: -1272330000000.0
+  mee: 908210000000.0
+  mdd: 364116000000.0
+  mne: -34058300000.0
+  mnd: -720541000000.0
+  med: -142013000000.0
+  strike1: 133.2354189331844
+  dip1: 89.43762727710667
+  rake1: -150.53478732954542
+  strike2: 42.91770270189736
+  dip2: 60.53634657907409
+  rake2: -0.6459128744963377
+  moment: 1352269107787.6807
+  magnitude: 2.054042084540539
+tags:
+- GOSSIP_id:677
+- mag:2.5
+- INGV_id:20713961
+- mag:2.1
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828671
+lon: 14.1485
+time: '2019-03-15 04:26:41.819999933'
+depth: 3548.05991
+name: 'flegrei_2019_03_15_04_26_41'
+magnitude: 2.72327
+moment_tensor: !pf.MomentTensor
+  mnn: 891071000000.0
+  mee: 9761830000000.0
+  mdd: -10652900000000.0
+  mne: -6022050000000.0
+  mnd: 6698760000000.0
+  med: 445257000000.0
+  strike1: 232.01065430089866
+  dip1: 57.3612207975761
+  rake1: -57.75287722054742
+  strike2: 2.537741814089986
+  dip2: 44.5858497429707
+  rake2: -129.7970225210848
+  moment: 13642673161045.803
+  magnitude: 2.7232663165453186
+tags:
+- GOSSIP_id:1159
+- mag:2.5
+- INGV_id:21843321
+- mag:2.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.83017
+lon: 14.14933
+time: '2019-12-06 00:17:23.779999971'
+depth: 2031.17981
+name: 'flegrei_2019_12_06_00_17_23'
+magnitude: 2.63928
+moment_tensor: !pf.MomentTensor
+  mnn: 8188950000000.0
+  mee: -2135970000000.0
+  mdd: -6052980000000.0
+  mne: -6422110000000.0
+  mnd: 2461070000000.0
+  med: 1662580000000.0
+  strike1: 276.0949074905593
+  dip1: 61.25366397223426
+  rake1: -43.62413888830354
+  strike2: 30.720328722278357
+  dip2: 52.77860143413526
+  rake2: -142.84623825487785
+  moment: 10207568420799.344
+  magnitude: 2.639281533105386
+tags:
+- GOSSIP_id:2508
+- mag:3.1
+- INGV_id:23542681
+- mag:2.4
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.826672
+lon: 14.143
+time: '2020-04-08 00:50:29.279999971'
+depth: 1673.32514
+name: 'flegrei_2020_04_08_00_50_29'
+magnitude: 2.11632
+moment_tensor: !pf.MomentTensor
+  mnn: 112402000000.0
+  mee: 591445000000.0
+  mdd: -703847000000.0
+  mne: -814758000000.0
+  mnd: -1311030000000.0
+  med: 8470360000.0
+  strike1: 73.93957006654456
+  dip1: 75.61862925107827
+  rake1: -58.14309039209227
+  strike2: 185.7261983466306
+  dip2: 34.63866111379142
+  rake2: -154.0891040800576
+  moment: 1676789493341.8232
+  magnitude: 2.116319029366718
+tags:
+- GOSSIP_id:2943
+- mag:2.7
+- INGV_id:24236231
+- mag:2.1
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.829498
+lon: 14.14817
+time: '2020-04-26 02:41:13.569999933'
+depth: 4335.94159
+name: 'flegrei_2020_04_26_02_41_13'
+magnitude: 2.71016
+moment_tensor: !pf.MomentTensor
+  mnn: -757554000000.0
+  mee: 9815120000000.0
+  mdd: -9057570000000.0
+  mne: -3421200000000.0
+  mnd: -7467720000000.0
+  med: 3615180000000.0
+  strike1: 42.974997729139666
+  dip1: 65.45040583971458
+  rake1: -63.404655594222355
+  strike2: 172.66306587137055
+  dip2: 35.57471713307299
+  rake2: -134.42446408362088
+  moment: 13039018343491.504
+  magnitude: 2.7101632641998936
+tags:
+- GOSSIP_id:3020
+- mag:2.7
+- INGV_id:24317251
+- mag:1.9
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.82917
+lon: 14.15
+time: '2020-04-26 02:59:02.450000048'
+depth: 4234.717955
+name: 'flegrei_2020_04_26_02_59_02'
+magnitude: 2.99582
+moment_tensor: !pf.MomentTensor
+  mnn: 3947280000000.0
+  mee: 27439100000000.0
+  mdd: -31386400000000.0
+  mne: -10462400000000.0
+  mnd: -15135400000000.0
+  med: 2783520000000.0
+  strike1: 40.28658641472295
+  dip1: 55.47236970269144
+  rake1: -66.86003540372285
+  strike2: 183.2708798408552
+  dip2: 40.74938306344081
+  rake2: -119.7348836946723
+  moment: 34972643553134.492
+  magnitude: 2.9958189743399277
+tags:
+- GOSSIP_id:3022
+- mag:3.3
+- INGV_id:24317311
+- mag:2.4
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.831329
+lon: 14.14583
+time: '2020-12-28 08:09:43.019999981'
+depth: 1832.832427
+name: 'flegrei_2020_12_28_08_09_43'
+magnitude: 2.26706
+moment_tensor: !pf.MomentTensor
+  mnn: 19400100000.0
+  mee: 2040120000000.0
+  mdd: -2059520000000.0
+  mne: 884274000000.0
+  mnd: -1696990000000.0
+  med: 318478000000.0
+  strike1: 130.53874274702378
+  dip1: 57.20952603208982
+  rake1: -127.6602174012022
+  strike2: 5.480861533160895
+  dip2: 48.27898846585309
+  rake2: -46.517091807702094
+  moment: 2822266484228.59
+  magnitude: 2.2670653455574037
+tags:
+- GOSSIP_id:4417
+- mag:2.6
+- INGV_id:25853021
+- mag:2.3
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8283
+lon: 14.1352
+time: '2022-03-16 14:14:34.799999952'
+depth: 3179.778061
+name: 'flegrei_2022_03_16_14_14_34'
+magnitude: 3.32373
+moment_tensor: !pf.MomentTensor
+  mnn: 27992000000000.0
+  mee: 90273600000000.0
+  mdd: -118266000000000.0
+  mne: 17507900000000.0
+  mnd: -1923480000000.0
+  med: 3283490000000.0
+  strike1: 164.25305694267018
+  dip1: 44.287305508228336
+  rake1: -91.5576654543112
+  strike2: 346.4285211672913
+  dip2: 45.73334293464127
+  rake2: -88.48115460935354
+  moment: 108539709244038.83
+  magnitude: 3.3237257692385374
+tags:
+- GOSSIP_id:7102
+- mag:3.47
+- INGV_id:30205901
+- mag:2.7
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.8293
+lon: 14.1507
+time: '2022-03-29 17:45:32.359999895'
+depth: 2677.363064
+name: 'flegrei_2022_03_29_17_45_32'
+magnitude: 2.7527
+moment_tensor: !pf.MomentTensor
+  mnn: 16226100000000.0
+  mee: -7862790000000.0
+  mdd: -8363300000000.0
+  mne: -102615000000.0
+  mnd: 5287390000000.0
+  med: -1611800000000.0
+  strike1: 244.7155720052329
+  dip1: 63.3753076620754
+  rake1: -124.73122957444438
+  strike2: 121.83494161901449
+  dip2: 42.71919453190725
+  rake2: -41.34446698108298
+  moment: 15102721921308.586
+  magnitude: 2.7527034840176743
+tags:
+- GOSSIP_id:14725
+- mag:3.57
+- INGV_id:30350681
+- mag:3.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828201
+lon: 14.1422
+time: '2022-04-19 02:05:54.299999952'
+depth: 1424.115204
+name: 'flegrei_2022_04_19_02_05_54'
+magnitude: 2.41109
+moment_tensor: !pf.MomentTensor
+  mnn: -1202230000000.0
+  mee: 3557070000000.0
+  mdd: -2354840000000.0
+  mne: -28393800000.0
+  mnd: -3188840000000.0
+  med: -1245090000000.0
+  strike1: 143.2721384294478
+  dip1: 69.34783966611928
+  rake1: -127.97512425358734
+  strike2: 28.957186420334015
+  dip2: 42.47073421331294
+  rake2: -31.489606820879835
+  moment: 4641276069496.237
+  magnitude: 2.411091601081049
+tags:
+- GOSSIP_id:14885
+- mag:2.94
+- INGV_id:30671901
+- mag:2.3
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.827301
+lon: 14.1402
+time: '2022-07-30 03:27:48.930000067'
+depth: 1513.736259
+name: 'flegrei_2022_07_30_03_27_48'
+magnitude: 1.93351
+moment_tensor: !pf.MomentTensor
+  mnn: 575494000000.0
+  mee: 170218000000.0
+  mdd: -745712000000.0
+  mne: -313632000000.0
+  mnd: -458142000000.0
+  med: -170011000000.0
+  strike1: 83.18191541908044
+  dip1: 60.534954111959465
+  rake1: -67.84965846930766
+  strike2: 223.57134406122742
+  dip2: 36.254365930653215
+  rake2: -123.71765458246111
+  moment: 891790229236.1136
+  magnitude: 1.9335084731721857
+tags:
+- GOSSIP_id:16351
+- mag:2.51
+- INGV_id:32166291
+- mag:2.7
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.809799
+lon: 14.1172
+time: '2022-11-12 21:37:54.75999999'
+depth: 3660.501575
+name: 'flegrei_2022_11_12_21_37_54'
+magnitude: 2.60153
+moment_tensor: !pf.MomentTensor
+  mnn: 7519880000000.0
+  mee: -635994000000.0
+  mdd: -6883880000000.0
+  mne: 2853550000000.0
+  mnd: 2056530000000.0
+  med: -3966490000000.0
+  strike1: 261.1005615835282
+  dip1: 54.84077027744613
+  rake1: -126.54437568434635
+  strike2: 133.25484298147856
+  dip2: 48.94218445048703
+  rake2: -49.789696242223435
+  moment: 8959662375442.39
+  magnitude: 2.6015277630452154
+tags:
+- GOSSIP_id:17434
+- mag:2.67
+- INGV_id:33361881
+- mag:1.6
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.827202
+lon: 14.1338
+time: '2023-01-19 08:44:30.190000057'
+depth: 2850.328633
+name: 'flegrei_2023_01_19_08_44_30'
+magnitude: 2.49231
+moment_tensor: !pf.MomentTensor
+  mnn: 3549840000000.0
+  mee: 1974920000000.0
+  mdd: -5524750000000.0
+  mne: -2694910000000.0
+  mnd: -2322470000000.0
+  med: -1257940000000.0
+  strike1: 73.08935843111878
+  dip1: 54.22250575711786
+  rake1: -65.20282562903053
+  strike2: 214.77216504221903
+  dip2: 42.56666486859606
+  rake2: -120.19958928944872
+  moment: 6144191374774.226
+  magnitude: 2.4923098228804417
+tags:
+- GOSSIP_id:23194
+- mag:2.59
+- INGV_id:33946951
+- mag:2.1
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8032
+lon: 14.1108
+time: '2023-02-05 00:45:36.160000086'
+depth: 3755.565647
+name: 'flegrei_2023_02_05_00_45_36'
+magnitude: 2.88801
+moment_tensor: !pf.MomentTensor
+  mnn: 16509800000000.0
+  mee: 8833900000000.0
+  mdd: -25343700000000.0
+  mne: 1333250000000.0
+  mnd: -8049830000000.0
+  med: -4216110000000.0
+  strike1: 106.06027585473542
+  dip1: 56.442806540712674
+  rake1: -85.5650703510899
+  strike2: 278.073240989099
+  dip2: 33.8149506630464
+  rake2: -96.64925092353566
+  moment: 24100002273723.953
+  magnitude: 2.8880113890323678
+tags:
+- GOSSIP_id:23338
+- mag:2.97
+- INGV_id:34043501
+- mag:2.1
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.831799
+lon: 14.1247
+time: '2023-03-04 13:15:20.410000086'
+depth: 4017.963339
+name: 'flegrei_2023_03_04_13_15_20'
+magnitude: 2.45904
+moment_tensor: !pf.MomentTensor
+  mnn: 4647870000000.0
+  mee: -10702700000.0
+  mdd: -4637160000000.0
+  mne: 469234000000.0
+  mnd: 2061270000000.0
+  med: -1994370000000.0
+  strike1: 254.5940201557624
+  dip1: 59.56267521219297
+  rake1: -112.38762033736182
+  strike2: 113.7088989461166
+  dip2: 37.13648867056466
+  rake2: -57.04827446428985
+  moment: 5477185201515.431
+  magnitude: 2.4590382840610197
+tags:
+- GOSSIP_id:23716
+- mag:2.6
+- INGV_id:34240361
+- mag:1.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8358
+lon: 14.1402
+time: '2023-03-13 22:40:53.579999924'
+depth: 2650.135795
+name: 'flegrei_2023_03_13_22_40_53'
+magnitude: 2.50747
+moment_tensor: !pf.MomentTensor
+  mnn: 6081280000000.0
+  mee: 258177000000.0
+  mdd: -6339450000000.0
+  mne: 212549000000.0
+  mnd: 1763970000000.0
+  med: -379608000000.0
+  strike1: 268.33309649192023
+  dip1: 52.977136505217814
+  rake1: -94.45149184382436
+  strike2: 95.70000393874558
+  dip2: 37.25143346650866
+  rake2: -84.12419456504809
+  moment: 6474526509643.736
+  magnitude: 2.5074720089379277
+tags:
+- GOSSIP_id:23904
+- mag:2.83
+- INGV_id:34351831
+- mag:1.9
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.828701
+lon: 14.1477
+time: '2023-03-24 05:24:43.089999914'
+depth: 2194.906376
+name: 'flegrei_2023_03_24_05_24_43'
+magnitude: 2.50752
+moment_tensor: !pf.MomentTensor
+  mnn: 4275410000000.0
+  mee: 789808000000.0
+  mdd: -5065220000000.0
+  mne: -1000580000000.0
+  mnd: 3946150000000.0
+  med: -1754900000000.0
+  strike1: 249.29600495712782
+  dip1: 66.00577888797169
+  rake1: -94.15402020335104
+  strike2: 79.42252557061998
+  dip2: 24.33017558080228
+  rake2: -80.75659408170797
+  moment: 6475540492158.318
+  magnitude: 2.5075173489362133
+tags:
+- GOSSIP_id:24146
+- mag:2.59
+- INGV_id:34448221
+- mag:2.4
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.835701
+lon: 14.1417
+time: '2023-04-10 03:54:45.480000019'
+depth: 3382.141648
+name: 'flegrei_2023_04_10_03_54_45'
+magnitude: 2.65767
+moment_tensor: !pf.MomentTensor
+  mnn: 9839570000000.0
+  mee: -918431000000.0
+  mdd: -8921140000000.0
+  mne: -2829770000000.0
+  mnd: 4649110000000.0
+  med: -243498000000.0
+  strike1: 261.6846286714781
+  dip1: 57.841787277551745
+  rake1: -83.50178660421321
+  strike2: 69.60546239311779
+  dip2: 32.73902504505254
+  rake2: -100.20427714392908
+  moment: 10876801433056.248
+  magnitude: 2.6576674667485154
+tags:
+- GOSSIP_id:24479
+- mag:2.92
+- INGV_id:34628561
+- mag:1.7
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.82
+lon: 14.1463
+time: '2023-04-23 00:35:20.680000067'
+depth: 1126.214071
+name: 'flegrei_2023_04_23_00_35_20'
+magnitude: 1.68799
+moment_tensor: !pf.MomentTensor
+  mnn: -244644000000.0
+  mee: 83861900000.0
+  mdd: 160782000000.0
+  mne: 114848000000.0
+  mnd: 216868000000.0
+  med: -198197000000.0
+  strike1: 48.38835171819867
+  dip1: 74.36137727484349
+  rake1: 67.37862574833517
+  strike2: 285.48881063540574
+  dip2: 27.265174221234176
+  rake2: 143.95374648095205
+  moment: 381930650253.1644
+  magnitude: 1.6879896748441219
+tags:
+- GOSSIP_id:24863
+- mag:1.99
+- INGV_id:34760611
+- mag:2.5
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.827702
+lon: 14.1402
+time: '2023-05-08 02:28:34.25999999'
+depth: 3338.307887
+name: 'flegrei_2023_05_08_02_28_34'
+magnitude: 2.94584
+moment_tensor: !pf.MomentTensor
+  mnn: 19097700000000.0
+  mee: 8251140000000.0
+  mdd: -27348800000000.0
+  mne: -4168240000000.0
+  mnd: 3769950000000.0
+  med: -15621400000000.0
+  strike1: 226.7145880503482
+  dip1: 59.39569501774843
+  rake1: -108.65155203771027
+  strike2: 80.25910736424593
+  dip2: 35.36311856456013
+  rake2: -61.60080917680027
+  moment: 29427793744603.074
+  magnitude: 2.9458384689801864
+tags:
+- GOSSIP_id:25202
+- mag:3.48
+- INGV_id:34919151
+- mag:2.3
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.824799
+lon: 14.1377
+time: '2023-05-08 22:33:17.410000086'
+depth: 1252.48049
+name: 'flegrei_2023_05_08_22_33_17'
+magnitude: 2.08016
+moment_tensor: !pf.MomentTensor
+  mnn: 669182000000.0
+  mee: 504422000000.0
+  mdd: -1173600000000.0
+  mne: -449227000000.0
+  mnd: 365004000000.0
+  med: -902960000000.0
+  strike1: 213.2745689204597
+  dip1: 65.73050623691789
+  rake1: -102.19940047934931
+  strike2: 61.01843969728901
+  dip2: 26.996267879931864
+  rake2: -64.88868497240418
+  moment: 1479919291971.3562
+  magnitude: 2.0801586877375264
+tags:
+- GOSSIP_id:25214
+- mag:2.69
+- INGV_id:34928001
+- mag:1.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.834301
+lon: 14.1102
+time: '2023-06-11 06:44:25.720000029'
+depth: 3554.166524
+name: 'flegrei_2023_06_11_06_44_25'
+magnitude: 2.926
+moment_tensor: !pf.MomentTensor
+  mnn: 22682800000000.0
+  mee: -5729890000000.0
+  mdd: -16952900000000.0
+  mne: -1293980000000.0
+  mnd: 3485870000000.0
+  med: 17996500000000.0
+  strike1: 299.5760398153681
+  dip1: 59.77765965325947
+  rake1: -47.272413230432925
+  strike2: 58.16447782098568
+  dip2: 50.59916582063349
+  rake2: -139.3523434883517
+  moment: 27478548414687.94
+  magnitude: 2.9259958579317544
+tags:
+- GOSSIP_id:26132
+- mag:3.56
+- INGV_id:35278141
+- mag:2.4
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.831501
+lon: 14.1402
+time: '2023-06-15 15:39:40.319999933'
+depth: 3240.938159
+name: 'flegrei_2023_06_15_15_39_40'
+magnitude: 2.6201
+moment_tensor: !pf.MomentTensor
+  mnn: 8767070000000.0
+  mee: 690232000000.0
+  mdd: -9457300000000.0
+  mne: -113491000000.0
+  mnd: 2419560000000.0
+  med: -1416220000000.0
+  strike1: 261.5910081942549
+  dip1: 52.9756502392779
+  rake1: -98.91965025569577
+  strike2: 96.19971749422874
+  dip2: 37.93351087125299
+  rake2: -78.38323795670536
+  moment: 9553117806948.838
+  magnitude: 2.6200967556019084
+tags:
+- GOSSIP_id:26290
+- mag:2.89
+- INGV_id:35317061
+- mag:2.0
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.827702
+lon: 14.1517
+time: '2023-08-18 04:10:30.410000086'
+depth: 3190.169223
+name: 'flegrei_2023_08_18_04_10_30'
+magnitude: 2.97347
+moment_tensor: !pf.MomentTensor
+  mnn: 22431100000000.0
+  mee: 539793000000.0
+  mdd: -22970900000000.0
+  mne: -13004500000000.0
+  mnd: 17502900000000.0
+  med: 7556670000000.0
+  strike1: 270.6154096004083
+  dip1: 63.76540338559103
+  rake1: -62.12157823646084
+  strike2: 40.4990052371431
+  dip2: 37.54373991116141
+  rake2: -133.49611703800213
+  moment: 32374769889534.723
+  magnitude: 2.9734711268407903
+tags:
+- GOSSIP_id:28871
+- mag:2.53
+- INGV_id:35871241
+- mag:2.1
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.831501
+lon: 14.1375
+time: '2023-08-18 04:18:05.660000086'
+depth: 2388.347237
+name: 'flegrei_2023_08_18_04_18_05'
+magnitude: 3.20501
+moment_tensor: !pf.MomentTensor
+  mnn: 55876600000000.0
+  mee: 8323070000000.0
+  mdd: -64199700000000.0
+  mne: -19342800000000.0
+  mnd: 5247310000000.0
+  med: -33616400000000.0
+  strike1: 88.49743611014296
+  dip1: 40.92077531326308
+  rake1: -58.58589628698804
+  strike2: 229.5499228613475
+  dip2: 56.01302548475498
+  rake2: -114.31467038094364
+  moment: 72029682936783.44
+  magnitude: 3.2050076687237414
+tags:
+- GOSSIP_id:28848
+- mag:3.64
+- INGV_id:35871351
+- mag:2.8
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.8297
+lon: 14.1387
+time: '2023-08-18 04:22:49.849999905'
+depth: 2032.579895
+name: 'flegrei_2023_08_18_04_22_49'
+magnitude: 2.64909
+moment_tensor: !pf.MomentTensor
+  mnn: 8672050000000.0
+  mee: 1071120000000.0
+  mdd: -9743170000000.0
+  mne: 413894000000.0
+  mnd: -4758570000000.0
+  med: -1743850000000.0
+  strike1: 100.58606495973889
+  dip1: 59.28014509576405
+  rake1: -83.01785122348424
+  strike2: 267.1044894965429
+  dip2: 31.427568287397776
+  rake2: -101.56142676295373
+  moment: 10559207591648.91
+  magnitude: 2.6490875520632535
+tags:
+- GOSSIP_id:28850
+- mag:3.12
+- INGV_id:35871461
+- mag:2.3
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.801998
+lon: 14.1142
+time: '2023-08-27 21:14:23.450000048'
+depth: 3529.743809
+name: 'flegrei_2023_08_27_21_14_23'
+magnitude: 2.59813
+moment_tensor: !pf.MomentTensor
+  mnn: 6906620000000.0
+  mee: 425377000000.0
+  mdd: -7332000000000.0
+  mne: 2064210000000.0
+  mnd: 4764810000000.0
+  med: 791865000000.0
+  strike1: 282.4861382276416
+  dip1: 61.543264181777865
+  rake1: -93.65730161570283
+  strike2: 110.12639458130907
+  dip2: 28.671292842613276
+  rake2: -83.28740493417997
+  moment: 8855038799840.998
+  magnitude: 2.5981269789763584
+tags:
+- GOSSIP_id:29141
+- mag:2.61
+- INGV_id:35963041
+- mag:1.6
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.831299
+lon: 14.1465
+time: '2023-09-07 17:45:28.779999971'
+depth: 3058.2989
+name: 'flegrei_2023_09_07_17_45_28'
+magnitude: 3.44487
+moment_tensor: !pf.MomentTensor
+  mnn: 156875000000000.0
+  mee: -33047300000000.0
+  mdd: -123828000000000.0
+  mne: -68239000000000.0
+  mnd: 41038000000000.0
+  med: 18541200000000.0
+  strike1: 270.08015925491725
+  dip1: 54.27375645333988
+  rake1: -65.54717760003072
+  strike2: 52.169880669099165
+  dip2: 42.35385127887702
+  rake2: -119.92074363039508
+  moment: 164930549885656.4
+  magnitude: 3.4448674046237873
+tags:
+- GOSSIP_id:29728
+- mag:3.79
+- INGV_id:36084091
+- mag:3.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828
+lon: 14.139167
+time: '2023-09-12 02:28:50.200000048'
+depth: 1751.935768
+name: 'flegrei_2023_09_12_02_28_50'
+magnitude: 2.2102
+moment_tensor: !pf.MomentTensor
+  mnn: 345709000000.0
+  mee: 1778610000000.0
+  mdd: -2124320000000.0
+  mne: -315743000000.0
+  mnd: -1162060000000.0
+  med: 172950000000.0
+  strike1: 34.23890601901219
+  dip1: 55.23650067363866
+  rake1: -65.06679665301034
+  strike2: 175.0477646654465
+  dip2: 41.845407189809414
+  rake2: -121.27334935076982
+  moment: 2319017171505.959
+  magnitude: 2.21020264296512
+tags:
+- GOSSIP_id:29830
+- mag:2.9
+- INGV_id:36114561
+- mag:1.9
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.8315
+lon: 14.143167
+time: '2023-09-22 09:01:59.950000048'
+depth: 2011.982587
+name: 'flegrei_2023_09_22_09_01_59'
+magnitude: 2.74333
+moment_tensor: !pf.MomentTensor
+  mnn: 14163300000000.0
+  mee: -312477000000.0
+  mdd: -13850800000000.0
+  mne: -2170270000000.0
+  mnd: -1077230000000.0
+  med: -3413420000000.0
+  strike1: 95.31750324539507
+  dip1: 47.84298810578887
+  rake1: -70.89338903656595
+  strike2: 248.01774614688995
+  dip2: 45.53523200873268
+  rake2: -109.87674981052999
+  moment: 14621648920178.754
+  magnitude: 2.743330901244203
+tags:
+- GOSSIP_id:30137
+- mag:3.2
+- INGV_id:36243631
+- mag:2.4
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.814
+lon: 14.153667
+time: '2023-09-24 15:35:02.029000044'
+depth: 3635.932181
+name: 'flegrei_2023_09_24_15_35_02'
+magnitude: 2.63466
+moment_tensor: !pf.MomentTensor
+  mnn: 2522210000000.0
+  mee: 8354100000000.0
+  mdd: -10876300000000.0
+  mne: -1585550000000.0
+  mnd: 930037000000.0
+  med: 561340000000.0
+  strike1: 198.7236851493812
+  dip1: 44.256427236047095
+  rake1: -83.48699403718499
+  strike2: 9.666969279922604
+  dip2: 46.1027818865999
+  rake2: -96.30685875830989
+  moment: 10045758115320.066
+  magnitude: 2.6346551445872155
+tags:
+- GOSSIP_id:30310
+- mag:2.8
+- INGV_id:36272401
+- mag:2.2
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.8075
+lon: 14.106667
+time: '2023-09-26 06:31:43.578999996'
+depth: 3585.170621
+name: 'flegrei_2023_09_26_06_31_43'
+magnitude: 2.49573
+moment_tensor: !pf.MomentTensor
+  mnn: 4836460000000.0
+  mee: -121272000000.0
+  mdd: -4715180000000.0
+  mne: 3174080000000.0
+  mnd: 2148820000000.0
+  med: -1068510000000.0
+  strike1: 273.78874893854794
+  dip1: 57.0868114600553
+  rake1: -119.30217686829684
+  strike2: 139.71487340980863
+  dip2: 42.93877764512679
+  rake2: -52.905629710418474
+  moment: 6217186838908.093
+  magnitude: 2.4957292793217896
+tags:
+- GOSSIP_id:30417
+- mag:2.5
+- INGV_id:36287451
+- mag:2.2
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.805833
+lon: 14.108
+time: '2023-09-26 07:10:29.588999987'
+depth: 3804.660127
+name: 'flegrei_2023_09_26_07_10_29'
+magnitude: 3.20415
+moment_tensor: !pf.MomentTensor
+  mnn: 52084300000000.0
+  mee: 13377900000000.0
+  mdd: -65462200000000.0
+  mne: 12160300000000.0
+  mnd: 4733310000000.0
+  med: 37402100000000.0
+  strike1: 90.30448629702
+  dip1: 40.3490810887554
+  rake1: -121.60928132817487
+  strike2: 309.22628827757785
+  dip2: 56.53760486508959
+  rake2: -65.99841585321325
+  moment: 71817235228920.52
+  magnitude: 3.2041524546255093
+tags:
+- GOSSIP_id:30421
+- mag:3.3
+- INGV_id:36288401
+- mag:2.5
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.819167
+lon: 14.159
+time: '2023-09-27 01:35:34.348999977'
+depth: 2751.620909
+name: 'flegrei_2023_09_27_01_35_34'
+magnitude: 3.30669
+moment_tensor: !pf.MomentTensor
+  mnn: -681047000000.0
+  mee: 15954800000000.0
+  mdd: -15273800000000.0
+  mne: -42143200000000.0
+  mnd: 9331800000000.0
+  med: 91464900000000.0
+  strike1: 258.1153536856811
+  dip1: 25.222752445634615
+  rake1: -10.492174510880341
+  strike2: 357.6263901261858
+  dip2: 85.54935253670797
+  rake2: -114.85231555498353
+  moment: 102338233064373.92
+  magnitude: 3.306691942884253
+tags:
+- GOSSIP_id:30466
+- mag:4.2
+- INGV_id:36299321
+- mag:3.1
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.8265
+lon: 14.139667
+time: '2023-09-29 21:57:58.319000006'
+depth: 3267.552653
+name: 'flegrei_2023_09_29_21_57_58'
+magnitude: 2.26402
+moment_tensor: !pf.MomentTensor
+  mnn: 346510000000.0
+  mee: 2493080000000.0
+  mdd: -2839590000000.0
+  mne: 96580800000.0
+  mnd: 670284000000.0
+  med: -375683000000.0
+  strike1: 346.5693337132915
+  dip1: 42.37910811166771
+  rake1: -107.16286293018189
+  strike2: 189.25851935467745
+  dip2: 49.90789144153664
+  rake2: -74.93017124990926
+  moment: 2792694115970.0317
+  magnitude: 2.2640155799956236
+tags:
+- GOSSIP_id:30792
+- mag:2.7
+- INGV_id:36335741
+- mag:2.1
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.832833
+lon: 14.135667
+time: '2023-10-01 13:33:09.019000053'
+depth: 3039.086347
+name: 'flegrei_2023_10_01_13_33_09'
+magnitude: 2.67769
+moment_tensor: !pf.MomentTensor
+  mnn: 11244200000000.0
+  mee: -2777540000000.0
+  mdd: -8466640000000.0
+  mne: -1960920000000.0
+  mnd: 5392350000000.0
+  med: -125982000000.0
+  strike1: 266.69400221461103
+  dip1: 59.280814981006344
+  rake1: -84.57055793652763
+  strike2: 76.15394905467721
+  dip2: 31.149081517057358
+  rake2: -99.04762179993905
+  moment: 11655637894333.54
+  magnitude: 2.677690697830789
+tags:
+- GOSSIP_id:30857
+- mag:2.9
+- INGV_id:36352551
+- mag:1.9
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.830667
+lon: 14.15
+time: '2023-10-02 20:08:26.690000057'
+depth: 3541.451512
+name: 'flegrei_2023_10_02_20_08_26'
+magnitude: 3.33073
+moment_tensor: !pf.MomentTensor
+  mnn: 40069000000000.0
+  mee: 36015600000000.0
+  mdd: -76084600000000.0
+  mne: -62471600000000.0
+  mnd: 57005800000000.0
+  med: -29441100000000.0
+  strike1: 238.14166199895226
+  dip1: 63.617324395968105
+  rake1: -76.61398661675668
+  strike2: 29.97075319728765
+  dip2: 29.36562306917578
+  rake2: -115.01982757113778
+  moment: 111197561529783.52
+  magnitude: 3.3307301757553294
+tags:
+- GOSSIP_id:30898
+- mag:4.0
+- INGV_id:36365741
+- mag:3.2
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8295
+lon: 14.134167
+time: '2023-10-04 08:46:55.029000044'
+depth: 3433.168211
+name: 'flegrei_2023_10_04_08_46_55'
+magnitude: 2.8245
+moment_tensor: !pf.MomentTensor
+  mnn: 10290500000000.0
+  mee: 9820610000000.0
+  mdd: -20111100000000.0
+  mne: 5112690000000.0
+  mnd: 3563540000000.0
+  med: -5683170000000.0
+  strike1: 301.32270783883246
+  dip1: 44.211067316538944
+  rake1: -109.90608014259602
+  strike2: 148.1255990894538
+  dip2: 49.03172235854471
+  rake2: -71.67359764070403
+  moment: 19352891120777.016
+  magnitude: 2.824497235522019
+tags:
+- GOSSIP_id:31003
+- mag:2.6
+- INGV_id:36381821
+- mag:2.0
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.825
+lon: 14.142167
+time: '2023-10-16 10:36:21.118999958'
+depth: 1174.682191
+name: 'flegrei_2023_10_16_10_36_21'
+magnitude: 2.54464
+moment_tensor: !pf.MomentTensor
+  mnn: -1398840000000.0
+  mee: 7028820000000.0
+  mdd: -5629980000000.0
+  mne: -1449490000000.0
+  mnd: -2658230000000.0
+  med: -1868770000000.0
+  strike1: 34.42630508461856
+  dip1: 45.0337236442633
+  rake1: -50.246094421926486
+  strike2: 164.77703869195688
+  dip2: 57.04758446601243
+  rake2: -122.62918609004298
+  moment: 7361275614667.609
+  magnitude: 2.5446353856822927
+tags:
+- GOSSIP_id:31411
+- mag:3.6
+- INGV_id:36499161
+- mag:2.5
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.8315
+lon: 14.133333
+time: '2023-11-23 18:41:46.900000095'
+depth: 3147.387244
+name: 'flegrei_2023_11_23_18_41_46'
+magnitude: 2.60213
+moment_tensor: !pf.MomentTensor
+  mnn: 3719980000000.0
+  mee: 4773160000000.0
+  mdd: -8493140000000.0
+  mne: 350483000000.0
+  mnd: 5055470000000.0
+  med: -741797000000.0
+  strike1: 272.34254591559346
+  dip1: 64.55932038019077
+  rake1: -95.49343070365298
+  strike2: 104.9618062963873
+  dip2: 25.988362241799756
+  rake2: -78.62168935925335
+  moment: 8978209474399.559
+  magnitude: 2.602126489261291
+tags:
+- GOSSIP_id:31823
+- mag:3.0
+- INGV_id:36951941
+- mag:2.2
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.806333
+lon: 14.106667
+time: '2024-01-21 09:35:04.858999968'
+depth: 4129.33741
+name: 'flegrei_2024_01_21_09_35_04'
+magnitude: 2.6249
+moment_tensor: !pf.MomentTensor
+  mnn: 8702320000000.0
+  mee: -265059000000.0
+  mdd: -8437260000000.0
+  mne: 4081840000000.0
+  mnd: 243460000000.0
+  med: -2031200000000.0
+  strike1: 276.08361253087855
+  dip1: 45.520615610880746
+  rake1: -111.94756260021198
+  strike2: 125.9878473812805
+  dip2: 48.563282626998195
+  rake2: -69.16254384121862
+  moment: 9712901573625.695
+  magnitude: 2.6248993252028523
+tags:
+- GOSSIP_id:32178
+- mag:2.6
+- INGV_id:37397681
+- mag:2.6
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.811333
+lon: 14.0975
+time: '2024-02-17 18:09:50.630000114'
+depth: 3809.138613
+name: 'flegrei_2024_02_17_18_09_50'
+magnitude: 2.47033
+moment_tensor: !pf.MomentTensor
+  mnn: 1372870000000.0
+  mee: 3761400000000.0
+  mdd: -5134270000000.0
+  mne: 872800000000.0
+  mnd: -3234500000000.0
+  med: -114757000000.0
+  strike1: 135.4330094622811
+  dip1: 57.71305528313798
+  rake1: -114.09028947673809
+  strike2: 355.36401548851387
+  dip2: 39.4883856344906
+  rake2: -57.13770042611593
+  moment: 5695064044762.71
+  magnitude: 2.4703324082475557
+tags:
+- GOSSIP_id:32701
+- mag:2.7
+- INGV_id:37620461
+- mag:2.7
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.816
+lon: 14.152167
+time: '2024-03-03 09:01:59.608999968'
+depth: 3899.349599
+name: 'flegrei_2024_03_03_09_01_59'
+magnitude: 3.02807
+moment_tensor: !pf.MomentTensor
+  mnn: 11326600000000.0
+  mee: 5108930000000.0
+  mdd: -16435500000000.0
+  mne: 23288700000000.0
+  mnd: -6181110000000.0
+  med: 27119700000000.0
+  strike1: 98.02853392151746
+  dip1: 43.194760841637084
+  rake1: -154.2381663491447
+  strike2: 348.6452069050496
+  dip2: 72.69269448050215
+  rake2: -49.78305127420548
+  moment: 39093569079703.5
+  magnitude: 3.028070214343982
+tags:
+- GOSSIP_id:32915
+- mag:3.2
+- INGV_id:37758961
+- mag:3.4
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.825833
+lon: 14.114
+time: '2024-04-04 05:14:36.519000053'
+depth: 3883.802479
+name: 'flegrei_2024_04_04_05_14_36'
+magnitude: 2.59451
+moment_tensor: !pf.MomentTensor
+  mnn: 2134570000000.0
+  mee: 6353820000000.0
+  mdd: -8488390000000.0
+  mne: -208627000000.0
+  mnd: 3326590000000.0
+  med: -2621990000000.0
+  strike1: 201.7605805440702
+  dip1: 57.95546333205217
+  rake1: -74.59651507001207
+  strike2: 354.3192577743579
+  dip2: 35.19569473566125
+  rake2: -112.99336435864251
+  moment: 8744978504720.809
+  magnitude: 2.5945058308760753
+tags:
+- GOSSIP_id:33522
+- mag:2.7
+- INGV_id:38104221
+- mag:2.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.803667
+lon: 14.1145
+time: '2024-04-06 11:59:31.900000095'
+depth: 3528.02431
+name: 'flegrei_2024_04_06_11_59_31'
+magnitude: 2.65426
+moment_tensor: !pf.MomentTensor
+  mnn: 9965490000000.0
+  mee: 922302000000.0
+  mdd: -10887800000000.0
+  mne: 1437290000000.0
+  mnd: 1642000000000.0
+  med: -1199570000000.0
+  strike1: 271.8373521141135
+  dip1: 49.308679938726065
+  rake1: -99.03459050371302
+  strike2: 105.54290187215304
+  dip2: 41.51119283001897
+  rake2: -79.6506330953071
+  moment: 10749597439376.602
+  magnitude: 2.654261467136376
+tags:
+- GOSSIP_id:33632
+- mag:2.5
+- INGV_id:38126061
+- mag:2.5
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.832833
+lon: 14.147167
+time: '2024-04-09 20:32:10.108999968'
+depth: 2701.49931
+name: 'flegrei_2024_04_09_20_32_10'
+magnitude: 2.5021
+moment_tensor: !pf.MomentTensor
+  mnn: 6495760000000.0
+  mee: -2937300000000.0
+  mdd: -3558460000000.0
+  mne: 1287730000000.0
+  mnd: 2102190000000.0
+  med: -1603830000000.0
+  strike1: 246.58569847287785
+  dip1: 65.46418433972555
+  rake1: -132.60031082622766
+  strike2: 132.28228233133333
+  dip2: 47.961828493188456
+  rake2: -33.995351147128474
+  moment: 6355498047950.294
+  magnitude: 2.5020997264439853
+tags:
+- GOSSIP_id:33786
+- mag:2.8
+- INGV_id:38159761
+- mag:2.8
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.828167
+lon: 14.137333
+time: '2024-04-14 07:44:24.098999977'
+depth: 2134.269031
+name: 'flegrei_2024_04_14_07_44_24'
+magnitude: 3.07092
+moment_tensor: !pf.MomentTensor
+  mnn: 33042600000000.0
+  mee: 9473700000000.0
+  mdd: -42516300000000.0
+  mne: 1401490000000.0
+  mnd: 23291500000000.0
+  med: 3960950000000.0
+  strike1: 276.4233947217229
+  dip1: 60.979930600953075
+  rake1: -87.76084579675663
+  strike2: 91.81529561635072
+  dip2: 29.098830514205595
+  rake2: -94.02852721887713
+  moment: 45329321166796.66
+  magnitude: 3.0709194768616594
+tags:
+- GOSSIP_id:34048
+- mag:3.7
+- INGV_id:38206821
+- mag:3.7
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.824667
+lon: 14.140167
+time: '2024-04-14 07:57:58.049000025'
+depth: 1128.89597
+name: 'flegrei_2024_04_14_07_57_58'
+magnitude: 1.6642
+moment_tensor: !pf.MomentTensor
+  mnn: 76894000000.0
+  mee: 133299000000.0
+  mdd: -210193000000.0
+  mne: 59902300000.0
+  mnd: 293637000000.0
+  med: -5159540000.0
+  strike1: 280.6791766066059
+  dip1: 75.37376148242379
+  rake1: -103.5771173965141
+  strike2: 144.40248043112254
+  dip2: 19.855185829255028
+  rake2: -48.02718831070919
+  moment: 351807899442.7236
+  magnitude: 1.6642037245434746
+tags:
+- GOSSIP_id:34085
+- mag:2.5
+- INGV_id:38208091
+- mag:2.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.829
+lon: 14.138167
+time: '2024-04-14 08:01:43.700000048'
+depth: 2234.559404
+name: 'flegrei_2024_04_14_08_01_43'
+magnitude: 2.70371
+moment_tensor: !pf.MomentTensor
+  mnn: 8575910000000.0
+  mee: 5017730000000.0
+  mdd: -13593600000000.0
+  mne: -1966260000000.0
+  mnd: 919830000000.0
+  med: 4017380000000.0
+  strike1: 256.7373246767626
+  dip1: 44.0680172852637
+  rake1: -72.3637367849982
+  strike2: 52.869755442130504
+  dip2: 48.48453735305703
+  rake2: -106.34502082204907
+  moment: 12751725824428.627
+  magnitude: 2.703712644241623
+tags:
+- GOSSIP_id:34065
+- mag:3.0
+- INGV_id:38207461
+- mag:3.0
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.8285
+lon: 14.137833
+time: '2024-04-14 08:08:31.279000044'
+depth: 1863.145189
+name: 'flegrei_2024_04_14_08_08_31'
+magnitude: 2.02966
+moment_tensor: !pf.MomentTensor
+  mnn: 946574000000.0
+  mee: 112487000000.0
+  mdd: -1059060000000.0
+  mne: 178581000000.0
+  mnd: 593871000000.0
+  med: -381480000000.0
+  strike1: 260.817395657878
+  dip1: 61.4948431135154
+  rake1: -108.96230241245472
+  strike2: 116.56974653942234
+  dip2: 33.78960796424267
+  rake2: -59.10590785998745
+  moment: 1243073932525.5356
+  magnitude: 2.0296646395465725
+tags:
+- GOSSIP_id:34068
+- mag:2.4
+- INGV_id:38208171
+- mag:2.5
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.828667
+lon: 14.151667
+time: '2024-04-16 03:38:05.549000025'
+depth: 2070.4383
+name: 'flegrei_2024_04_16_03_38_05'
+magnitude: 2.20572
+moment_tensor: !pf.MomentTensor
+  mnn: 1877360000000.0
+  mee: -288056000000.0
+  mdd: -1589310000000.0
+  mne: -800105000000.0
+  mnd: 1205500000000.0
+  med: 231590000000.0
+  strike1: 270.501418650012
+  dip1: 62.95616240421007
+  rake1: -68.49603568621214
+  strike2: 49.59126255966478
+  dip2: 34.03845136819457
+  rake2: -125.6808715818739
+  moment: 2283355807039.9365
+  magnitude: 2.20571572752989
+tags:
+- GOSSIP_id:34212
+- mag:2.5
+- INGV_id:38235761
+- mag:2.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.832833
+lon: 14.147833
+time: '2024-04-26 01:47:42.309000015'
+depth: 2121.01678
+name: 'flegrei_2024_04_26_01_47_42'
+magnitude: 2.19944
+moment_tensor: !pf.MomentTensor
+  mnn: -439383000000.0
+  mee: -797649000000.0
+  mdd: 1237030000000.0
+  mne: 1281110000000.0
+  mnd: 1464290000000.0
+  med: -165448000000.0
+  strike1: 70.20789468452959
+  dip1: 69.56465115878544
+  rake1: 121.0293165429418
+  strike2: 190.3392316980583
+  dip2: 36.58476978068426
+  rake2: 35.86032504835384
+  moment: 2234397762552.362
+  magnitude: 2.199440325203925
+tags:
+- GOSSIP_id:34591
+- mag:2.6
+- INGV_id:38354751
+- mag:2.4
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8085
+lon: 14.094
+time: '2024-04-27 03:44:56.289000034'
+depth: 3317.272782
+name: 'flegrei_2024_04_27_03_44_56'
+magnitude: 3.34479
+moment_tensor: !pf.MomentTensor
+  mnn: 21465000000000.0
+  mee: 59772200000000.0
+  mdd: -81237100000000.0
+  mne: 51968200000000.0
+  mnd: -64597100000000.0
+  med: 37896700000000.0
+  strike1: 115.70695373011182
+  dip1: 55.90580727684909
+  rake1: -130.94394835685426
+  strike2: 352.83962853344883
+  dip2: 51.27969835326502
+  rake2: -45.92813960638836
+  moment: 116730901125901.52
+  magnitude: 3.3447905587689153
+tags:
+- GOSSIP_id:34662
+- mag:3.9
+- INGV_id:38381891
+- mag:3.9
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.826
+lon: 14.145
+time: '2024-05-07 01:47:54.559000015'
+depth: 1313.647895
+name: 'flegrei_2024_05_07_01_47_54'
+magnitude: 2.4294
+moment_tensor: !pf.MomentTensor
+  mnn: 3988540000000.0
+  mee: 379348000000.0
+  mdd: -4367880000000.0
+  mne: -840765000000.0
+  mnd: -788772000000.0
+  med: 2355960000000.0
+  strike1: 55.898753450867986
+  dip1: 57.37349639807073
+  rake1: -113.74027926420655
+  strike2: 275.1038283722666
+  dip2: 39.56201270643796
+  rake2: -57.835299940582765
+  moment: 4944184517224.351
+  magnitude: 2.4293964468506335
+tags:
+- GOSSIP_id:35156
+- mag:3.2
+- INGV_id:38525651
+- mag:3.2
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.827
+lon: 14.144167
+time: '2024-05-07 03:53:22.358999968'
+depth: 1268.026014
+name: 'flegrei_2024_05_07_03_53_22'
+magnitude: 2.52452
+moment_tensor: !pf.MomentTensor
+  mnn: 5121800000000.0
+  mee: 1003700000000.0
+  mdd: -6125500000000.0
+  mne: -3175140000000.0
+  mnd: -1575350000000.0
+  med: 1488250000000.0
+  strike1: 56.20817329045251
+  dip1: 54.186553131552635
+  rake1: -96.48427518471114
+  strike2: 247.20028088868074
+  dip2: 36.31832243375841
+  rake2: -81.10510148284396
+  moment: 6867250490159.798
+  magnitude: 2.5245219260197196
+tags:
+- GOSSIP_id:35209
+- mag:2.9
+- INGV_id:38526731
+- mag:2.9
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.827833
+lon: 14.1415
+time: '2024-05-07 17:37:25.088999987'
+depth: 2094.443304
+name: 'flegrei_2024_05_07_17_37_25'
+magnitude: 2.38847
+moment_tensor: !pf.MomentTensor
+  mnn: 1310260000000.0
+  mee: 2589660000000.0
+  mdd: -3899920000000.0
+  mne: -2109540000000.0
+  mnd: -1139160000000.0
+  med: -927655000000.0
+  strike1: 54.929506039681165
+  dip1: 47.695037898725424
+  rake1: -63.2909170159549
+  strike2: 198.1502168130679
+  dip2: 48.64973451118291
+  rake2: -116.28314654508713
+  moment: 4292392853761.757
+  magnitude: 2.388466308771447
+tags:
+- GOSSIP_id:35274
+- mag:2.8
+- INGV_id:38537891
+- mag:2.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8325
+lon: 14.13
+time: '2024-05-08 05:29:10.440000057'
+depth: 1732.593431
+name: 'flegrei_2024_05_08_05_29_10'
+magnitude: 1.84587
+moment_tensor: !pf.MomentTensor
+  mnn: -403745000000.0
+  mee: -70045900000.0
+  mdd: 473791000000.0
+  mne: -354100000000.0
+  mnd: 327016000000.0
+  med: -74888400000.0
+  strike1: 98.78068207198054
+  dip1: 61.64213804367654
+  rake1: 61.72042281394905
+  strike2: 327.33997570670977
+  dip2: 39.197951550660974
+  rake2: 131.27567960476657
+  moment: 658886734664.5892
+  magnitude: 1.8458738426702173
+tags:
+- GOSSIP_id:35293
+- mag:2.6
+- INGV_id:38541331
+- mag:2.6
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.832333
+lon: 14.092
+time: '2024-05-13 01:30:20.75'
+depth: 3524.186821
+name: 'flegrei_2024_05_13_01_30_20'
+magnitude: 2.73329
+moment_tensor: !pf.MomentTensor
+  mnn: -8606020000000.0
+  mee: 10257400000000.0
+  mdd: -1651390000000.0
+  mne: -9400570000000.0
+  mnd: -1063310000000.0
+  med: -4355110000000.0
+  strike1: 67.62884575435827
+  dip1: 71.4445304139495
+  rake1: -0.75460327666939
+  strike2: 157.86899005389589
+  dip2: 89.28462609965062
+  rake2: -161.44303121585028
+  moment: 14123412815582.145
+  magnitude: 2.73329310224317
+tags:
+- GOSSIP_id:35467
+- mag:2.9
+- INGV_id:38617181
+- mag:2.9
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8315
+lon: 14.140167
+time: '2024-05-13 20:49:58.5'
+depth: 1380.209341
+name: 'flegrei_2024_05_13_20_49_58'
+magnitude: 1.7731
+moment_tensor: !pf.MomentTensor
+  mnn: 262525000000.0
+  mee: 66358400000.0
+  mdd: -328884000000.0
+  mne: 59247500000.0
+  mnd: 366100000000.0
+  med: -185280000000.0
+  strike1: 254.00294702010598
+  dip1: 72.64829990980999
+  rake1: -103.92237418519079
+  strike2: 113.73578947055405
+  dip2: 22.111731114883366
+  rake2: -52.401843024151184
+  moment: 512456733609.80426
+  magnitude: 1.7731048027158032
+tags:
+- GOSSIP_id:35508
+- mag:2.3
+- INGV_id:38630861
+- mag:2.5
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.835333
+lon: 14.143333
+time: '2024-05-18 04:30:55.200000048'
+depth: 3349.066619
+name: 'flegrei_2024_05_18_04_30_55'
+magnitude: 2.58872
+moment_tensor: !pf.MomentTensor
+  mnn: 5918500000000.0
+  mee: -1021560000000.0
+  mdd: -4896950000000.0
+  mne: -540832000000.0
+  mnd: 6528700000000.0
+  med: -732417000000.0
+  strike1: 263.8906729628455
+  dip1: 70.22529261366931
+  rake1: -91.37827447371971
+  strike2: 87.95845817330063
+  dip2: 19.820763288992502
+  rake2: -86.17245995934522
+  moment: 8571991063758.933
+  magnitude: 2.588721139747367
+tags:
+- GOSSIP_id:35716
+- mag:2.8
+- INGV_id:38702971
+- mag:2.8
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.838667
+lon: 14.128833
+time: '2024-05-20 17:51:14.940000057'
+depth: 4066.214114
+name: 'flegrei_2024_05_20_17_51_14'
+magnitude: 3.23972
+moment_tensor: !pf.MomentTensor
+  mnn: 73976300000000.0
+  mee: -5433340000000.0
+  mdd: -68543000000000.0
+  mne: -252244000000.0
+  mnd: 8659750000000.0
+  med: -37669000000000.0
+  strike1: 246.39258149466286
+  dip1: 53.75717448182158
+  rake1: -121.1953827190284
+  strike2: 112.07732545551393
+  dip2: 46.37773625400834
+  rake2: -54.75530846928797
+  moment: 81203983616697.27
+  magnitude: 3.239718223273373
+tags:
+- GOSSIP_id:35838
+- mag:3.5
+- INGV_id:38759411
+- mag:3.5
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.827333
+lon: 14.1375
+time: '2024-05-20 18:10:03.549000025'
+depth: 3259.076558
+name: 'flegrei_2024_05_20_18_10_03'
+magnitude: 3.86663
+moment_tensor: !pf.MomentTensor
+  mnn: 505772000000000.0
+  mee: 44769200000000.0
+  mdd: -550542000000000.0
+  mne: -260261000000000.0
+  mnd: -329720000000000.0
+  med: 210157000000000.0
+  strike1: 60.72281191419067
+  dip1: 61.896443003032644
+  rake1: -95.212874586547
+  strike2: 251.68385119887913
+  dip2: 28.544137580020966
+  rake2: -80.34452546636696
+  moment: 707863035253515.6
+  magnitude: 3.866632822651992
+tags:
+- GOSSIP_id:35846
+- mag:4.4
+- INGV_id:38759141
+- mag:4.4
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.829667
+lon: 14.136167
+time: '2024-05-20 19:46:14.190000057'
+depth: 3322.046607
+name: 'flegrei_2024_05_20_19_46_14'
+magnitude: 3.81877
+moment_tensor: !pf.MomentTensor
+  mnn: 580485000000000.0
+  mee: -69745800000000.0
+  mdd: -510739000000000.0
+  mne: -103803000000000.0
+  mnd: 212094000000000.0
+  med: 53899400000000.0
+  strike1: 270.80401171458925
+  dip1: 55.79116784684188
+  rake1: -78.20660313103478
+  strike2: 70.43031407746967
+  dip2: 35.94929367146866
+  rake2: -106.73293796313034
+  moment: 600004076608801.0
+  magnitude: 3.8187694674143096
+tags:
+- GOSSIP_id:35955
+- mag:3.9
+- INGV_id:38762031
+- mag:3.9
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.822833
+lon: 14.125667
+time: '2024-05-20 19:55:37.838999987'
+depth: 2965.675804
+name: 'flegrei_2024_05_20_19_55_37'
+magnitude: 2.84706
+moment_tensor: !pf.MomentTensor
+  mnn: 12451300000000.0
+  mee: 7506450000000.0
+  mdd: -19957800000000.0
+  mne: 2202310000000.0
+  mnd: -8144820000000.0
+  med: 7851950000000.0
+  strike1: 81.21991355285901
+  dip1: 59.137163947101136
+  rake1: -107.53696177005972
+  strike2: 292.85376595586104
+  dip2: 35.064895009471286
+  rake2: -63.242183788603256
+  moment: 20921020602189.805
+  magnitude: 2.8470552447664748
+tags:
+- GOSSIP_id:35969
+- mag:3.1
+- INGV_id:38762741
+- mag:3.1
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.822667
+lon: 14.124333
+time: '2024-05-20 21:00:55.170000076'
+depth: 2713.719569
+name: 'flegrei_2024_05_20_21_00_55'
+magnitude: 2.96421
+moment_tensor: !pf.MomentTensor
+  mnn: 15805900000000.0
+  mee: 16598000000000.0
+  mdd: -32403900000000.0
+  mne: -10850400000000.0
+  mnd: -8819550000000.0
+  med: -152158000000.0
+  strike1: 53.86511699107093
+  dip1: 51.54231654623109
+  rake1: -78.42405091545493
+  strike2: 215.63595725161773
+  dip2: 39.90226664504185
+  rake2: -104.17934868070634
+  moment: 31356103096996.355
+  magnitude: 2.9642147224744324
+tags:
+- GOSSIP_id:36042
+- mag:3.6
+- INGV_id:38764921
+- mag:3.6
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.8085
+lon: 14.107667
+time: '2024-05-22 06:28:00.380000114'
+depth: 4330.386578
+name: 'flegrei_2024_05_22_06_28_00'
+magnitude: 3.36122
+moment_tensor: !pf.MomentTensor
+  mnn: 93012700000000.0
+  mee: -2276580000000.0
+  mdd: -90736200000000.0
+  mne: 24325000000000.0
+  mnd: -33717900000000.0
+  med: 71349000000000.0
+  strike1: 73.99975857810432
+  dip1: 58.3951798706599
+  rake1: -126.0124928068987
+  strike2: 308.20918361508404
+  dip2: 46.45558026050135
+  rake2: -46.302482337291984
+  moment: 123547900793672.75
+  magnitude: 3.361223580459585
+tags:
+- GOSSIP_id:36310
+- mag:3.6
+- INGV_id:38797691
+- mag:3.6
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.8295
+lon: 14.140167
+time: '2024-05-25 01:03:23.858999968'
+depth: 2914.101501
+name: 'flegrei_2024_05_25_01_03_23'
+magnitude: 2.35094
+moment_tensor: !pf.MomentTensor
+  mnn: 2606890000000.0
+  mee: 1081280000000.0
+  mdd: -3688170000000.0
+  mne: 534925000000.0
+  mnd: -911410000000.0
+  med: -1521950000000.0
+  strike1: 123.74900024582965
+  dip1: 58.09599587708183
+  rake1: -76.87995681544601
+  strike2: 279.9507392322928
+  dip2: 34.23116778012169
+  rake2: -110.03292326799985
+  moment: 3770539043150.859
+  magnitude: 2.3509356281179556
+tags:
+- GOSSIP_id:36479
+- mag:2.7
+- INGV_id:38849211
+- mag:2.7
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.829833
+lon: 14.144
+time: '2024-06-08 01:52:04.828999996'
+depth: 2105.918831
+name: 'flegrei_2024_06_08_01_52_04'
+magnitude: 2.53174
+moment_tensor: !pf.MomentTensor
+  mnn: 5149590000000.0
+  mee: -727187000000.0
+  mdd: -4422400000000.0
+  mne: -1867160000000.0
+  mnd: 3377120000000.0
+  med: -3372980000000.0
+  strike1: 233.161115391531
+  dip1: 67.9878273296514
+  rake1: -109.80170067578582
+  strike2: 97.01140114819644
+  dip2: 29.274705636124455
+  rake2: -50.038261726529996
+  moment: 7040637042976.615
+  magnitude: 2.5317413041754886
+tags:
+- GOSSIP_id:36917
+- mag:3.5
+- INGV_id:39088961
+- mag:3.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.830667
+lon: 14.149
+time: '2024-06-08 02:09:03.578999996'
+depth: 1285.675587
+name: 'flegrei_2024_06_08_02_09_03'
+magnitude: 2.7874
+moment_tensor: !pf.MomentTensor
+  mnn: -433919000000.0
+  mee: 8469570000000.0
+  mdd: -8035650000000.0
+  mne: -8714970000000.0
+  mnd: -7962660000000.0
+  med: -9070010000000.0
+  strike1: 62.86332538405015
+  dip1: 47.28816314626346
+  rake1: -30.590489095193398
+  strike2: 174.714126988517
+  dip2: 68.04207298508331
+  rake2: -132.99899070006634
+  moment: 17025466926918.045
+  magnitude: 2.7873993542421864
+tags:
+- GOSSIP_id:36927
+- mag:3.7
+- INGV_id:39089101
+- mag:3.7
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.832
+lon: 14.084333
+time: '2024-06-18 01:58:24.410000086'
+depth: 2428.11137
+name: 'flegrei_2024_06_18_01_58_24'
+magnitude: 2.3711
+moment_tensor: !pf.MomentTensor
+  mnn: -1526980000000.0
+  mee: 1037350000000.0
+  mdd: 489635000000.0
+  mne: -2015070000000.0
+  mnd: 1271240000000.0
+  med: 2973440000000.0
+  strike1: 254.5293370331747
+  dip1: 35.643525061772856
+  rake1: 7.366169436858795
+  strike2: 158.5319576224883
+  dip2: 85.71525759542713
+  rake2: 125.41896510785702
+  moment: 4042481461202.079
+  magnitude: 2.3710986912739234
+tags:
+- GOSSIP_id:37228
+- mag:3.4
+- INGV_id:39254101
+- mag:3.4
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.815
+lon: 14.1555
+time: '2024-07-02 13:10:14.789000034'
+depth: 2744.854581
+name: 'flegrei_2024_07_02_13_10_14'
+magnitude: 2.56197
+moment_tensor: !pf.MomentTensor
+  mnn: 1733900000000.0
+  mee: -4838340000000.0
+  mdd: 3104440000000.0
+  mne: -590591000000.0
+  mnd: -2840530000000.0
+  med: 5885460000000.0
+  strike1: 202.22336993759447
+  dip1: 76.77038410687977
+  rake1: 110.57373852713583
+  strike2: 323.5942319211649
+  dip2: 24.304062194137465
+  rake2: 33.78232778772182
+  moment: 7815548174081.008
+  magnitude: 2.5619729629119465
+tags:
+- GOSSIP_id:37553
+- mag:2.9
+- INGV_id:39520601
+- mag:2.9
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.820333
+lon: 14.153167
+time: '2024-07-03 00:18:44.368999958'
+depth: 3168.41454
+name: 'flegrei_2024_07_03_00_18_44'
+magnitude: 2.78079
+moment_tensor: !pf.MomentTensor
+  mnn: -6439770000000.0
+  mee: -5142390000000.0
+  mdd: 11582200000000.0
+  mne: 4770820000000.0
+  mnd: -865541000000.0
+  med: 12344500000000.0
+  strike1: 62.35164294946602
+  dip1: 26.886163813774264
+  rake1: 129.53883483620385
+  strike2: 199.56683996720463
+  dip2: 69.58921233907344
+  rake2: 72.11132755214503
+  moment: 16641143279461.926
+  magnitude: 2.7807887732464582
+tags:
+- GOSSIP_id:37591
+- mag:3.2
+- INGV_id:39526921
+- mag:3.2
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.835667
+lon: 14.144833
+time: '2024-07-11 09:59:20.049000025'
+depth: 1824.453195
+name: 'flegrei_2024_07_11_09_59_20'
+magnitude: 2.23734
+moment_tensor: !pf.MomentTensor
+  mnn: 256880000000.0
+  mee: -1200070000000.0
+  mdd: 943188000000.0
+  mne: 30483800000.0
+  mnd: 2296210000000.0
+  med: 123119000000.0
+  strike1: 95.5285167900677
+  dip1: 85.67759472709508
+  rake1: 87.11925194080496
+  strike2: 309.2581283427608
+  dip2: 5.192893685041914
+  rake2: 123.62087500335004
+  moment: 2546870115582.1514
+  magnitude: 2.2373378650171585
+tags:
+- GOSSIP_id:37827
+- mag:2.6
+- INGV_id:39660611
+- mag:2.6
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.831
+lon: 14.150667
+time: '2024-07-18 06:08:37.640000105'
+depth: 2234.693447
+name: 'flegrei_2024_07_18_06_08_37'
+magnitude: 2.86833
+moment_tensor: !pf.MomentTensor
+  mnn: 17630700000000.0
+  mee: 3835540000000.0
+  mdd: -21466200000000.0
+  mne: -9156110000000.0
+  mnd: -3979220000000.0
+  med: -3757430000000.0
+  strike1: 76.33507891744537
+  dip1: 48.94520947550087
+  rake1: -72.52246484609161
+  strike2: 230.72150644641528
+  dip2: 44.00579751394044
+  rake2: -109.0255107751057
+  moment: 22515820401579.863
+  magnitude: 2.86832518388878
+tags:
+- GOSSIP_id:37980
+- mag:3.6
+- INGV_id:39774731
+- mag:3.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.805667
+lon: 14.098333
+time: '2024-07-26 11:46:21.118999958'
+depth: 3620.857343
+name: 'flegrei_2024_07_26_11_46_21'
+magnitude: 3.50779
+moment_tensor: !pf.MomentTensor
+  mnn: 117271000000000.0
+  mee: -21429000000000.0
+  mdd: -95841900000000.0
+  mne: 123068000000000.0
+  mnd: 77723900000000.0
+  med: 95531300000000.0
+  strike1: 85.22543215699652
+  dip1: 35.53317957924722
+  rake1: -144.70526426348712
+  strike2: 325.2802425937324
+  dip2: 70.37926801746859
+  rake2: -59.762237360577565
+  moment: 204967427104174.28
+  magnitude: 3.5077898997188033
+tags:
+- GOSSIP_id:38245
+- mag:4.0
+- INGV_id:39858701
+- mag:4.0
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.8185
+lon: 14.140833
+time: '2024-08-18 00:29:21.828999996'
+depth: 1077.276425
+name: 'flegrei_2024_08_18_00_29_21'
+magnitude: 1.71453
+moment_tensor: !pf.MomentTensor
+  mnn: 45097000000.0
+  mee: -2419610000.0
+  mdd: -42677400000.0
+  mne: -16356000000.0
+  mnd: 414502000000.0
+  med: -34908300000.0
+  strike1: 265.12501840074435
+  dip1: 86.90620866465359
+  rake1: -88.34315691010775
+  strike2: 56.93603285289597
+  dip2: 3.5091316917649533
+  rake2: -118.14423941025494
+  moment: 418603025962.601
+  magnitude: 1.7145349089371358
+tags:
+- GOSSIP_id:38766
+- mag:2.8
+- INGV_id:40121971
+- mag:2.8
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.828167
+lon: 14.1445
+time: '2024-08-30 19:23:15.838999987'
+depth: 2428.270213
+name: 'flegrei_2024_08_30_19_23_15'
+magnitude: 2.91827
+moment_tensor: !pf.MomentTensor
+  mnn: 20094200000000.0
+  mee: -7939460000000.0
+  mdd: -12154700000000.0
+  mne: -17900400000000.0
+  mnd: 2534070000000.0
+  med: 9038380000000.0
+  strike1: 282.4492784599206
+  dip1: 62.111310831141374
+  rake1: -27.43057752960461
+  strike2: 26.095422551585706
+  dip2: 65.97281929371209
+  rake2: -149.19417486239269
+  moment: 26754671729626.957
+  magnitude: 2.9182664178020357
+tags:
+- GOSSIP_id:39108
+- mag:3.7
+- INGV_id:40271581
+- mag:3.7
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.802833
+lon: 14.151
+time: '2024-10-12 04:54:23.920000076'
+depth: 2656.237514
+name: 'flegrei_2024_10_12_04_54_23'
+magnitude: 2.15919
+moment_tensor: !pf.MomentTensor
+  mnn: 317111000000.0
+  mee: -1147440000000.0
+  mdd: 830326000000.0
+  mne: -1163960000000.0
+  mnd: -1161140000000.0
+  med: 155855000000.0
+  strike1: 294.3824867729655
+  dip1: 68.9164130636528
+  rake1: 41.50762316043777
+  strike2: 186.72376124860696
+  dip2: 51.80389320292896
+  rake2: 152.7592723623112
+  moment: 1944389201092.0803
+  magnitude: 2.1591888002593045
+tags:
+- GOSSIP_id:39580
+- mag:2.5
+- INGV_id:40625901
+- mag:2.5
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8345
+lon: 14.147833
+time: '2024-10-13 06:07:53.5'
+depth: 2778.03204
+name: 'flegrei_2024_10_13_06_07_53'
+magnitude: 2.65717
+moment_tensor: !pf.MomentTensor
+  mnn: 9350350000000.0
+  mee: -3551800000000.0
+  mdd: -5798550000000.0
+  mne: -292114000000.0
+  mnd: 6684530000000.0
+  med: -2509700000000.0
+  strike1: 250.15116886932825
+  dip1: 68.64653622152453
+  rake1: -110.21671689919636
+  strike2: 115.47498505528897
+  dip2: 29.076294952929423
+  rake2: -48.52626356651128
+  moment: 10858205249137.445
+  magnitude: 2.657172031150134
+tags:
+- GOSSIP_id:39626
+- mag:2.6
+- INGV_id:40633931
+- mag:2.6
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.822667
+lon: 14.133833
+time: '2024-12-06 04:33:59.779000044'
+depth: 768.8403959
+name: 'flegrei_2024_12_06_04_33_59'
+magnitude: 2.20679
+moment_tensor: !pf.MomentTensor
+  mnn: -347139000000.0
+  mee: 1874560000000.0
+  mdd: -1527420000000.0
+  mne: -982730000000.0
+  mnd: 960667000000.0
+  med: 616470000000.0
+  strike1: 230.49933993739742
+  dip1: 51.04872525125367
+  rake1: -42.95360323887411
+  strike2: 350.839062086295
+  dip2: 58.00019808898452
+  rake2: -132.15774098729847
+  moment: 2291816062939.934
+  magnitude: 2.2067865059968614
+tags:
+- GOSSIP_id:40479
+- mag:3.4
+- INGV_id:40987641
+- mag:3.4
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.828167
+lon: 14.135
+time: '2025-01-17 16:53:50.108999968'
+depth: 1347.162034
+name: 'flegrei_2025_01_17_16_53_50'
+magnitude: 2.77358
+moment_tensor: !pf.MomentTensor
+  mnn: -1642510000000.0
+  mee: 12842000000000.0
+  mdd: -11199500000000.0
+  mne: -895724000000.0
+  mnd: 4774340000000.0
+  med: 9662240000000.0
+  strike1: 344.0513996603151
+  dip1: 66.67865469611768
+  rake1: -107.86219470470174
+  strike2: 203.19787291284993
+  dip2: 29.06912203603382
+  rake2: -54.568671963719645
+  moment: 16231984703431.246
+  magnitude: 2.773581083172335
+tags:
+- GOSSIP_id:40951
+- mag:3.3
+- INGV_id:41516772
+- mag:3.0
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.829333
+lon: 14.151667
+time: '2025-02-05 07:52:02.910000086'
+depth: 2550.183786
+name: 'flegrei_2025_02_05_07_52_02'
+magnitude: 2.86354
+moment_tensor: !pf.MomentTensor
+  mnn: 8275630000000.0
+  mee: 6097210000000.0
+  mdd: -14372800000000.0
+  mne: -16447600000000.0
+  mnd: 5457840000000.0
+  med: 5836270000000.0
+  strike1: 257.4554404433397
+  dip1: 55.19771553546702
+  rake1: -44.02027937143939
+  strike2: 16.33454103722599
+  dip2: 55.20712910267962
+  rake2: -135.97295177632793
+  moment: 22147083589019.117
+  magnitude: 2.8635443631993205
+tags:
+- GOSSIP_id:41324
+- mag:3.1
+- INGV_id:41633422
+- mag:3.1
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.831333
+lon: 14.149
+time: '2025-02-12 22:27:14'
+depth: 1870.223014
+name: 'flegrei_2025_02_12_22_27_14'
+magnitude: 2.35051
+moment_tensor: !pf.MomentTensor
+  mnn: 1704930000000.0
+  mee: 2259600000000.0
+  mdd: -3964530000000.0
+  mne: -1289800000000.0
+  mnd: -758192000000.0
+  med: 268166000000.0
+  strike1: 44.341263753498076
+  dip1: 50.58440426930427
+  rake1: -83.5632487773005
+  strike2: 214.26598860630466
+  dip2: 39.85303231547287
+  rake2: -97.7674801840197
+  moment: 3765021971425.93
+  magnitude: 2.3505116766289422
+tags:
+- GOSSIP_id:41590
+- mag:2.5
+- INGV_id:41686072
+- mag:2.5
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.831333
+lon: 14.146167
+time: '2025-02-13 22:18:28.160000086'
+depth: 1821.793221
+name: 'flegrei_2025_02_13_22_18_28'
+magnitude: 2.22127
+moment_tensor: !pf.MomentTensor
+  mnn: 1467160000000.0
+  mee: 794821000000.0
+  mdd: -2261980000000.0
+  mne: -753142000000.0
+  mnd: -824533000000.0
+  med: 779413000000.0
+  strike1: 52.52630827648331
+  dip1: 59.09097519019875
+  rake1: -94.09152930220411
+  strike2: 240.4540807019618
+  dip2: 31.152071208099944
+  rake2: -83.20385588190116
+  moment: 2409354346882.6865
+  magnitude: 2.2212671179672956
+tags:
+- GOSSIP_id:41726
+- mag:2.6
+- INGV_id:41694102
+- mag:2.6
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.809667
+lon: 14.105667
+time: '2025-02-16 14:30:02.630000114'
+depth: 3549.478036
+name: 'flegrei_2025_02_16_14_30_02'
+magnitude: 3.49576
+moment_tensor: !pf.MomentTensor
+  mnn: 155329000000000.0
+  mee: -17535000000000.0
+  mdd: -137794000000000.0
+  mne: 18762800000000.0
+  mnd: -42046500000000.0
+  med: -121786000000000.0
+  strike1: 126.75027980784975
+  dip1: 63.61567873378475
+  rake1: -58.15967662762398
+  strike2: 252.33789449380268
+  dip2: 40.4449290385282
+  rake2: -136.7620894846096
+  moment: 196628230610688.25
+  magnitude: 3.4957639141119135
+tags:
+- GOSSIP_id:41975
+- mag:3.9
+- INGV_id:41712972
+- mag:3.9
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.832833
+lon: 14.130833
+time: '2025-02-16 16:30:41.950000048'
+depth: 3325.909857
+name: 'flegrei_2025_02_16_16_30_41'
+magnitude: 2.70911
+moment_tensor: !pf.MomentTensor
+  mnn: 12808600000000.0
+  mee: -516946000000.0
+  mdd: -12291700000000.0
+  mne: 1229800000000.0
+  mnd: -2865740000000.0
+  med: -1165230000000.0
+  strike1: 99.42443541486848
+  dip1: 51.75805167965722
+  rake1: -84.70718278523812
+  strike2: 270.91239025602874
+  dip2: 38.55086781213776
+  rake2: -96.6759238723676
+  moment: 12991894117062.3
+  magnitude: 2.709114981629936
+tags:
+- GOSSIP_id:42021
+- mag:2.7
+- INGV_id:41714572
+- mag:2.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8325
+lon: 14.147667
+time: '2025-02-16 22:45:12.140000105'
+depth: 1914.131144
+name: 'flegrei_2025_02_16_22_45_12'
+magnitude: 2.25795
+moment_tensor: !pf.MomentTensor
+  mnn: 1605320000000.0
+  mee: 446161000000.0
+  mdd: -2051480000000.0
+  mne: -1060040000000.0
+  mnd: 1683460000000.0
+  med: -169907000000.0
+  strike1: 254.54868304324776
+  dip1: 64.5099909983547
+  rake1: -75.7129489712116
+  strike2: 43.93431739255293
+  dip2: 28.98549220724226
+  rake2: -117.36686613515805
+  moment: 2734763577936.765
+  magnitude: 2.2579465248373847
+tags:
+- GOSSIP_id:42080
+- mag:3.0
+- INGV_id:41716362
+- mag:3.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.827167
+lon: 14.141167
+time: '2025-02-16 22:46:47.509000063'
+depth: 1171.281934
+name: 'flegrei_2025_02_16_22_46_47'
+magnitude: 2.03531
+moment_tensor: !pf.MomentTensor
+  mnn: 318933000000.0
+  mee: 863250000000.0
+  mdd: -1182180000000.0
+  mne: -375337000000.0
+  mnd: -575975000000.0
+  med: 108539000000.0
+  strike1: 45.32110549784715
+  dip1: 56.665105445723555
+  rake1: -70.75733573570585
+  strike2: 192.8966920857519
+  dip2: 37.926862904249724
+  rake2: -116.61346855771988
+  moment: 1267533023399.9822
+  magnitude: 2.035306188633987
+tags:
+- GOSSIP_id:42082
+- mag:3.0
+- INGV_id:41716432
+- mag:3.0
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.828833
+lon: 14.148333
+time: '2025-02-16 23:19:52.539000034'
+depth: 3530.083777
+name: 'flegrei_2025_02_16_23_19_52'
+magnitude: 3.52725
+moment_tensor: !pf.MomentTensor
+  mnn: 126070000000000.0
+  mee: 26809100000000.0
+  mdd: -152879000000000.0
+  mne: -105757000000000.0
+  mnd: 78336800000000.0
+  med: -103646000000000.0
+  strike1: 223.5008356191508
+  dip1: 64.12147087119514
+  rake1: -104.87951123822111
+  strike2: 74.831674836303
+  dip2: 29.593389266061525
+  rake2: -62.10606989768027
+  moment: 219216494112886.03
+  magnitude: 3.527248818587527
+tags:
+- GOSSIP_id:42106
+- mag:3.9
+- INGV_id:41717192
+- mag:3.9
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.830167
+lon: 14.142333
+time: '2025-02-17 07:12:10.559000015'
+depth: 1863.879759
+name: 'flegrei_2025_02_17_07_12_10'
+magnitude: 2.68679
+moment_tensor: !pf.MomentTensor
+  mnn: 2202270000000.0
+  mee: 6260270000000.0
+  mdd: -8462540000000.0
+  mne: -2548010000000.0
+  mnd: -8531150000000.0
+  med: 2751340000000.0
+  strike1: 56.198086162150226
+  dip1: 69.65460006790452
+  rake1: -72.51741898215069
+  strike2: 194.02443456892226
+  dip2: 26.580856784800723
+  rake2: -129.01287191595958
+  moment: 12027906115234.686
+  magnitude: 2.6867933530146946
+tags:
+- GOSSIP_id:42357
+- mag:3.2
+- INGV_id:41722632
+- mag:3.2
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.827833
+lon: 14.1435
+time: '2025-02-17 16:53:24.868999958'
+depth: 1642.533447
+name: 'flegrei_2025_02_17_16_53_24'
+magnitude: 2.26493
+moment_tensor: !pf.MomentTensor
+  mnn: 703069000000.0
+  mee: 1870320000000.0
+  mdd: -2573390000000.0
+  mne: -1173790000000.0
+  mnd: -989010000000.0
+  med: -430478000000.0
+  strike1: 50.841612102308275
+  dip1: 50.10667896884254
+  rake1: -63.653192622939684
+  strike2: 193.166888725479
+  dip2: 46.56413102873621
+  rake2: -117.96422082660436
+  moment: 2801536107087.4136
+  magnitude: 2.2649308161099473
+tags:
+- GOSSIP_id:42522
+- mag:2.7
+- INGV_id:41729442
+- mag:2.7
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.829667
+lon: 14.1475
+time: '2025-02-17 17:15:54.150000095'
+depth: 1990.635744
+name: 'flegrei_2025_02_17_17_15_54'
+magnitude: 2.20072
+moment_tensor: !pf.MomentTensor
+  mnn: 1038400000000.0
+  mee: 1282370000000.0
+  mdd: -2320770000000.0
+  mne: -787575000000.0
+  mnd: -593424000000.0
+  med: 100662000000.0
+  strike1: 48.969635795417126
+  dip1: 51.68746392755202
+  rake1: -80.26533555634583
+  strike2: 213.5015373558488
+  dip2: 39.34495795579085
+  rake2: -102.07928857093262
+  moment: 2244308278188.4043
+  magnitude: 2.2007216742481734
+tags:
+- GOSSIP_id:42530
+- mag:2.6
+- INGV_id:41729702
+- mag:2.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.826333
+lon: 14.141833
+time: '2025-02-17 17:55:35.029000044'
+depth: 1160.894563
+name: 'flegrei_2025_02_17_17_55_35'
+magnitude: 2.1276
+moment_tensor: !pf.MomentTensor
+  mnn: 536759000000.0
+  mee: 730646000000.0
+  mdd: -1267410000000.0
+  mne: -632654000000.0
+  mnd: -779499000000.0
+  med: 904164000000.0
+  strike1: 40.727298297460834
+  dip1: 66.60766455931345
+  rake1: -89.93358176630461
+  strike2: 220.56000894523038
+  dip2: 23.392424433497098
+  rake2: -90.15353942868882
+  moment: 1743422859882.6787
+  magnitude: 2.1276018241244365
+tags:
+- GOSSIP_id:42571
+- mag:2.6
+- INGV_id:41730562
+- mag:2.6
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.828
+lon: 14.142833
+time: '2025-02-17 20:23:44'
+depth: 1866.736465
+name: 'flegrei_2025_02_17_20_23_44'
+magnitude: 2.45617
+moment_tensor: !pf.MomentTensor
+  mnn: 3488920000000.0
+  mee: 1632920000000.0
+  mdd: -5121830000000.0
+  mne: -1415380000000.0
+  mnd: 757137000000.0
+  med: -2509800000000.0
+  strike1: 224.31701308361716
+  dip1: 58.14417670998995
+  rake1: -105.9410486748738
+  strike2: 72.73890719990405
+  dip2: 35.24262548143484
+  rake2: -66.15457067470136
+  moment: 5423257281562.346
+  magnitude: 2.456173472022355
+tags:
+- GOSSIP_id:42682
+- mag:2.6
+- INGV_id:41610421
+- mag:2.6
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.828833
+lon: 14.1415
+time: '2025-02-18 02:22:19.848999977'
+depth: 1887.150502
+name: 'flegrei_2025_02_18_02_22_19'
+magnitude: 2.61262
+moment_tensor: !pf.MomentTensor
+  mnn: 7565260000000.0
+  mee: 1698150000000.0
+  mdd: -9263410000000.0
+  mne: 108803000000.0
+  mnd: 2217300000000.0
+  med: -2962600000000.0
+  strike1: 255.48912104691772
+  dip1: 54.21607777417509
+  rake1: -106.548111815005
+  strike2: 102.4262513959838
+  dip2: 38.956128415471305
+  rake2: -68.43870194451559
+  moment: 9309622693853.332
+  magnitude: 2.612621386655089
+tags:
+- GOSSIP_id:42883
+- mag:3.1
+- INGV_id:41737592
+- mag:3.1
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.8325
+lon: 14.1485
+time: '2025-02-19 00:31:12.578999996'
+depth: 1949.592925
+name: 'flegrei_2025_02_19_00_31_12'
+magnitude: 2.30698
+moment_tensor: !pf.MomentTensor
+  mnn: 1667120000000.0
+  mee: 1485220000000.0
+  mdd: -3152350000000.0
+  mne: -1353150000000.0
+  mnd: 563411000000.0
+  med: 940266000000.0
+  strike1: 242.1538050469692
+  dip1: 44.976514357476546
+  rake1: -66.85839422115616
+  strike2: 31.014283346937894
+  dip2: 49.46263402729215
+  rake2: -111.43908692142693
+  moment: 3239411375671.049
+  magnitude: 2.306977401964483
+tags:
+- GOSSIP_id:43180
+- mag:3.1
+- INGV_id:41749832
+- mag:3.1
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.828
+lon: 14.146167
+time: '2025-02-19 03:04:15.588999987'
+depth: 1853.117614
+name: 'flegrei_2025_02_19_03_04_15'
+magnitude: 2.37612
+moment_tensor: !pf.MomentTensor
+  mnn: 1957100000000.0
+  mee: 1350210000000.0
+  mdd: -3307310000000.0
+  mne: -1780450000000.0
+  mnd: -743375000000.0
+  med: 2213540000000.0
+  strike1: 33.226306269531136
+  dip1: 62.39021502052843
+  rake1: -106.25596398456152
+  strike2: 245.40310440216984
+  dip2: 31.712349634199793
+  rake2: -61.84288363996816
+  moment: 4113170476630.527
+  magnitude: 2.376117806586736
+tags:
+- GOSSIP_id:43232
+- mag:3.0
+- INGV_id:41750822
+- mag:3.0
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.828167
+lon: 14.142
+time: '2025-02-19 14:55:11.190000057'
+depth: 1562.714482
+name: 'flegrei_2025_02_19_14_55_11'
+magnitude: 2.62978
+moment_tensor: !pf.MomentTensor
+  mnn: 298749000000.0
+  mee: 5429660000000.0
+  mdd: -5728410000000.0
+  mne: 572649000000.0
+  mnd: -7384690000000.0
+  med: 3393920000000.0
+  strike1: 44.839625100780864
+  dip1: 74.7994397812245
+  rake1: -69.44778939630118
+  strike2: 169.80620670270164
+  dip2: 25.36550427234177
+  rake2: -142.26181850801237
+  moment: 9877896342038.191
+  magnitude: 2.629776309595437
+tags:
+- GOSSIP_id:43341
+- mag:3.1
+- INGV_id:41755672
+- mag:3.1
+extras:
+  cluster_number: 2
+  clustered: true
+  color: '#6A76FC'
+--- !pf.Event
+lat: 40.823833
+lon: 14.135
+time: '2025-03-06 23:38:43.098999977'
+depth: 1579.86391
+name: 'flegrei_2025_03_06_23_38_43'
+magnitude: 2.39835
+moment_tensor: !pf.MomentTensor
+  mnn: -361554000000.0
+  mee: 1848320000000.0
+  mdd: -1486760000000.0
+  mne: 1542650000000.0
+  mnd: 3771840000000.0
+  med: 490495000000.0
+  strike1: 290.3539574127412
+  dip1: 80.06250462566774
+  rake1: -117.28774015151603
+  strike2: 181.8572664440081
+  dip2: 28.90982975946142
+  rake2: -20.914586196694422
+  moment: 4441380760594.951
+  magnitude: 2.398345337957087
+tags:
+- GOSSIP_id:43940
+- mag:3.2
+- INGV_id:41859192
+- mag:3.2
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.830333
+lon: 14.083333
+time: '2025-03-09 23:59:14.549000025'
+depth: 3352.143429
+name: 'flegrei_2025_03_09_23_59_14'
+magnitude: 2.57325
+moment_tensor: !pf.MomentTensor
+  mnn: -7004820000000.0
+  mee: 6843730000000.0
+  mdd: 161094000000.0
+  mne: 3066470000000.0
+  mnd: -2571210000000.0
+  med: -1432770000000.0
+  strike1: 123.05759755832842
+  dip1: 89.4885566420652
+  rake1: -158.82630092344343
+  strike2: 32.85949521808034
+  dip2: 68.8271850976415
+  rake2: -0.5484685982305195
+  moment: 8126022176253.766
+  magnitude: 2.5732520021331897
+tags:
+- GOSSIP_id:44043
+- mag:2.6
+- INGV_id:41883812
+- mag:2.6
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.827
+lon: 14.138167
+time: '2025-03-11 02:04:09.559000015'
+depth: 2075.603281
+name: 'flegrei_2025_03_11_02_04_09'
+magnitude: 2.81955
+moment_tensor: !pf.MomentTensor
+  mnn: 4572310000000.0
+  mee: 11069600000000.0
+  mdd: -15641900000000.0
+  mne: -10162200000000.0
+  mnd: 5982240000000.0
+  med: -5369740000000.0
+  strike1: 222.16375510197932
+  dip1: 57.675003841499844
+  rake1: -82.92253876113584
+  strike2: 29.091849542685164
+  dip2: 33.00848281250155
+  rake2: -101.01834320822951
+  moment: 19024908966359.08
+  magnitude: 2.8195483915740063
+tags:
+- GOSSIP_id:44086
+- mag:3.0
+- INGV_id:41892682
+- mag:3.0
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.8175
+lon: 14.149
+time: '2025-03-13 00:25:02.509000063'
+depth: 2495.090295
+name: 'flegrei_2025_03_13_00_25_02'
+magnitude: 3.8361
+moment_tensor: !pf.MomentTensor
+  mnn: 127988000000000.0
+  mee: 282223000000000.0
+  mdd: -410211000000000.0
+  mne: 82502200000000.0
+  mnd: 494773000000000.0
+  med: -148438000000000.0
+  strike1: 261.29771585900505
+  dip1: 76.41840741000735
+  rake1: -97.05963235216927
+  strike2: 109.10333603834228
+  dip2: 15.276129996326562
+  rake2: -63.036089916167505
+  moment: 637018588092089.8
+  magnitude: 3.8361014034386844
+tags:
+- GOSSIP_id:44246
+- mag:4.4
+- INGV_id:41908352
+- mag:4.4
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.819667
+lon: 14.1575
+time: '2025-03-14 18:44:10.519000053'
+depth: 4006.700651
+name: 'flegrei_2025_03_14_18_44_10'
+magnitude: 3.22981
+moment_tensor: !pf.MomentTensor
+  mnn: 1796020000000.0
+  mee: 65760400000000.0
+  mdd: -67556400000000.0
+  mne: 26529900000000.0
+  mnd: 26160000000000.0
+  med: -17996800000000.0
+  strike1: 319.1752474172704
+  dip1: 46.038679906266864
+  rake1: -122.33988244008792
+  strike2: 181.54290359212862
+  dip2: 52.543505393201116
+  rake2: -60.98303856238759
+  moment: 78471826426623.97
+  magnitude: 3.2298091739350046
+tags:
+- GOSSIP_id:44347
+- mag:3.5
+- INGV_id:41936002
+- mag:3.5
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.829667
+lon: 14.132333
+time: '2025-03-15 12:32:27.088999987'
+depth: 3071.563782
+name: 'flegrei_2025_03_15_12_32_27'
+magnitude: 3.48506
+moment_tensor: !pf.MomentTensor
+  mnn: 168322000000000.0
+  mee: -10255800000000.0
+  mdd: -158066000000000.0
+  mne: -18124200000000.0
+  mnd: 75053100000000.0
+  med: 56863600000000.0
+  strike1: 283.2137812893764
+  dip1: 59.42350150447052
+  rake1: -69.07499494791789
+  strike2: 66.28289189116255
+  dip2: 36.469833224853545
+  rake2: -121.15153869505554
+  moment: 189489029199661.1
+  magnitude: 3.485056047193149
+tags:
+- GOSSIP_id:44377
+- mag:3.9
+- INGV_id:41944592
+- mag:3.9
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'

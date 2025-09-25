@@ -33,8 +33,8 @@ switch_VLP=True                         # SWITCH
 
 if switch_VLP:
     dataname='DATA_VLP'
-    tshifth_1=100
-    tshifth_2=600
+    tshifth_1=300
+    tshifth_2=300
 else:
     dataname='DATA'
     tshifth_1=40
@@ -43,10 +43,9 @@ else:
 workdir='../'
 catdir =  os.path.join(workdir,'CAT')
 meta_datadir=os.path.join(workdir,'META_DATA')
-#datadir=os.path.join(workdir,dataname)
-datadir=os.path.join(workdir,'DATA_REGIONAL')
+datadir=os.path.join(workdir,dataname)
 
-catname = os.path.join(catdir, 'catalogue_regional_events_2.pf')           #CHANGE catalogue_flegrei_mag_2_5
+catname = os.path.join(catdir, 'catalogue_flegrei_mag_2_5.pf')           #CHANGE catalogue_flegrei_mag_2_5
 
 cat = model.load_events(catname)
 print('Number of events:', len(cat))
@@ -66,7 +65,7 @@ stations=read_inventory(stations_name)
 ################################################################################
 
 # download waveforms strarting from this data:
-date_start_download='2000-01-01 00:00:00.000'                               #CHANGE
+date_start_download='2025-06-28 00:00:00.000'                               #CHANGE
 sec_start_download=util.str_to_time(date_start_download)
 date_end_download='2026-01-01 00:00:00.000'                               #CHANGE
 sec_end_download=util.str_to_time(date_end_download)
