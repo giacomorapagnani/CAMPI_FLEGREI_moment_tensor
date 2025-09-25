@@ -1,7 +1,7 @@
-# FINAL(?) CONFIG made from 'flegrei.devi.XL.only.td.v2'
-# CONFIG in time domain, with near and far networks, no pick used. smaller depth intervall
+# CONFIG: far network, no pick used. 
 # frequency interval:
-# far  td: 0.03-0.1 Hz
+# td.far: 0.03-0.1 Hz all waveform
+# comments: bad results
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig

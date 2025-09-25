@@ -3,10 +3,10 @@
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
-  stations_path: '../META_DATA/stations_flegrei_INGV_simone.pf'
+  stations_path: '../META_DATA/stations_flegrei_INGV_final.pf'
   events_path: '../CAT/catalogue_flegrei_mag_2_5_XL.pf'
-  waveform_paths: ['../DATA_XXL/${event_name}']
-  responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_simone.xml']
+  waveform_paths: ['../DATA_VLP/${event_name}']
+  responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_final.xml']
   extend_incomplete: true
   #picks_paths: ['../MARKERS/${event_name}']
   blacklist_paths: ['../BLACKLIST/${event_name}.black']
@@ -16,17 +16,17 @@ target_groups:
   normalisation_family: time_domain
   path: td.near
   weight: 1.0
-  interpolation: multilinear
-  store_id: campiflegrei_near_0_dist
-  distance_min: 100.0
-  distance_max: 10000.0
+  interpolation: nearest_neighbor
+  store_id: campiflegrei_near
+  distance_min: 0.1e3
+  distance_max: 10e3
   exclude: []
   channels:
   - Z
   - R
   - T
   misfit_config: !grond.WaveformMisfitConfig
-    quantity: displacement
+    #quantity: displacement
     fmin: 0.5
     fmax: 2.0
     ffactor: 1.5
@@ -39,11 +39,11 @@ target_groups:
 - !grond.WaveformTargetGroup
   normalisation_family: time_domain
   path: td.far
-  weight: 1.0
-  interpolation: multilinear
-  store_id: crust2_2hz_m1
-  distance_min: 20000.0
-  distance_max: 120000.0
+  weight: 0.6
+  interpolation: nearest_neighbor
+  store_id: campiflegrei_far
+  distance_min: 10e3
+  distance_max: 60e3
   exclude: []
   channels:
   - Z
@@ -51,55 +51,37 @@ target_groups:
   - T
   misfit_config: !grond.WaveformMisfitConfig
     quantity: displacement
-    fmin: 0.03
-    fmax: 0.08
-    ffactor: 1.25
+    fmin: 0.05
+    fmax: 0.1
+    ffactor: 1.5
     tmin: stored:any_P - 5.
-    tmax: vel_surface:2.0 + 5.
+    tmax: vel_surface:2.0.
     domain: time_domain
     norm_exponent: 1
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_devi_devi_XXL_${event_name}
+  name_template: cmt_composite_devi_XL_${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig
-    name: a
+    name: VTa
     distance_min: 100.0
     mt_type: deviatoric
     mt_random: uniform
     ranges:
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
-      east_shift: -7000 .. 7000
-      magnitude: 2 .. 5
-      north_shift: -7000 .. 7000
+      east_shift: -4000 .. 4000
+      magnitude: 1. .. 4.
+      north_shift: -4000 .. 4000
       rmdd: -1.5708 .. 1.5708
       rmed: -1 .. 1
       rmee: -1.5708 .. 1.5708
       rmnd: -1 .. 1
       rmne: -1 .. 1
       rmnn: -1.5708 .. 1.5708
-      time: '-1 .. 4 | add'
-  - !grond.CMTSubProblemConfig
-    name: b
-    distance_min: 100.0
-    mt_type: deviatoric
-    mt_random: uniform
-    ranges:
-      depth: 1000 .. 5000
-      duration: 0.1 .. 0.1
-      east_shift: -7000 .. 7000
-      magnitude: 2 .. 5
-      north_shift: -7000 .. 7000
-      rmdd: -1.5708 .. 1.5708
-      rmed: -1 .. 1
-      rmee: -1.5708 .. 1.5708
-      rmnd: -1 .. 1
-      rmne: -1 .. 1
-      rmnn: -1.5708 .. 1.5708
-      time: '-1 .. 4 | add'
+      time: '-2.0 .. 1.0 | add'
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
   niterations: 1000
@@ -107,12 +89,10 @@ analyser_configs:
 optimiser_config: !grond.HighScoreOptimiserConfig
   sampler_phases:
   - !grond.UniformSamplerPhase
-    niterations: 10000
+    niterations: 20000
     ntries_preconstrain_limit: 1000
   - !grond.DirectedSamplerPhase
-    scatter_scale_begin: 2.
-    scatter_scale_end: 0.7
-    niterations: 200000
+    niterations: 100000
     ntries_preconstrain_limit: 1000
     starting_point: excentricity_compensated
     sampler_distribution: normal

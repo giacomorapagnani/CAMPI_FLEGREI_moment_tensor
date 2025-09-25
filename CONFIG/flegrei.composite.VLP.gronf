@@ -1,5 +1,5 @@
-%YAML 1.1
-# Grond configuration file, version 1.6.1
+# CONFIG in frequency domain, with near network, no pick used. narrow fband
+
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
@@ -13,57 +13,54 @@ dataset_config: !grond.DatasetConfig
   whitelist_paths: []
 target_groups:
 - !grond.WaveformTargetGroup
-  normalisation_family: time_domain
-  path: low.freq
+  normalisation_family: frequency_domain
+  path: fd.near
   weight: 1.0
-  interpolation: multilinear
-  store_id: campiflegrei_near_0_dist
-  distance_min: 100.0
-  distance_max: 10000.0
+  interpolation: nearest_neighbor
+  store_id: campiflegrei_near
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [Z,T,R]
   exclude: []
-  channels:
-  - Z
-  - R
-  - T
   misfit_config: !grond.WaveformMisfitConfig
-    quantity: displacement
     fmin: 0.09
     fmax: 0.12
     ffactor: 1.1
-    tmin: stored:P - 60
-    tmax: stored:P + 120
+    domain: frequency_domain
+    norm_exponent: 1
+    tmin: stored:P - 60.
+    tmax: stored:P + 120.
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: time_domain
+  path: td.near
+  weight: 1.0
+  interpolation: nearest_neighbor
+  store_id: campiflegrei_near
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [Z,T,R]
+  exclude: []
+  misfit_config: !grond.WaveformMisfitConfig
+    fmin: 0.09
+    fmax: 0.12
+    ffactor: 1.1
     domain: time_domain
     norm_exponent: 1
+    tmin: stored:P - 60.
+    tmax: stored:P + 120.
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_VT_VLP_target_lowfq_${event_name}
+  name_template: cmt_composite_VLP_oscill_${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig
-    name: vt
-    distance_min: 100.0
-    mt_type: deviatoric
-    mt_random: uniform
-    ranges:
-      depth: 1000 .. 5000
-      duration: 0.1 .. 0.1
-      east_shift: -3000 .. 3000
-      magnitude: 1. .. 4.
-      north_shift: -3000 .. 3000
-      rmdd: -1.5708 .. 1.5708
-      rmed: -1 .. 1
-      rmee: -1.5708 .. 1.5708
-      rmnd: -1 .. 1
-      rmne: -1 .. 1
-      rmnn: -1.5708 .. 1.5708
-      time: '-2. .. 3. | add'
-  - !grond.CMTSubProblemConfig
-    name: vlp
+    name: VLP
     distance_min: 100.0
     mt_type: full
-    stf_type: ResonatorSTF
-    mt_random: uniform
+#    mt_random: uniform
     ranges:
       depth: 1000 .. 5000
       duration: 1. .. 40.
@@ -76,9 +73,9 @@ problem_config: !grond.CompositeProblemConfig
       rmnd: -1 .. 1
       rmne: -1 .. 1
       rmnn: -1.5708 .. 1.5708
-      time: -2.0 .. 3.0 | add
+      time: '-2.0 .. 3.0 | add'
       frequency: 0.075 .. 0.15
-      time: '0 .. 4 | add'
+    stf_type: ResonatorSTF
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
   niterations: 1000
@@ -86,10 +83,10 @@ analyser_configs:
 optimiser_config: !grond.HighScoreOptimiserConfig
   sampler_phases:
   - !grond.UniformSamplerPhase
-    niterations: 10000
+    niterations: 20000
     ntries_preconstrain_limit: 1000
   - !grond.DirectedSamplerPhase
-    niterations: 50000
+    niterations: 100000
     ntries_preconstrain_limit: 1000
     starting_point: excentricity_compensated
     sampler_distribution: normal
@@ -99,7 +96,7 @@ optimiser_config: !grond.HighScoreOptimiserConfig
   nbootstrap: 100
 engine_config: !grond.EngineConfig
   gf_stores_from_pyrocko_config: true
-  gf_store_superdirs:
+  gf_store_superdirs: 
   - ../GF_STORES
   gf_store_dirs: []
 event_names: []
