@@ -33,9 +33,9 @@ if not st:
 
 # Select event
 e_name='flegrei_2024_04_27_03_44_56'            #CHANGE reference: flegrei_2024_04_27_03_44_56
-                                                #flegrei_2025_02_16_14_30_02
-                                                #flegrei_2024_07_26_11_46_21
-                                                #flegrei_2024_05_22_06_28_00
+                                                #flegrei_2023_10_16_10_36_21
+
+best_time_shift=0.5982                          # MANUALLY ADDED FROM REPORT (TO BE IMPLEMENTED)
 
 ev_VT=False
 for e in events_VT:
@@ -76,6 +76,7 @@ newtrs_VT = []
 for tr in trs_VT:
     newtr = tr.copy()
     ydata = newtr.get_ydata()
+    ydata= ydata - np.mean(ydata)
     first, last = ydata[0], ydata[-1]
     npts = int(tlen/newtr.deltat)
     ydata = np.concatenate( (np.ones(npts) * first, ydata, np.ones(npts) * last) )
@@ -98,84 +99,81 @@ for tr in obs_trs:
 
 # Create trace list with all traces
 trs=[]
-#trs.extend(trs_VT)     # non chopped
-#trs.extend(trs_VLP)    # non chopped
 trs.extend(newtrs_VT)   # chopped
 trs.extend(obs_trs)     # obs
 
 # snuffler
 #trace.snuffle(trs)
 
-# Figures 
-colors=['#BD2025','#64DC89','#FFCC4E','#FF7400']    # red, yellow, orange, green
-freq_ranges= [ [0.5,2] ]
-# y limits
-ylims= [ [4.5e-4 , 4.5e-4] , [0.6e-4 , 1.1e-4] ]          # reference: flegrei_2024_04_27_03_44_56
-#ylims= [ [35e-4 , 20e-4] , [3e-4 , 10e-4] ]              # flegrei_2025_03_13_00_25_02 (large)
-#ylims= [ [0.4e-4 , 0.4e-4] , [0.1e-4 , 0.3e-4] ]          # small
+# PLOT 
+ 
+colors=['#BD2025','#64DC89']
+color_flip='#FFCC4E'
+freq_range= [ 0.2,3.0 ]
 
-
+o_t = ev_VT.time
+y_lim=[0,0,0]
 trs_mseed=[]
-for l,fq in enumerate(freq_ranges):
-    fig, axs =   plt.subplots(3, 1, figsize=(12,8), sharex=True)
-    axs = axs.ravel()
-    i=0
-    for n,tr in enumerate(trs):
-        tmp_trace= tr.copy() 
-        tmp_trace.lowpass(4,fq[1])
-        tmp_trace.highpass(4,fq[0])
+fig, axs =   plt.subplots(3, 1, figsize=(12,8), sharex=True)
+axs = axs.ravel()
+for n,tr in enumerate(trs):
+    tmp_trace= tr.copy() 
+    tmp_trace.lowpass(4,freq_range[1])
+    tmp_trace.highpass(4,freq_range[0])
 
-        chop1,chop2= 5 , 15
+    before_ot,after_ot= 0 , 5 # before/after the origin time
+    #o_t = int( round( ev_VT.time - tr.tmin ) )
+    if n<3: # synthetic trace shifter considering grond's best time
+        tmp_trace.chop(o_t - before_ot -best_time_shift, o_t + after_ot - best_time_shift)
+    elif 3<=n<6: # observed trace
+        tmp_trace.chop(o_t - before_ot, o_t + after_ot)
+    # shift to 0 (actually not to 00:00:00 but to 23:00:00 (DNW))
+    new_tmin= 23*60*60.         #23:00:00
+    new_tmax = new_tmin + before_ot + after_ot
+    tmp_trace.tmin= new_tmin
+    tmp_trace.tmax= new_tmax
 
-        # chop 
-        #o_t = int( round( ev_VT.time - tr.tmin ) )
-        o_t = ev_VT.time
-        tmp_trace.chop(o_t-chop1, o_t + chop2)
-        # shift to 0, actually not to 00:00:00 but to 23:00:00 (DNW)
-        new_tmin= 23*60*60.         #23:00:00
-        new_tmax = new_tmin + (tmp_trace.tmax - tmp_trace.tmin) 
-        tmp_trace.tmin= new_tmin
-        tmp_trace.tmax= new_tmax
+    # Check if arrays are of the same length
+    tax=np.arange(new_tmin,new_tmax, tmp_trace.deltat)
+    yax=tmp_trace.get_ydata()
+    len_t, len_y = len(tax) , len(yax)
+    if len_t < len_y:
+        print(f'Warning: {tmp_trace.location} time ax length smaller than displacement\n {len_t} =/= {len_y}')
+        eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax]
+        yax= yax[0:len_t] # cut last element
+    elif len_t > len_y:
+        print(f'Warning: {tmp_trace.location} time ax length larger than displacement\n {len_t} =/= {len_y}')
+        eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax[0:len_y]]
+    else:
+        eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax]
 
-        # Check if arrays are of the same length
-        tax=np.arange(new_tmin,new_tmax, tmp_trace.deltat)
-        yax=tmp_trace.get_ydata()
-        len_t, len_y = len(tax) , len(yax)
-        if len_t < len_y:
-            eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax]
-            yax= yax[0:len_t] # cut last element
-            print(f'Warning: {tmp_trace.location} time ax length smaller than displacement\n {len_t} =/= {len_y}')
-        elif len_t > len_y:
-            eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax[0:len_y]]
-            print(f'Warning: {tmp_trace.location} time ax length larger than displacement\n {len_t} =/= {len_y}')
-        else:
-            eq_dates = [datetime.datetime.fromtimestamp(t) for t in tax]
+    # Plot
+    axs[n%3].plot( eq_dates, yax,color=colors[n//3], linewidth=2, 
+                label=f'{tmp_trace.location}')
+    if n<3: # plot the synth traces flipped
+        axs[n%3].plot( eq_dates, -yax,color=color_flip, linewidth=2, 
+                label=f'{tmp_trace.location} flipped')
+    
+    y_max=np.max(np.abs(yax))
+    if y_max > y_lim[n%3]:
+        y_lim[n%3] = y_max
 
-        # Plot
-        axs[i%3].plot( eq_dates, yax,color=colors[n//3], linewidth=1, 
-                    label=f'{tmp_trace.location}')
-        if i<3:
-            axs[i%3].plot( eq_dates, -yax,color=colors[2], linewidth=1, 
-                    label=f'{tmp_trace.location} flipped')
+    # add flavor    
+    if n<3: # add subplot title
+        axs[n].set_title(f'{tmp_trace.channel} channel',fontsize=15)
+    if n==len(trs)-1: # add time axis name
+        axs[n%3].set_xlabel('Time')
 
-        # add flavor    
-        axs[i%3].grid(True)
-        if i < 9 :
-            axs[i%3].set_ylim(- ylims[l][0], + ylims[l][0])
-        elif i >= 9:
-            axs[i%3].set_ylim(- ylims[l][1], + ylims[l][1])
-        if i==0 or i==3 or i==6 or i==9:
-            axs[i%3].set_ylabel('Displacement [m]')
-        if i<3:
-            axs[i%3].set_title(f'{tmp_trace.channel} channel',fontsize=15)
-        if i>8:
-            axs[i%3].set_xlabel('Time')
-        axs[i%3].legend(loc=1)
+    trs_mseed.append(tmp_trace)
 
-        trs_mseed.append(tmp_trace)
+for i,y in enumerate(y_lim):
+    axs[i].set_ylim(- y, + y) #set y lim
+    axs[i].set_ylabel('Displacement [m]') # y axis name
+    axs[i].grid(True) # grid
+    axs[i].legend(loc=1) # legend
 
-        i+=1
-    plt.title(f'Event: {e_name[8:]}, Station: {s_name}')
-    fig.tight_layout()
-    #fig.savefig(f'../PLOTS/SYNTH/{e_name}_{s_name}_sum_traces_{fq[0]}_{fq[1]}_Hz.pdf')
+#plt.title(f'Event: {e_name[8:]}, Station: {s_name}')
+fig.tight_layout()
+#fig.savefig(f'../PLOTS/SYNTH/{e_name}_{s_name}_sum_traces_{fq[0]}_{fq[1]}_Hz.pdf')
+#trace.snuffle(trs_mseed)
 plt.show()

@@ -47,13 +47,13 @@ target_groups:
   channels: [R,Z,T]
   exclude: []
   misfit_config: !grond.WaveformMisfitConfig
-    fmin: 0.5
-    fmax: 2.0
+    fmin: 0.3
+    fmax: 1.0
     ffactor: 1.5
     domain: 'cc_max_norm'
     norm_exponent: 1
-    tmin: '{stored:any_P}-1'
-    tmax: '{stored:any_P}+1.5'
+    tmin: '{stored:any_P}-1.0'
+    tmax: '{stored:any_P}+2.0'
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CMTProblemConfig
