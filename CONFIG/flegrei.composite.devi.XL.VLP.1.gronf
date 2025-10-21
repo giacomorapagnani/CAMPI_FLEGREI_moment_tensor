@@ -1,5 +1,11 @@
 %YAML 1.1
-# Grond configuration file, version 1.6.1
+# Composite Grond Config:
+# devi XL (same as in main article)
+  # td.near.vt: 0.5-2.0  Hz
+  # td.far.vt:  0.05-0.1 Hz
+# VLP (same as in main article)
+  # td.near: 0.09-0.12 Hz
+  # fd.near: 0.09-0.12  Hz
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
@@ -9,12 +15,60 @@ dataset_config: !grond.DatasetConfig
   responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_final.xml']
   extend_incomplete: true
   #picks_paths: ['../MARKERS/${event_name}']
-  blacklist_paths: ['../BLACKLIST_VLP/${event_name}.black']
+  blacklist_paths: ['../BLACKLIST_COMPOSITE/${event_name}.black']
   whitelist_paths: []
 target_groups:
 - !grond.WaveformTargetGroup
   normalisation_family: time_domain
-  path: low.freq
+  path: td.near.vt
+  weight: 1.0
+  interpolation: multilinear
+  store_id: campiflegrei_near_0_dist
+  distance_min: 100.0
+  distance_max: 10000.0
+  exclude: []
+  channels:
+  - Z
+  - R
+  - T
+  misfit_config: !grond.WaveformMisfitConfig
+    quantity: displacement
+    fmin: 0.5
+    fmax: 2.0
+    ffactor: 1.5
+    tmin: stored:P - 0.5
+    tmax: stored:S + 1.5
+    domain: time_domain
+    norm_exponent: 1
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: time_domain
+  path: td.far.vt
+  weight: 1.0
+  interpolation: multilinear
+  store_id: campiflegrei_far
+  distance_min: 10e3
+  distance_max: 60e3
+  exclude: []
+  channels:
+  - Z
+  - R
+  - T
+  misfit_config: !grond.WaveformMisfitConfig
+    quantity: displacement
+    fmin: 0.05
+    fmax: 0.1
+    ffactor: 1.5
+    tmin: stored:any_P - 5
+    tmax: vel_surface:2.0
+    domain: time_domain
+    norm_exponent: 1
+    tautoshift_max: 1.0
+    autoshift_penalty_max: 0.2
+- !grond.WaveformTargetGroup
+  normalisation_family: time_domain
+  path: td.vlp
   weight: 1.0
   interpolation: multilinear
   store_id: campiflegrei_near_0_dist
@@ -37,31 +91,27 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 - !grond.WaveformTargetGroup
-  normalisation_family: time_domain
-  path: high.freq
+  normalisation_family: frequency_domain
+  path: fd.vlp
   weight: 1.0
-  interpolation: multilinear
-  store_id: campiflegrei_near_0_dist
-  distance_min: 100.0
-  distance_max: 10000.0
+  interpolation: nearest_neighbor
+  store_id: campiflegrei_near
+  distance_min: 0.1e3
+  distance_max: 10e3
+  channels: [Z,T,R]
   exclude: []
-  channels:
-  - Z
-  - R
-  - T
   misfit_config: !grond.WaveformMisfitConfig
-    quantity: displacement
-    fmin: 0.5
-    fmax: 2.0
-    ffactor: 1.5
-    tmin: stored:P - 0.5
-    tmax: stored:S + 1.5
-    domain: time_domain
+    fmin: 0.09
+    fmax: 0.12
+    ffactor: 1.1
+    domain: frequency_domain
     norm_exponent: 1
+    tmin: stored:P - 60.
+    tmax: stored:P + 120.
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_devi_XL_VLP_${event_name}
+  name_template: cmt_composite_devi_XL_VLP_1_${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig
@@ -72,16 +122,16 @@ problem_config: !grond.CompositeProblemConfig
     ranges:
       depth: 1000 .. 5000
       duration: 0.1 .. 0.1
-      east_shift: -3000 .. 3000
+      east_shift: -4000 .. 4000
       magnitude: 1. .. 4.
-      north_shift: -3000 .. 3000
+      north_shift: -4000 .. 4000
       rmdd: -1.5708 .. 1.5708
       rmed: -1 .. 1
       rmee: -1.5708 .. 1.5708
       rmnd: -1 .. 1
       rmne: -1 .. 1
       rmnn: -1.5708 .. 1.5708
-      time: '-2. .. 3. | add'
+      time: '-2. .. 1. | add'
   - !grond.CMTSubProblemConfig
     name: vlp
     distance_min: 100.0
@@ -102,7 +152,6 @@ problem_config: !grond.CompositeProblemConfig
       rmnn: -1.5708 .. 1.5708
       time: -2.0 .. 3.0 | add
       frequency: 0.075 .. 0.15
-      time: '0 .. 4 | add'
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
   niterations: 1000
