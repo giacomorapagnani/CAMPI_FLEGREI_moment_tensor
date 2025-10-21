@@ -22,7 +22,7 @@ catname_VT=os.path.join(catdir,'catalogue_flegrei_MT_final.pf')
 events_VT = model.load_events(catname_VT)
 
 # Select station
-s_name='CFMN'                                                   #CHANGE
+s_name='CSTH'                                                   #CHANGE
 st=False
 for s in stations:
     if s.station==s_name:
@@ -35,7 +35,7 @@ if not st:
 e_name='flegrei_2024_04_27_03_44_56'            #CHANGE reference: flegrei_2024_04_27_03_44_56
                                                 #flegrei_2023_10_16_10_36_21
 
-best_time_shift=0.5982                          # MANUALLY ADDED FROM REPORT (TO BE IMPLEMENTED)
+best_time_shift=0.4                          # MANUALLY ADDED FROM REPORT (TO BE IMPLEMENTED)
 
 ev_VT=False
 for e in events_VT:
@@ -55,7 +55,7 @@ targets_VT = [
         lat=st.lat,
         lon=st.lon,
         store_id=store_id,
-        codes=('', st.station, 'synth', channel_code))
+        codes=('', st.station, 'synth GROND', channel_code))
     for channel_code in channel_codes]
 
 # MT source representation.

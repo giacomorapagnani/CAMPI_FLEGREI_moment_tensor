@@ -2,7 +2,7 @@
 # frequency interval:
 # td.far: 0.05-0.2 Hz, all waveform, weigth: 1.0
 # cc.p: 0.5-2.0 Hz, P waves, weight: 0.6
-# comments: ???
+# comments: ok results
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig

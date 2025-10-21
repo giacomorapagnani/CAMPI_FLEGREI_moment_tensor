@@ -1,5 +1,8 @@
-# CONFIG in frequency domain, with near network, no pick used. narrow fband
-
+%YAML 1.1
+# Composite Grond Config:
+# VLP (same as in main article)
+  # fd.near: 0.09-0.12  Hz
+  # td.near: 0.09-0.12 Hz
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig

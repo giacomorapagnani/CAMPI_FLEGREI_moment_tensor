@@ -1,94 +1,92 @@
-%YAML 1.1
-# Composite Grond Config:
-# devi XL (same as in main article)
-  # td.near: 0.5-2.0  Hz
-  # td.far:  0.05-0.1 Hz
+# FINAL(?) CONFIG made from 'flegrei.devi.XL.only.td.v2'
+# CONFIG in time domain, with near and far networks. smaller depth intervall.
+# Polarity of P waves for near network. weight_traveltime: 0.0
+# frequency intervals:
+# near td: 0.5-2.0  Hz
+# far  td: 0.05-0.1 Hz
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
 dataset_config: !grond.DatasetConfig
   stations_path: '../META_DATA/stations_flegrei_INGV_final.pf'
   events_path: '../CAT/catalogue_flegrei_mag_2_5_XL.pf'
   waveform_paths: ['../DATA_VLP/${event_name}']
+  #waveform_paths: ..path/to/waveforms work with continous data
   responses_stationxml_paths: ['../META_DATA/stations_flegrei_INGV_final.xml']
   extend_incomplete: true
-  #picks_paths: ['../MARKERS/${event_name}']
+  picks_paths: ['../MARKERS/${event_name}']
   blacklist_paths: ['../BLACKLIST/${event_name}.black']
   whitelist_paths: []
 target_groups:
+- !grond.PhasePickTargetGroup
+  normalisation_family: 'picks'
+  path: 'pick.p'
+  weight: 0.1
+  store_id: 'campiflegrei_near'
+  pick_synthetic_traveltime: '{stored:P}'
+  pick_phasename: 'P'
+  weight_traveltime: 0.0
+  weight_polarity: 1.0
 - !grond.WaveformTargetGroup
-  normalisation_family: time_domain
-  path: td.near
+  normalisation_family: 'td'
+  path: 'td.near'
   weight: 1.0
-  interpolation: nearest_neighbor
+  interpolation: 'nearest_neighbor'
   store_id: campiflegrei_near
   distance_min: 0.1e3
   distance_max: 10e3
+  channels: [Z,T,R]
   exclude: []
-  channels:
-  - Z
-  - R
-  - T
   misfit_config: !grond.WaveformMisfitConfig
-    #quantity: displacement
     fmin: 0.5
     fmax: 2.0
     ffactor: 1.5
-    tmin: stored:P - 0.5
-    tmax: stored:S + 1.5
-    domain: time_domain
+    domain: 'time_domain'
     norm_exponent: 1
+    tmin: '{stored:P}-0.5'
+    tmax: '{stored:S}+1.5'
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 - !grond.WaveformTargetGroup
-  normalisation_family: time_domain
-  path: td.far
+  normalisation_family: 'td'
+  path: 'td.far'
   weight: 0.6
-  interpolation: nearest_neighbor
+  interpolation: 'nearest_neighbor'
   store_id: campiflegrei_far
   distance_min: 10e3
   distance_max: 60e3
+  channels: [R,Z,T]
   exclude: []
-  channels:
-  - Z
-  - R
-  - T
   misfit_config: !grond.WaveformMisfitConfig
-    #quantity: displacement
     fmin: 0.05
     fmax: 0.1
     ffactor: 1.5
-    tmin: stored:any_P - 5.
-    tmax: vel_surface:2.0.
-    domain: time_domain
+    domain: 'time_domain'
     norm_exponent: 1
+    tmin: '{stored:any_P}-5'
+    tmax: '{vel_surface:2.0}'
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
-problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_devi_XL_${event_name}
+problem_config: !grond.CMTProblemConfig
+  name_template: cmt_devi_XL_final_polarity_2_${event_name}
   norm_exponent: 2
-  subproblem_configs:
-  - !grond.CMTSubProblemConfig
-    name: VTa
-    distance_min: 100.0
-    mt_type: deviatoric
-    mt_random: uniform
-    ranges:
-      depth: 1000 .. 5000
-      duration: 0.1 .. 0.1
-      east_shift: -4000 .. 4000
-      magnitude: 1. .. 4.
-      north_shift: -4000 .. 4000
-      rmdd: -1.5708 .. 1.5708
-      rmed: -1 .. 1
-      rmee: -1.5708 .. 1.5708
-      rmnd: -1 .. 1
-      rmne: -1 .. 1
-      rmnn: -1.5708 .. 1.5708
-      time: '-2.0 .. 1.0 | add'
+  ranges:
+    depth: 1000 .. 5000
+    duration: 0.1 .. 0.1
+    east_shift: -4000 .. 4000
+    magnitude: 1. .. 4.
+    north_shift: -4000 .. 4000
+    rmdd: -1.5708 .. 1.5708
+    rmed: -1 .. 1
+    rmee: -1.5708 .. 1.5708
+    rmnd: -1 .. 1
+    rmne: -1 .. 1
+    rmnn: -1.5708 .. 1.5708
+    time: -2.0 .. 1.0 | add
+  distance_min: 100.0
+  mt_type: deviatoric
 analyser_configs:
 - !grond.TargetBalancingAnalyserConfig
   niterations: 1000
-  use_reference_magnitude: false
 optimiser_config: !grond.HighScoreOptimiserConfig
   sampler_phases:
   - !grond.UniformSamplerPhase
@@ -105,8 +103,7 @@ optimiser_config: !grond.HighScoreOptimiserConfig
   nbootstrap: 100
 engine_config: !grond.EngineConfig
   gf_stores_from_pyrocko_config: true
-  gf_store_superdirs:
-  - ../GF_STORES
+  gf_store_superdirs: [../GF_STORES]
   gf_store_dirs: []
 event_names: []
 event_names_exclude: []
