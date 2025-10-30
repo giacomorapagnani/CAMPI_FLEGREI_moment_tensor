@@ -1,7 +1,7 @@
 # FINAL(?) CONFIG made from 'flegrei.devi.m44.near.fullwave.td'
 # CONFIG in time domain, with near and far networks, no pick used. smaller depth intervall
 # frequency intervals:
-# near td: 0.5-2.0  Hz
+# near td: 0.5-1.5  Hz
 # far  td: 0.03-0.8 Hz
 --- !grond.Config
 rundir_template: runs/${problem_name}.grun
@@ -27,7 +27,7 @@ target_groups:
   exclude: []
   misfit_config: !grond.WaveformMisfitConfig
     fmin: 0.5
-    fmax: 2.0
+    fmax: 1.5
     ffactor: 1.5
     domain: 'time_domain'
     norm_exponent: 1
@@ -38,7 +38,7 @@ target_groups:
 - !grond.WaveformTargetGroup
   normalisation_family: 'td'
   path: 'td.far'
-  weight: 1.0
+  weight: 0.6
   interpolation: 'nearest_neighbor'
   store_id: crust2_2hz_m1
   distance_min: 20e3
@@ -62,7 +62,7 @@ problem_config: !grond.CMTProblemConfig
     depth: 1000 .. 5000
     duration: 0.1 .. 0.1
     east_shift: -7000 .. 7000
-    magnitude: 3. .. 5.
+    magnitude: 2. .. 5.
     north_shift: -7000 .. 7000
     rmdd: -1.5708 .. 1.5708
     rmed: -1 .. 1
@@ -70,7 +70,7 @@ problem_config: !grond.CMTProblemConfig
     rmnd: -1 .. 1
     rmne: -1 .. 1
     rmnn: -1.5708 .. 1.5708
-    time: -1. .. 4. | add
+    time: -2.0 .. 1.0 | add
   distance_min: 100.0
   mt_type: deviatoric
 analyser_configs:

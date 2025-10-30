@@ -1,6 +1,6 @@
 # FINAL(?) CONFIG made from 'flegrei.devi.XL.only.td.v2'
 # CONFIG in time domain, with near and far networks. smaller depth intervall.
-# Polarity of P waves for near network.
+# Polarity of P waves for near network. weight: 0.1
 # frequency intervals:
 # near td: 0.5-2.0  Hz
 # far  td: 0.05-0.1 Hz

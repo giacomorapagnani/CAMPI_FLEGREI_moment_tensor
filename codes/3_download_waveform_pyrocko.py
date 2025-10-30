@@ -51,7 +51,7 @@ cat = model.load_events(catname)
 print('Number of events:', len(cat))
 
 client=Client('INGV')
-stations_name=os.path.join(meta_datadir, 'stations_flegrei_INGV_final.xml') #CHANGE stations_flegrei_INGV_final
+stations_name=os.path.join(meta_datadir, 'stations_flegrei_INGV_final.xml')     #CHANGE stations_flegrei_INGV_final
 stations=read_inventory(stations_name)                                 
 
 #print(stations)
@@ -65,7 +65,7 @@ stations=read_inventory(stations_name)
 ################################################################################
 
 # download waveforms strarting from this data:
-date_start_download='2025-06-28 00:00:00.000'                               #CHANGE
+date_start_download='2025-07-01 00:00:00.000'                               #CHANGE
 sec_start_download=util.str_to_time(date_start_download)
 date_end_download='2026-01-01 00:00:00.000'                               #CHANGE
 sec_end_download=util.str_to_time(date_end_download)

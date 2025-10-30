@@ -1,8 +1,7 @@
 %YAML 1.1
 # Composite Grond Config:
-# devi XL (same as in main article)
+# devi XL
   # td.near.vt: 0.5-2.0  Hz
-  # td.far.vt:  0.05-0.1 Hz
 # VLP (same as in main article)
   # td.near: 0.09-0.12 Hz
   # fd.near: 0.09-0.12  Hz
@@ -38,30 +37,6 @@ target_groups:
     ffactor: 1.5
     tmin: stored:P - 0.5
     tmax: stored:S + 1.5
-    domain: time_domain
-    norm_exponent: 1
-    tautoshift_max: 1.0
-    autoshift_penalty_max: 0.2
-- !grond.WaveformTargetGroup
-  normalisation_family: time_domain
-  path: td.far.vt
-  weight: 1.0
-  interpolation: multilinear
-  store_id: campiflegrei_far
-  distance_min: 10e3
-  distance_max: 60e3
-  exclude: []
-  channels:
-  - Z
-  - R
-  - T
-  misfit_config: !grond.WaveformMisfitConfig
-    quantity: displacement
-    fmin: 0.05
-    fmax: 0.1
-    ffactor: 1.5
-    tmin: stored:any_P - 5
-    tmax: vel_surface:2.0
     domain: time_domain
     norm_exponent: 1
     tautoshift_max: 1.0
@@ -111,7 +86,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_devi_XL_VLP_1_${event_name}
+  name_template: cmt_composite_devi_XL_VLP_2_${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig

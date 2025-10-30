@@ -45,7 +45,7 @@ catdir =  os.path.join(workdir,'CAT')
 client=Client('INGV')
 
 stime=UTCDateTime('2014-01-01T00:00:00')        # CHANGE set start time
-etime=UTCDateTime('2025-07-02T00:00:00')        # CHANGE set end time
+etime=UTCDateTime('2025-10-28T00:00:00')        # CHANGE set end time
 
 ######################################################################################
 ######################################################################################
