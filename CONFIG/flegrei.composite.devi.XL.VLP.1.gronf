@@ -45,7 +45,7 @@ target_groups:
 - !grond.WaveformTargetGroup
   normalisation_family: time_domain
   path: td.far.vt
-  weight: 1.0
+  weight: 0.6
   interpolation: multilinear
   store_id: campiflegrei_far
   distance_min: 10e3
@@ -111,7 +111,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_devi_XL_VLP_1_${event_name}
+  name_template: cmt_composite_devi_XL_VLP_1_2${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig
@@ -159,10 +159,10 @@ analyser_configs:
 optimiser_config: !grond.HighScoreOptimiserConfig
   sampler_phases:
   - !grond.UniformSamplerPhase
-    niterations: 10000
+    niterations: 20000
     ntries_preconstrain_limit: 1000
   - !grond.DirectedSamplerPhase
-    niterations: 50000
+    niterations: 100000
     ntries_preconstrain_limit: 1000
     starting_point: excentricity_compensated
     sampler_distribution: normal

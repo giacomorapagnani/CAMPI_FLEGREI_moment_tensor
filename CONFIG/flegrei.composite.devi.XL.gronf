@@ -29,7 +29,7 @@ target_groups:
   - R
   - T
   misfit_config: !grond.WaveformMisfitConfig
-    #quantity: displacement
+    quantity: displacement
     fmin: 0.5
     fmax: 2.0
     ffactor: 1.5
@@ -53,7 +53,7 @@ target_groups:
   - R
   - T
   misfit_config: !grond.WaveformMisfitConfig
-    #quantity: displacement
+    quantity: displacement
     fmin: 0.05
     fmax: 0.1
     ffactor: 1.5
@@ -64,7 +64,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_devi_XL_${event_name}
+  name_template: cmt_composite_devi_XL_2_${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig

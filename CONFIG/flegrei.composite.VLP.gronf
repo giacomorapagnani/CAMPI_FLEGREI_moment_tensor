@@ -56,7 +56,7 @@ target_groups:
     tautoshift_max: 1.0
     autoshift_penalty_max: 0.2
 problem_config: !grond.CompositeProblemConfig
-  name_template: cmt_composite_VLP_oscill_${event_name}
+  name_template: cmt_composite_VLP_oscill_2_${event_name}
   norm_exponent: 2
   subproblem_configs:
   - !grond.CMTSubProblemConfig
