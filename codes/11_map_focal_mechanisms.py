@@ -50,7 +50,7 @@ fig.grdimage(grid=topo_data, region=region, projection=projection, shading="+a45
 fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 #   PLOT FOCAL MECHANISM
-filename='catalogue_flegrei_MT_final_VLP_2_reloc'             ###CHANGE###  catalogue_flegrei_MT_final 
+filename='catalogue_flegrei_MT_final_reloc'             ###CHANGE###  catalogue_flegrei_MT_final 
                                                             # catalogue_flegrei_MT_final_VLP_reloc
 events_name=os.path.join(catdir,filename+'.pf')              
 fm_events = model.load_events(events_name)
@@ -65,7 +65,7 @@ switch_deviatoric=True
 ##########################################
 ############## SWITCH ##############
 ##########################################
-switch_timestamps=True                                                                 
+switch_timestamps=False                                                                 
 
 
 # loop on events in catalogue and plot FM
@@ -124,6 +124,8 @@ latsta=[]
 lonsta=[]
 namsta=[]
 for line in f:
+    if line[0]==' ':
+        continue
     toks=line.split()
     latsta.append(eval(toks[1]))
     lonsta.append(eval(toks[2]))

@@ -45,7 +45,7 @@ catdir =  os.path.join(workdir,'CAT')
 meta_datadir=os.path.join(workdir,'META_DATA')
 datadir=os.path.join(workdir,dataname)
 
-catname = os.path.join(catdir, 'catalogue_flegrei_mag_2_5.pf')           #CHANGE catalogue_flegrei_mag_2_5
+catname = os.path.join(catdir, 'catalogue_2026_05_21.pf')           #CHANGE catalogue_flegrei_mag_2_5
 
 cat = model.load_events(catname)
 print('Number of events:', len(cat))
@@ -67,7 +67,7 @@ stations=read_inventory(stations_name)
 # download waveforms strarting from this data:
 date_start_download='2025-10-26 00:00:00.000'                               #CHANGE
 sec_start_download=util.str_to_time(date_start_download)
-date_end_download='2026-01-01 00:00:00.000'                               #CHANGE
+date_end_download='2027-01-01 00:00:00.000'                               #CHANGE
 sec_end_download=util.str_to_time(date_end_download)
 
 count=1
