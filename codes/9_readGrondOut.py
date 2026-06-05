@@ -34,7 +34,7 @@ catdir=os.path.join(workdir,'CAT')
 
 catname=os.path.join(catdir,'catalogue_flegrei_mag_2_5.pf')    # CHANGE  catalogue_flegrei_VLP catalogue_flegrei_mag_2_5
 
-new_catalogue_name='catalogue_flegrei_MT_VT_reloc'             # CHANGE catalogue_flegrei_MT_final_VLP
+new_catalogue_name='catalogue_flegrei_MT_final'             # CHANGE catalogue_flegrei_MT_final_VLP
                                                             #  catalogue_flegrei_MT_final
                                                             #  (check event 20 May 2024)
 refevents=model.load_events(catname)
@@ -45,7 +45,7 @@ run_get_grond_results = True
 #######################################
 ############# SWITCH #############
 #######################################
-switch_new_localization=True
+switch_new_localization=False
 
 if run_get_grond_results:
     mttargets = [ev for ev in refevents]

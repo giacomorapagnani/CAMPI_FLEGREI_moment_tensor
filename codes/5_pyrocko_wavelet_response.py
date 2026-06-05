@@ -31,7 +31,7 @@ import geopy.distance
 
 workdir='../'
 
-switch_VLP=False                         # SWITCH
+switch_VLP=True                         # SWITCH
 
 if switch_VLP:
     dataname='DATA_VLP'

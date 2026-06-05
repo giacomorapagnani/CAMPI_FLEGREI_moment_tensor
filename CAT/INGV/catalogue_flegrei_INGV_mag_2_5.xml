@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <q:quakeml xmlns="http://quakeml.org/xmlns/bed/1.2" xmlns:q="http://quakeml.org/xmlns/quakeml/1.2" xmlns:ns0="http://webservices.ingv.it/">
-  <eventParameters publicID="smi:local/adb03bbf-e4cd-492b-abf4-5803a8f750de">
+  <eventParameters publicID="smi:local/8b186f61-23dc-45a6-8543-6b9a245b0b50">
     <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=6142151">
       <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=21734191</preferredOriginID>
       <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=23161731</preferredMagnitudeID>
@@ -14,6 +14,7 @@
         <author>SURVEY-INGV-OV</author>
         <creationTime>2015-10-07T12:40:38.000000Z</creationTime>
         <ns0:id_locator>0</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=21734191">
         <time>
@@ -48,6 +49,7 @@
           <creationTime>2015-10-07T12:40:38.000000Z</creationTime>
           <version>200</version>
           <ns0:quality/>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
       </origin>
       <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=23161731">
@@ -82,6 +84,7 @@
         <author>SURVEY-INGV-OV#WinPick</author>
         <creationTime>2020-12-22T11:04:11.000000Z</creationTime>
         <ns0:id_locator>4395</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=85624531">
         <time>
@@ -117,6 +120,7 @@
           <creationTime>2020-12-22T11:04:11.000000Z</creationTime>
           <version>200</version>
           <ns0:quality>DD</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -156,6 +160,7 @@
         <author>SURVEY-INGV-OV#WinPick</author>
         <creationTime>2020-12-19T22:19:47.000000Z</creationTime>
         <ns0:id_locator>4350</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=85604901">
         <time>
@@ -191,6 +196,7 @@
           <creationTime>2020-12-21T17:22:19.000000Z</creationTime>
           <version>200</version>
           <ns0:quality>DD</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -270,6 +276,7 @@
           <creationTime>2024-03-01T15:28:26.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AA</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -313,6 +320,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2022-11-30T03:15:04.000000Z</creationTime>
         <ns0:id_locator>17732</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=112360321">
         <time>
@@ -348,6 +356,7 @@
           <creationTime>2022-11-30T03:15:04.000000Z</creationTime>
           <version>200</version>
           <ns0:quality>DD</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -387,6 +396,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2022-07-30T04:21:04.000000Z</creationTime>
         <ns0:id_locator>16351</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=107864951">
         <time>
@@ -422,6 +432,7 @@
           <creationTime>2022-07-30T04:21:04.000000Z</creationTime>
           <version>200</version>
           <ns0:quality>DD</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -461,6 +472,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2022-03-29T17:45:58.000000Z</creationTime>
         <ns0:id_locator>415298</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=105868701">
         <time>
@@ -501,6 +513,7 @@
           <creationTime>2022-07-08T12:34:02.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AA</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -544,6 +557,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2022-03-16T14:15:02.000000Z</creationTime>
         <ns0:id_locator>413008</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=102616861">
         <time>
@@ -584,6 +598,7 @@
           <creationTime>2022-07-08T12:33:39.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AA</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -627,6 +642,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2023-10-16T10:36:36.000000Z</creationTime>
         <ns0:id_locator>534953</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=123332751">
         <time>
@@ -667,6 +683,7 @@
           <creationTime>2025-02-03T16:21:53.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AA</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -710,6 +727,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2023-10-02T20:08:48.000000Z</creationTime>
         <ns0:id_locator>532208</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=132404571">
         <time>
@@ -750,6 +768,7 @@
           <creationTime>2025-02-03T16:22:17.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AA</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -832,6 +851,7 @@
           <creationTime>2025-02-03T16:22:16.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AA</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -875,6 +895,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2023-09-27T01:35:52.000000Z</creationTime>
         <ns0:id_locator>530870</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=131977171">
         <time>
@@ -915,6 +936,7 @@
           <creationTime>2025-02-03T16:22:16.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AA</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -958,6 +980,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2023-09-26T07:10:50.000000Z</creationTime>
         <ns0:id_locator>530692</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=123179331">
         <time>
@@ -998,6 +1021,7 @@
           <creationTime>2025-02-03T16:21:53.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AB</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -1041,6 +1065,7 @@
         <author>SURVEY-INGV-OV</author>
         <creationTime>2023-09-07T18:37:23.000000Z</creationTime>
         <ns0:id_locator>0</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=122012981">
         <time>
@@ -1081,6 +1106,7 @@
           <creationTime>2025-02-03T16:21:47.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AA</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -1124,6 +1150,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2023-08-18T04:18:23.000000Z</creationTime>
         <ns0:id_locator>522434</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=120549231">
         <time>
@@ -1164,6 +1191,7 @@
           <creationTime>2024-09-10T16:44:16.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AA</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -1247,6 +1275,7 @@
           <creationTime>2024-03-01T17:18:20.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AA</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -1290,6 +1319,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-12-06T09:13:03.000000Z</creationTime>
         <ns0:id_locator>40497</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136169641">
         <time>
@@ -1325,6 +1355,7 @@
           <creationTime>2025-04-29T13:17:41.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -1364,6 +1395,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-12-06T05:04:03.000000Z</creationTime>
         <ns0:id_locator>40479</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136169581">
         <time>
@@ -1399,6 +1431,7 @@
           <creationTime>2025-04-29T13:17:27.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -1438,6 +1471,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-10-13T06:27:01.000000Z</creationTime>
         <ns0:id_locator>39626</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136169181">
         <time>
@@ -1473,6 +1507,7 @@
           <creationTime>2025-04-29T13:15:35.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -1512,6 +1547,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-10-12T05:23:04.000000Z</creationTime>
         <ns0:id_locator>39580</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136169151">
         <time>
@@ -1547,6 +1583,7 @@
           <creationTime>2025-04-29T13:15:29.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -1586,6 +1623,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-08-30T19:46:03.000000Z</creationTime>
         <ns0:id_locator>39108</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136168891">
         <time>
@@ -1621,6 +1659,7 @@
           <creationTime>2025-04-29T13:14:20.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -1660,6 +1699,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-08-18T00:59:01.000000Z</creationTime>
         <ns0:id_locator>38766</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136168691">
         <time>
@@ -1695,6 +1735,7 @@
           <creationTime>2025-04-29T13:13:24.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -1734,6 +1775,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-08-17T21:46:01.000000Z</creationTime>
         <ns0:id_locator>38724</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136168541">
         <time>
@@ -1769,6 +1811,7 @@
           <creationTime>2025-04-29T13:12:50.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -1808,6 +1851,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-07-26T12:00:01.000000Z</creationTime>
         <ns0:id_locator>38245</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165981">
         <time>
@@ -1843,6 +1887,7 @@
           <creationTime>2025-04-29T11:07:20.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -1882,6 +1927,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-07-18T06:21:03.000000Z</creationTime>
         <ns0:id_locator>37980</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165871">
         <time>
@@ -1917,6 +1963,7 @@
           <creationTime>2025-04-29T11:06:54.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -1956,6 +2003,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-07-11T10:22:03.000000Z</creationTime>
         <ns0:id_locator>37827</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165771">
         <time>
@@ -1991,6 +2039,7 @@
           <creationTime>2025-04-29T11:06:29.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2030,6 +2079,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-07-03T00:37:01.000000Z</creationTime>
         <ns0:id_locator>37591</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165631">
         <time>
@@ -2065,6 +2115,7 @@
           <creationTime>2025-04-29T11:05:44.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2104,6 +2155,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-07-02T13:40:02.000000Z</creationTime>
         <ns0:id_locator>37559</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165591">
         <time>
@@ -2139,6 +2191,7 @@
           <creationTime>2025-04-29T11:05:35.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2178,6 +2231,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-07-02T13:33:04.000000Z</creationTime>
         <ns0:id_locator>37555</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165581">
         <time>
@@ -2213,6 +2267,7 @@
           <creationTime>2025-04-29T11:05:32.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2252,6 +2307,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-07-02T13:26:05.000000Z</creationTime>
         <ns0:id_locator>37554</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165571">
         <time>
@@ -2287,6 +2343,7 @@
           <creationTime>2025-04-29T11:05:31.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2326,6 +2383,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-07-02T13:27:02.000000Z</creationTime>
         <ns0:id_locator>37553</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165561">
         <time>
@@ -2361,6 +2419,7 @@
           <creationTime>2025-04-29T11:05:28.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2400,6 +2459,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-06-18T02:31:04.000000Z</creationTime>
         <ns0:id_locator>37228</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165351">
         <time>
@@ -2435,6 +2495,7 @@
           <creationTime>2025-04-29T11:04:23.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2474,6 +2535,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-06-08T02:42:02.000000Z</creationTime>
         <ns0:id_locator>36955</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165111">
         <time>
@@ -2509,6 +2571,7 @@
           <creationTime>2025-04-29T11:03:16.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2548,6 +2611,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-06-08T02:20:02.000000Z</creationTime>
         <ns0:id_locator>36927</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165101">
         <time>
@@ -2583,6 +2647,7 @@
           <creationTime>2025-04-29T11:03:14.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2622,6 +2687,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-06-08T02:34:03.000000Z</creationTime>
         <ns0:id_locator>36952</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165091">
         <time>
@@ -2657,6 +2723,7 @@
           <creationTime>2025-04-29T11:03:11.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2696,6 +2763,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-06-08T02:13:04.000000Z</creationTime>
         <ns0:id_locator>36917</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136165081">
         <time>
@@ -2731,6 +2799,7 @@
           <creationTime>2025-04-29T11:03:10.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2770,6 +2839,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-05-25T01:31:02.000000Z</creationTime>
         <ns0:id_locator>36479</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136164831">
         <time>
@@ -2805,6 +2875,7 @@
           <creationTime>2025-04-29T10:56:16.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2844,6 +2915,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2024-05-22T06:28:15.000000Z</creationTime>
         <ns0:id_locator>574918</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136164781">
         <time>
@@ -2879,6 +2951,7 @@
           <creationTime>2025-04-29T10:56:04.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2918,6 +2991,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-05-20T23:28:01.000000Z</creationTime>
         <ns0:id_locator>36125</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136164591">
         <time>
@@ -2953,6 +3027,7 @@
           <creationTime>2025-04-29T10:55:19.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -2992,6 +3067,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2024-05-20T21:01:11.000000Z</creationTime>
         <ns0:id_locator>574455</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136164491">
         <time>
@@ -3027,6 +3103,7 @@
           <creationTime>2025-04-29T10:54:54.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3066,6 +3143,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2024-05-20T19:55:55.000000Z</creationTime>
         <ns0:id_locator>574411</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136161461">
         <time>
@@ -3101,6 +3179,7 @@
           <creationTime>2025-04-29T08:21:14.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3140,6 +3219,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2024-05-20T19:46:31.000000Z</creationTime>
         <ns0:id_locator>574399</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136161491">
         <time>
@@ -3175,6 +3255,7 @@
           <creationTime>2025-04-29T08:21:59.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3214,6 +3295,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2024-05-20T18:10:18.000000Z</creationTime>
         <ns0:id_locator>574335</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136161631">
         <time>
@@ -3249,6 +3331,7 @@
           <creationTime>2025-04-29T08:26:45.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3288,6 +3371,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-05-20T18:18:04.000000Z</creationTime>
         <ns0:id_locator>35838</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136148901">
         <time>
@@ -3323,6 +3407,7 @@
           <creationTime>2025-04-28T15:54:48.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3362,6 +3447,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-05-18T04:49:04.000000Z</creationTime>
         <ns0:id_locator>35716</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136148751">
         <time>
@@ -3397,6 +3483,7 @@
           <creationTime>2025-04-28T15:54:20.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3436,6 +3523,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-05-13T01:56:04.000000Z</creationTime>
         <ns0:id_locator>35467</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136148591">
         <time>
@@ -3471,6 +3559,7 @@
           <creationTime>2025-04-28T15:53:32.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3510,6 +3599,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-05-10T12:00:02.000000Z</creationTime>
         <ns0:id_locator>35387</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136148431">
         <time>
@@ -3545,6 +3635,7 @@
           <creationTime>2025-04-28T15:52:51.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3584,6 +3675,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-05-10T11:54:01.000000Z</creationTime>
         <ns0:id_locator>35381</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136148441">
         <time>
@@ -3619,6 +3711,7 @@
           <creationTime>2025-04-28T15:52:52.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3658,6 +3751,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-05-08T06:16:02.000000Z</creationTime>
         <ns0:id_locator>35293</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136148381">
         <time>
@@ -3693,6 +3787,7 @@
           <creationTime>2025-04-28T15:52:38.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3732,6 +3827,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-05-07T18:01:02.000000Z</creationTime>
         <ns0:id_locator>35274</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136148361">
         <time>
@@ -3767,6 +3863,7 @@
           <creationTime>2025-04-28T15:52:35.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3806,6 +3903,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-05-07T04:14:02.000000Z</creationTime>
         <ns0:id_locator>35209</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136148271">
         <time>
@@ -3841,6 +3939,7 @@
           <creationTime>2025-04-28T15:52:18.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3880,6 +3979,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2024-05-07T01:48:11.000000Z</creationTime>
         <ns0:id_locator>571101</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136161641">
         <time>
@@ -3915,6 +4015,7 @@
           <creationTime>2025-04-29T08:26:45.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3943,7 +4044,7 @@
     </event>
     <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=38381891">
       <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=136161651</preferredOriginID>
-      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=146232581</preferredMagnitudeID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155235081</preferredMagnitudeID>
       <type>earthquake</type>
       <description>
         <text>Campi Flegrei</text>
@@ -3954,6 +4055,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2024-04-27T03:45:14.000000Z</creationTime>
         <ns0:id_locator>568398</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136161651">
         <time>
@@ -3973,10 +4075,10 @@
         <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
         <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
         <quality>
-          <associatedPhaseCount>1</associatedPhaseCount>
-          <usedPhaseCount>1</usedPhaseCount>
-          <associatedStationCount>0</associatedStationCount>
-          <usedStationCount>0</usedStationCount>
+          <associatedPhaseCount>28</associatedPhaseCount>
+          <usedPhaseCount>28</usedPhaseCount>
+          <associatedStationCount>20</associatedStationCount>
+          <usedStationCount>20</usedStationCount>
           <standardError>0.12</standardError>
           <azimuthalGap>101.0</azimuthalGap>
         </quality>
@@ -3986,9 +4088,10 @@
         <creationInfo>
           <agencyID>INGV</agencyID>
           <author>BULLETIN-OV</author>
-          <creationTime>2025-04-29T08:26:45.000000Z</creationTime>
+          <creationTime>2026-04-14T14:45:29.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -3996,7 +4099,7 @@
           <confidenceLevel>68.0</confidenceLevel>
         </originUncertainty>
       </origin>
-      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=146232581">
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155235081">
         <mag>
           <value>3.9</value>
           <uncertainty>0.3</uncertainty>
@@ -4010,7 +4113,7 @@
         <creationInfo>
           <agencyID>INGV</agencyID>
           <author>BULLETIN-OV</author>
-          <creationTime>2025-04-29T08:26:45.000000Z</creationTime>
+          <creationTime>2026-04-14T14:45:29.000000Z</creationTime>
           <ns0:mag_quality>A</ns0:mag_quality>
         </creationInfo>
       </magnitude>
@@ -4028,6 +4131,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-26T02:09:05.000000Z</creationTime>
         <ns0:id_locator>34591</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136147601">
         <time>
@@ -4063,6 +4167,7 @@
           <creationTime>2025-04-28T15:38:17.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4102,6 +4207,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-16T03:54:02.000000Z</creationTime>
         <ns0:id_locator>34212</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136147031">
         <time>
@@ -4137,6 +4243,7 @@
           <creationTime>2025-04-28T15:36:18.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4176,6 +4283,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-14T09:11:03.000000Z</creationTime>
         <ns0:id_locator>34065</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136146851">
         <time>
@@ -4211,6 +4319,7 @@
           <creationTime>2025-04-28T15:35:33.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4250,6 +4359,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-14T09:50:01.000000Z</creationTime>
         <ns0:id_locator>34085</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136146841">
         <time>
@@ -4285,6 +4395,7 @@
           <creationTime>2025-04-28T15:35:30.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4324,6 +4435,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-14T08:32:02.000000Z</creationTime>
         <ns0:id_locator>34050</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136146781">
         <time>
@@ -4359,6 +4471,7 @@
           <creationTime>2025-04-28T15:35:07.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4398,6 +4511,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-14T08:33:03.000000Z</creationTime>
         <ns0:id_locator>34048</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136146741">
         <time>
@@ -4433,6 +4547,7 @@
           <creationTime>2025-04-28T15:34:57.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4472,6 +4587,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-09T21:02:02.000000Z</creationTime>
         <ns0:id_locator>33786</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136146411">
         <time>
@@ -4507,6 +4623,7 @@
           <creationTime>2025-04-28T15:33:33.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4546,6 +4663,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-06T12:17:01.000000Z</creationTime>
         <ns0:id_locator>33632</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136146251">
         <time>
@@ -4581,6 +4699,7 @@
           <creationTime>2025-04-28T15:32:54.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4620,6 +4739,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-04T11:22:01.000000Z</creationTime>
         <ns0:id_locator>33541</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136146141">
         <time>
@@ -4655,6 +4775,7 @@
           <creationTime>2025-04-28T15:32:22.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4694,6 +4815,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-04T05:49:02.000000Z</creationTime>
         <ns0:id_locator>33528</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136146131">
         <time>
@@ -4729,6 +4851,7 @@
           <creationTime>2025-04-28T15:32:19.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4768,6 +4891,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-04-04T05:40:04.000000Z</creationTime>
         <ns0:id_locator>33522</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136146071">
         <time>
@@ -4803,6 +4927,7 @@
           <creationTime>2025-04-28T15:32:06.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4842,6 +4967,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2024-03-03T09:02:13.000000Z</creationTime>
         <ns0:id_locator>557191</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=125673311">
         <time>
@@ -4877,6 +5003,7 @@
           <creationTime>2024-03-03T09:36:08.000000Z</creationTime>
           <version>200</version>
           <ns0:quality>DD</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4905,7 +5032,7 @@
     </event>
     <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=37620831">
       <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=136161671</preferredOriginID>
-      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=146232601</preferredMagnitudeID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155255681</preferredMagnitudeID>
       <type>earthquake</type>
       <description>
         <text>Campi Flegrei</text>
@@ -4916,6 +5043,7 @@
         <author>hew10_mole#MOD_EQASSEMBLE</author>
         <creationTime>2024-02-17T19:22:27.000000Z</creationTime>
         <ns0:id_locator>554704</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136161671">
         <time>
@@ -4935,10 +5063,10 @@
         <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
         <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
         <quality>
-          <associatedPhaseCount>1</associatedPhaseCount>
-          <usedPhaseCount>1</usedPhaseCount>
-          <associatedStationCount>0</associatedStationCount>
-          <usedStationCount>0</usedStationCount>
+          <associatedPhaseCount>24</associatedPhaseCount>
+          <usedPhaseCount>24</usedPhaseCount>
+          <associatedStationCount>17</associatedStationCount>
+          <usedStationCount>17</usedStationCount>
           <standardError>0.05</standardError>
           <azimuthalGap>171.0</azimuthalGap>
         </quality>
@@ -4948,9 +5076,10 @@
         <creationInfo>
           <agencyID>INGV</agencyID>
           <author>BULLETIN-OV</author>
-          <creationTime>2025-04-29T08:26:48.000000Z</creationTime>
+          <creationTime>2026-04-15T10:00:26.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -4958,7 +5087,7 @@
           <confidenceLevel>68.0</confidenceLevel>
         </originUncertainty>
       </origin>
-      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=146232601">
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155255681">
         <mag>
           <value>3.0</value>
           <uncertainty>0.3</uncertainty>
@@ -4972,7 +5101,7 @@
         <creationInfo>
           <agencyID>INGV</agencyID>
           <author>BULLETIN-OV</author>
-          <creationTime>2025-04-29T08:26:48.000000Z</creationTime>
+          <creationTime>2026-04-15T10:00:26.000000Z</creationTime>
           <ns0:mag_quality>A</ns0:mag_quality>
         </creationInfo>
       </magnitude>
@@ -4990,6 +5119,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-02-17T18:27:02.000000Z</creationTime>
         <ns0:id_locator>32701</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136145451">
         <time>
@@ -5025,6 +5155,7 @@
           <creationTime>2025-04-28T15:15:46.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5064,6 +5195,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2024-01-21T10:00:04.000000Z</creationTime>
         <ns0:id_locator>32178</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136145191">
         <time>
@@ -5099,6 +5231,7 @@
           <creationTime>2025-04-28T15:12:57.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5138,6 +5271,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-11-28T15:51:03.000000Z</creationTime>
         <ns0:id_locator>50563</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=141518991">
         <time>
@@ -5173,6 +5307,7 @@
           <creationTime>2025-11-28T15:51:03.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5212,6 +5347,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-11-28T15:47:03.000000Z</creationTime>
         <ns0:id_locator>50561</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=141518931">
         <time>
@@ -5247,6 +5383,7 @@
           <creationTime>2025-11-28T15:47:02.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5273,6 +5410,82 @@
         </creationInfo>
       </magnitude>
     </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=44730652">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=141474761</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=152183581</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-01-19T12:22:00.000000Z</creationTime>
+        <ns0:id_locator>50408</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=141474761">
+        <time>
+          <value>2025-11-25T22:21:54.200000Z</value>
+        </time>
+        <latitude>
+          <value>40.8285</value>
+        </latitude>
+        <longitude>
+          <value>14.140167</value>
+        </longitude>
+        <depth>
+          <value>2670.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>25</associatedPhaseCount>
+          <usedPhaseCount>25</usedPhaseCount>
+          <associatedStationCount>21</associatedStationCount>
+          <usedStationCount>21</usedStationCount>
+          <standardError>0.09</standardError>
+          <azimuthalGap>69.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2025-11-25T22:43:01.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>200.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=152183581">
+        <mag>
+          <value>3.3</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=141474761</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2025-11-25T22:43:01.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
     <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=44713762">
       <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=141417351</preferredOriginID>
       <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=152122381</preferredMagnitudeID>
@@ -5286,6 +5499,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-11-22T18:17:02.000000Z</creationTime>
         <ns0:id_locator>50339</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=141417351">
         <time>
@@ -5321,6 +5535,7 @@
           <creationTime>2025-11-22T18:17:02.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5360,6 +5575,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-11-19T18:35:02.000000Z</creationTime>
         <ns0:id_locator>50273</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=141364101">
         <time>
@@ -5395,6 +5611,7 @@
           <creationTime>2025-11-19T18:35:02.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5434,6 +5651,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-11-19T13:08:04.000000Z</creationTime>
         <ns0:id_locator>50256</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=141359991">
         <time>
@@ -5469,6 +5687,7 @@
           <creationTime>2025-11-19T13:08:03.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5508,6 +5727,7 @@
         <author>hew1#MOD_EQASSEMBLE</author>
         <creationTime>2025-11-18T12:37:13.000000Z</creationTime>
         <ns0:id_locator>104432</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=141363731">
         <time>
@@ -5548,6 +5768,7 @@
           <creationTime>2025-11-20T10:49:37.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/BSI</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>uncertainty ellipse</preferredDescription>
@@ -5591,6 +5812,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-11-09T05:42:02.000000Z</creationTime>
         <ns0:id_locator>49948</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=141147031">
         <time>
@@ -5626,6 +5848,7 @@
           <creationTime>2025-11-09T08:47:02.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5665,6 +5888,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-10-25T23:23:03.000000Z</creationTime>
         <ns0:id_locator>49375</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=140907991">
         <time>
@@ -5700,6 +5924,7 @@
           <creationTime>2025-10-29T12:03:49.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5739,6 +5964,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-10-22T05:15:03.000000Z</creationTime>
         <ns0:id_locator>49229</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=140712881">
         <time>
@@ -5774,6 +6000,7 @@
           <creationTime>2025-10-22T05:15:02.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5813,6 +6040,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-10-20T03:00:10.000000Z</creationTime>
         <ns0:id_locator>49140</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=140661331">
         <time>
@@ -5848,6 +6076,7 @@
           <creationTime>2025-10-20T03:00:09.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5887,6 +6116,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-10-18T23:31:02.000000Z</creationTime>
         <ns0:id_locator>49051</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=140687281">
         <time>
@@ -5922,6 +6152,7 @@
           <creationTime>2025-10-21T07:08:57.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -5961,6 +6192,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-10-17T21:29:02.000000Z</creationTime>
         <ns0:id_locator>49019</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=140616201">
         <time>
@@ -5996,6 +6228,7 @@
           <creationTime>2025-10-17T21:29:02.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6035,6 +6268,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-10-12T15:33:03.000000Z</creationTime>
         <ns0:id_locator>48814</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=140484671">
         <time>
@@ -6070,6 +6304,7 @@
           <creationTime>2025-10-12T15:33:03.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6109,6 +6344,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-10-12T14:04:04.000000Z</creationTime>
         <ns0:id_locator>48809</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=140483471">
         <time>
@@ -6144,6 +6380,7 @@
           <creationTime>2025-10-12T14:04:04.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6183,6 +6420,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-10-04T23:26:03.000000Z</creationTime>
         <ns0:id_locator>48547</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=140294061">
         <time>
@@ -6218,6 +6456,7 @@
           <creationTime>2025-10-04T23:26:02.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6257,6 +6496,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-10-02T18:05:03.000000Z</creationTime>
         <ns0:id_locator>48463</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=140229121">
         <time>
@@ -6292,6 +6532,7 @@
           <creationTime>2025-10-02T18:05:03.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6331,6 +6572,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-09-01T15:36:02.000000Z</creationTime>
         <ns0:id_locator>47920</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=139483961">
         <time>
@@ -6366,6 +6608,7 @@
           <creationTime>2025-09-01T15:36:02.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6405,6 +6648,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-09-01T08:41:03.000000Z</creationTime>
         <ns0:id_locator>47888</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=139475901">
         <time>
@@ -6440,6 +6684,7 @@
           <creationTime>2025-09-01T08:41:03.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6479,6 +6724,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-09-01T03:25:05.000000Z</creationTime>
         <ns0:id_locator>47845</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=139473271">
         <time>
@@ -6514,6 +6760,7 @@
           <creationTime>2025-09-01T06:58:03.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6553,6 +6800,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-09-01T00:00:04.000000Z</creationTime>
         <ns0:id_locator>47811</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=139468381">
         <time>
@@ -6588,6 +6836,7 @@
           <creationTime>2025-09-01T00:00:04.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6627,6 +6876,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-08-31T23:40:01.000000Z</creationTime>
         <ns0:id_locator>47795</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=139468141">
         <time>
@@ -6662,6 +6912,7 @@
           <creationTime>2025-08-31T23:40:00.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6701,6 +6952,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-08-31T23:13:03.000000Z</creationTime>
         <ns0:id_locator>47791</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=139468001">
         <time>
@@ -6736,6 +6988,7 @@
           <creationTime>2025-08-31T23:13:03.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6775,6 +7028,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-08-31T15:03:03.000000Z</creationTime>
         <ns0:id_locator>47743</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=139455641">
         <time>
@@ -6810,6 +7064,7 @@
           <creationTime>2025-08-31T15:03:02.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6849,6 +7104,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-08-31T14:59:05.000000Z</creationTime>
         <ns0:id_locator>47742</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=139455551">
         <time>
@@ -6884,6 +7140,7 @@
           <creationTime>2025-08-31T14:59:05.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6923,6 +7180,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-08-31T14:34:04.000000Z</creationTime>
         <ns0:id_locator>47740</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=139455161">
         <time>
@@ -6958,6 +7216,7 @@
           <creationTime>2025-08-31T14:34:04.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -6997,6 +7256,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-08-28T20:54:03.000000Z</creationTime>
         <ns0:id_locator>47699</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=139388561">
         <time>
@@ -7032,6 +7292,7 @@
           <creationTime>2025-08-28T21:04:35.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7071,6 +7332,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-07-18T07:58:08.000000Z</creationTime>
         <ns0:id_locator>46901</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=138095761">
         <time>
@@ -7106,6 +7368,7 @@
           <creationTime>2025-07-18T07:58:08.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7145,6 +7408,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-07-03T07:29:03.000000Z</creationTime>
         <ns0:id_locator>46715</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137711621">
         <time>
@@ -7180,6 +7444,7 @@
           <creationTime>2025-07-03T07:29:02.000000Z</creationTime>
           <version>100</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7219,6 +7484,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-06-30T10:59:02.000000Z</creationTime>
         <ns0:id_locator>46668</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=138254691">
         <time>
@@ -7254,6 +7520,7 @@
           <creationTime>2025-07-23T11:57:26.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7293,6 +7560,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-06-21T03:22:02.000000Z</creationTime>
         <ns0:id_locator>46523</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=138254531">
         <time>
@@ -7328,6 +7596,7 @@
           <creationTime>2025-07-23T11:54:57.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7367,6 +7636,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-06-07T20:05:03.000000Z</creationTime>
         <ns0:id_locator>46268</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=138253941">
         <time>
@@ -7402,6 +7672,7 @@
           <creationTime>2025-07-23T11:31:42.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7441,6 +7712,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-06-06T17:49:03.000000Z</creationTime>
         <ns0:id_locator>46214</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=138253891">
         <time>
@@ -7476,6 +7748,7 @@
           <creationTime>2025-07-23T11:31:29.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7515,6 +7788,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-06-05T17:09:04.000000Z</creationTime>
         <ns0:id_locator>46166</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=138253851">
         <time>
@@ -7550,6 +7824,7 @@
           <creationTime>2025-07-23T11:31:20.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7589,6 +7864,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-06-05T05:08:03.000000Z</creationTime>
         <ns0:id_locator>46143</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=138253781">
         <time>
@@ -7624,6 +7900,7 @@
           <creationTime>2025-07-23T11:31:08.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7663,6 +7940,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-05-23T11:07:00.000000Z</creationTime>
         <ns0:id_locator>45943</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137315271">
         <time>
@@ -7698,6 +7976,7 @@
           <creationTime>2025-06-17T19:55:29.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7737,6 +8016,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-05-14T13:16:05.000000Z</creationTime>
         <ns0:id_locator>45759</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137315161">
         <time>
@@ -7772,6 +8052,7 @@
           <creationTime>2025-06-17T19:55:04.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7811,6 +8092,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-05-14T12:39:01.000000Z</creationTime>
         <ns0:id_locator>45747</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137315151">
         <time>
@@ -7846,6 +8128,7 @@
           <creationTime>2025-06-17T19:55:02.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7885,6 +8168,7 @@
         <author>BULLETIN-OV</author>
         <creationTime>2025-06-17T19:54:38.000000Z</creationTime>
         <ns0:id_locator>45685</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137315051">
         <time>
@@ -7920,6 +8204,7 @@
           <creationTime>2025-06-17T19:54:38.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -7959,6 +8244,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-05-13T13:08:04.000000Z</creationTime>
         <ns0:id_locator>45684</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137313371">
         <time>
@@ -7994,6 +8280,7 @@
           <creationTime>2025-06-17T17:57:15.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8033,6 +8320,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-05-13T10:30:02.000000Z</creationTime>
         <ns0:id_locator>45654</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137313321">
         <time>
@@ -8068,6 +8356,7 @@
           <creationTime>2025-06-17T17:57:02.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8107,6 +8396,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-05-13T10:22:01.000000Z</creationTime>
         <ns0:id_locator>45650</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137313191">
         <time>
@@ -8142,6 +8432,7 @@
           <creationTime>2025-06-17T17:54:47.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8181,6 +8472,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-04-25T06:50:05.000000Z</creationTime>
         <ns0:id_locator>45337</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137312551">
         <time>
@@ -8216,6 +8508,7 @@
           <creationTime>2025-06-17T17:34:38.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8255,6 +8548,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-04-25T08:02:44.000000Z</creationTime>
         <ns0:id_locator>45327</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137312531">
         <time>
@@ -8290,6 +8584,7 @@
           <creationTime>2025-06-17T17:34:35.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8329,6 +8624,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-04-12T21:53:05.000000Z</creationTime>
         <ns0:id_locator>45120</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=137312181">
         <time>
@@ -8364,6 +8660,7 @@
           <creationTime>2025-06-17T17:31:01.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8404,6 +8701,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-03-15T12:45:05.000000Z</creationTime>
         <ns0:id_locator>44377</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=135547401">
         <time>
@@ -8439,6 +8737,7 @@
           <creationTime>2025-05-05T17:01:08.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8552,6 +8851,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-03-14T22:00:05.000000Z</creationTime>
         <ns0:id_locator>44352</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136330361">
         <time>
@@ -8587,6 +8887,7 @@
           <creationTime>2025-05-05T17:01:01.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8626,6 +8927,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-03-14T19:01:06.000000Z</creationTime>
         <ns0:id_locator>44347</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136330351">
         <time>
@@ -8661,6 +8963,7 @@
           <creationTime>2025-05-05T17:00:59.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8700,6 +9003,7 @@
         <author>SURVEY-INGV-OV#WESSEL</author>
         <creationTime>2025-03-13T00:39:04.000000Z</creationTime>
         <ns0:id_locator>44246</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136330321">
         <time>
@@ -8735,6 +9039,7 @@
           <creationTime>2025-05-05T17:00:28.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8774,6 +9079,7 @@
         <author>BULLETIN-OV</author>
         <creationTime>2025-03-25T11:15:29.000000Z</creationTime>
         <ns0:id_locator>44606</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=135401241">
         <time>
@@ -8809,6 +9115,7 @@
           <creationTime>2025-03-25T11:15:29.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>DD</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8848,6 +9155,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-03-11T02:27:04.000000Z</creationTime>
         <ns0:id_locator>44086</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=135404181">
         <time>
@@ -8883,6 +9191,7 @@
           <creationTime>2025-05-05T16:59:45.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8922,6 +9231,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-03-10T00:21:02.000000Z</creationTime>
         <ns0:id_locator>44043</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=135325401">
         <time>
@@ -8957,6 +9267,7 @@
           <creationTime>2025-05-05T16:59:35.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -8996,6 +9307,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-03-06T23:57:02.000000Z</creationTime>
         <ns0:id_locator>43940</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136330211">
         <time>
@@ -9031,6 +9343,7 @@
           <creationTime>2025-05-05T16:58:50.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9070,6 +9383,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-19T15:20:14.000000Z</creationTime>
         <ns0:id_locator>43346</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329901">
         <time>
@@ -9105,6 +9419,7 @@
           <creationTime>2025-05-05T16:57:20.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9144,6 +9459,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-19T15:16:15.000000Z</creationTime>
         <ns0:id_locator>43341</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329891">
         <time>
@@ -9179,6 +9495,7 @@
           <creationTime>2025-05-05T16:57:17.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9218,6 +9535,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-19T03:13:14.000000Z</creationTime>
         <ns0:id_locator>43232</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329841">
         <time>
@@ -9253,6 +9571,7 @@
           <creationTime>2025-05-05T16:57:05.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9292,6 +9611,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-19T00:40:23.000000Z</creationTime>
         <ns0:id_locator>43180</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329801">
         <time>
@@ -9327,6 +9647,7 @@
           <creationTime>2025-05-05T16:56:50.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9366,6 +9687,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-18T02:41:40.000000Z</creationTime>
         <ns0:id_locator>42883</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329761">
         <time>
@@ -9401,6 +9723,7 @@
           <creationTime>2025-05-05T16:55:19.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9440,6 +9763,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-17T18:21:17.000000Z</creationTime>
         <ns0:id_locator>42571</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329451">
         <time>
@@ -9475,6 +9799,7 @@
           <creationTime>2025-05-05T16:49:52.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9514,6 +9839,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-17T17:32:05.000000Z</creationTime>
         <ns0:id_locator>42530</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329411">
         <time>
@@ -9549,6 +9875,7 @@
           <creationTime>2025-05-05T16:49:40.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9588,6 +9915,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-17T17:09:14.000000Z</creationTime>
         <ns0:id_locator>42522</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329381">
         <time>
@@ -9623,6 +9951,7 @@
           <creationTime>2025-05-05T16:49:31.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9662,6 +9991,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-17T11:46:06.000000Z</creationTime>
         <ns0:id_locator>42433</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329211">
         <time>
@@ -9697,6 +10027,7 @@
           <creationTime>2025-05-05T16:48:40.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9736,6 +10067,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-17T07:25:15.000000Z</creationTime>
         <ns0:id_locator>42358</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329111">
         <time>
@@ -9771,6 +10103,7 @@
           <creationTime>2025-05-05T16:48:14.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9810,6 +10143,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-17T07:28:15.000000Z</creationTime>
         <ns0:id_locator>42357</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136329091">
         <time>
@@ -9845,6 +10179,7 @@
           <creationTime>2025-05-05T16:48:10.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9884,6 +10219,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-16T23:49:10.000000Z</creationTime>
         <ns0:id_locator>42106</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136328841">
         <time>
@@ -9919,6 +10255,7 @@
           <creationTime>2025-05-05T16:47:01.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -9958,6 +10295,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-16T23:07:41.000000Z</creationTime>
         <ns0:id_locator>42082</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136328801">
         <time>
@@ -9993,6 +10331,7 @@
           <creationTime>2025-05-05T16:46:49.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10032,6 +10371,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-16T23:03:45.000000Z</creationTime>
         <ns0:id_locator>42080</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136328791">
         <time>
@@ -10067,6 +10407,7 @@
           <creationTime>2025-05-05T16:46:46.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10106,6 +10447,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-16T16:38:22.000000Z</creationTime>
         <ns0:id_locator>42021</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136328741">
         <time>
@@ -10141,6 +10483,7 @@
           <creationTime>2025-05-05T16:46:34.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10180,6 +10523,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-16T21:08:59.000000Z</creationTime>
         <ns0:id_locator>42010</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136328701">
         <time>
@@ -10215,6 +10559,7 @@
           <creationTime>2025-05-05T16:46:21.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10254,6 +10599,7 @@
         <author>hew1#MOD_EQASSEMBLE</author>
         <creationTime>2025-02-16T14:31:06.000000Z</creationTime>
         <ns0:id_locator>50964</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/ISIDE</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136328561">
         <time>
@@ -10289,6 +10635,7 @@
           <creationTime>2025-05-05T16:39:42.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10328,6 +10675,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-13T22:26:14.000000Z</creationTime>
         <ns0:id_locator>41726</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136328251">
         <time>
@@ -10363,6 +10711,7 @@
           <creationTime>2025-05-05T16:38:00.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10402,6 +10751,7 @@
         <author>BULLETIN-OV</author>
         <creationTime>2025-05-05T16:37:45.000000Z</creationTime>
         <ns0:id_locator>41690</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136328201">
         <time>
@@ -10437,6 +10787,7 @@
           <creationTime>2025-05-05T16:37:45.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10476,6 +10827,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-12T22:46:18.000000Z</creationTime>
         <ns0:id_locator>41590</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136328091">
         <time>
@@ -10511,6 +10863,7 @@
           <creationTime>2025-05-05T16:37:09.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10550,6 +10903,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-05T10:16:35.000000Z</creationTime>
         <ns0:id_locator>41376</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136327921">
         <time>
@@ -10585,6 +10939,7 @@
           <creationTime>2025-05-05T16:36:29.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10624,6 +10979,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-05T08:26:33.000000Z</creationTime>
         <ns0:id_locator>41324</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136327861">
         <time>
@@ -10659,6 +11015,7 @@
           <creationTime>2025-05-05T16:36:14.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10698,6 +11055,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-02-07T12:05:05.000000Z</creationTime>
         <ns0:id_locator>41300</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136327781">
         <time>
@@ -10733,6 +11091,7 @@
           <creationTime>2025-05-05T16:35:53.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10772,6 +11131,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-01-18T17:21:15.000000Z</creationTime>
         <ns0:id_locator>40966</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=136327381">
         <time>
@@ -10807,6 +11167,7 @@
           <creationTime>2025-05-05T16:34:11.000000Z</creationTime>
           <version>1000</version>
           <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10846,6 +11207,7 @@
         <author>SURVEY-INGV-OV#SiSmi</author>
         <creationTime>2025-01-17T17:14:15.000000Z</creationTime>
         <ns0:id_locator>40951</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
       </creationInfo>
       <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=133883711">
         <time>
@@ -10881,6 +11243,7 @@
           <creationTime>2025-01-17T17:14:02.000000Z</creationTime>
           <version>200</version>
           <ns0:quality>DD</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
         </creationInfo>
         <originUncertainty>
           <preferredDescription>horizontal uncertainty</preferredDescription>
@@ -10903,6 +11266,994 @@
           <agencyID>INGV</agencyID>
           <author>SURVEY-INGV-OV#SiSmi</author>
           <creationTime>2025-01-17T17:14:02.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=45927482">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=144870411</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=156140501</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-05-21T04:20:00.000000Z</creationTime>
+        <ns0:id_locator>52834</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=144870411">
+        <time>
+          <value>2026-05-21T03:50:52.069000Z</value>
+        </time>
+        <latitude>
+          <value>40.806</value>
+        </latitude>
+        <longitude>
+          <value>14.106167</value>
+        </longitude>
+        <depth>
+          <value>3130.0</value>
+          <uncertainty>700.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>26</associatedPhaseCount>
+          <usedPhaseCount>26</usedPhaseCount>
+          <associatedStationCount>22</associatedStationCount>
+          <usedStationCount>22</usedStationCount>
+          <standardError>0.08</standardError>
+          <azimuthalGap>113.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-05-21T04:19:59.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>200.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=156140501">
+        <mag>
+          <value>4.4</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=144870411</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-05-21T04:19:59.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=45838302">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=144698051</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155950831</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-05-12T14:25:03.000000Z</creationTime>
+        <ns0:id_locator>52737</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=144698051">
+        <time>
+          <value>2026-05-12T14:06:11.230000Z</value>
+        </time>
+        <latitude>
+          <value>40.839667</value>
+        </latitude>
+        <longitude>
+          <value>14.1065</value>
+        </longitude>
+        <depth>
+          <value>2870.0</value>
+          <uncertainty>40.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>19</associatedPhaseCount>
+          <usedPhaseCount>19</usedPhaseCount>
+          <associatedStationCount>16</associatedStationCount>
+          <usedStationCount>16</usedStationCount>
+          <standardError>0.05</standardError>
+          <azimuthalGap>100.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-05-12T14:25:02.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>100.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155950831">
+        <mag>
+          <value>2.6</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=144698051</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-05-12T14:25:02.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=45537922">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=143927771</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155097091</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-04-08T15:00:05.000000Z</creationTime>
+        <ns0:id_locator>52363</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=143927771">
+        <time>
+          <value>2026-04-08T14:48:57.299000Z</value>
+        </time>
+        <latitude>
+          <value>40.824167</value>
+        </latitude>
+        <longitude>
+          <value>14.132833</value>
+        </longitude>
+        <depth>
+          <value>890.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>24</associatedPhaseCount>
+          <usedPhaseCount>24</usedPhaseCount>
+          <associatedStationCount>20</associatedStationCount>
+          <usedStationCount>20</usedStationCount>
+          <standardError>0.07</standardError>
+          <azimuthalGap>55.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-04-08T15:00:05.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>100.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155097091">
+        <mag>
+          <value>3.4</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=143927771</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-04-08T15:00:05.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=45526392">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=143898431</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155065461</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-04-07T03:31:05.000000Z</creationTime>
+        <ns0:id_locator>52279</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=143898431">
+        <time>
+          <value>2026-04-07T02:38:34.619000Z</value>
+        </time>
+        <latitude>
+          <value>40.824667</value>
+        </latitude>
+        <longitude>
+          <value>14.143667</value>
+        </longitude>
+        <depth>
+          <value>2460.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>23</associatedPhaseCount>
+          <usedPhaseCount>23</usedPhaseCount>
+          <associatedStationCount>20</associatedStationCount>
+          <usedStationCount>20</usedStationCount>
+          <standardError>0.09</standardError>
+          <azimuthalGap>47.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-04-07T03:31:04.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>200.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155065461">
+        <mag>
+          <value>2.6</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=143898431</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-04-07T03:31:04.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=45526562">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=143898401</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155065431</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-04-07T03:08:03.000000Z</creationTime>
+        <ns0:id_locator>52291</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=143898401">
+        <time>
+          <value>2026-04-07T02:32:57.920000Z</value>
+        </time>
+        <latitude>
+          <value>40.824667</value>
+        </latitude>
+        <longitude>
+          <value>14.143667</value>
+        </longitude>
+        <depth>
+          <value>2370.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>23</associatedPhaseCount>
+          <usedPhaseCount>23</usedPhaseCount>
+          <associatedStationCount>20</associatedStationCount>
+          <usedStationCount>20</usedStationCount>
+          <standardError>0.09</standardError>
+          <azimuthalGap>47.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-04-07T03:09:03.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>200.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=155065431">
+        <mag>
+          <value>3.3</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=143898401</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-04-07T03:09:03.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=45232062">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=143069221</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=154101261</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-03-04T21:14:45.000000Z</creationTime>
+        <ns0:id_locator>51776</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=143069221">
+        <time>
+          <value>2026-02-28T10:19:07.200000Z</value>
+        </time>
+        <latitude>
+          <value>40.835167</value>
+        </latitude>
+        <longitude>
+          <value>14.139833</value>
+        </longitude>
+        <depth>
+          <value>2690.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>24</associatedPhaseCount>
+          <usedPhaseCount>24</usedPhaseCount>
+          <associatedStationCount>19</associatedStationCount>
+          <usedStationCount>19</usedStationCount>
+          <standardError>0.09</standardError>
+          <azimuthalGap>79.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-03-01T14:13:27.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>200.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=154101261">
+        <mag>
+          <value>3.5</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=143069221</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-03-01T14:13:27.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=44899551">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142862051</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153843071</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-02-17T22:39:03.000000Z</creationTime>
+        <ns0:id_locator>51678</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=142862051">
+        <time>
+          <value>2026-02-17T22:12:49.910000Z</value>
+        </time>
+        <latitude>
+          <value>40.837167</value>
+        </latitude>
+        <longitude>
+          <value>14.117</value>
+        </longitude>
+        <depth>
+          <value>2820.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>17</associatedPhaseCount>
+          <usedPhaseCount>17</usedPhaseCount>
+          <associatedStationCount>11</associatedStationCount>
+          <usedStationCount>11</usedStationCount>
+          <standardError>0.1</standardError>
+          <azimuthalGap>118.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-02-17T22:39:03.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>300.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153843071">
+        <mag>
+          <value>2.5</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142862051</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-02-17T22:39:03.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=44899531">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142862031</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153843061</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-02-18T12:16:54.000000Z</creationTime>
+        <ns0:id_locator>51676</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=142862031">
+        <time>
+          <value>2026-02-17T22:12:38.410000Z</value>
+        </time>
+        <latitude>
+          <value>40.838167</value>
+        </latitude>
+        <longitude>
+          <value>14.117833</value>
+        </longitude>
+        <depth>
+          <value>2910.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>24</associatedPhaseCount>
+          <usedPhaseCount>24</usedPhaseCount>
+          <associatedStationCount>18</associatedStationCount>
+          <usedStationCount>18</usedStationCount>
+          <standardError>0.09</standardError>
+          <azimuthalGap>104.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-02-17T22:37:02.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>200.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153843061">
+        <mag>
+          <value>2.8</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142862031</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-02-17T22:37:02.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=44948582">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142303071</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153163901</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-01-14T08:16:05.000000Z</creationTime>
+        <ns0:id_locator>51335</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=142303071">
+        <time>
+          <value>2026-01-14T08:03:14.980000Z</value>
+        </time>
+        <latitude>
+          <value>40.833167</value>
+        </latitude>
+        <longitude>
+          <value>14.128833</value>
+        </longitude>
+        <depth>
+          <value>2510.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>20</associatedPhaseCount>
+          <usedPhaseCount>20</usedPhaseCount>
+          <associatedStationCount>15</associatedStationCount>
+          <usedStationCount>15</usedStationCount>
+          <standardError>0.13</standardError>
+          <azimuthalGap>115.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-01-14T08:16:04.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>300.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153163901">
+        <mag>
+          <value>2.5</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142303071</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-01-14T08:16:04.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=44920132">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142205241</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153051661</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-01-08T17:15:03.000000Z</creationTime>
+        <ns0:id_locator>51264</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=142205241">
+        <time>
+          <value>2026-01-08T16:44:08.099000Z</value>
+        </time>
+        <latitude>
+          <value>40.8285</value>
+        </latitude>
+        <longitude>
+          <value>14.1295</value>
+        </longitude>
+        <depth>
+          <value>2660.0</value>
+          <uncertainty>40.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>20</associatedPhaseCount>
+          <usedPhaseCount>20</usedPhaseCount>
+          <associatedStationCount>19</associatedStationCount>
+          <usedStationCount>19</usedStationCount>
+          <standardError>0.05</standardError>
+          <azimuthalGap>104.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-01-08T17:15:02.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>BC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>100.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153051661">
+        <mag>
+          <value>2.6</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142205241</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-01-08T17:15:02.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=44911832">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142164481</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153000391</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-01-06T03:12:04.000000Z</creationTime>
+        <ns0:id_locator>51218</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=142164481">
+        <time>
+          <value>2026-01-06T02:24:19.450000Z</value>
+        </time>
+        <latitude>
+          <value>40.829</value>
+        </latitude>
+        <longitude>
+          <value>14.144167</value>
+        </longitude>
+        <depth>
+          <value>2740.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>23</associatedPhaseCount>
+          <usedPhaseCount>23</usedPhaseCount>
+          <associatedStationCount>20</associatedStationCount>
+          <usedStationCount>20</usedStationCount>
+          <standardError>0.07</standardError>
+          <azimuthalGap>64.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-01-06T03:12:03.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>200.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153000391">
+        <mag>
+          <value>2.9</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142164481</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-01-06T03:12:03.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=44911792">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142164321</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153000231</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-01-06T02:58:05.000000Z</creationTime>
+        <ns0:id_locator>51217</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=142164321">
+        <time>
+          <value>2026-01-06T02:23:02.359000Z</value>
+        </time>
+        <latitude>
+          <value>40.827667</value>
+        </latitude>
+        <longitude>
+          <value>14.139333</value>
+        </longitude>
+        <depth>
+          <value>2400.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>26</associatedPhaseCount>
+          <usedPhaseCount>26</usedPhaseCount>
+          <associatedStationCount>21</associatedStationCount>
+          <usedStationCount>21</usedStationCount>
+          <standardError>0.09</standardError>
+          <azimuthalGap>72.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-01-06T02:58:05.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>200.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=153000231">
+        <mag>
+          <value>3.1</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142164321</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-01-06T02:58:05.000000Z</creationTime>
+          <ns0:mag_quality>A</ns0:mag_quality>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=44909642">
+      <preferredOriginID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142156471</preferredOriginID>
+      <preferredMagnitudeID>smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=152990281</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>Campi Flegrei</text>
+        <type>region name</type>
+      </description>
+      <creationInfo>
+        <agencyID>INGV</agencyID>
+        <author>SURVEY-INGV-OV#WESSEL</author>
+        <creationTime>2026-01-05T13:18:05.000000Z</creationTime>
+        <ns0:id_locator>51200</ns0:id_locator>
+        <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+      </creationInfo>
+      <origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=142156471">
+        <time>
+          <value>2026-01-05T12:54:22.220000Z</value>
+        </time>
+        <latitude>
+          <value>40.829333</value>
+        </latitude>
+        <longitude>
+          <value>14.141</value>
+        </longitude>
+        <depth>
+          <value>2760.0</value>
+          <uncertainty>100.0</uncertainty>
+        </depth>
+        <depthType>from location</depthType>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <earthModelID>smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=71</earthModelID>
+        <quality>
+          <associatedPhaseCount>24</associatedPhaseCount>
+          <usedPhaseCount>24</usedPhaseCount>
+          <associatedStationCount>19</associatedStationCount>
+          <usedStationCount>19</usedStationCount>
+          <standardError>0.07</standardError>
+          <azimuthalGap>67.0</azimuthalGap>
+        </quality>
+        <type>hypocenter</type>
+        <evaluationMode>manual</evaluationMode>
+        <evaluationStatus>reviewed</evaluationStatus>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#SiSmi</author>
+          <creationTime>2026-01-05T13:18:05.000000Z</creationTime>
+          <version>100</version>
+          <ns0:quality>AC</ns0:quality>
+          <ns0:doi>https://doi.org/10.13127/gossip</ns0:doi>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>100.0</horizontalUncertainty>
+          <confidenceLevel>68.0</confidenceLevel>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=152990281">
+        <mag>
+          <value>2.9</value>
+          <uncertainty>0.3</uncertainty>
+        </mag>
+        <type>Md</type>
+        <originID>smi:webservices.ingv.it/fdsnws/event/1/query?originId=142156471</originID>
+        <methodID>smi:webservices.ingv.it/fdsnws/event/1/query?methodId=271</methodID>
+        <comment>
+          <text>Duration magnitude</text>
+        </comment>
+        <creationInfo>
+          <agencyID>INGV</agencyID>
+          <author>SURVEY-INGV-OV#WESSEL</author>
+          <creationTime>2026-01-05T13:18:05.000000Z</creationTime>
           <ns0:mag_quality>A</ns0:mag_quality>
         </creationInfo>
       </magnitude>
