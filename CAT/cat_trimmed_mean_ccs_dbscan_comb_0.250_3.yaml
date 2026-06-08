@@ -1,0 +1,2399 @@
+%YAML 1.1
+--- !pf.Event
+lat: 40.827499
+lon: 14.148
+time: '2018-09-18 21:36:41.940000057'
+depth: 2320.0
+name: 'flegrei_2018_09_18_21_36_41'
+tags:
+- GOSSIP_id:677
+- mag:2.5
+- INGV_id:20713961
+- mag:2.1
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828671
+lon: 14.1485
+time: '2019-03-15 04:26:41.819999933'
+depth: 2130.0
+name: 'flegrei_2019_03_15_04_26_41'
+tags:
+- GOSSIP_id:1159
+- mag:2.5
+- INGV_id:21843321
+- mag:2.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.83017
+lon: 14.14933
+time: '2019-12-06 00:17:23.779999971'
+depth: 2330.0
+name: 'flegrei_2019_12_06_00_17_23'
+tags:
+- GOSSIP_id:2508
+- mag:3.1
+- INGV_id:23542681
+- mag:2.4
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.826672
+lon: 14.143
+time: '2020-04-08 00:50:29.279999971'
+depth: 2250.0
+name: 'flegrei_2020_04_08_00_50_29'
+tags:
+- GOSSIP_id:2943
+- mag:2.7
+- INGV_id:24236231
+- mag:2.1
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.829498
+lon: 14.14817
+time: '2020-04-26 02:41:13.569999933'
+depth: 2560.0
+name: 'flegrei_2020_04_26_02_41_13'
+tags:
+- GOSSIP_id:3020
+- mag:2.7
+- INGV_id:24317251
+- mag:1.9
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.82917
+lon: 14.15
+time: '2020-04-26 02:59:02.450000048'
+depth: 2570.0
+name: 'flegrei_2020_04_26_02_59_02'
+tags:
+- GOSSIP_id:3022
+- mag:3.3
+- INGV_id:24317311
+- mag:2.4
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.831329
+lon: 14.14583
+time: '2020-12-28 08:09:43.019999981'
+depth: 2310.0
+name: 'flegrei_2020_12_28_08_09_43'
+tags:
+- GOSSIP_id:4417
+- mag:2.6
+- INGV_id:25853021
+- mag:2.3
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8283
+lon: 14.1352
+time: '2022-03-16 14:14:34.799999952'
+depth: 2540.0
+name: 'flegrei_2022_03_16_14_14_34'
+tags:
+- GOSSIP_id:7102
+- mag:3.47
+- INGV_id:30205901
+- mag:2.7
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8293
+lon: 14.1507
+time: '2022-03-29 17:45:32.359999895'
+depth: 2490.0
+name: 'flegrei_2022_03_29_17_45_32'
+tags:
+- GOSSIP_id:14725
+- mag:3.57
+- INGV_id:30350681
+- mag:3.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828201
+lon: 14.1422
+time: '2022-04-19 02:05:54.299999952'
+depth: 2380.0
+name: 'flegrei_2022_04_19_02_05_54'
+tags:
+- GOSSIP_id:14885
+- mag:2.94
+- INGV_id:30671901
+- mag:2.3
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.827301
+lon: 14.1402
+time: '2022-07-30 03:27:48.930000067'
+depth: 1800.0
+name: 'flegrei_2022_07_30_03_27_48'
+tags:
+- GOSSIP_id:16351
+- mag:2.51
+- INGV_id:32166291
+- mag:2.7
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.809799
+lon: 14.1172
+time: '2022-11-12 21:37:54.75999999'
+depth: 1740.0
+name: 'flegrei_2022_11_12_21_37_54'
+tags:
+- GOSSIP_id:17434
+- mag:2.67
+- INGV_id:33361881
+- mag:1.6
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.827202
+lon: 14.1338
+time: '2023-01-19 08:44:30.190000057'
+depth: 2540.0
+name: 'flegrei_2023_01_19_08_44_30'
+tags:
+- GOSSIP_id:23194
+- mag:2.59
+- INGV_id:33946951
+- mag:2.1
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8032
+lon: 14.1108
+time: '2023-02-05 00:45:36.160000086'
+depth: 4460.0
+name: 'flegrei_2023_02_05_00_45_36'
+tags:
+- GOSSIP_id:23338
+- mag:2.97
+- INGV_id:34043501
+- mag:2.1
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.831799
+lon: 14.1247
+time: '2023-03-04 13:15:20.410000086'
+depth: 2460.0
+name: 'flegrei_2023_03_04_13_15_20'
+tags:
+- GOSSIP_id:23716
+- mag:2.6
+- INGV_id:34240361
+- mag:1.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8358
+lon: 14.1402
+time: '2023-03-13 22:40:53.579999924'
+depth: 2770.0
+name: 'flegrei_2023_03_13_22_40_53'
+tags:
+- GOSSIP_id:23904
+- mag:2.83
+- INGV_id:34351831
+- mag:1.9
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828701
+lon: 14.1477
+time: '2023-03-24 05:24:43.089999914'
+depth: 2110.0
+name: 'flegrei_2023_03_24_05_24_43'
+tags:
+- GOSSIP_id:24146
+- mag:2.59
+- INGV_id:34448221
+- mag:2.4
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.835701
+lon: 14.1417
+time: '2023-04-10 03:54:45.480000019'
+depth: 2580.0
+name: 'flegrei_2023_04_10_03_54_45'
+tags:
+- GOSSIP_id:24479
+- mag:2.92
+- INGV_id:34628561
+- mag:1.7
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.82
+lon: 14.1463
+time: '2023-04-23 00:35:20.680000067'
+depth: 110.0
+name: 'flegrei_2023_04_23_00_35_20'
+tags:
+- GOSSIP_id:24863
+- mag:1.99
+- INGV_id:34760611
+- mag:2.5
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.827702
+lon: 14.1402
+time: '2023-05-08 02:28:34.25999999'
+depth: 2650.0
+name: 'flegrei_2023_05_08_02_28_34'
+tags:
+- GOSSIP_id:25202
+- mag:3.48
+- INGV_id:34919151
+- mag:2.3
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.824799
+lon: 14.1377
+time: '2023-05-08 22:33:17.410000086'
+depth: 2350.0
+name: 'flegrei_2023_05_08_22_33_17'
+tags:
+- GOSSIP_id:25214
+- mag:2.69
+- INGV_id:34928001
+- mag:1.7
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.834301
+lon: 14.1102
+time: '2023-06-11 06:44:25.720000029'
+depth: 2710.0
+name: 'flegrei_2023_06_11_06_44_25'
+tags:
+- GOSSIP_id:26132
+- mag:3.56
+- INGV_id:35278141
+- mag:2.4
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.831501
+lon: 14.1402
+time: '2023-06-15 15:39:40.319999933'
+depth: 2790.0
+name: 'flegrei_2023_06_15_15_39_40'
+tags:
+- GOSSIP_id:26290
+- mag:2.89
+- INGV_id:35317061
+- mag:2.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.827702
+lon: 14.1517
+time: '2023-08-18 04:10:30.410000086'
+depth: 2250.0
+name: 'flegrei_2023_08_18_04_10_30'
+tags:
+- GOSSIP_id:28871
+- mag:2.53
+- INGV_id:35871241
+- mag:2.1
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.831501
+lon: 14.1375
+time: '2023-08-18 04:18:05.660000086'
+depth: 2630.0
+name: 'flegrei_2023_08_18_04_18_05'
+tags:
+- GOSSIP_id:28848
+- mag:3.64
+- INGV_id:35871351
+- mag:2.8
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8297
+lon: 14.1387
+time: '2023-08-18 04:22:49.849999905'
+depth: 2370.0
+name: 'flegrei_2023_08_18_04_22_49'
+tags:
+- GOSSIP_id:28850
+- mag:3.12
+- INGV_id:35871461
+- mag:2.3
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.801998
+lon: 14.1142
+time: '2023-08-27 21:14:23.450000048'
+depth: 2990.0
+name: 'flegrei_2023_08_27_21_14_23'
+tags:
+- GOSSIP_id:29141
+- mag:2.61
+- INGV_id:35963041
+- mag:1.6
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.831299
+lon: 14.1465
+time: '2023-09-07 17:45:28.779999971'
+depth: 2490.0
+name: 'flegrei_2023_09_07_17_45_28'
+tags:
+- GOSSIP_id:29728
+- mag:3.79
+- INGV_id:36084091
+- mag:3.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828
+lon: 14.139167
+time: '2023-09-12 02:28:50.200000048'
+depth: 2310.0
+name: 'flegrei_2023_09_12_02_28_50'
+tags:
+- GOSSIP_id:29830
+- mag:2.9
+- INGV_id:36114561
+- mag:1.9
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8315
+lon: 14.143167
+time: '2023-09-22 09:01:59.950000048'
+depth: 2100.0
+name: 'flegrei_2023_09_22_09_01_59'
+tags:
+- GOSSIP_id:30137
+- mag:3.2
+- INGV_id:36243631
+- mag:2.4
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.814
+lon: 14.153667
+time: '2023-09-24 15:35:02.029000044'
+depth: 2980.0
+name: 'flegrei_2023_09_24_15_35_02'
+tags:
+- GOSSIP_id:30310
+- mag:2.8
+- INGV_id:36272401
+- mag:2.2
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.8075
+lon: 14.106667
+time: '2023-09-26 06:31:43.578999996'
+depth: 3340.0
+name: 'flegrei_2023_09_26_06_31_43'
+tags:
+- GOSSIP_id:30417
+- mag:2.5
+- INGV_id:36287451
+- mag:2.2
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.805833
+lon: 14.108
+time: '2023-09-26 07:10:29.588999987'
+depth: 3690.0
+name: 'flegrei_2023_09_26_07_10_29'
+tags:
+- GOSSIP_id:30421
+- mag:3.3
+- INGV_id:36288401
+- mag:2.5
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.819167
+lon: 14.159
+time: '2023-09-27 01:35:34.348999977'
+depth: 2830.0
+name: 'flegrei_2023_09_27_01_35_34'
+tags:
+- GOSSIP_id:30466
+- mag:4.2
+- INGV_id:36299321
+- mag:3.1
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.8265
+lon: 14.139667
+time: '2023-09-29 21:57:58.319000006'
+depth: 2790.0
+name: 'flegrei_2023_09_29_21_57_58'
+tags:
+- GOSSIP_id:30792
+- mag:2.7
+- INGV_id:36335741
+- mag:2.1
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.832833
+lon: 14.135667
+time: '2023-10-01 13:33:09.019000053'
+depth: 2460.0
+name: 'flegrei_2023_10_01_13_33_09'
+tags:
+- GOSSIP_id:30857
+- mag:2.9
+- INGV_id:36352551
+- mag:1.9
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.830667
+lon: 14.15
+time: '2023-10-02 20:08:26.690000057'
+depth: 2630.0
+name: 'flegrei_2023_10_02_20_08_26'
+tags:
+- GOSSIP_id:30898
+- mag:4.0
+- INGV_id:36365741
+- mag:3.2
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8295
+lon: 14.134167
+time: '2023-10-04 08:46:55.029000044'
+depth: 2500.0
+name: 'flegrei_2023_10_04_08_46_55'
+tags:
+- GOSSIP_id:31003
+- mag:2.6
+- INGV_id:36381821
+- mag:2.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.825
+lon: 14.142167
+time: '2023-10-16 10:36:21.118999958'
+depth: 2070.0
+name: 'flegrei_2023_10_16_10_36_21'
+tags:
+- GOSSIP_id:31411
+- mag:3.6
+- INGV_id:36499161
+- mag:2.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8315
+lon: 14.133333
+time: '2023-11-23 18:41:46.900000095'
+depth: 2810.0
+name: 'flegrei_2023_11_23_18_41_46'
+tags:
+- GOSSIP_id:31823
+- mag:3.0
+- INGV_id:36951941
+- mag:2.2
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.806333
+lon: 14.106667
+time: '2024-01-21 09:35:04.858999968'
+depth: 2960.0
+name: 'flegrei_2024_01_21_09_35_04'
+tags:
+- GOSSIP_id:32178
+- mag:2.6
+- INGV_id:37397681
+- mag:2.6
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.811333
+lon: 14.0975
+time: '2024-02-17 18:09:50.630000114'
+depth: 2980.0
+name: 'flegrei_2024_02_17_18_09_50'
+tags:
+- GOSSIP_id:32701
+- mag:2.7
+- INGV_id:37620461
+- mag:2.7
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.816
+lon: 14.152167
+time: '2024-03-03 09:01:59.608999968'
+depth: 2950.0
+name: 'flegrei_2024_03_03_09_01_59'
+tags:
+- GOSSIP_id:32915
+- mag:3.2
+- INGV_id:37758961
+- mag:3.4
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.825833
+lon: 14.114
+time: '2024-04-04 05:14:36.519000053'
+depth: 2390.0
+name: 'flegrei_2024_04_04_05_14_36'
+tags:
+- GOSSIP_id:33522
+- mag:2.7
+- INGV_id:38104221
+- mag:2.7
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.803667
+lon: 14.1145
+time: '2024-04-06 11:59:31.900000095'
+depth: 2960.0
+name: 'flegrei_2024_04_06_11_59_31'
+tags:
+- GOSSIP_id:33632
+- mag:2.5
+- INGV_id:38126061
+- mag:2.5
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.832833
+lon: 14.147167
+time: '2024-04-09 20:32:10.108999968'
+depth: 2780.0
+name: 'flegrei_2024_04_09_20_32_10'
+tags:
+- GOSSIP_id:33786
+- mag:2.8
+- INGV_id:38159761
+- mag:2.8
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828167
+lon: 14.137333
+time: '2024-04-14 07:44:24.098999977'
+depth: 2650.0
+name: 'flegrei_2024_04_14_07_44_24'
+tags:
+- GOSSIP_id:34048
+- mag:3.7
+- INGV_id:38206821
+- mag:3.7
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.824667
+lon: 14.140167
+time: '2024-04-14 07:57:58.049000025'
+depth: 920.0
+name: 'flegrei_2024_04_14_07_57_58'
+tags:
+- GOSSIP_id:34085
+- mag:2.5
+- INGV_id:38208091
+- mag:2.5
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.829
+lon: 14.138167
+time: '2024-04-14 08:01:43.700000048'
+depth: 2350.0
+name: 'flegrei_2024_04_14_08_01_43'
+tags:
+- GOSSIP_id:34065
+- mag:3.0
+- INGV_id:38207461
+- mag:3.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8285
+lon: 14.137833
+time: '2024-04-14 08:08:31.279000044'
+depth: 1710.0
+name: 'flegrei_2024_04_14_08_08_31'
+tags:
+- GOSSIP_id:34068
+- mag:2.4
+- INGV_id:38208171
+- mag:2.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828667
+lon: 14.151667
+time: '2024-04-16 03:38:05.549000025'
+depth: 2820.0
+name: 'flegrei_2024_04_16_03_38_05'
+tags:
+- GOSSIP_id:34212
+- mag:2.5
+- INGV_id:38235761
+- mag:2.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.832833
+lon: 14.147833
+time: '2024-04-26 01:47:42.309000015'
+depth: 2530.0
+name: 'flegrei_2024_04_26_01_47_42'
+tags:
+- GOSSIP_id:34591
+- mag:2.6
+- INGV_id:38354751
+- mag:2.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8085
+lon: 14.094
+time: '2024-04-27 03:44:56.289000034'
+depth: 2780.0
+name: 'flegrei_2024_04_27_03_44_56'
+tags:
+- GOSSIP_id:34662
+- mag:3.9
+- INGV_id:38381891
+- mag:3.9
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.826
+lon: 14.145
+time: '2024-05-07 01:47:54.559000015'
+depth: 1760.0
+name: 'flegrei_2024_05_07_01_47_54'
+tags:
+- GOSSIP_id:35156
+- mag:3.2
+- INGV_id:38525651
+- mag:3.2
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.827
+lon: 14.144167
+time: '2024-05-07 03:53:22.358999968'
+depth: 1350.0
+name: 'flegrei_2024_05_07_03_53_22'
+tags:
+- GOSSIP_id:35209
+- mag:2.9
+- INGV_id:38526731
+- mag:2.9
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.827833
+lon: 14.1415
+time: '2024-05-07 17:37:25.088999987'
+depth: 2000.0
+name: 'flegrei_2024_05_07_17_37_25'
+tags:
+- GOSSIP_id:35274
+- mag:2.8
+- INGV_id:38537891
+- mag:2.8
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8325
+lon: 14.13
+time: '2024-05-08 05:29:10.440000057'
+depth: 2950.0
+name: 'flegrei_2024_05_08_05_29_10'
+tags:
+- GOSSIP_id:35293
+- mag:2.6
+- INGV_id:38541331
+- mag:2.6
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.832333
+lon: 14.092
+time: '2024-05-13 01:30:20.75'
+depth: 2210.0
+name: 'flegrei_2024_05_13_01_30_20'
+tags:
+- GOSSIP_id:35467
+- mag:2.9
+- INGV_id:38617181
+- mag:2.9
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.8315
+lon: 14.140167
+time: '2024-05-13 20:49:58.5'
+depth: 1650.0
+name: 'flegrei_2024_05_13_20_49_58'
+tags:
+- GOSSIP_id:35508
+- mag:2.3
+- INGV_id:38630861
+- mag:2.5
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.835333
+lon: 14.143333
+time: '2024-05-18 04:30:55.200000048'
+depth: 2800.0
+name: 'flegrei_2024_05_18_04_30_55'
+tags:
+- GOSSIP_id:35716
+- mag:2.8
+- INGV_id:38702971
+- mag:2.8
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.838667
+lon: 14.128833
+time: '2024-05-20 17:51:14.940000057'
+depth: 2570.0
+name: 'flegrei_2024_05_20_17_51_14'
+tags:
+- GOSSIP_id:35838
+- mag:3.5
+- INGV_id:38759411
+- mag:3.5
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.827333
+lon: 14.1375
+time: '2024-05-20 18:10:03.549000025'
+depth: 2570.0
+name: 'flegrei_2024_05_20_18_10_03'
+tags:
+- GOSSIP_id:35846
+- mag:4.4
+- INGV_id:38759141
+- mag:4.4
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.829667
+lon: 14.136167
+time: '2024-05-20 19:46:14.190000057'
+depth: 2800.0
+name: 'flegrei_2024_05_20_19_46_14'
+tags:
+- GOSSIP_id:35955
+- mag:3.9
+- INGV_id:38762031
+- mag:3.9
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.822833
+lon: 14.125667
+time: '2024-05-20 19:55:37.838999987'
+depth: 2210.0
+name: 'flegrei_2024_05_20_19_55_37'
+tags:
+- GOSSIP_id:35969
+- mag:3.1
+- INGV_id:38762741
+- mag:3.1
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.822667
+lon: 14.124333
+time: '2024-05-20 21:00:55.170000076'
+depth: 2730.0
+name: 'flegrei_2024_05_20_21_00_55'
+tags:
+- GOSSIP_id:36042
+- mag:3.6
+- INGV_id:38764921
+- mag:3.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8085
+lon: 14.107667
+time: '2024-05-22 06:28:00.380000114'
+depth: 2550.0
+name: 'flegrei_2024_05_22_06_28_00'
+tags:
+- GOSSIP_id:36310
+- mag:3.6
+- INGV_id:38797691
+- mag:3.6
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.8295
+lon: 14.140167
+time: '2024-05-25 01:03:23.858999968'
+depth: 2410.0
+name: 'flegrei_2024_05_25_01_03_23'
+tags:
+- GOSSIP_id:36479
+- mag:2.7
+- INGV_id:38849211
+- mag:2.7
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.829833
+lon: 14.144
+time: '2024-06-08 01:52:04.828999996'
+depth: 2440.0
+name: 'flegrei_2024_06_08_01_52_04'
+tags:
+- GOSSIP_id:36917
+- mag:3.5
+- INGV_id:39088961
+- mag:3.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.830667
+lon: 14.149
+time: '2024-06-08 02:09:03.578999996'
+depth: 2270.0
+name: 'flegrei_2024_06_08_02_09_03'
+tags:
+- GOSSIP_id:36927
+- mag:3.7
+- INGV_id:39089101
+- mag:3.7
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.832
+lon: 14.084333
+time: '2024-06-18 01:58:24.410000086'
+depth: 2720.0
+name: 'flegrei_2024_06_18_01_58_24'
+tags:
+- GOSSIP_id:37228
+- mag:3.4
+- INGV_id:39254101
+- mag:3.4
+extras:
+  cluster_number: 7
+  clustered: true
+  color: '#0DF9FF'
+--- !pf.Event
+lat: 40.815
+lon: 14.1555
+time: '2024-07-02 13:10:14.789000034'
+depth: 2740.0
+name: 'flegrei_2024_07_02_13_10_14'
+tags:
+- GOSSIP_id:37553
+- mag:2.9
+- INGV_id:39520601
+- mag:2.9
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.820333
+lon: 14.153167
+time: '2024-07-03 00:18:44.368999958'
+depth: 2570.0
+name: 'flegrei_2024_07_03_00_18_44'
+tags:
+- GOSSIP_id:37591
+- mag:3.2
+- INGV_id:39526921
+- mag:3.2
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.835667
+lon: 14.144833
+time: '2024-07-11 09:59:20.049000025'
+depth: 2770.0
+name: 'flegrei_2024_07_11_09_59_20'
+tags:
+- GOSSIP_id:37827
+- mag:2.6
+- INGV_id:39660611
+- mag:2.6
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.831
+lon: 14.150667
+time: '2024-07-18 06:08:37.640000105'
+depth: 2460.0
+name: 'flegrei_2024_07_18_06_08_37'
+tags:
+- GOSSIP_id:37980
+- mag:3.6
+- INGV_id:39774731
+- mag:3.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.805667
+lon: 14.098333
+time: '2024-07-26 11:46:21.118999958'
+depth: 4150.0
+name: 'flegrei_2024_07_26_11_46_21'
+tags:
+- GOSSIP_id:38245
+- mag:4.0
+- INGV_id:39858701
+- mag:4.0
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.8185
+lon: 14.140833
+time: '2024-08-18 00:29:21.828999996'
+depth: 400.0
+name: 'flegrei_2024_08_18_00_29_21'
+tags:
+- GOSSIP_id:38766
+- mag:2.8
+- INGV_id:40121971
+- mag:2.8
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.828167
+lon: 14.1445
+time: '2024-08-30 19:23:15.838999987'
+depth: 2690.0
+name: 'flegrei_2024_08_30_19_23_15'
+tags:
+- GOSSIP_id:39108
+- mag:3.7
+- INGV_id:40271581
+- mag:3.7
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.808167
+lon: 14.152167
+time: '2024-10-12 04:54:23.920000076'
+depth: 3040.0
+name: 'flegrei_2024_10_12_04_54_23'
+tags:
+- GOSSIP_id:39580
+- mag:2.5
+- INGV_id:40625901
+- mag:2.5
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.836167
+lon: 14.147333
+time: '2024-10-13 06:07:53.5'
+depth: 2390.0
+name: 'flegrei_2024_10_13_06_07_53'
+tags:
+- GOSSIP_id:39626
+- mag:2.6
+- INGV_id:40633931
+- mag:2.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.822667
+lon: 14.133833
+time: '2024-12-06 04:33:59.779000044'
+depth: 520.0
+name: 'flegrei_2024_12_06_04_33_59'
+tags:
+- GOSSIP_id:40479
+- mag:3.4
+- INGV_id:40987641
+- mag:3.4
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.828167
+lon: 14.135
+time: '2025-01-17 16:53:50.108999968'
+depth: 1720.0
+name: 'flegrei_2025_01_17_16_53_50'
+tags:
+- GOSSIP_id:40951
+- mag:3.3
+- INGV_id:41516772
+- mag:3.0
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.831333
+lon: 14.148
+time: '2025-02-05 07:52:02.930000067'
+depth: 2730.0
+name: 'flegrei_2025_02_05_07_52_02'
+tags:
+- GOSSIP_id:41324
+- mag:3.2
+- INGV_id:41633422
+- mag:3.2
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.830167
+lon: 14.144833
+time: '2025-02-12 22:27:14'
+depth: 2350.0
+name: 'flegrei_2025_02_12_22_27_14'
+tags:
+- GOSSIP_id:41590
+- mag:2.6
+- INGV_id:41686072
+- mag:2.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.830167
+lon: 14.144
+time: '2025-02-13 22:18:28.170000076'
+depth: 2140.0
+name: 'flegrei_2025_02_13_22_18_28'
+tags:
+- GOSSIP_id:41726
+- mag:2.8
+- INGV_id:41694102
+- mag:2.8
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.809333
+lon: 14.103
+time: '2025-02-16 14:30:02.640000105'
+depth: 2950.0
+name: 'flegrei_2025_02_16_14_30_02'
+tags:
+- GOSSIP_id:41975
+- mag:3.9
+- INGV_id:41712972
+- mag:3.9
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.8315
+lon: 14.130667
+time: '2025-02-16 16:30:41.910000086'
+depth: 2860.0
+name: 'flegrei_2025_02_16_16_30_41'
+tags:
+- GOSSIP_id:42021
+- mag:2.7
+- INGV_id:41714572
+- mag:2.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.831333
+lon: 14.145
+time: '2025-02-16 22:45:12.130000114'
+depth: 2410.0
+name: 'flegrei_2025_02_16_22_45_12'
+tags:
+- GOSSIP_id:42080
+- mag:3.0
+- INGV_id:41716362
+- mag:3.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.827667
+lon: 14.141
+time: '2025-02-16 22:46:47.49000001'
+depth: 2110.0
+name: 'flegrei_2025_02_16_22_46_47'
+tags:
+- GOSSIP_id:42082
+- mag:3.0
+- INGV_id:41716432
+- mag:3.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.829167
+lon: 14.1475
+time: '2025-02-16 23:19:52.450000048'
+depth: 2500.0
+name: 'flegrei_2025_02_16_23_19_52'
+tags:
+- GOSSIP_id:42106
+- mag:3.9
+- INGV_id:41717192
+- mag:3.9
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8315
+lon: 14.137667
+time: '2025-02-17 07:12:10.529000044'
+depth: 2490.0
+name: 'flegrei_2025_02_17_07_12_10'
+tags:
+- GOSSIP_id:42357
+- mag:3.2
+- INGV_id:41722632
+- mag:3.2
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828167
+lon: 14.143167
+time: '2025-02-17 16:53:24.99000001'
+depth: 1840.0
+name: 'flegrei_2025_02_17_16_53_24'
+tags:
+- GOSSIP_id:42522
+- mag:2.8
+- INGV_id:41729442
+- mag:2.8
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.829167
+lon: 14.148
+time: '2025-02-17 17:15:54.200000048'
+depth: 2460.0
+name: 'flegrei_2025_02_17_17_15_54'
+tags:
+- GOSSIP_id:42530
+- mag:2.6
+- INGV_id:41729702
+- mag:2.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.827167
+lon: 14.143833
+time: '2025-02-17 17:55:35.029000044'
+depth: 1910.0
+name: 'flegrei_2025_02_17_17_55_35'
+tags:
+- GOSSIP_id:42571
+- mag:2.6
+- INGV_id:41730562
+- mag:2.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828667
+lon: 14.140167
+time: '2025-02-17 20:23:44'
+depth: 1860.0
+name: 'flegrei_2025_02_17_20_23_44'
+tags:
+- GOSSIP_id:42682
+- mag:2.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.831333
+lon: 14.142333
+time: '2025-02-18 02:22:19.809000015'
+depth: 2150.0
+name: 'flegrei_2025_02_18_02_22_19'
+tags:
+- GOSSIP_id:42883
+- mag:3.1
+- INGV_id:41737592
+- mag:3.1
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8345
+lon: 14.148
+time: '2025-02-19 00:31:12.549000025'
+depth: 2060.0
+name: 'flegrei_2025_02_19_00_31_12'
+tags:
+- GOSSIP_id:43180
+- mag:3.1
+- INGV_id:41749832
+- mag:3.1
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.83
+lon: 14.146167
+time: '2025-02-19 03:04:15.519000053'
+depth: 2210.0
+name: 'flegrei_2025_02_19_03_04_15'
+tags:
+- GOSSIP_id:43232
+- mag:3.0
+- INGV_id:41750822
+- mag:3.0
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.828167
+lon: 14.145
+time: '2025-02-19 14:55:11.180000067'
+depth: 2530.0
+name: 'flegrei_2025_02_19_14_55_11'
+tags:
+- GOSSIP_id:43341
+- mag:3.2
+- INGV_id:41755672
+- mag:3.2
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.825167
+lon: 14.131833
+time: '2025-03-06 23:38:43.098999977'
+depth: 520.0
+name: 'flegrei_2025_03_06_23_38_43'
+tags:
+- GOSSIP_id:43940
+- mag:3.4
+- INGV_id:41859192
+- mag:3.4
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8345
+lon: 14.087
+time: '2025-03-09 23:59:14.799000025'
+depth: 1720.0
+name: 'flegrei_2025_03_09_23_59_14'
+tags:
+- GOSSIP_id:44043
+- mag:2.8
+- INGV_id:41883812
+- mag:2.8
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8285
+lon: 14.138
+time: '2025-03-11 02:04:09.559000015'
+depth: 2480.0
+name: 'flegrei_2025_03_11_02_04_09'
+tags:
+- GOSSIP_id:44086
+- mag:3.2
+- INGV_id:41892682
+- mag:3.2
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.818833
+lon: 14.1575
+time: '2025-03-13 00:25:02.348999977'
+depth: 2410.0
+name: 'flegrei_2025_03_13_00_25_02'
+tags:
+- GOSSIP_id:44246
+- mag:4.6
+- INGV_id:41908352
+- mag:4.6
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.819667
+lon: 14.1575
+time: '2025-03-14 18:44:10.519000053'
+depth: 2760.0
+name: 'flegrei_2025_03_14_18_44_10'
+tags:
+- GOSSIP_id:44347
+- mag:3.5
+- INGV_id:41936002
+- mag:3.5
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.829667
+lon: 14.132333
+time: '2025-03-15 12:32:27.088999987'
+depth: 2860.0
+name: 'flegrei_2025_03_15_12_32_27'
+tags:
+- GOSSIP_id:44377
+- mag:3.9
+- INGV_id:41944592
+- mag:3.3
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.826333
+lon: 14.135667
+time: '2025-04-12 21:29:15.420000076'
+depth: 2230.0
+name: 'flegrei_2025_04_12_21_29_15'
+tags:
+- GOSSIP_id:45120
+- mag:2.9
+- INGV_id:42417512
+- mag:2.9
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.836833
+lon: 14.117333
+time: '2025-04-24 20:26:06.980000019'
+depth: 2700.0
+name: 'flegrei_2025_04_24_20_26_06'
+tags:
+- GOSSIP_id:45327
+- mag:2.5
+- INGV_id:42535822
+- mag:2.5
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.835667
+lon: 14.115167
+time: '2025-04-25 06:28:55.890000105'
+depth: 2470.0
+name: 'flegrei_2025_04_25_06_28_55'
+tags:
+- GOSSIP_id:45337
+- mag:2.7
+- INGV_id:42537582
+- mag:2.7
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.828167
+lon: 14.110333
+time: '2025-05-13 10:07:44.910000086'
+depth: 2610.0
+name: 'flegrei_2025_05_13_10_07_44'
+tags:
+- GOSSIP_id:45650
+- mag:4.4
+- INGV_id:42698352
+- mag:4.4
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.825333
+lon: 14.123833
+time: '2025-05-13 10:22:43.289000034'
+depth: 2790.0
+name: 'flegrei_2025_05_13_10_22_43'
+tags:
+- GOSSIP_id:45654
+- mag:3.5
+- INGV_id:42698472
+- mag:3.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.825
+lon: 14.123833
+time: '2025-05-13 12:58:42.440000057'
+depth: 2220.0
+name: 'flegrei_2025_05_13_12_58_42'
+tags:
+- GOSSIP_id:45684
+- mag:3.2
+- INGV_id:42701812
+- mag:3.2
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.824
+lon: 14.124333
+time: '2025-05-13 13:01:07.220000029'
+depth: 2830.0
+name: 'flegrei_2025_05_13_13_01_07'
+tags:
+- GOSSIP_id:45685
+- mag:2.7
+- INGV_id:42450651
+- mag:2.7
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.830667
+lon: 14.094167
+time: '2025-05-23 10:44:16.220000029'
+depth: 2100.0
+name: 'flegrei_2025_05_23_10_44_16'
+tags:
+- GOSSIP_id:45943
+- mag:2.6
+- INGV_id:42799812
+- mag:2.6
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.827167
+lon: 14.148667
+time: '2025-06-05 04:48:25.390000105'
+depth: 2510.0
+name: 'flegrei_2025_06_05_04_48_25'
+tags:
+- GOSSIP_id:46143
+- mag:3.2
+- INGV_id:42927332
+- mag:3.2
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8315
+lon: 14.1455
+time: '2025-06-05 16:59:40.170000076'
+depth: 2460.0
+name: 'flegrei_2025_06_05_16_59_40'
+tags:
+- GOSSIP_id:46166
+- mag:2.8
+- INGV_id:42934552
+- mag:2.8
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8215
+lon: 14.129167
+time: '2025-06-06 17:31:06.230000019'
+depth: 1740.0
+name: 'flegrei_2025_06_06_17_31_06'
+tags:
+- GOSSIP_id:46214
+- mag:3.2
+- INGV_id:42944912
+- mag:3.2
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.820333
+lon: 14.138333
+time: '2025-06-07 19:45:34.789000034'
+depth: 250.0
+name: 'flegrei_2025_06_07_19_45_34'
+tags:
+- GOSSIP_id:46268
+- mag:2.6
+- INGV_id:42955982
+- mag:2.6
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.837667
+lon: 14.122667
+time: '2025-06-21 03:00:12.640000105'
+depth: 2610.0
+name: 'flegrei_2025_06_21_03_00_12'
+tags:
+- GOSSIP_id:46523
+- mag:3.2
+- INGV_id:43158122
+- mag:3.2
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.808
+lon: 14.095833
+time: '2025-06-30 10:47:11.759000063'
+depth: 3900.0
+name: 'flegrei_2025_06_30_10_47_11'
+tags:
+- GOSSIP_id:46668
+- mag:4.6
+- INGV_id:43270472
+- mag:4.6
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.824167
+lon: 14.1295
+time: '2025-07-03 07:00:07.410000086'
+depth: 2720.0
+name: 'flegrei_2025_07_03_07_00_07'
+tags:
+- GOSSIP_id:46715
+- mag:2.6
+- INGV_id:43298652
+- mag:2.6
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.815
+lon: 14.1555
+time: '2025-07-18 07:14:22.039000034'
+depth: 2790.0
+name: 'flegrei_2025_07_18_07_14_22'
+tags:
+- GOSSIP_id:46901
+- mag:4.0
+- INGV_id:43451602
+- mag:4.0
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.831
+lon: 14.092
+time: '2025-08-28 19:53:23.569000006'
+depth: 1900.0
+name: 'flegrei_2025_08_28_19_53_23'
+tags:
+- GOSSIP_id:47699
+- mag:3.0
+- INGV_id:43897202
+- mag:3.0
+extras:
+  cluster_number: 7
+  clustered: true
+  color: '#0DF9FF'
+--- !pf.Event
+lat: 40.820333
+lon: 14.1375
+time: '2025-08-29 10:03:29.328999996'
+depth: 280.0
+name: 'flegrei_2025_08_29_10_03_29'
+tags:
+- GOSSIP_id:47712
+- mag:2.5
+- INGV_id:43902632
+- mag:2.3
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.824833
+lon: 14.140333
+time: '2025-08-31 14:10:13.150000095'
+depth: 1740.0
+name: 'flegrei_2025_08_31_14_10_13'
+tags:
+- GOSSIP_id:47740
+- mag:3.3
+- INGV_id:43923702
+- mag:3.3
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.820333
+lon: 14.146833
+time: '2025-08-31 14:36:41.838999987'
+depth: 360.0
+name: 'flegrei_2025_08_31_14_36_41'
+tags:
+- GOSSIP_id:47742
+- mag:3.0
+- INGV_id:43924192
+- mag:3.3
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.818833
+lon: 14.1405
+time: '2025-08-31 14:38:47.700000048'
+depth: 250.0
+name: 'flegrei_2025_08_31_14_38_47'
+tags:
+- GOSSIP_id:47743
+- mag:2.9
+- INGV_id:43924212
+- mag:2.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.820333
+lon: 14.142333
+time: '2025-08-31 22:33:31.140000105'
+depth: 470.0
+name: 'flegrei_2025_08_31_22_33_31'
+tags:
+- GOSSIP_id:47791
+- mag:2.8
+- INGV_id:43927452
+- mag:2.8
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.818667
+lon: 14.139
+time: '2025-08-31 22:40:38.338999987'
+depth: 190.0
+name: 'flegrei_2025_08_31_22_40_38'
+tags:
+- GOSSIP_id:47795
+- mag:2.5
+- INGV_id:43927562
+- mag:2.5
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.818333
+lon: 14.138833
+time: '2025-08-31 23:29:36.880000114'
+depth: 130.0
+name: 'flegrei_2025_08_31_23_29_36'
+tags:
+- GOSSIP_id:47811
+- mag:2.9
+- INGV_id:43927942
+- mag:2.8
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.826
+lon: 14.137333
+time: '2025-09-01 02:55:45.328999996'
+depth: 790.0
+name: 'flegrei_2025_09_01_02_55_45'
+tags:
+- GOSSIP_id:47845
+- mag:4.0
+- INGV_id:43928662
+- mag:4.0
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8275
+lon: 14.151667
+time: '2025-09-01 08:24:22.319000006'
+depth: 2390.0
+name: 'flegrei_2025_09_01_08_24_22'
+tags:
+- GOSSIP_id:47888
+- mag:2.8
+- INGV_id:43930672
+- mag:2.7
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8295
+lon: 14.144833
+time: '2025-09-01 15:22:01.220000029'
+depth: 2320.0
+name: 'flegrei_2025_09_01_15_22_01'
+tags:
+- GOSSIP_id:47920
+- mag:3.3
+- INGV_id:43933792
+- mag:3.3
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.835167
+lon: 14.120833
+time: '2025-10-02 17:57:03.690000057'
+depth: 2700.0
+name: 'flegrei_2025_10_02_17_57_03'
+tags:
+- GOSSIP_id:48463
+- mag:2.7
+- INGV_id:44324532
+- mag:2.7
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.825667
+lon: 14.134667
+time: '2025-10-04 22:50:25.759000063'
+depth: 2560.0
+name: 'flegrei_2025_10_04_22_50_25'
+tags:
+- GOSSIP_id:48547
+- mag:3.3
+- INGV_id:44345642
+- mag:3.3
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8345
+lon: 14.092
+time: '2025-10-12 13:35:50.529000044'
+depth: 1470.0
+name: 'flegrei_2025_10_12_13_35_50'
+tags:
+- GOSSIP_id:48809
+- mag:2.4
+- INGV_id:44408162
+- mag:2.5
+extras:
+  cluster_number: 7
+  clustered: true
+  color: '#0DF9FF'
+--- !pf.Event
+lat: 40.828167
+lon: 14.134833
+time: '2025-10-12 15:01:55.430000067'
+depth: 2300.0
+name: 'flegrei_2025_10_12_15_01_55'
+tags:
+- GOSSIP_id:48814
+- mag:2.5
+- INGV_id:44408742
+- mag:2.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.838833
+lon: 14.111667
+time: '2025-10-17 21:15:16.509000063'
+depth: 2460.0
+name: 'flegrei_2025_10_17_21_15_16'
+tags:
+- GOSSIP_id:49019
+- mag:2.6
+- INGV_id:44449562
+- mag:2.5
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.8355
+lon: 14.1245
+time: '2025-10-18 22:59:01.348999977'
+depth: 2470.0
+name: 'flegrei_2025_10_18_22_59_01'
+tags:
+- GOSSIP_id:49051
+- mag:2.9
+- INGV_id:44456952
+- mag:2.9
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.837667
+lon: 14.137833
+time: '2025-10-20 02:47:51.470000029'
+depth: 3020.0
+name: 'flegrei_2025_10_20_02_47_51'
+tags:
+- GOSSIP_id:49140
+- mag:2.5
+- INGV_id:44465502
+- mag:2.5
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.8105
+lon: 14.0975
+time: '2025-10-22 04:59:04.190000057'
+depth: 4190.0
+name: 'flegrei_2025_10_22_04_59_04'
+tags:
+- GOSSIP_id:49229
+- mag:2.9
+- INGV_id:44478542
+- mag:2.8
+extras:
+  cluster_number: 1
+  clustered: true
+  color: '#FD3216'
+--- !pf.Event
+lat: 40.834333
+lon: 14.1415
+time: '2025-10-25 22:51:49.289000034'
+depth: 2640.0
+name: 'flegrei_2025_10_25_22_51_49'
+tags:
+- GOSSIP_id:49375
+- mag:2.8
+- INGV_id:44524112
+- mag:2.8
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.837167
+lon: 14.148
+time: '2025-11-09 05:11:44.799000025'
+depth: 1870.0
+name: 'flegrei_2025_11_09_05_11_44'
+tags:
+- GOSSIP_id:49948
+- mag:2.4
+- INGV_id:44622402
+- mag:2.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.837
+lon: 14.128833
+time: '2025-11-19 12:49:52.598999977'
+depth: 2350.0
+name: 'flegrei_2025_11_19_12_49_52'
+tags:
+- GOSSIP_id:50256
+- mag:2.7
+- INGV_id:44687902
+- mag:2.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.832667
+lon: 14.142667
+time: '2025-11-19 18:21:22.140000105'
+depth: 2880.0
+name: 'flegrei_2025_11_19_18_21_22'
+tags:
+- GOSSIP_id:50273
+- mag:2.5
+- INGV_id:44689912
+- mag:2.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.814333
+lon: 14.157
+time: '2025-11-22 17:55:10.029000044'
+depth: 2550.0
+name: 'flegrei_2025_11_22_17_55_10'
+tags:
+- GOSSIP_id:50339
+- mag:3.0
+- INGV_id:44713762
+- mag:3.0
+extras:
+  cluster_number: 3
+  clustered: true
+  color: '#FF9616'
+--- !pf.Event
+lat: 40.829167
+lon: 14.138333
+time: '2025-11-25 22:21:54.108999968'
+depth: 2870.0
+name: 'flegrei_2025_11_25_22_21_54'
+tags:
+- GOSSIP_id:50407
+- mag:3.3
+- INGV_id:44730652
+- mag:3.3
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8315
+lon: 14.106667
+time: '2025-11-28 15:29:30.180000067'
+depth: 2390.0
+name: 'flegrei_2025_11_28_15_29_30'
+tags:
+- GOSSIP_id:50561
+- mag:2.6
+- INGV_id:44741812
+- mag:2.6
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.832667
+lon: 14.105833
+time: '2025-11-28 15:29:41.098999977'
+depth: 1600.0
+name: 'flegrei_2025_11_28_15_29_41'
+tags:
+- GOSSIP_id:50563
+- mag:2.7
+- INGV_id:44741992
+- mag:2.7
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.829167
+lon: 14.138167
+time: '2026-01-05 12:54:22.24000001'
+depth: 2310.0
+name: 'flegrei_2026_01_05_12_54_22'
+tags:
+- GOSSIP_id:51200
+- mag:2.9
+- INGV_id:44909642
+- mag:2.9
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.826333
+lon: 14.139
+time: '2026-01-06 02:23:02.338999987'
+depth: 2450.0
+name: 'flegrei_2026_01_06_02_23_02'
+tags:
+- GOSSIP_id:51217
+- mag:3.1
+- INGV_id:44911792
+- mag:3.1
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.827333
+lon: 14.141167
+time: '2026-01-06 02:24:19.509000063'
+depth: 2350.0
+name: 'flegrei_2026_01_06_02_24_19'
+tags:
+- GOSSIP_id:51218
+- mag:2.9
+- INGV_id:44911832
+- mag:2.9
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.830167
+lon: 14.132333
+time: '2026-01-08 16:44:08.059000015'
+depth: 2640.0
+name: 'flegrei_2026_01_08_16_44_08'
+tags:
+- GOSSIP_id:51264
+- mag:2.6
+- INGV_id:44920132
+- mag:2.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.835833
+lon: 14.1305
+time: '2026-01-14 08:03:14.940000057'
+depth: 2650.0
+name: 'flegrei_2026_01_14_08_03_14'
+tags:
+- GOSSIP_id:51335
+- mag:2.5
+- INGV_id:44948582
+- mag:2.5
+extras:
+  cluster_number: 4
+  clustered: true
+  color: '#620042'
+--- !pf.Event
+lat: 40.838167
+lon: 14.117833
+time: '2026-02-17 22:12:38.410000086'
+depth: 2910.0
+name: 'flegrei_2026_02_17_22_12_38'
+tags:
+- GOSSIP_id:51675
+- mag:2.8
+- INGV_id:44899531
+- mag:2.8
+extras:
+  cluster_number: 5
+  clustered: true
+  color: '#328a3e'
+--- !pf.Event
+lat: 40.837167
+lon: 14.117
+time: '2026-02-17 22:12:49.910000086'
+depth: 2820.0
+name: 'flegrei_2026_02_17_22_12_49'
+tags:
+- GOSSIP_id:51678
+- mag:2.5
+- INGV_id:44899551
+- mag:2.5
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.835333
+lon: 14.142167
+time: '2026-02-28 10:19:07.130000114'
+depth: 2890.0
+name: 'flegrei_2026_02_28_10_19_07'
+tags:
+- GOSSIP_id:51776
+- mag:3.5
+- INGV_id:45232062
+- mag:3.5
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.8255
+lon: 14.143
+time: '2026-04-07 02:32:57.970000029'
+depth: 2290.0
+name: 'flegrei_2026_04_07_02_32_57'
+tags:
+- GOSSIP_id:52291
+- mag:3.3
+- INGV_id:45526562
+- mag:3.3
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.824667
+lon: 14.1435
+time: '2026-04-07 02:38:34.640000105'
+depth: 2410.0
+name: 'flegrei_2026_04_07_02_38_34'
+tags:
+- GOSSIP_id:52279
+- mag:2.8
+- INGV_id:45526392
+- mag:2.6
+extras:
+  cluster_number: 0
+  clustered: true
+  color: '#00A08B'
+--- !pf.Event
+lat: 40.823
+lon: 14.134667
+time: '2026-04-08 14:48:57.269000053'
+depth: 1230.0
+name: 'flegrei_2026_04_08_14_48_57'
+tags:
+- GOSSIP_id:52363
+- mag:3.4
+- INGV_id:45537922
+- mag:3.4
+extras:
+  cluster_number: -1
+  clustered: true
+  color: '#000000'
+--- !pf.Event
+lat: 40.839667
+lon: 14.1065
+time: '2026-05-12 14:06:11.230000019'
+depth: 2870.0
+name: 'flegrei_2026_05_12_14_06_11'
+tags:
+- GOSSIP_id:52737
+- mag:2.6
+- INGV_id:45838302
+- mag:2.6
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
+--- !pf.Event
+lat: 40.806
+lon: 14.106167
+time: '2026-05-21 03:50:52.069000006'
+depth: 3130.0
+name: 'flegrei_2026_05_21_03_50_52'
+tags:
+- GOSSIP_id:52834
+- mag:4.4
+- INGV_id:45927482
+- mag:4.4
+extras:
+  cluster_number: -1
+  clustered: false
+  color: '#000000'
