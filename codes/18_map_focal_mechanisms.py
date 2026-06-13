@@ -26,6 +26,22 @@ topo_source = 'local'
 tif_path    = '/Users/giaco/UNI/PhD_CODE/QGIS/topo_flegrei/w45090_s10.tif'
 water_color = '#A8B4BC'   # sea / NaN colour — change freely
 
+# Topography colour palette (tones + hillshading).
+# Built-in presets — pick one or write a custom "color1,color2" string.
+#   'gray'   → classic black-and-white
+#   'brown'  → soft cream → warm sienna
+#   'green'  → light mint → olive
+#   'sand'   → pale ivory → dark tan
+# You can also pass any GMT two-color gradient, e.g. 'lightyellow,chocolate'
+topo_color = 'gray'
+
+_TOPO_PRESETS = {
+    'gray':  ('gray',               True),   # (GMT cmap, reverse)
+    'brown': ('linen,sienna',       False),  # cream → warm brown
+    'green': ('honeydew,olivedrab', False),  # light mint → olive
+    'sand':  ('ivory,tan',          False),  # pale ivory → warm tan
+}
+
 #   'depth_gray'  → grayscale by depth (shallow = light, deep = dark)
 #   'fixed'       → uniform fill set by fixed_color
 color_mode  = 'depth_gray'
@@ -104,15 +120,18 @@ if topo_source == 'local':
         coords={'lat': clipped.y.values, 'lon': clipped.x.values},
         dims=['lat', 'lon'],
     )
-    pygmt.makecpt(cmap="gray", series=[0, 600, 10], reverse=True)
+    _cmap_name, _cmap_rev = _TOPO_PRESETS.get(topo_color, (topo_color, False))
+    pygmt.makecpt(cmap=_cmap_name, series=[0, 600, 10], reverse=_cmap_rev)
     fig.grdimage(grid=topo, cmap=True, shading="+a315+ne0.6",
                  region=region, projection=projection)
     pygmt.config(COLOR_NAN="white")       # reset so other elements are unaffected
 
 else:   # identical to original script 11
     topo = pygmt.datasets.load_earth_relief(resolution="01s", region=region)
+    _cmap_name, _cmap_rev = _TOPO_PRESETS.get(topo_color, (topo_color, False))
+    pygmt.makecpt(cmap=_cmap_name, series=[-200, 900, 10], reverse=_cmap_rev)
     fig.grdimage(grid=topo, region=region, projection=projection,
-                 shading="+a45+ne0.5", cmap="gray")
+                 shading="+a45+ne0.5", cmap=True)
     fig.coast(shorelines="1/0.5p,black", resolution="f", water="#EBEBEE")
 
 # ═══════════════════════════════════════════════════════════════
