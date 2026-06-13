@@ -82,10 +82,20 @@ station_file_name: "stations"
 
 # ── FDSN server ───────────────────────────────────────────────────────────────
 
-# Data centre to query.  Common values:
+# Data centre for STATIONS and WAVEFORMS.  Common values:
 #   IRIS, INGV, GEOFON, ORFEUS, BGR, ETH, RASPISHAKE, NCEDC, SCEDC, GFZ …
 # Full list: https://docs.obspy.org/packages/obspy.clients.fdsn.html
 fdsn_site: "INGV"
+
+# Data centre for EVENTS (catalog query).
+# Use null to query the same server as fdsn_site.
+# NOTE: IRIS does NOT provide an event service anymore — use USGS (global NEIC
+# catalog) or ISC when fdsn_site is IRIS.
+#   null   → same as fdsn_site
+#   "USGS" → USGS/NEIC global catalog  (best choice when fdsn_site = IRIS)
+#   "ISC"  → International Seismological Centre
+#   "INGV" → Italian catalog
+fdsn_site_events: null
 
 # ── Time window ───────────────────────────────────────────────────────────────
 
@@ -121,6 +131,14 @@ mag_max:  null
 depth_min_km:  0.0
 depth_max_km:  30.0
 
+# ── Station search area ───────────────────────────────────────────────────────
+
+# The station search area is ALWAYS circular and INDEPENDENT from the event
+# search area defined above.  Set the centre and radius to taste.
+lat_center_sta:  40.83
+lon_center_sta:  14.14
+radius_km_sta:   50.0
+
 # ── Station / channel selection ───────────────────────────────────────────────
 
 # FDSN wildcards: * (any string) and ? (exactly one character).
@@ -143,6 +161,19 @@ t_after_s:  300
 # Event queries are split into blocks of this many days to avoid FDSN limits.
 # Reduce if the server returns HTTP 413 or timeout errors on large windows.
 chunk_days: 365
+
+# ── Catalog source ────────────────────────────────────────────────────────────
+
+# Path to an existing QuakeML (.xml) catalog to load instead of querying FDSN.
+#
+#   null          → download catalog from FDSN using the parameters above
+#   "file.xml"    → bare filename: looked up inside CAT/
+#   "/abs/path"   → absolute path used as-is
+#
+# When this is set the event-query parameters (mag_min, mag_max, depth_*,
+# area_type, tmin/tmax for events) are IGNORED for the catalog download.
+# tmin / tmax are still used for the station inventory query.
+existing_catalog_xml: null    # e.g.  "my_catalog.xml"  or  null
 
 # ── Map preview ───────────────────────────────────────────────────────────────
 
@@ -173,15 +204,21 @@ def print_config_summary(cfg: dict) -> None:
     print("\n" + "═" * w)
     print("  CONFIGURATION SUMMARY")
     print("═" * w)
-    print(f"  FDSN site       : {cfg['fdsn_site']}")
+    ev_site = cfg.get('fdsn_site_events') or cfg['fdsn_site']
+    print(f"  FDSN site       : {cfg['fdsn_site']}  (stations + waveforms)")
+    if ev_site != cfg['fdsn_site']:
+        print(f"  FDSN events     : {ev_site}  (catalog query)")
     print(f"  Time window     : {cfg['tmin']}  →  {cfg['tmax']}")
-    print(f"  Area type       : {cfg['area_type']}")
+    print(f"  Event area      : {cfg['area_type']}")
     if cfg['area_type'] == 'rectangular':
         print(f"    lat [{cfg['lat_min']:.3f} – {cfg['lat_max']:.3f}]  "
               f"lon [{cfg['lon_min']:.3f} – {cfg['lon_max']:.3f}]")
     else:
         print(f"    centre ({cfg['lat_center']:.4f}, {cfg['lon_center']:.4f})  "
               f"radius {cfg['radius_km']:.1f} km")
+    print(f"  Station area    : circular  "
+          f"centre ({cfg['lat_center_sta']:.4f}, {cfg['lon_center_sta']:.4f})  "
+          f"radius {cfg['radius_km_sta']:.1f} km")
     mag_str   = f"{cfg.get('mag_min') or '–'}  –  {cfg.get('mag_max') or '–'}"
     depth_str = (f"{cfg.get('depth_min_km') or '–'}  –  "
                  f"{cfg.get('depth_max_km') or '–'}  km")
@@ -194,6 +231,11 @@ def print_config_summary(cfg: dict) -> None:
     print(f"  Event label     : {cfg['event_label']}")
     print(f"  Station file    : {cfg['station_file_name']}")
     print(f"  Map backend     : {cfg.get('map_backend', 'folium')}")
+    existing = cfg.get('existing_catalog_xml') or None
+    if existing:
+        print(f"  ── Catalog source : EXISTING FILE → {existing}")
+    else:
+        print(f"  ── Catalog source : FDSN query")
     print("═" * w + "\n")
 
 
@@ -268,7 +310,34 @@ def ask_modify_config(path: str, cfg: dict) -> dict:
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 2 ─ FDSN QUERIES
+# 2 ─ CATALOG SOURCE
+# ═════════════════════════════════════════════════════════════════════════════
+
+def _resolve_xml_path(value: str) -> str:
+    """Return absolute path to an XML file.
+
+    Bare filename (no path separator) → looked up in CAT/.
+    Anything else → treated as an absolute or relative path.
+    """
+    if os.sep not in value and '/' not in value:
+        return os.path.join(CAT_DIR, value)
+    return os.path.abspath(value)
+
+
+def load_catalog_from_xml(xml_path: str) -> Catalog:
+    """Load an existing QuakeML catalog from disk."""
+    from obspy import read_events
+    if not os.path.isfile(xml_path):
+        print(f"\n  [ERROR] File not found: {xml_path}\n")
+        sys.exit(1)
+    print(f"  File : {xml_path}")
+    cat = read_events(xml_path)
+    print(f"  {len(cat)} events loaded.\n")
+    return cat
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 3 ─ FDSN QUERIES
 # ═════════════════════════════════════════════════════════════════════════════
 
 def _radius_km_to_deg(km: float) -> float:
@@ -276,8 +345,8 @@ def _radius_km_to_deg(km: float) -> float:
     return km / 111.32
 
 
-def _area_kwargs(cfg: dict) -> dict:
-    """Return the geographic keyword arguments for obspy FDSN queries."""
+def _area_kwargs_events(cfg: dict) -> dict:
+    """Geographic kwargs for the EVENT query (rectangular or circular)."""
     if cfg['area_type'] == 'rectangular':
         return dict(
             minlatitude=cfg['lat_min'],  maxlatitude=cfg['lat_max'],
@@ -291,13 +360,22 @@ def _area_kwargs(cfg: dict) -> dict:
         )
 
 
+def _area_kwargs_stations(cfg: dict) -> dict:
+    """Geographic kwargs for the STATION query (always circular)."""
+    return dict(
+        latitude=cfg['lat_center_sta'],
+        longitude=cfg['lon_center_sta'],
+        maxradius=_radius_km_to_deg(cfg['radius_km_sta']),
+    )
+
+
 def query_events(client: Client, cfg: dict) -> Catalog:
     """Download the event catalog in time chunks to avoid server limits."""
     tmin  = UTCDateTime(cfg['tmin'])
     tmax  = UTCDateTime(cfg['tmax'])
     chunk = cfg.get('chunk_days', 365) * 86400   # seconds
 
-    geo = _area_kwargs(cfg)
+    geo = _area_kwargs_events(cfg)
 
     # Optional magnitude / depth filters
     filters = {}
@@ -333,7 +411,7 @@ def query_stations(client: Client, cfg: dict) -> object:
     """Download station inventory (includes full instrument response)."""
     tmin = UTCDateTime(cfg['tmin'])
     tmax = UTCDateTime(cfg['tmax'])
-    geo  = _area_kwargs(cfg)
+    geo  = _area_kwargs_stations(cfg)
 
     print("  Querying stations … ", end='', flush=True)
     try:
@@ -808,16 +886,33 @@ def main() -> None:
     print_config_summary(cfg)
     cfg = ask_modify_config(config_path, cfg)
 
-    # ── 2. Connect ────────────────────────────────────────────────────────────
-    print(f"\n[STEP 1/4]  Connecting to {cfg['fdsn_site']} …")
+    # ── 2. Connect to FDSN ────────────────────────────────────────────────────
+    # Main client: used for stations and waveforms
+    print(f"\n  Connecting to {cfg['fdsn_site']} …", end=' ', flush=True)
     client = Client(cfg['fdsn_site'])
-    print("  Connected.\n")
+    print("Connected.")
 
-    # ── 3. Query ──────────────────────────────────────────────────────────────
-    print(f"[STEP 2/4]  Querying event catalog …")
-    cat = query_events(client, cfg)
+    # Optional separate client for event queries (e.g. IRIS → USGS)
+    ev_site = cfg.get('fdsn_site_events') or None
+    if ev_site and ev_site != cfg['fdsn_site']:
+        print(f"  Connecting to {ev_site} (events) …", end=' ', flush=True)
+        event_client = Client(ev_site)
+        print("Connected.")
+    else:
+        event_client = client
+    print()
 
-    print(f"[STEP 3/4]  Querying station inventory …")
+    # ── 3. Events: from existing XML file OR from FDSN ────────────────────────
+    existing_xml = cfg.get('existing_catalog_xml') or None
+    if existing_xml:
+        print(f"[STEP 1/4]  Loading catalog from existing XML …")
+        cat = load_catalog_from_xml(_resolve_xml_path(existing_xml))
+    else:
+        ev_site_label = ev_site if ev_site else cfg['fdsn_site']
+        print(f"[STEP 1/4]  Querying event catalog from {ev_site_label} …")
+        cat = query_events(event_client, cfg)
+
+    print(f"[STEP 2/4]  Querying station inventory …")
     inv = query_stations(client, cfg)
 
     if len(cat) == 0:
