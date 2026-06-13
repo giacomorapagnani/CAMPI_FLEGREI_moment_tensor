@@ -32,9 +32,9 @@ reportdir=os.path.join(workdir,'report')                                #main re
 #reportdir=os.path.join(workdir,'../FULL_and_DC/report')        #cd and full report dir
 catdir=os.path.join(workdir,'CAT')
 
-catname=os.path.join(catdir,'catalogue_flegrei_mag_2_5.pf')    # CHANGE  catalogue_flegrei_VLP catalogue_flegrei_mag_2_5
+catname=os.path.join(catdir,'catalogue_flegrei_VLP.pf')    # CHANGE  catalogue_flegrei_VLP catalogue_flegrei_mag_2_5
 
-new_catalogue_name='catalogue_flegrei_MT_final'             # CHANGE catalogue_flegrei_MT_final_VLP
+new_catalogue_name='catalogue_flegrei_MT_VT_comp'             # CHANGE catalogue_flegrei_MT_final_VLP
                                                             #  catalogue_flegrei_MT_final
                                                             #  (check event 20 May 2024)
 refevents=model.load_events(catname)
