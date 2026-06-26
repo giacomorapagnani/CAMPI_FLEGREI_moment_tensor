@@ -15,15 +15,18 @@ import pygmt
 
 # ── OPTIONS ───────────────────────────────────────────────────────────────────
 
-MECA_SCALE          = "1.3c"   # beachball diameter (cm) for the reference magnitude
+MECA_SCALE          = "0.7c"   # beachball diameter (cm) for the reference magnitude
+MECA_TRANSP_DC      = 0        # red VT (DC) beachball transparency (%, 0 = opaque)
+MECA_TRANSP_VLP     = 20       # white VLP (full MT) beachball transparency (%)
+ARROW_TRANSP        = 40       # arrow transparency (%)
 SHOW_EVENT_LABELS   = False    # write the event date next to each beachball
-SHOW_STATION_LABELS = True     # write the station code next to each triangle
+SHOW_STATION_LABELS = False     # write the station code next to each triangle
 SHOW_INSET          = True     # small Italy locator map (top-right)
 
 TOPO_TIF = "/Users/giaco/UNI/PhD_CODE/QGIS/topo_flegrei/w45090_s10.tif"
-CAT_DC   = "CAT/catalogue_flegrei_MT_final.pf"
-CAT_VLP  = "CAT/catalogue_flegrei_MT_final_VLP_reloc.pf"
-STATIONS = "META_DATA/stations_flegrei_INGV_final.pf"
+CAT_DC   = "../CAT/catalogue_flegrei_MT_final.pf"
+CAT_VLP  = "../CAT/catalogue_flegrei_MT_final_VLP_reloc.pf"
+STATIONS = "../META_DATA/stations_flegrei_INGV_final.pf"
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
@@ -137,20 +140,20 @@ with open(gray_cpt, "w") as f:
 fig.grdimage(grid=grid, region=region, projection=proj, cmap=gray_cpt, shading=True,
              frame=["WSen", "xa0.05f0.025", "ya0.05f0.025"])
 
-# ── arrows (above topography, below beachballs) ──────────────────────────────
-az  = np.degrees(np.arctan2(arr[:, 2] - arr[:, 0], arr[:, 3] - arr[:, 1]))
-lng = np.hypot(arr[:, 2] - arr[:, 0], arr[:, 3] - arr[:, 1])
-fig.plot(x=arr[:, 0], y=arr[:, 1], style="v0.32c+e+a40+gblack",
-         pen="1.4p,black", direction=[az, lng])
+# ── arrows MT_final → VLP_reloc (above topography, below beachballs) ──────────
+# geographic vector: data cols = lon0 lat0 lon1 lat1, "+s" = start/end coords given
+fig.plot(data=arr, style="=0.3c+s+e+a40+gblack", pen="0.9p,black",
+         transparency=ARROW_TRANSP)
 
 # ── beachballs ───────────────────────────────────────────────────────────────
 # DC only → red compression, no outline
 fig.meca(spec=df_dc, scale=MECA_SCALE, component="dc",
-         compressionfill="red", extensionfill="white", pen="0p,red")
+         compressionfill="red", extensionfill="white", pen="0p,red",
+         transparency=MECA_TRANSP_DC)
 # full MT → white fill, black outline + black nodal lines
 fig.meca(spec=df_vlp, scale=MECA_SCALE,
          compressionfill="white", extensionfill="white",
-         outline="1p,black", pen="1p,black")
+         outline="1p,black", pen="1p,black", transparency=MECA_TRANSP_VLP)
 
 # ── stations ─────────────────────────────────────────────────────────────────
 fig.plot(x=[s[2] for s in stations], y=[s[1] for s in stations],
@@ -177,18 +180,26 @@ if SHOW_INSET:
         fig.plot(x=clon, y=clat, style="a0.35c", fill="red", pen="0.4p,black")
 
 # ── legend (bottom-left) ─────────────────────────────────────────────────────
-mw = [(np.log10(cat_dc[n]["moment"]) - 9.1) / 1.5 for n in common]
+# magnitude reference circles: meca diameter scales linearly with Mw (size@Mw5)
+scale_cm = float(MECA_SCALE.rstrip("c"))
+mag_rows = ""
+for m in (1, 2, 3, 4):
+    d = scale_cm * m / 5
+    # half-diameter gaps above/below keep large circles from overlapping
+    mag_rows += f"G {d/2:.3f}c\nS 0.7c c {d:.3f}c white 0.6p,black 1.5c Mw {m}\nG {d/2:.3f}c\n"
 
 legend_spec = (
     "H 8p,Helvetica,black Focal mechanisms\n"
     "G 0.1c\n"
-    "S 0.3c c 0.22c red - 0.6c DC (MT_final)\n"
+    "S 0.3c c 0.22c red - 0.6c VT earthquake\n"
     "G 0.05c\n"
-    "S 0.3c c 0.22c white 1p,black 0.6c Full MT (VLP reloc)\n"
+    "S 0.3c c 0.22c white 1p,black 0.6c VLP signal\n"
     "G 0.05c\n"
     "S 0.3c i 0.2c yellow 0.6p,black 0.6c Station\n"
-    "G 0.1c\n"
-    f"L 7p,Helvetica,black L Mw {min(mw):.1f}-{max(mw):.1f}\n"
+    "G 0.15c\n"
+    "H 8p,Helvetica,black Magnitude\n"
+    "G 0.15c\n"
+    + mag_rows
 )
 with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as tf:
     tf.write(legend_spec)
@@ -197,7 +208,7 @@ fig.legend(spec=legend_file, position="JBL+o0.2c", box="+gwhite@20+p0.5p")
 os.unlink(legend_file)
 
 # ── save ─────────────────────────────────────────────────────────────────────
-os.makedirs("PLOTS/MAPS", exist_ok=True)
-fig.savefig("PLOTS/MAPS/map_focal_mechanisms_pygmt.pdf", dpi=300)
-fig.savefig("PLOTS/MAPS/map_focal_mechanisms_pygmt.png", dpi=300)
-print("Saved PLOTS/MAPS/map_focal_mechanisms_pygmt.pdf/.png")
+os.makedirs("../PLOTS/MAPS", exist_ok=True)
+fig.savefig("../PLOTS/MAPS/map_focal_mechanisms_pygmt.pdf", dpi=300)
+fig.savefig("../PLOTS/MAPS/map_focal_mechanisms_pygmt.png", dpi=300)
+print("Saved ../PLOTS/MAPS/map_focal_mechanisms_pygmt.pdf/.png")

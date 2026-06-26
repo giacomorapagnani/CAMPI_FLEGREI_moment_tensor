@@ -7,16 +7,16 @@
 
 # Base name for all catalog files (no extension needed).
 #   Produces:  CAT/<catalog_name>.xml   .txt   .pf
-catalog_name: "my_catalog"
+catalog_name: "flegrei_continuous"
 
 # Short label used as prefix for event folders and waveform filenames.
 #   Produces:  DATA/<event_label>_yyyy_mm_dd_hh_mm_ss/
 #                   <event_label>_yyyy_mm_dd_hh_mm_ss_NET.STA.mseed
-event_label: "EV"
+event_label: "flegrei_continuous"
 
 # Base name for the station metadata file (no extension).
 #   Produces:  META_DATA/<station_file_name>.xml
-station_file_name: "stations"
+station_file_name: "stations_flegrei_continuous"
 
 # ── FDSN server ───────────────────────────────────────────────────────────────
 
@@ -57,7 +57,7 @@ lon_max:  14.20
 # Circular area (decimal degrees / km)
 lat_center:  40.83
 lon_center:  14.14
-radius_km:   30.0
+radius_km:   15.0
 
 # ── Event filters ─────────────────────────────────────────────────────────────
 
@@ -85,7 +85,7 @@ radius_km_sta:   50.0
 #   "/abs/path" → absolute path used as-is
 # When set, lat_center_sta / radius_km_sta / network / station / location /
 # channel are IGNORED — the inventory is used exactly as stored in the file.
-existing_stations_xml: null    # e.g.  "stations_flegrei_INGV_final.xml"  or  null
+existing_stations_xml: 'stations_flegrei_continuous.xml'    # e.g.  "stations_flegrei_INGV_final.xml"  or  null
 
 # ── Station / channel selection ───────────────────────────────────────────────
 
@@ -93,9 +93,9 @@ existing_stations_xml: null    # e.g.  "stations_flegrei_INGV_final.xml"  or  nu
 # Set network: "*" to retrieve ALL networks visible in the area.
 # channel accepts comma-separated patterns:  "HH?,BH?"  "HHZ,HHN,HHE"  "*"
 network:  "*"
-station:  "*"
+station:  "CBAC,CPOZ,CNIS"
 location: "*"
-channel:  "HH?,BH?"
+channel:  "HH?"
 
 # ── Waveform time window ──────────────────────────────────────────────────────
 
@@ -117,7 +117,7 @@ chunk_days: 365
 #                              <event_label>_yyyy_mm_dd_hh_mm_ss_NET_STA.mseed
 # "continuous" → full continuous stream for every station across tmin→tmax
 #                  Files: DATA/CONTINUOUS/<event_label>_yyyy_mm_dd_NET_STA.mseed
-download_mode: "event"
+download_mode: "continuous"
 
 # Size of each continuous chunk (hours).  24 = one file per day per station.
 # Only used when download_mode is "continuous".
