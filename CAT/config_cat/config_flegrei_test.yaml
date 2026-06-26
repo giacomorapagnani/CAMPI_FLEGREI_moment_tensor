@@ -7,16 +7,16 @@
 
 # Base name for all catalog files (no extension needed).
 #   Produces:  CAT/<catalog_name>.xml   .txt   .pf
-catalog_name: "flegrei_continuous"
+catalog_name: "my_catalog"
 
 # Short label used as prefix for event folders and waveform filenames.
 #   Produces:  DATA/<event_label>_yyyy_mm_dd_hh_mm_ss/
 #                   <event_label>_yyyy_mm_dd_hh_mm_ss_NET.STA.mseed
-event_label: "flegrei_continuous"
+event_label: "EV"
 
 # Base name for the station metadata file (no extension).
 #   Produces:  META_DATA/<station_file_name>.xml
-station_file_name: "stations_flegrei_continuous"
+station_file_name: "stations"
 
 # ── FDSN server ───────────────────────────────────────────────────────────────
 
@@ -38,8 +38,8 @@ fdsn_site_events: null
 # ── Time window ───────────────────────────────────────────────────────────────
 
 # Start and end of the search window.  Format: "YYYY-MM-DD HH:MM:SS"
-tmin: "2014-01-01 00:00:00"
-tmax: "2026-06-01 00:00:00"
+tmin: "2026-01-01 00:00:00"
+tmax: "2026-06-01 23:59:59"
 
 # ── Search area ───────────────────────────────────────────────────────────────
 
@@ -57,12 +57,12 @@ lon_max:  14.20
 # Circular area (decimal degrees / km)
 lat_center:  40.83
 lon_center:  14.14
-radius_km:   15.0
+radius_km:   30.0
 
 # ── Event filters ─────────────────────────────────────────────────────────────
 
 # Magnitude range.  Use null to disable either bound.
-mag_min:  1.5
+mag_min:  2.5
 mag_max:  null
 
 # Depth range in km.  Use null to disable either bound.
@@ -75,7 +75,17 @@ depth_max_km:  30.0
 # search area defined above.  Set the centre and radius to taste.
 lat_center_sta:  40.83
 lon_center_sta:  14.14
-radius_km_sta:   20.0
+radius_km_sta:   50.0
+
+# ── Station source ────────────────────────────────────────────────────────────
+
+# Path to an existing StationXML to load instead of querying FDSN for stations.
+#   null        → query stations from FDSN using the station search area above
+#   "file.xml"  → bare filename: looked up inside META_DATA/
+#   "/abs/path" → absolute path used as-is
+# When set, lat_center_sta / radius_km_sta / network / station / location /
+# channel are IGNORED — the inventory is used exactly as stored in the file.
+existing_stations_xml: null    # e.g.  "stations_flegrei_INGV_final.xml"  or  null
 
 # ── Station / channel selection ───────────────────────────────────────────────
 
@@ -83,9 +93,9 @@ radius_km_sta:   20.0
 # Set network: "*" to retrieve ALL networks visible in the area.
 # channel accepts comma-separated patterns:  "HH?,BH?"  "HHZ,HHN,HHE"  "*"
 network:  "*"
-station:  "CPOZ,CBAC,CNIS"
+station:  "*"
 location: "*"
-channel:  "HH?"
+channel:  "HH?,BH?"
 
 # ── Waveform time window ──────────────────────────────────────────────────────
 
@@ -107,24 +117,11 @@ chunk_days: 365
 #                              <event_label>_yyyy_mm_dd_hh_mm_ss_NET_STA.mseed
 # "continuous" → full continuous stream for every station across tmin→tmax
 #                  Files: DATA/CONTINUOUS/<event_label>_yyyy_mm_dd_NET_STA.mseed
-download_mode: "continuous"
+download_mode: "event"
 
 # Size of each continuous chunk (hours).  24 = one file per day per station.
 # Only used when download_mode is "continuous".
 chunk_hours: 24
-
-# ── Catalog source ────────────────────────────────────────────────────────────
-
-# Path to an existing QuakeML (.xml) catalog to load instead of querying FDSN.
-#
-#   null          → download catalog from FDSN using the parameters above
-#   "file.xml"    → bare filename: looked up inside CAT/
-#   "/abs/path"   → absolute path used as-is
-#
-# When this is set the event-query parameters (mag_min, mag_max, depth_*,
-# area_type, tmin/tmax for events) are IGNORED for the catalog download.
-# tmin / tmax are still used for the station inventory query.
-existing_catalog_xml: null    # e.g.  "my_catalog.xml"  or  null
 
 # ── Map preview ───────────────────────────────────────────────────────────────
 
