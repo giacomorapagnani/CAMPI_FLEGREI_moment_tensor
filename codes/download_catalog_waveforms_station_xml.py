@@ -18,9 +18,13 @@ Output layout
     {catalog_name}.pf               ← Pyrocko basic format
   META_DATA/
     {station_file_name}.xml         ← StationXML with instrument response
+    {station_file_name}/
+      {station_file_name}_{NET}_{STA}.xml    ← one StationXML per station
   DATA/
     {event_label}_yyyy_mm_dd_hh_mm_ss/
-      {event_label}_yyyy_mm_dd_hh_mm_ss_{NET}.{STA}.mseed
+      {event_label}_yyyy_mm_dd_hh_mm_ss_{NET}_{STA}.mseed
+    CONTINUOUS/
+      {event_label}_yyyy_mm_dd_{NET}_{STA}.mseed   ← continuous mode
 
 Dependencies: obspy, pyrocko, pyyaml, folium (or pygmt as fallback)
 """
@@ -28,11 +32,13 @@ Dependencies: obspy, pyrocko, pyyaml, folium (or pygmt as fallback)
 # ── Standard library ──────────────────────────────────────────────────────────
 import os
 import sys
+import time
 import argparse
 import platform
 import subprocess
 import webbrowser
 import tempfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # ── Third-party ───────────────────────────────────────────────────────────────
 import yaml
@@ -73,11 +79,13 @@ catalog_name: "my_catalog"
 
 # Short label used as prefix for event folders and waveform filenames.
 #   Produces:  DATA/<event_label>_yyyy_mm_dd_hh_mm_ss/
-#                   <event_label>_yyyy_mm_dd_hh_mm_ss_NET.STA.mseed
+#                   <event_label>_yyyy_mm_dd_hh_mm_ss_NET_STA.mseed
 event_label: "EV"
 
 # Base name for the station metadata file (no extension).
-#   Produces:  META_DATA/<station_file_name>.xml
+#   Produces:  META_DATA/<station_file_name>.xml            (full inventory)
+#              META_DATA/<station_file_name>/
+#                  <station_file_name>_NET_STA.xml          (one per station)
 station_file_name: "stations"
 
 # ── FDSN server ───────────────────────────────────────────────────────────────
@@ -183,7 +191,12 @@ download_mode: "event"
 
 # Size of each continuous chunk (hours).  24 = one file per day per station.
 # Only used when download_mode is "continuous".
+# NOTE: sub-daily chunks automatically add _HH_MM to the filenames.
 chunk_hours: 24
+
+# Simultaneous download connections in continuous mode.
+# Keep it small (3-5): FDSN servers throttle aggressive clients.
+parallel_downloads: 4
 
 # ── Map preview ───────────────────────────────────────────────────────────────
 
@@ -204,9 +217,13 @@ def load_or_create_config(path: str) -> dict:
         print("  Please review it, then re-run the script.\n")
         sys.exit(0)
 
+    # Overlay the user's file on the built-in defaults, so configs written by
+    # older versions of this script keep working when new keys are added.
+    # (New keys take the default value until added to the file explicitly.)
+    defaults = yaml.safe_load(DEFAULT_CONFIG)
     with open(path) as fh:
-        cfg = yaml.safe_load(fh)
-    return cfg
+        cfg = yaml.safe_load(fh) or {}
+    return {**defaults, **cfg}
 
 
 def print_config_summary(cfg: dict) -> None:
@@ -232,13 +249,16 @@ def print_config_summary(cfg: dict) -> None:
     existing_sta = cfg.get('existing_stations_xml') or None
     sta_src = f"EXISTING FILE → {existing_sta}" if existing_sta else "FDSN query"
     print(f"  Station source  : {sta_src}")
-    mag_str   = f"{cfg.get('mag_min') or '–'}  –  {cfg.get('mag_max') or '–'}"
-    depth_str = (f"{cfg.get('depth_min_km') or '–'}  –  "
-                 f"{cfg.get('depth_max_km') or '–'}  km")
+    def _v(key):   # 'or' would hide legitimate 0 / 0.0 values
+        val = cfg.get(key)
+        return '–' if val is None else val
+    mag_str   = f"{_v('mag_min')}  –  {_v('mag_max')}"
+    depth_str = f"{_v('depth_min_km')}  –  {_v('depth_max_km')}  km"
     mode = cfg.get('download_mode', 'event')
     print(f"  ── Mode         : {mode.upper()}")
     if mode == 'continuous':
         print(f"  Chunk size      : {cfg.get('chunk_hours', 24)} h per file")
+        print(f"  Parallel        : {cfg.get('parallel_downloads', 4)} connections")
     else:
         print(f"  Magnitude       : {mag_str}")
         print(f"  Depth           : {depth_str}")
@@ -308,10 +328,10 @@ def ask_modify_config(path: str, cfg: dict) -> dict:
             cfg[key] = raw.lower() in ('true', 'yes', '1')
         elif isinstance(old, int):
             try:    cfg[key] = int(raw)
-            except: cfg[key] = raw
+            except ValueError: cfg[key] = raw
         elif isinstance(old, float):
             try:    cfg[key] = float(raw)
-            except: cfg[key] = raw
+            except ValueError: cfg[key] = raw
         else:
             cfg[key] = raw
         print(f"  ✓  {key} = {cfg[key]}\n")
@@ -463,8 +483,54 @@ def get_stations(client: Client, cfg: dict) -> object:
     return query_stations(client, cfg)
 
 
+# ── Download helpers: retry policy and atomic file writes ─────────────────────
+
+MAX_RETRIES  = 3     # total attempts per waveform request
+RETRY_WAIT_S = 5.0   # pause between attempts (seconds)
+
+
+def _is_no_data(exc: Exception) -> bool:
+    """True when the server reply means 'no data available', not a failure."""
+    s = str(exc)
+    return 'No data' in s or '204' in s
+
+
+def _fetch_with_retry(fetch, what: str):
+    """Run fetch() retrying transient errors (connection resets, timeouts).
+
+    Returns (result, status) where status is 'ok', 'nodata' or 'error'.
+    'nodata' is returned immediately (it is a valid server answer, not an
+    error); everything else is retried MAX_RETRIES times before giving up.
+    """
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            return fetch(), 'ok'
+        except Exception as exc:
+            if _is_no_data(exc):
+                return None, 'nodata'
+            if attempt < MAX_RETRIES:
+                print(f"  [RETRY]  {what}  attempt {attempt}/{MAX_RETRIES} "
+                      f"failed ({type(exc).__name__}) — retrying in "
+                      f"{RETRY_WAIT_S:.0f} s")
+                time.sleep(RETRY_WAIT_S)
+            else:
+                print(f"  [ERR]    {what}  {exc}")
+    return None, 'error'
+
+
+def _atomic_write(st, out_path: str) -> None:
+    """Write miniSEED to a temp file, then rename into place.
+
+    An interrupted run can never leave a truncated .mseed behind that a
+    later run would mistake for complete and skip.
+    """
+    tmp_path = out_path + '.part'
+    st.write(tmp_path, format='MSEED')
+    os.replace(tmp_path, out_path)
+
+
 # ═════════════════════════════════════════════════════════════════════════════
-# 3 ─ PREVIEW MAP
+# 4 ─ PREVIEW MAP
 # ═════════════════════════════════════════════════════════════════════════════
 
 # One distinct color per integer magnitude value (floor).
@@ -644,12 +710,19 @@ def _build_folium_map(cat, inv, cfg: dict):
     return m
 
 
-def _build_pygmt_map(cat: Catalog, inv, cfg: dict):
+def _build_pygmt_map(cat, inv, cfg: dict):
+    """Static fallback map.  cat=None signals continuous (no-event) mode."""
     import pygmt
     import numpy as np
 
-    # Map region with a small margin
-    if cfg['area_type'] == 'rectangular':
+    # Map region with a small margin (station search area in continuous mode)
+    if cat is None:
+        r = _radius_km_to_deg(cfg['radius_km_sta']) + 0.05
+        region = [
+            cfg['lon_center_sta'] - r, cfg['lon_center_sta'] + r,
+            cfg['lat_center_sta'] - r, cfg['lat_center_sta'] + r,
+        ]
+    elif cfg['area_type'] == 'rectangular':
         margin = 0.1
         region = [
             cfg['lon_min'] - margin, cfg['lon_max'] + margin,
@@ -667,35 +740,35 @@ def _build_pygmt_map(cat: Catalog, inv, cfg: dict):
     fig.coast(land='gray90', water='lightblue',
               shorelines='1/0.4p,black', resolution='h')
 
-    # Search area boundary
-    if cfg['area_type'] == 'rectangular':
-        fig.plot(
-            x=[cfg['lon_min'], cfg['lon_max'],
-               cfg['lon_max'], cfg['lon_min'], cfg['lon_min']],
-            y=[cfg['lat_min'], cfg['lat_min'],
-               cfg['lat_max'], cfg['lat_max'], cfg['lat_min']],
-            pen='1p,gray50,dashed',
-        )
-    else:
-        angles = np.linspace(0, 360, 361)
-        r_deg  = _radius_km_to_deg(cfg['radius_km'])
-        fig.plot(
-            x=cfg['lon_center'] + r_deg * np.cos(np.radians(angles)),
-            y=cfg['lat_center'] + r_deg * np.sin(np.radians(angles)),
-            pen='1p,gray50,dashed',
-        )
-
-    # Events
+    # Event search area boundary + events (skipped in continuous mode)
     ev_lons, ev_lats, ev_mags = [], [], []
-    for ev in cat:
-        try:
-            o   = ev.preferred_origin() or ev.origins[0]
-            mag = (ev.preferred_magnitude() or ev.magnitudes[0]).mag
-            ev_lons.append(o.longitude)
-            ev_lats.append(o.latitude)
-            ev_mags.append(mag)
-        except (IndexError, AttributeError):
-            continue
+    if cat is not None:
+        if cfg['area_type'] == 'rectangular':
+            fig.plot(
+                x=[cfg['lon_min'], cfg['lon_max'],
+                   cfg['lon_max'], cfg['lon_min'], cfg['lon_min']],
+                y=[cfg['lat_min'], cfg['lat_min'],
+                   cfg['lat_max'], cfg['lat_max'], cfg['lat_min']],
+                pen='1p,gray50,dashed',
+            )
+        else:
+            angles = np.linspace(0, 360, 361)
+            r_deg  = _radius_km_to_deg(cfg['radius_km'])
+            fig.plot(
+                x=cfg['lon_center'] + r_deg * np.cos(np.radians(angles)),
+                y=cfg['lat_center'] + r_deg * np.sin(np.radians(angles)),
+                pen='1p,gray50,dashed',
+            )
+
+        for ev in cat:
+            try:
+                o   = ev.preferred_origin() or ev.origins[0]
+                mag = (ev.preferred_magnitude() or ev.magnitudes[0]).mag
+                ev_lons.append(o.longitude)
+                ev_lats.append(o.latitude)
+                ev_mags.append(mag)
+            except (IndexError, AttributeError):
+                continue
     if ev_lons:
         sizes = [max(0.08, m * 0.04) for m in ev_mags]
         fig.plot(x=ev_lons, y=ev_lats, size=sizes,
@@ -747,7 +820,7 @@ def show_preview_map(cat: Catalog, inv, cfg: dict) -> None:
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 4 ─ SAVE CATALOG
+# 5 ─ SAVE CATALOG
 # ═════════════════════════════════════════════════════════════════════════════
 
 def _obspy_ev_to_pyrocko(ev, label: str) -> model.Event | None:
@@ -832,35 +905,54 @@ def save_catalog(cat: Catalog, cfg: dict) -> list:
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 5 ─ SAVE STATION METADATA
+# 6 ─ SAVE STATION METADATA
 # ═════════════════════════════════════════════════════════════════════════════
 
 def save_stations(inv, cfg: dict) -> None:
-    """Write StationXML (with response) to META_DATA/."""
+    """Write station metadata (with response) to META_DATA/.
+
+    Two outputs:
+      META_DATA/<name>.xml                  ← full inventory in a single file
+      META_DATA/<name>/<name>_NET_STA.xml   ← one StationXML per station
+    """
     if inv is None:
         print("  [SKIP] No inventory to save.")
         return
     os.makedirs(META_DIR, exist_ok=True)
-    path = os.path.join(META_DIR, cfg['station_file_name'] + '.xml')
+    name = cfg['station_file_name']
+
+    # ── full inventory, single file ──────────────────────────────────────────
+    path = os.path.join(META_DIR, name + '.xml')
     inv.write(path, format='STATIONXML')
     print(f"  Saved: {path}")
 
+    # ── one file per station ─────────────────────────────────────────────────
+    sta_dir = os.path.join(META_DIR, name)
+    os.makedirs(sta_dir, exist_ok=True)
+    seen = set()   # a station may appear multiple times (epochs) — write once
+    for net in inv:
+        for sta in net:
+            key = (net.code, sta.code)
+            if key in seen:
+                continue
+            seen.add(key)
+            sub = inv.select(network=net.code, station=sta.code)
+            sta_path = os.path.join(sta_dir, f"{name}_{net.code}_{sta.code}.xml")
+            sub.write(sta_path, format='STATIONXML')
+    print(f"  Saved: {len(seen)} per-station files in {sta_dir}/")
+
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 6 ─ DOWNLOAD WAVEFORMS
+# 7 ─ EVENT WAVEFORM DOWNLOAD
 # ═════════════════════════════════════════════════════════════════════════════
-
-def _ev_time_str(pev: model.Event) -> str:
-    """Extract 'yyyy_mm_dd_hh_mm_ss' from the event origin time field."""
-    ts = util.time_to_str(pev.time)   # "yyyy-mm-dd hh:mm:ss.sss"
-    return (ts[0:4] + '_' + ts[5:7] + '_' + ts[8:10] + '_'
-            + ts[11:13] + '_' + ts[14:16] + '_' + ts[17:19])
-
 
 def download_waveforms(pf_events: list, inv, client: Client, cfg: dict) -> None:
-    """Download one miniSEED file per (event, station) pair.
+    """Download event waveforms: one miniSEED file per (event, station) pair.
 
-    Files already on disk are silently skipped so the script is resumable.
+    All stations still missing on disk are fetched with a single bulk request
+    per event (client.get_waveforms_bulk → one HTTP round-trip instead of one
+    per station); the returned stream is split per station at save time.
+    Existing files are skipped, so an interrupted run resumes where it left.
     """
     if inv is None:
         print("  [SKIP] No inventory available – cannot download waveforms.")
@@ -868,76 +960,89 @@ def download_waveforms(pf_events: list, inv, client: Client, cfg: dict) -> None:
 
     os.makedirs(DATA_DIR, exist_ok=True)
 
-    label  = cfg['event_label']
-    tbef   = cfg['t_before_s']
-    taft   = cfg['t_after_s']
-    chan   = cfg['channel']
-    n_ev   = len(pf_events)
-    n_dl   = 0
-    n_skip = 0
-    n_err  = 0
+    tbef = cfg['t_before_s']
+    taft = cfg['t_after_s']
+    loc  = cfg['location']
+    # FDSN bulk lines take ONE channel pattern each → split "HH?,BH?" up front
+    chan_patterns = [c.strip() for c in cfg['channel'].split(',')]
+
+    # Unique (net, sta) code pairs — a station may appear in several epochs
+    stations = sorted({(net.code, sta.code) for net in inv for sta in net})
+
+    n_ev = len(pf_events)
+    n_dl = n_skip = n_nodata = n_err = 0
 
     for idx, pev in enumerate(pf_events, 1):
         # Event folder name = pev.name  (already contains label + timestamp)
         ev_name = pev.name
         ev_dir  = os.path.join(DATA_DIR, ev_name)
         t0      = UTCDateTime(util.time_to_str(pev.time))
+        t1, t2  = t0 - tbef, t0 + taft
 
         print(f"\n[{idx:>4}/{n_ev}]  {ev_name}")
         os.makedirs(ev_dir, exist_ok=True)
 
-        for net in inv:
-            for sta in net:
-                # One file per station: ev_name_NET.STA.mseed
-                fname    = f"{ev_name}_{net.code}.{sta.code}.mseed"
-                out_path = os.path.join(ev_dir, fname)
+        # One bulk request holding only the stations still missing on disk
+        bulk    = []
+        targets = {}                       # (net, sta) → output file path
+        for net_code, sta_code in stations:
+            out_path = os.path.join(
+                ev_dir, f"{ev_name}_{net_code}_{sta_code}.mseed")
+            if os.path.isfile(out_path):
+                n_skip += 1
+                continue
+            targets[(net_code, sta_code)] = out_path
+            for ch in chan_patterns:
+                bulk.append((net_code, sta_code, loc, ch, t1, t2))
 
-                if os.path.isfile(out_path):
-                    print(f"  [SKIP]   {net.code}.{sta.code}  (already on disk)")
-                    n_skip += 1
-                    continue
+        skipped_here = len(stations) - len(targets)
+        if not targets:
+            print(f"  [SKIP]   all {len(stations)} station(s) already on disk")
+            continue
+        if skipped_here:
+            print(f"  [SKIP]   {skipped_here} station(s) already on disk")
 
-                try:
-                    st = client.get_waveforms(
-                        network=net.code,
-                        station=sta.code,
-                        location='*',
-                        channel=chan,
-                        starttime=t0 - tbef,
-                        endtime=t0 + taft,
-                    )
-                    if len(st) == 0:
-                        print(f"  [EMPTY]  {net.code}.{sta.code}")
-                        continue
-                    st.write(out_path, format='MSEED')
-                    print(f"  [OK]     {net.code}.{sta.code}  "
-                          f"({len(st)} trace(s))")
-                    n_dl += 1
+        st, status = _fetch_with_retry(
+            lambda: client.get_waveforms_bulk(bulk), ev_name)
 
-                except Exception as exc:
-                    msg = str(exc)
-                    if 'No data' in msg or '204' in msg:
-                        print(f"  [–]      {net.code}.{sta.code}  no data")
-                    else:
-                        print(f"  [ERR]    {net.code}.{sta.code}  {msg}")
-                        n_err += 1
+        if status == 'error':
+            n_err += len(targets)
+            continue
+        if status == 'nodata' or st is None or len(st) == 0:
+            print(f"  [–]      no data for the {len(targets)} "
+                  f"requested station(s)")
+            n_nodata += len(targets)
+            continue
+
+        # Split the bulk stream per station and save one file each
+        for (net_code, sta_code), out_path in targets.items():
+            sub = st.select(network=net_code, station=sta_code)
+            if len(sub) == 0:
+                print(f"  [–]      {net_code}.{sta_code}  no data")
+                n_nodata += 1
+                continue
+            _atomic_write(sub, out_path)
+            print(f"  [OK]     {net_code}.{sta_code}  ({len(sub)} trace(s))")
+            n_dl += 1
 
     print(f"\n{'─' * 54}")
     print(f"  Waveform files downloaded  : {n_dl}")
     print(f"  Waveform files skipped     : {n_skip}  (already on disk)")
+    print(f"  No data                    : {n_nodata}")
     print(f"  Errors                     : {n_err}")
     print(f"{'─' * 54}\n")
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 7 ─ CONTINUOUS WAVEFORM DOWNLOAD
+# 8 ─ CONTINUOUS WAVEFORM DOWNLOAD
 # ═════════════════════════════════════════════════════════════════════════════
 
 def download_continuous(inv, client: Client, cfg: dict) -> None:
-    """Download continuous waveforms in fixed-size time chunks.
+    """Download continuous waveforms in fixed-size time chunks, in parallel.
 
     Output: DATA/CONTINUOUS/{event_label}_yyyy_mm_dd_{NET}_{STA}.mseed
-    Files already on disk are skipped (resumable).
+            (sub-daily chunks add _HH_MM after the date)
+    Existing files are skipped, so an interrupted run resumes where it left.
     """
     if inv is None:
         print("  [SKIP] No inventory – cannot download waveforms.")
@@ -948,55 +1053,88 @@ def download_continuous(inv, client: Client, cfg: dict) -> None:
     chunk = cfg.get('chunk_hours', 24) * 3600   # seconds
     label = cfg['event_label']
     chan  = cfg['channel']
+    loc   = cfg['location']
+    n_workers = max(1, int(cfg.get('parallel_downloads', 4)))
 
     cont_dir = os.path.join(DATA_DIR, 'CONTINUOUS')
     os.makedirs(cont_dir, exist_ok=True)
 
-    n_dl   = 0
-    n_skip = 0
-    n_err  = 0
+    # Unique (net, sta) code pairs — a station may appear in several epochs
+    stations = sorted({(net.code, sta.code) for net in inv for sta in net})
 
+    # Sub-daily chunks need HH_MM in the filename, otherwise every chunk of
+    # the same day maps to the same file and gets skipped as "already on disk"
+    t_fmt = '%Y_%m_%d' if chunk >= 86400 else '%Y_%m_%d_%H_%M'
+
+    # Build the full task list up front, skipping files already on disk
+    tasks  = []
+    n_skip = 0
     t1 = tmin
     while t1 < tmax:
-        t2       = min(t1 + chunk, tmax)
-        date_str = t1.strftime('%Y_%m_%d')   # used in filename
-        print(f"\n  [{t1.strftime('%Y-%m-%d  %H:%M')} → {t2.strftime('%H:%M')}]")
-
-        for net in inv:
-            for sta in net:
-                fname    = f"{label}_{date_str}_{net.code}_{sta.code}.mseed"
-                out_path = os.path.join(cont_dir, fname)
-
-                if os.path.isfile(out_path):
-                    print(f"  [SKIP]   {net.code}.{sta.code}  (already on disk)")
-                    n_skip += 1
-                    continue
-
-                try:
-                    st = client.get_waveforms(
-                        network=net.code, station=sta.code,
-                        location='*', channel=chan,
-                        starttime=t1, endtime=t2,
-                    )
-                    if len(st) == 0:
-                        print(f"  [EMPTY]  {net.code}.{sta.code}")
-                        continue
-                    st.write(out_path, format='MSEED')
-                    print(f"  [OK]     {net.code}.{sta.code}  ({len(st)} trace(s))")
-                    n_dl += 1
-                except Exception as exc:
-                    msg = str(exc)
-                    if 'No data' in msg or '204' in msg:
-                        print(f"  [–]      {net.code}.{sta.code}  no data")
-                    else:
-                        print(f"  [ERR]    {net.code}.{sta.code}  {msg}")
-                        n_err += 1
-
+        t2 = min(t1 + chunk, tmax)
+        date_str = t1.strftime(t_fmt)
+        for net_code, sta_code in stations:
+            fname    = f"{label}_{date_str}_{net_code}_{sta_code}.mseed"
+            out_path = os.path.join(cont_dir, fname)
+            if os.path.isfile(out_path):
+                n_skip += 1
+            else:
+                tasks.append((t1, t2, net_code, sta_code, out_path))
         t1 = t2
+
+    print(f"  {len(tasks)} file(s) to download  "
+          f"({n_skip} already on disk, {n_workers} parallel connections)")
+
+    n_dl = n_nodata = n_err = 0
+
+    def _fetch_one(task):
+        """Worker: download one (chunk, station) pair and save it."""
+        tt1, tt2, net_code, sta_code, out_path = task
+        what = f"{net_code}.{sta_code} {tt1.strftime('%Y-%m-%d %H:%M')}"
+        st, status = _fetch_with_retry(
+            lambda: client.get_waveforms(
+                network=net_code, station=sta_code,
+                location=loc, channel=chan,
+                starttime=tt1, endtime=tt2),
+            what)
+        if status == 'ok' and st is not None and len(st) > 0:
+            _atomic_write(st, out_path)
+            return task, len(st), 'saved'
+        if status == 'error':
+            return task, 0, 'error'
+        return task, 0, 'nodata'
+
+    pool    = ThreadPoolExecutor(max_workers=n_workers)
+    futures = [pool.submit(_fetch_one, t) for t in tasks]
+    done    = 0
+    try:
+        for fut in as_completed(futures):
+            (tt1, _, net_code, sta_code, _), ntr, outcome = fut.result()
+            done += 1
+            tag   = f"[{done:>5}/{len(tasks)}]"
+            stamp = tt1.strftime('%Y-%m-%d %H:%M')
+            if outcome == 'saved':
+                n_dl += 1
+                print(f"  {tag} [OK]  {stamp}  {net_code}.{sta_code}  "
+                      f"({ntr} trace(s))")
+            elif outcome == 'nodata':
+                n_nodata += 1
+                print(f"  {tag} [–]   {stamp}  {net_code}.{sta_code}  no data")
+            else:
+                n_err += 1   # details already printed by the retry helper
+        pool.shutdown(wait=True)
+    except KeyboardInterrupt:
+        # Drop everything still queued; running requests finish on their own.
+        # Already-saved files are skipped on the next run (resumable).
+        pool.shutdown(wait=False, cancel_futures=True)
+        print(f"\n  Interrupted — {n_dl} file(s) saved so far. "
+              f"Re-run to resume from where it stopped.")
+        raise SystemExit(1)
 
     print(f"\n{'─' * 54}")
     print(f"  Files downloaded : {n_dl}")
     print(f"  Files skipped    : {n_skip}  (already on disk)")
+    print(f"  No data          : {n_nodata}")
     print(f"  Errors           : {n_err}")
     print(f"{'─' * 54}\n")
 
@@ -1088,6 +1226,7 @@ def main() -> None:
         print(f"    Period    : {cfg['tmin']}  →  {cfg['tmax']}  ({n_days} days)")
         print(f"    Stations  : {n_sta}")
         print(f"    Chunk     : {chunk_h} h / file   (~{est} files total)")
+        print(f"    Parallel  : {cfg.get('parallel_downloads', 4)} connections")
         print(f"    Output    : {os.path.join(DATA_DIR, 'CONTINUOUS')}\n")
 
         ans = input("  Proceed with download? [y/N]: ").strip().lower()
