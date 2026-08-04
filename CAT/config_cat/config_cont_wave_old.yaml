@@ -79,14 +79,26 @@ lat_center_sta:  40.83
 lon_center_sta:  14.14
 radius_km_sta:   50.0
 
-# ── Station source ────────────────────────────────────────────────────────────
+# ── LOCAL SOURCES (both optional) ─────────────────────────────────────────────
+# Whatever is loaded from a local file is used as-is and NOT re-saved.
 
-# Path to an existing StationXML to load instead of querying FDSN for stations.
-#   null        → query stations from FDSN using the station search area above
+# Event catalog in Pyrocko .pf format — only used in "event" mode, ignored
+# in "continuous" mode.  Event names from the file become the DATA/ folder
+# names, so waveforms from different servers/networks accumulate in the
+# same event folders.  Event area/filters are NOT applied to a local catalog.
+#   null        → download the catalog from FDSN (and save it in CAT/)
+#   "file.pf"   → bare filename: looked up inside CAT/
+#   "/abs/path" → absolute path used as-is
+existing_catalog_pf: null      # e.g.  "my_catalog.pf"  or  null
+
+# Station metadata in StationXML format.
+# When set, the station search area and the network/station selection are
+# IGNORED (the inventory is used exactly as stored in the file) and nothing
+# is re-saved to META_DATA/.  NOTE: channel and location below are still
+# applied to every waveform request.
+#   null        → query stations from FDSN (and save StationXML in META_DATA/)
 #   "file.xml"  → bare filename: looked up inside META_DATA/
 #   "/abs/path" → absolute path used as-is
-# When set, lat_center_sta / radius_km_sta / network / station / location /
-# channel are IGNORED — the inventory is used exactly as stored in the file.
 existing_stations_xml: 'stations_flegrei_continuous.xml'    # e.g.  "stations_flegrei_INGV_final.xml"  or  null
 
 # ── Station / channel selection ───────────────────────────────────────────────
