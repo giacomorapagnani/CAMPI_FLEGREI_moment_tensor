@@ -515,31 +515,74 @@ def query_events(client: Client, cfg: dict) -> Catalog:
 
 
 def query_stations(client: Client, cfg: dict) -> object:
-    """Download station inventory (includes full instrument response)."""
+    """Download station inventory (includes full instrument response).
+
+    Some data centres host third-party networks whose response metadata is
+    malformed and makes obspy fail while parsing the server reply (e.g. a
+    PolesZeros stage with an empty NormalizationFrequency).  A single broken
+    station would kill the whole inventory, so on a parse failure the query
+    falls back to one request per network, and inside a broken network to
+    one request per station — keeping everything that parses and reporting
+    what had to be skipped.
+    """
     tmin = UTCDateTime(cfg['tmin'])
     tmax = UTCDateTime(cfg['tmax'])
     geo  = _area_kwargs_stations(cfg)
 
+    def _fetch(level, **overrides):
+        kw = dict(starttime=tmin, endtime=tmax,
+                  network=cfg['network'], station=cfg['station'],
+                  location=cfg['location'], channel=cfg['channel'],
+                  level=level, **geo)
+        kw.update(overrides)
+        return client.get_stations(**kw)
+
     print("  Querying stations … ", end='', flush=True)
     try:
-        inv = client.get_stations(
-            starttime=tmin, endtime=tmax,
-            network=cfg['network'], station=cfg['station'],
-            location=cfg['location'], channel=cfg['channel'],
-            level='response',
-            **geo,
-        )
+        inv = _fetch('response')
         n_sta = sum(len(net) for net in inv)
-        n_net = len(inv)
-        print(f"{n_sta} stations across {n_net} network(s)\n")
+        print(f"{n_sta} stations across {len(inv)} network(s)\n")
         return inv
     except Exception as exc:
-        s = str(exc)
-        if 'No data' in s or '204' in s:
+        if _is_no_data(exc):
             print("0 stations found\n")
-        else:
-            print(f"WARNING – {exc}\n")
+            return None
+        print(f"parse failed ({type(exc).__name__}) — "
+              f"retrying network by network …")
+
+    # ── fallback 1: light query for the codes, then one request per network ──
+    try:
+        skeleton = _fetch('station')
+    except Exception as exc:
+        print(f"  [ERR] station query failed entirely: {exc}\n")
         return None
+
+    inv = None
+    for net_code in sorted({net.code for net in skeleton}):
+        try:
+            part = _fetch('response', network=net_code)
+            inv  = part if inv is None else inv + part
+        except Exception:
+            # ── fallback 2: one request per station of the broken network ────
+            sta_codes = sorted({sta.code for net in skeleton
+                                if net.code == net_code for sta in net})
+            for sta_code in sta_codes:
+                try:
+                    part = _fetch('response',
+                                  network=net_code, station=sta_code)
+                    inv  = part if inv is None else inv + part
+                except Exception as exc2:
+                    reason = ('no data' if _is_no_data(exc2)
+                              else 'malformed response metadata on the server')
+                    print(f"  [WARN] skipping {net_code}.{sta_code} — {reason}")
+
+    if inv is None:
+        print("  0 usable stations found\n")
+        return None
+    n_sta = sum(len(net) for net in inv)
+    print(f"  Recovered {n_sta} stations across "
+          f"{len({net.code for net in inv})} network(s)\n")
+    return inv
 
 
 def get_stations(client: Client, cfg: dict) -> object:
