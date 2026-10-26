@@ -1,4 +1,4 @@
-#EventID,Time,Latitude,Longitude,Depth,MD,MD Error,Area,Type,Level
+#EventID,Time,Latitude,Longitude,Depth/km,Magnitude,MagErr,Area,Type,Level
 51069,2026-01-01 02:27:21.24,40.834833,14.136833,2.12,1,0.3,flegrei,earthquake,Bollettino
 51193,2026-01-01 02:36:39.92,,,,,,flegrei,earthquake,Bollettino
 51070,2026-01-01 02:36:59.23,,,,,,flegrei,earthquake,Bollettino

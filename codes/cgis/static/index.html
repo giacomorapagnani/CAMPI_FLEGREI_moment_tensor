@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cgis</title>
+<meta name="cgis-token" content="{{TOKEN}}">
+<link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ===================================================== toolbar -->
+  <header id="toolbar">
+    <div class="brand">cgis</div>
+    <button id="btn-add-cat" title="Aggiungi catalogo (.pf, .yaml, QuakeML)">＋ Catalogo</button>
+    <button id="btn-add-sta" title="Aggiungi stazioni (StationXML, .pf)">＋ Stazioni</button>
+    <span class="sep"></span>
+    <div class="seg" id="seg-color" title="Colore eventi (C)">
+      <button data-v="depth" class="on">Profondità</button>
+      <button data-v="time">Tempo</button>
+    </div>
+    <span class="sep"></span>
+    <button id="btn-measure" class="tool" title="Misura distanze (D)">📏 Distanza</button>
+    <button id="btn-section" class="tool" title="Nuova sezione (X)">✂ Sezione</button>
+    <button id="btn-lasso" class="tool" title="Selezione a lazo (L)">◌ Lazo</button>
+    <button id="btn-save" title="Salva figura della mappa (S)">💾 Salva figura</button>
+    <span class="sep"></span>
+    <div class="dropdown">
+      <button id="btn-session">Sessione ▾</button>
+      <div class="menu" id="menu-session">
+        <button data-act="save">Salva sessione…</button>
+        <button data-act="open">Apri sessione…</button>
+        <button data-act="new">Nuova sessione (svuota)</button>
+      </div>
+    </div>
+    <span class="grow"></span>
+    <span id="session-name" class="muted"></span>
+    <button id="btn-help" title="Aiuto e scorciatoie (?)">?</button>
+  </header>
+
+  <div id="main">
+    <!-- =================================================== sidebar -->
+    <aside id="sidebar">
+      <section class="box">
+        <h3>Layer</h3>
+        <div id="layer-list"><div class="empty">Nessun dato caricato.<br>Usa ＋ Catalogo / ＋ Stazioni.</div></div>
+      </section>
+
+      <section class="box">
+        <h3>Stile</h3>
+        <div class="row"><label>Palette</label>
+          <select id="st-cmap"></select>
+          <label class="chk" title="Inverti palette"><input type="checkbox" id="st-rev"> inv.</label>
+        </div>
+        <div class="row"><label>Scala</label>
+          <input type="text" id="st-vmin" class="num" placeholder="auto">
+          <span>→</span>
+          <input type="text" id="st-vmax" class="num" placeholder="auto">
+          <button id="st-auto" class="small" title="Scala automatica">auto</button>
+        </div>
+        <div class="row"><label title="Raggio (px) alla magnitudo di riferimento">Dim. base</label>
+          <input type="range" id="st-size" min="1" max="15" step="0.5" value="4"><span id="st-size-v" class="val">4</span>
+        </div>
+        <div class="row"><label title="Fattore di crescita del raggio per unità di magnitudo">Crescita</label>
+          <input type="range" id="st-growth" min="1" max="3" step="0.05" value="1.8"><span id="st-growth-v" class="val">1.8</span>
+        </div>
+        <div class="row"><label title="Magnitudo di riferimento della dimensione base">M rif.</label>
+          <input type="text" id="st-mref" class="num" value="1">
+          <label title="Raggio (px) degli eventi senza magnitudo">senza M</label>
+          <input type="text" id="st-nomag" class="num" value="4">
+        </div>
+        <div class="row"><label>Opacità</label>
+          <input type="range" id="st-opacity" min="0.1" max="1" step="0.05" value="0.85"><span id="st-opacity-v" class="val">0.85</span>
+        </div>
+        <div class="row"><label>Beachball</label>
+          <select id="st-bbtype">
+            <option value="deviatoric">deviatorico</option>
+            <option value="dc">doppia coppia</option>
+            <option value="full">completo</option>
+          </select>
+          <label class="chk"><input type="checkbox" id="st-bb" checked> mostra</label>
+        </div>
+        <div class="row"><label>Dim. beachball</label>
+          <input type="range" id="st-bbscale" min="0.5" max="4" step="0.1" value="1.6"><span id="st-bbscale-v" class="val">1.6</span>
+        </div>
+        <div class="row"><label title="Eventi fuori dalla finestra temporale">Fuori finestra</label>
+          <select id="st-outside">
+            <option value="hide">nascondi</option>
+            <option value="grey">grigio</option>
+          </select>
+        </div>
+        <div class="row"><label title="Colore alternativo (opzionale)">Colora per</label>
+          <select id="st-attr">
+            <option value="">profondità / tempo</option>
+            <option value="faulting">stile di fagliazione (MT)</option>
+            <option value="clvd">% CLVD (MT)</option>
+            <option value="iso">% ISO (MT)</option>
+            <option value="tag">tag…</option>
+          </select>
+        </div>
+        <div class="row" id="row-tagkey" style="display:none"><label>Chiave tag</label>
+          <input type="text" id="st-tagkey" placeholder="es. cluster">
+        </div>
+      </section>
+
+      <section class="box">
+        <h3>Filtri</h3>
+        <div class="row"><label>Magnitudo</label>
+          <input type="text" id="f-magmin" class="num" placeholder="min">
+          <span>→</span>
+          <input type="text" id="f-magmax" class="num" placeholder="max">
+        </div>
+        <div class="row"><label>Profondità km</label>
+          <input type="text" id="f-depmin" class="num" placeholder="min">
+          <span>→</span>
+          <input type="text" id="f-depmax" class="num" placeholder="max">
+        </div>
+        <div class="row"><label class="chk"><input type="checkbox" id="f-nomag" checked> includi eventi senza magnitudo</label></div>
+        <div class="row" id="row-lasso"><span id="f-lasso-info" class="muted">Lazo: nessuno</span>
+          <button id="f-lasso-clear" class="small" disabled>rimuovi</button>
+        </div>
+        <div class="row">
+          <button id="f-reset" class="small">azzera filtri</button>
+          <button id="f-export" class="small" title="Salva gli eventi visibili in un nuovo catalogo">esporta eventi visibili…</button>
+        </div>
+        <div id="counts" class="muted"></div>
+      </section>
+    </aside>
+
+    <!-- ======================================================= map -->
+    <div id="center">
+      <div id="map-wrap">
+        <div id="map"></div>
+        <div id="legend" class="map-overlay"></div>
+        <div id="mode-hint" class="map-overlay"></div>
+        <div id="measure-box" class="map-overlay"></div>
+        <button id="sidebar-toggle" class="map-overlay" title="Mostra/nascondi pannello laterale">◀</button>
+      </div>
+
+      <div id="splitter" title="Trascina per ridimensionare"></div>
+
+      <!-- ================================================ bottom panel -->
+      <div id="bottom">
+        <div id="tabs">
+          <button data-tab="td" class="on">Tempo–Profondità</button>
+          <button data-tab="tm">Tempo–Magnitudo</button>
+          <button data-tab="cum">Cumulativo</button>
+          <button data-tab="fmd">Gutenberg–Richter</button>
+          <button data-tab="pt">Assi P/T</button>
+          <button data-tab="sec">Sezioni</button>
+          <span class="grow"></span>
+          <button id="btn-plot-export" class="small" title="Salva il grafico corrente">💾 Salva grafico</button>
+          <button id="btn-panel-toggle" class="small" title="Riduci/espandi pannello">▾</button>
+        </div>
+        <div id="tab-body">
+          <div class="tab-pane on" data-pane="td"><div class="plot" id="plot-td"></div></div>
+          <div class="tab-pane" data-pane="tm"><div class="plot" id="plot-tm"></div></div>
+          <div class="tab-pane" data-pane="cum"><div class="plot" id="plot-cum"></div></div>
+          <div class="tab-pane" data-pane="fmd">
+            <div class="plot" id="plot-fmd"></div>
+            <div class="side">
+              <div class="row"><label>Δ bin</label><input type="text" id="fmd-bin" class="num" value="0.1"></div>
+              <div class="row"><label>Mc</label>
+                <select id="fmd-mcmode"><option value="maxc">max curvatura</option><option value="manual">manuale</option></select>
+              </div>
+              <div class="row"><label>correz.</label><input type="text" id="fmd-corr" class="num" value="0.2"></div>
+              <div class="row"><label>Mc man.</label><input type="text" id="fmd-mc" class="num" placeholder="—"></div>
+              <div id="fmd-info" class="info"></div>
+            </div>
+          </div>
+          <div class="tab-pane" data-pane="pt">
+            <div class="plot square" id="plot-pt"></div>
+            <div class="side">
+              <div class="row"><label class="chk"><input type="checkbox" id="pt-p" checked> P</label>
+                <label class="chk"><input type="checkbox" id="pt-t" checked> T</label>
+                <label class="chk"><input type="checkbox" id="pt-b"> B</label></div>
+              <div class="row"><label>Colore</label>
+                <select id="pt-color"><option value="auto">profondità / tempo</option><option value="fixed">P blu / T rosso</option></select></div>
+              <div class="row"><label class="chk"><input type="checkbox" id="pt-mean" checked> asse medio</label></div>
+              <div class="row"><label class="chk"><input type="checkbox" id="pt-density"> densità</label></div>
+              <div id="pt-info" class="info"></div>
+            </div>
+          </div>
+          <div class="tab-pane" data-pane="sec">
+            <div class="plot" id="plot-sec"><canvas id="sec-overlay"></canvas></div>
+            <div class="side" id="sec-side">
+              <div class="row"><select id="sec-select"></select></div>
+              <div class="row"><label>Larghezza km</label>
+                <input type="text" id="sec-width" class="num" value="2"></div>
+              <div class="row"><input type="range" id="sec-width-r" min="0.1" max="20" step="0.1" value="2"></div>
+              <div class="row"><label>Prof. km</label>
+                <input type="text" id="sec-zmin" class="num" placeholder="auto">
+                <span>→</span>
+                <input type="text" id="sec-zmax" class="num" placeholder="auto"></div>
+              <div class="row"><label class="chk"><input type="checkbox" id="sec-true"> scala reale</label></div>
+              <div class="row"><label class="chk"><input type="checkbox" id="sec-bb" checked> beachball</label></div>
+              <div class="row"><label class="chk"><input type="checkbox" id="sec-topo" checked> topografia</label></div>
+              <div class="row"><label class="chk"><input type="checkbox" id="sec-sta" checked> stazioni</label></div>
+              <div class="row">
+                <button id="sec-rename" class="small">rinomina</button>
+                <button id="sec-delete" class="small">elimina</button>
+              </div>
+              <div class="row"><button id="sec-events" class="small">esporta eventi…</button></div>
+              <div id="sec-info" class="info"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- time slider -->
+        <div id="timebar">
+          <select id="tb-mode" title="Modalità finestra temporale">
+            <option value="all">Tutto</option>
+            <option value="window">Finestra mobile</option>
+            <option value="cumulative">Cumulativa</option>
+          </select>
+          <button id="tb-play" title="Play / pausa (spazio)" disabled>▶</button>
+          <select id="tb-speed" title="Velocità animazione">
+            <option value="0.25">×0.25</option>
+            <option value="0.5">×0.5</option>
+            <option value="1" selected>×1</option>
+            <option value="2">×2</option>
+            <option value="4">×4</option>
+          </select>
+          <label class="chk" title="Ripeti"><input type="checkbox" id="tb-loop"> ⟲</label>
+          <input type="text" id="tb-t0" class="time" disabled>
+          <div id="tb-slider" class="disabled">
+            <div class="track"></div>
+            <div class="range"></div>
+            <div class="handle h0"></div>
+            <div class="handle h1"></div>
+          </div>
+          <input type="text" id="tb-t1" class="time" disabled>
+          <label title="Eventi recenti evidenziati (modalità cumulativa), giorni" id="tb-recent-l">recenti
+            <input type="text" id="tb-recent" class="num" placeholder="auto"></label>
+          <span id="tb-count" class="muted"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tooltip"></div>
+<div id="toasts"></div>
+<div id="modal-root"></div>
+<div id="busy"><div class="spinner"></div><div id="busy-msg"></div></div>
+
+<script src="/static/vendor/leaflet/leaflet.js"></script>
+<script src="/vendor/plotly.min.js"></script>
+<script>
+  if (typeof Plotly === 'undefined') {
+    document.write('<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"><\/script>');
+  }
+</script>
+<script src="/static/js/util.js"></script>
+<script src="/static/js/colors.js"></script>
+<script src="/static/js/data.js"></script>
+<script src="/static/js/maplayer.js"></script>
+<script src="/static/js/tools.js"></script>
+<script src="/static/js/plots.js"></script>
+<script src="/static/js/sections.js"></script>
+<script src="/static/js/timebar.js"></script>
+<script src="/static/js/ui.js"></script>
+<script src="/static/js/session.js"></script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

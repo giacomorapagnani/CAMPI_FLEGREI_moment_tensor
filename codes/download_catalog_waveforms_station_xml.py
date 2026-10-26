@@ -32,19 +32,28 @@ Dependencies: obspy, pyrocko, pyyaml, folium (or pygmt as fallback)
 
 # ── Standard library ──────────────────────────────────────────────────────────
 import os
+import re
 import sys
+import json
+import math
 import time
 import argparse
 import platform
+import threading
 import subprocess
 import webbrowser
 import tempfile
+import http.client
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # ── Third-party ───────────────────────────────────────────────────────────────
 import yaml
 from pyrocko import util, model
 from obspy.clients.fdsn.client import Client
+from obspy.clients.fdsn.header import (
+    FDSNException, FDSNNoDataException, FDSNTimeoutException,
+    FDSNInternalServerException, FDSNBadGatewayException,
+    FDSNServiceUnavailableException, FDSNTooManyRequestsException)
 from obspy import UTCDateTime
 from obspy.core.event import Catalog
 
@@ -111,9 +120,10 @@ existing_catalog_pf: null      # e.g.  "my_catalog.pf"  or  null
 
 # Station metadata in StationXML format.
 # When set, the station search area and the network/station selection below
-# are IGNORED (the inventory is used exactly as stored in the file) and
-# nothing is re-saved to META_DATA/.  NOTE: channel and location below are
-# still applied to every waveform request.
+# are IGNORED (the inventory is used as stored in the file) and the file is
+# not re-saved to META_DATA/.  NOTE: channel and location below are still
+# applied to every waveform request, and the azimuthal selection (if on)
+# still thins out the stations of the file.
 #   null        → query stations from FDSN (and save StationXML in META_DATA/)
 #   "file.xml"  → bare filename: looked up inside META_DATA/
 #   "/abs/path" → absolute path used as-is
@@ -137,6 +147,11 @@ event_label: "EV"
 #   Produces:  META_DATA/<station_file_name>.xml            (full inventory)
 #              META_DATA/<station_file_name>/
 #                  <station_file_name>_NET_STA.xml          (one per station)
+# With the azimuthal selection on, those files hold the SELECTED stations
+# only, and two more files are written:
+#              META_DATA/<station_file_name>_all.xml        (all candidates;
+#                                                            FDSN only)
+#              META_DATA/<station_file_name>_selection.txt  (selection report)
 station_file_name: "stations"
 
 # ── FDSN server ───────────────────────────────────────────────────────────────
@@ -192,11 +207,38 @@ depth_max_km:  30.0
 
 # ── Station search area  (FDSN stations only) ─────────────────────────────────
 
-# ALWAYS circular and INDEPENDENT from the event search area above.
+# A circle — or a ring, when radius_km_sta_min > 0 — around lat/lon_center_sta,
+# INDEPENDENT from the event search area above.
 # Ignored when existing_stations_xml is set.
-lat_center_sta:  40.83
-lon_center_sta:  14.14
-radius_km_sta:   50.0
+# Tip: for large events put the centre on the epicentre; it is also the
+# reference point of the azimuthal selection below.
+lat_center_sta:     40.83
+lon_center_sta:     14.14
+radius_km_sta_min:  0.0     # inner radius (km); 0 = full circle
+radius_km_sta:      50.0    # outer radius (km)
+
+# ── Azimuthal station selection  (optional) ───────────────────────────────────
+
+# Thins out a dense station set (e.g. hundreds of stations up to 1000 km)
+# while keeping the azimuthal coverage.  Works on FDSN stations and on a
+# local StationXML alike.
+# Distance and azimuth of each station are measured from lat/lon_center_sta.
+# The area is split into cells = sectors ("spicchi") × rings ("anelli"), and
+# each cell keeps at most azi_max_per_cell stations — those closest to the
+# centre of the cell, so that the selection stays evenly spread — avoiding
+# near-duplicates when possible (e.g. two networks sharing one site).
+#   azi_select       : true / false — switch the selection on / off
+#   azi_sectors      : number of sectors (12 → 30° each)
+#   azi_rings_km     : ring edges in km, e.g. [100, 300, 600, 1000]: stations
+#                      closer than the first edge or farther than the last
+#                      one are dropped.  null = one single ring (no limit)
+#   azi_max_per_cell : maximum number of stations kept in each cell
+# The map shows the grid, the kept stations and (in grey) the dropped ones;
+# the summary reports the largest azimuthal gap before / after.
+azi_select:        false
+azi_sectors:       12
+azi_rings_km:      null     # e.g. [100, 300, 600, 1000]
+azi_max_per_cell:  2
 
 # ── Station / channel selection ───────────────────────────────────────────────
 
@@ -240,6 +282,15 @@ parallel_downloads: 4
 #   "folium"  → HTML map opened in the browser  (pip install folium)
 #   "pygmt"   → static figure via PyGMT          (pip install pygmt)
 map_backend: "folium"
+
+# Colour of the event markers (marker SIZE always scales with magnitude).
+#   "depth" → shallow = yellow … deep = purple
+#   "time"  → oldest = dark … most recent = bright
+# In the folium map this is only the initial choice: the legend has a switch
+# to change it.  The static pygmt map uses this one.
+# In event mode both maps also show a depth–time panel under the map; the
+# folium one adds a time-window slider and a Play animation.
+map_color_by: "depth"
 """
 
 
@@ -258,8 +309,84 @@ def load_or_create_config(path: str) -> dict:
     # (New keys take the default value until added to the file explicitly.)
     defaults = yaml.safe_load(DEFAULT_CONFIG)
     with open(path) as fh:
-        cfg = yaml.safe_load(fh) or {}
-    return {**defaults, **cfg}
+        cfg = {**defaults, **(yaml.safe_load(fh) or {})}
+    # Unquoted dates are read by YAML as datetime objects: keep them as text
+    for key in ('tmin', 'tmax'):
+        if cfg[key] is not None and not isinstance(cfg[key], str):
+            cfg[key] = str(cfg[key])
+    return cfg
+
+
+# Keys that only accept a fixed set of values
+_CHOICES = {
+    'download_mode': ('event', 'continuous'),
+    'area_type':     ('rectangular', 'circular'),
+    'map_backend':   ('folium', 'pygmt'),
+    'map_color_by':  ('depth', 'time'),
+}
+
+
+def validate_config(cfg: dict) -> None:
+    """Exit with a clear message if the configuration is inconsistent.
+
+    Catches typos that would otherwise be accepted silently — e.g. a
+    misspelled download_mode used to fall back to "event" without notice.
+    """
+    errors = []
+    for key, choices in _CHOICES.items():
+        if cfg.get(key) not in choices:
+            errors.append(f"{key}: {cfg.get(key)!r} — must be one of "
+                          f"{', '.join(choices)}")
+    try:
+        if UTCDateTime(cfg['tmin']) >= UTCDateTime(cfg['tmax']):
+            errors.append("tmin must be earlier than tmax")
+    except Exception as exc:
+        errors.append(f"tmin / tmax are not valid dates ({exc})")
+    for key in ('t_before_s', 't_after_s'):
+        if not isinstance(cfg.get(key), (int, float)) or cfg[key] < 0:
+            errors.append(f"{key}: {cfg.get(key)!r} — must be a number ≥ 0")
+    for key in ('chunk_days', 'chunk_hours', 'parallel_downloads',
+                'radius_km_sta', 'radius_km'):
+        if not isinstance(cfg.get(key), (int, float)) or cfg[key] <= 0:
+            errors.append(f"{key}: {cfg.get(key)!r} — must be a number > 0")
+    def _is_num(v):
+        return isinstance(v, (int, float)) and not isinstance(v, bool)
+
+    r_min = cfg.get('radius_km_sta_min')
+    if not _is_num(r_min) or r_min < 0:
+        errors.append(f"radius_km_sta_min: {r_min!r} — must be a number ≥ 0")
+    elif _is_num(cfg.get('radius_km_sta')) and r_min >= cfg['radius_km_sta']:
+        errors.append("radius_km_sta_min must be smaller than radius_km_sta")
+    if not isinstance(cfg.get('azi_select'), bool):
+        errors.append(f"azi_select: {cfg.get('azi_select')!r} — must be "
+                      f"true or false")
+    for key, top in (('azi_sectors', 360), ('azi_max_per_cell', 10000)):
+        v = cfg.get(key)
+        if isinstance(v, bool) or not isinstance(v, int) or not 1 <= v <= top:
+            errors.append(f"{key}: {v!r} — must be a whole number "
+                          f"between 1 and {top}")
+    rings = cfg.get('azi_rings_km')
+    if rings is not None and not (
+            isinstance(rings, list) and len(rings) >= 2
+            and all(_is_num(x) and x >= 0 for x in rings)
+            and all(a < b for a, b in zip(rings, rings[1:]))):
+        errors.append(f"azi_rings_km: {rings!r} — must be null or an "
+                      f"increasing list of at least 2 distances in km, "
+                      f"e.g. [100, 300, 600, 1000]")
+    if cfg.get('area_type') == 'rectangular':
+        try:
+            if cfg['lat_min'] >= cfg['lat_max'] or cfg['lon_min'] >= cfg['lon_max']:
+                errors.append("rectangular area: lat_min / lon_min must be "
+                              "smaller than lat_max / lon_max")
+        except TypeError:
+            errors.append("rectangular area: lat_min, lat_max, lon_min, "
+                          "lon_max must all be numbers")
+    if errors:
+        print("\n  [CONFIG ERROR]")
+        for err in errors:
+            print(f"    • {err}")
+        print()
+        sys.exit(1)
 
 
 def print_config_summary(cfg: dict) -> None:
@@ -279,9 +406,18 @@ def print_config_summary(cfg: dict) -> None:
     else:
         print(f"    centre ({cfg['lat_center']:.4f}, {cfg['lon_center']:.4f})  "
               f"radius {cfg['radius_km']:.1f} km")
-    print(f"  Station area    : circular  "
-          f"centre ({cfg['lat_center_sta']:.4f}, {cfg['lon_center_sta']:.4f})  "
-          f"radius {cfg['radius_km_sta']:.1f} km")
+    sta_ring = (f"ring {cfg['radius_km_sta_min']:g}–{cfg['radius_km_sta']:g} km"
+                if cfg['radius_km_sta_min'] else
+                f"radius {cfg['radius_km_sta']:g} km")
+    print(f"  Station area    : centre ({cfg['lat_center_sta']:.4f}, "
+          f"{cfg['lon_center_sta']:.4f})  {sta_ring}")
+    if cfg['azi_select']:
+        rings = (f"rings {cfg['azi_rings_km']} km" if cfg['azi_rings_km']
+                 else "no rings")
+        print(f"  Azimuthal sel.  : {cfg['azi_sectors']} sectors × {rings}, "
+              f"max {cfg['azi_max_per_cell']} per cell")
+    else:
+        print(f"  Azimuthal sel.  : off")
     existing_sta = cfg.get('existing_stations_xml') or None
     sta_src = f"EXISTING FILE → {existing_sta}" if existing_sta else "FDSN query"
     print(f"  Station source  : {sta_src}")
@@ -311,35 +447,51 @@ def print_config_summary(cfg: dict) -> None:
             print(f"  Catalog name    : {cfg['catalog_name']}")
     print(f"  Event label     : {cfg['event_label']}")
     print(f"  Station file    : {cfg['station_file_name']}")
-    print(f"  Map backend     : {cfg.get('map_backend', 'folium')}")
+    print(f"  Map backend     : {cfg['map_backend']}"
+          f"   (events coloured by {cfg['map_color_by']})")
     print("═" * w + "\n")
 
 
-def _update_config_file(path: str, cfg: dict) -> None:
-    """Rewrite config.yaml preserving all comments but updating values."""
+# "key: value   # optional inline comment"
+_YAML_KEY_LINE = re.compile(r'^(\s*)([A-Za-z_]\w*)\s*:\s*(.*?)(\s+#.*)?$')
+
+
+def _yaml_scalar(v) -> str:
+    """Format a config value as a YAML scalar."""
+    if v is None:
+        return 'null'
+    if isinstance(v, bool):
+        return str(v).lower()
+    if isinstance(v, str):
+        return json.dumps(v)          # double-quoted, special chars escaped
+    return str(v)
+
+
+def _update_config_file(path: str, cfg: dict, changed: set) -> None:
+    """Write the changed keys back to the config file.
+
+    Only the lines of the changed keys are rewritten: comments (including
+    inline ones after a value) and every other line stay exactly as they
+    are.  Changed keys missing from the file (newer defaults) are appended.
+    """
     with open(path) as fh:
         lines = fh.readlines()
-    out = []
+    out, written = [], set()
     for line in lines:
-        stripped = line.lstrip()
-        # Keep comments and blank lines untouched
-        if not stripped or stripped.startswith('#') or ':' not in stripped:
-            out.append(line)
-            continue
-        key = stripped.split(':')[0].strip()
-        if key in cfg:
-            indent = len(line) - len(line.lstrip())
-            v = cfg[key]
-            if v is None:
-                out.append(' ' * indent + f'{key}: null\n')
-            elif isinstance(v, bool):
-                out.append(' ' * indent + f'{key}: {str(v).lower()}\n')
-            elif isinstance(v, str):
-                out.append(' ' * indent + f'{key}: "{v}"\n')
-            else:
-                out.append(' ' * indent + f'{key}: {v}\n')
+        mo = _YAML_KEY_LINE.match(line.rstrip('\n'))
+        if mo and mo.group(2) in changed:
+            indent, key, _, comment = mo.groups()
+            out.append(f"{indent}{key}: {_yaml_scalar(cfg[key])}"
+                       f"{comment or ''}\n")
+            written.add(key)
         else:
             out.append(line)
+    missing = sorted(changed - written)
+    if missing:
+        if out and not out[-1].endswith('\n'):
+            out.append('\n')
+        out.append('\n# ── added by the interactive editor ──\n')
+        out += [f"{k}: {_yaml_scalar(cfg[k])}\n" for k in missing]
     with open(path, 'w') as fh:
         fh.writelines(out)
 
@@ -352,8 +504,10 @@ def ask_modify_config(path: str, cfg: dict) -> dict:
 
     keys = list(cfg.keys())
     print(f"  Available parameters: {keys}")
+    print("  Empty input keeps the current value; type null to clear it.")
     print("  Type 'done' when finished.\n")
 
+    changed = set()
     while True:
         key = input("  Parameter name (or 'done'): ").strip()
         if key.lower() == 'done':
@@ -363,25 +517,29 @@ def ask_modify_config(path: str, cfg: dict) -> dict:
             continue
         old = cfg[key]
         raw = input(f"  {key} [{old}]  →  new value: ").strip()
-        # Preserve the original type where possible
-        if raw.lower() in ('null', 'none', ''):
-            cfg[key] = None
-        elif isinstance(old, bool):
-            cfg[key] = raw.lower() in ('true', 'yes', '1')
-        elif isinstance(old, int):
-            try:    cfg[key] = int(raw)
-            except ValueError: cfg[key] = raw
-        elif isinstance(old, float):
-            try:    cfg[key] = float(raw)
-            except ValueError: cfg[key] = raw
+        if raw == '':
+            print(f"  –  {key} unchanged\n")
+            continue
+        if raw.lower() in ('null', 'none'):
+            new = None
+        elif isinstance(old, str):
+            new = raw.strip('"\'')        # text keys (dates, names) stay text
         else:
-            cfg[key] = raw
-        print(f"  ✓  {key} = {cfg[key]}\n")
+            # YAML gives numbers and booleans their type — also for keys whose
+            # current value is null (e.g. mag_max, existing_catalog_pf)
+            try:
+                new = yaml.safe_load(raw)
+            except yaml.YAMLError:
+                new = raw
+        cfg[key] = new
+        changed.add(key)
+        print(f"  ✓  {key} = {new!r}\n")
 
-    save = input("  Save changes to config.yaml? [y/N]: ").strip().lower()
-    if save == 'y':
-        _update_config_file(path, cfg)
-        print(f"  Config updated: {path}\n")
+    if changed:
+        save = input("  Save changes to the config file? [y/N]: ").strip().lower()
+        if save == 'y':
+            _update_config_file(path, cfg, changed)
+            print(f"  Config updated: {path}\n")
     return cfg
 
 
@@ -397,7 +555,7 @@ def _resolve_local_path(value: str, base_dir: str) -> str:
     """
     if os.sep not in value and '/' not in value:
         return os.path.join(base_dir, value)
-    return os.path.abspath(value)
+    return os.path.abspath(os.path.expanduser(value))      # "~/…" allowed
 
 
 def _event_name_from_time(label: str, ptime: float) -> str:
@@ -406,6 +564,24 @@ def _event_name_from_time(label: str, ptime: float) -> str:
     return (label + '_'
             + ts[0:4] + '_' + ts[5:7]  + '_' + ts[8:10] + '_'
             + ts[11:13] + '_' + ts[14:16] + '_' + ts[17:19])
+
+
+def _dedupe_event_names(events) -> None:
+    """Make event names unique (in place) by appending _2, _3, …
+
+    Two events in the same second (or a catalog listing an event twice)
+    would otherwise share one DATA/ folder, and the waveforms of the second
+    one would be skipped as "already on disk".  The events must be sorted
+    by time, so that the suffixes are the same on every run.
+    """
+    seen = {}
+    for ev in events:
+        n = seen.get(ev.name, 0) + 1
+        seen[ev.name] = n
+        if n > 1:
+            new = f"{ev.name}_{n}"
+            print(f"  [WARN] duplicate event name {ev.name} → using {new}")
+            ev.name = new
 
 
 def load_catalog_from_pf(pf_path: str, label: str) -> list:
@@ -425,6 +601,7 @@ def load_catalog_from_pf(pf_path: str, label: str) -> list:
         if not ev.name:
             ev.name = _event_name_from_time(label, ev.time)
     events.sort(key=lambda e: e.time)
+    _dedupe_event_names(events)
     print(f"  {len(events)} events loaded.\n")
     return events
 
@@ -437,10 +614,25 @@ def load_stations_from_xml(xml_path: str):
         sys.exit(1)
     print(f"  File : {xml_path}")
     inv = read_inventory(xml_path)
-    n_sta = sum(len(net) for net in inv)
-    n_net = len(inv)
-    print(f"  {n_sta} stations across {n_net} network(s) loaded.\n")
+    print(f"  {len(_unique_stations(inv))} stations across "
+          f"{len({net.code for net in inv})} network(s) loaded.\n")
     return inv
+
+
+def _unique_stations(inv) -> list:
+    """Sorted list of (net, sta, lat, lon, site_name), one per station.
+
+    An inventory lists a station once per epoch (e.g. after an equipment
+    change), so the same station can appear several times: counting or
+    plotting the raw inventory would show it more than once.
+    """
+    out = {}
+    for net in inv or []:
+        for sta in net:
+            out.setdefault((net.code, sta.code),
+                           (net.code, sta.code, sta.latitude, sta.longitude,
+                            sta.site.name if sta.site else ''))
+    return [out[k] for k in sorted(out)]
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -468,19 +660,26 @@ def _area_kwargs_events(cfg: dict) -> dict:
 
 
 def _area_kwargs_stations(cfg: dict) -> dict:
-    """Geographic kwargs for the STATION query (always circular)."""
-    return dict(
+    """Geographic kwargs for the STATION query (circle or ring)."""
+    kw = dict(
         latitude=cfg['lat_center_sta'],
         longitude=cfg['lon_center_sta'],
         maxradius=_radius_km_to_deg(cfg['radius_km_sta']),
     )
+    if cfg['radius_km_sta_min']:
+        kw['minradius'] = _radius_km_to_deg(cfg['radius_km_sta_min'])
+    return kw
 
 
-def query_events(client: Client, cfg: dict) -> Catalog:
-    """Download the event catalog in time chunks to avoid server limits."""
+def query_events(client: Client, cfg: dict):
+    """Download the event catalog in time chunks to avoid server limits.
+
+    Returns (catalog, failed): failed lists the time windows that could not
+    be downloaded even after retries — the catalog is then incomplete.
+    """
     tmin  = UTCDateTime(cfg['tmin'])
     tmax  = UTCDateTime(cfg['tmax'])
-    chunk = cfg.get('chunk_days', 365) * 86400   # seconds
+    chunk = cfg['chunk_days'] * 86400   # seconds
 
     geo = _area_kwargs_events(cfg)
 
@@ -491,27 +690,42 @@ def query_events(client: Client, cfg: dict) -> Catalog:
     if cfg.get('depth_min_km') is not None: filters['mindepth']     = cfg['depth_min_km']
     if cfg.get('depth_max_km') is not None: filters['maxdepth']     = cfg['depth_max_km']
 
-    cat = Catalog()
-    t1  = tmin
+    cat    = Catalog()
+    failed = []
+    t1     = tmin
     while t1 < tmax:
         t2 = min(t1 + chunk, tmax)
-        label = (f"{t1.strftime('%Y-%m-%d')} → {t2.strftime('%Y-%m-%d')}")
+        label = f"{t1.strftime('%Y-%m-%d')} → {t2.strftime('%Y-%m-%d')}"
         print(f"  Querying events  {label} … ", end='', flush=True)
-        try:
-            tmp = client.get_events(starttime=t1, endtime=t2,
-                                    **geo, **filters)
+        tmp, status = _fetch_with_retry(
+            lambda: client.get_events(starttime=t1, endtime=t2,
+                                      **geo, **filters),
+            f"events {label}")
+        if status == 'ok':
             cat += tmp
             print(f"{len(tmp)} events")
-        except Exception as exc:
-            s = str(exc)
-            if 'No data' in s or '204' in s:
-                print("0 events")
-            else:
-                print(f"WARNING – {exc}")
+        elif status == 'nodata':
+            print("0 events")
+        else:
+            failed.append(label)          # error already printed
         t1 = t2
 
-    print(f"\n  ── Total events found: {len(cat)} ──\n")
-    return cat
+    # Adjacent windows share their boundary instant: drop events listed twice
+    seen, unique = set(), Catalog()
+    for ev in cat:
+        rid = str(ev.resource_id)
+        if rid not in seen:
+            seen.add(rid)
+            unique.append(ev)
+
+    print(f"\n  ── Total events found: {len(unique)} ──\n")
+    if failed:
+        print(f"  [WARN] {len(failed)} time window(s) failed after "
+              f"{MAX_RETRIES} attempts — the catalog is INCOMPLETE:")
+        for label in failed:
+            print(f"           {label}")
+        print("         Re-run later, or reduce chunk_days.\n")
+    return unique, failed
 
 
 def query_stations(client: Client, cfg: dict) -> object:
@@ -539,20 +753,27 @@ def query_stations(client: Client, cfg: dict) -> object:
 
     print("  Querying stations … ", end='', flush=True)
     try:
-        inv = _fetch('response')
-        n_sta = sum(len(net) for net in inv)
-        print(f"{n_sta} stations across {len(inv)} network(s)\n")
+        # one-off and essential: more patience than a single waveform request
+        inv = _call_with_retry(lambda: _fetch('response'), 'station query',
+                               attempts=CONNECT_RETRIES)
+        print(f"{len(_unique_stations(inv))} stations across "
+              f"{len(inv)} network(s)\n")
         return inv
     except Exception as exc:
         if _is_no_data(exc):
             print("0 stations found\n")
             return None
-        print(f"parse failed ({type(exc).__name__}) — "
-              f"retrying network by network …")
+        # A large inventory is one long reply: on a flaky server smaller
+        # replies get through much more easily, so both a malformed reply and
+        # a connection that keeps breaking fall back to smaller requests
+        reason = ('the connection keeps breaking' if _is_transient(exc)
+                  else f'parse failed ({type(exc).__name__})')
+        print(f"  {reason} — retrying network by network …")
 
     # ── fallback 1: light query for the codes, then one request per network ──
     try:
-        skeleton = _fetch('station')
+        skeleton = _call_with_retry(lambda: _fetch('station'), 'station list',
+                                    attempts=CONNECT_RETRIES)
     except Exception as exc:
         print(f"  [ERR] station query failed entirely: {exc}\n")
         return None
@@ -560,7 +781,9 @@ def query_stations(client: Client, cfg: dict) -> object:
     inv = None
     for net_code in sorted({net.code for net in skeleton}):
         try:
-            part = _fetch('response', network=net_code)
+            part = _call_with_retry(
+                lambda: _fetch('response', network=net_code),
+                f"network {net_code}")
             inv  = part if inv is None else inv + part
         except Exception:
             # ── fallback 2: one request per station of the broken network ────
@@ -568,19 +791,24 @@ def query_stations(client: Client, cfg: dict) -> object:
                                 if net.code == net_code for sta in net})
             for sta_code in sta_codes:
                 try:
-                    part = _fetch('response',
-                                  network=net_code, station=sta_code)
+                    part = _call_with_retry(
+                        lambda: _fetch('response',
+                                       network=net_code, station=sta_code),
+                        f"{net_code}.{sta_code}")
                     inv  = part if inv is None else inv + part
                 except Exception as exc2:
-                    reason = ('no data' if _is_no_data(exc2)
-                              else 'malformed response metadata on the server')
+                    if _is_no_data(exc2):
+                        reason = 'no data'
+                    elif _is_transient(exc2):
+                        reason = f'network error ({type(exc2).__name__})'
+                    else:
+                        reason = 'malformed response metadata on the server'
                     print(f"  [WARN] skipping {net_code}.{sta_code} — {reason}")
 
     if inv is None:
         print("  0 usable stations found\n")
         return None
-    n_sta = sum(len(net) for net in inv)
-    print(f"  Recovered {n_sta} stations across "
+    print(f"  Recovered {len(_unique_stations(inv))} stations across "
           f"{len({net.code for net in inv})} network(s)\n")
     return inv
 
@@ -597,39 +825,352 @@ def get_stations(client: Client, cfg: dict) -> object:
     return query_stations(client, cfg)
 
 
-# ── Download helpers: retry policy and atomic file writes ─────────────────────
+# ── Azimuthal station selection ──────────────────────────────────────────────
 
-MAX_RETRIES  = 3     # total attempts per waveform request
-RETRY_WAIT_S = 5.0   # pause between attempts (seconds)
+def _destination(lat: float, lon: float, az_deg: float, dist_km: float):
+    """(lat, lon) reached from (lat, lon) along azimuth az_deg (sphere)."""
+    d = dist_km / 6371.0
+    la1, lo1, a = (math.radians(x) for x in (lat, lon, az_deg))
+    la2 = math.asin(math.sin(la1) * math.cos(d) +
+                    math.cos(la1) * math.sin(d) * math.cos(a))
+    lo2 = lo1 + math.atan2(math.sin(a) * math.sin(d) * math.cos(la1),
+                           math.cos(d) - math.sin(la1) * math.sin(la2))
+    return math.degrees(la2), (math.degrees(lo2) + 540.0) % 360.0 - 180.0
+
+
+def _max_azimuthal_gap(azimuths) -> float:
+    """Largest angle (deg) between azimuthally adjacent stations."""
+    if len(azimuths) < 2:
+        return 360.0
+    az = sorted(a % 360.0 for a in azimuths)
+    return max([b - a for a, b in zip(az, az[1:])] + [az[0] + 360.0 - az[-1]])
+
+
+# Two stations of the same cell closer than this (in cell sizes) count as
+# near-duplicates: the second one is kept only if the cell has no better one
+_MIN_SEP_CELL = 0.2
+
+
+def select_stations_azimuthal(inv, cfg: dict):
+    """Keep at most azi_max_per_cell stations in each sector × ring cell.
+
+    Distance and azimuth are measured from lat/lon_center_sta.  Inside a
+    cell the stations closest to the cell centre are kept, so that the
+    selection stays evenly spread, and near-duplicates of a station already
+    kept are avoided when possible.  Returns (selected inventory or None,
+    report); the report describes every candidate and feeds the summary,
+    the map and the selection file.
+    """
+    from copy import deepcopy
+    from obspy.geodetics import gps2dist_azimuth
+
+    lat0, lon0 = cfg['lat_center_sta'], cfg['lon_center_sta']
+    n_sec = cfg['azi_sectors']
+    width = 360.0 / n_sec
+    k_max = cfg['azi_max_per_cell']
+
+    rows = []
+    for net, sta, lat, lon, _ in _unique_stations(inv):
+        dist_m, az, _ = gps2dist_azimuth(lat0, lon0, lat, lon)
+        rows.append(dict(net=net, sta=sta, lat=lat, lon=lon,
+                         dist_km=dist_m / 1000.0, az=az % 360.0,
+                         cell=None, status=''))
+
+    rings_given = bool(cfg['azi_rings_km'])
+    edges = (list(cfg['azi_rings_km']) if rings_given else
+             [0.0, max((r['dist_km'] for r in rows), default=0.0) + 1e-6])
+
+    cells = {}
+    for r in rows:
+        d = r['dist_km']
+        ring = next((i for i in range(len(edges) - 1)
+                     if edges[i] <= d < edges[i + 1]), None)
+        if ring is None and d == edges[-1]:
+            ring = len(edges) - 2                  # outer edge is inclusive
+        if ring is None:
+            r['status'] = 'outside rings'
+            continue
+        sector = min(int(r['az'] // width), n_sec - 1)
+        r['cell'] = (sector, ring)
+        # position inside the cell, in cell sizes, relative to its centre
+        r['cx'] = ((r['az'] - (sector + 0.5) * width + 180.0) % 360.0
+                   - 180.0) / width
+        r['cy'] = ((d - 0.5 * (edges[ring] + edges[ring + 1]))
+                   / (edges[ring + 1] - edges[ring]))
+        r['off_centre'] = math.hypot(r['cx'], r['cy'])
+        cells.setdefault(r['cell'], []).append(r)
+
+    def near(a, b):
+        return math.hypot(a['cx'] - b['cx'], a['cy'] - b['cy']) < _MIN_SEP_CELL
+
+    chosen = set()
+    for members in cells.values():
+        members.sort(key=lambda r: (r['off_centre'], r['net'], r['sta']))
+        picked = []
+        # 1st pass: closest to the cell centre, skipping near-duplicates of a
+        # station already kept (e.g. two networks sharing one site);
+        # 2nd pass: take those back only if the cell would stay below k_max
+        for r in members:
+            if len(picked) < k_max and not any(near(r, p) for p in picked):
+                picked.append(r)
+        for r in members:
+            if len(picked) < k_max and r not in picked:
+                picked.append(r)
+        for r in members:
+            r['status'] = 'selected' if r in picked else 'cell full'
+        chosen.update((r['net'], r['sta']) for r in picked)
+
+    # Keep every epoch / channel of the chosen stations, drop the others
+    sel = deepcopy(inv)
+    for net in sel.networks:
+        net.stations = [s for s in net.stations if (net.code, s.code) in chosen]
+    sel.networks = [n for n in sel.networks if n.stations]
+
+    report = dict(
+        rows=rows, edges=edges, rings_given=rings_given,
+        n_sectors=n_sec, max_per_cell=k_max, lat0=lat0, lon0=lon0,
+        n_cells=n_sec * (len(edges) - 1), n_filled=len(cells),
+        n_selected=len(chosen),
+        gap_before=_max_azimuthal_gap([r['az'] for r in rows]),
+        gap_after=_max_azimuthal_gap(
+            [r['az'] for r in rows if r['status'] == 'selected']),
+    )
+    return (sel if chosen else None), report
+
+
+def apply_station_selection(inv, cfg: dict):
+    """Run the azimuthal selection when it is switched on.
+
+    Returns (inventory to use, report or None).
+    """
+    if not cfg['azi_select'] or inv is None:
+        return inv, None
+    sel, rep = select_stations_azimuthal(inv, cfg)
+    rows   = rep['rows']
+    n_full = sum(r['status'] == 'cell full' for r in rows)
+    n_out  = sum(r['status'] == 'outside rings' for r in rows)
+    rings  = (f"{len(rep['edges']) - 1} ring(s) {rep['edges']} km"
+              if rep['rings_given'] else "no rings")
+    print(f"  Azimuthal selection: {rep['n_sectors']} sectors × {rings}, "
+          f"max {rep['max_per_cell']} per cell")
+    print(f"    candidates : {len(rows):4d} stations   "
+          f"(max azimuthal gap {rep['gap_before']:.0f}°)")
+    print(f"    selected   : {rep['n_selected']:4d} stations   "
+          f"(max azimuthal gap {rep['gap_after']:.0f}°)")
+    print(f"    cells      : {rep['n_filled']} of {rep['n_cells']} "
+          f"contain stations")
+    print(f"    dropped    : {n_full} (cell already full), "
+          f"{n_out} (outside the rings)\n")
+    if sel is None:
+        print("  [WARN] No station left after the selection: check "
+              "azi_rings_km against the station distances.\n")
+    return sel, rep
+
+
+def save_selection_report(rep: dict, cfg: dict) -> None:
+    """Write META_DATA/<station_file_name>_selection.txt."""
+    os.makedirs(META_DIR, exist_ok=True)
+    path = os.path.join(META_DIR, cfg['station_file_name'] + '_selection.txt')
+    rows = sorted(rep['rows'], key=lambda r: (r['status'] != 'selected',
+                                              r['az']))
+    with open(path, 'w') as fh:
+        fh.write(f"# Azimuthal station selection — reference point "
+                 f"{rep['lat0']:.4f} N, {rep['lon0']:.4f} E\n")
+        fh.write(f"# {rep['n_sectors']} sectors of "
+                 f"{360.0 / rep['n_sectors']:g}°, ring edges (km): "
+                 f"{rep['edges'] if rep['rings_given'] else 'none'}, "
+                 f"max {rep['max_per_cell']} station(s) per cell\n")
+        fh.write(f"# {rep['n_selected']} of {len(rows)} stations selected; "
+                 f"max azimuthal gap {rep['gap_before']:.1f}° (all) → "
+                 f"{rep['gap_after']:.1f}° (selected)\n")
+        fh.write(f"{'NET':<4} {'STA':<6} {'dist_km':>8} {'az_deg':>7} "
+                 f"{'sector':>6} {'ring':>4}  status\n")
+        for r in rows:
+            sec, ring = (r['cell'][0] + 1, r['cell'][1] + 1) if r['cell'] \
+                else ('-', '-')
+            fh.write(f"{r['net']:<4} {r['sta']:<6} {r['dist_km']:8.1f} "
+                     f"{r['az']:7.1f} {sec:>6} {ring:>4}  {r['status']}\n")
+    print(f"  Saved: {path}")
+
+
+# ── Network helpers: connection, retry policy, atomic file writes ────────────
+
+MAX_RETRIES  = 3     # total attempts per request
+RETRY_WAIT_S = 5.0   # pause after the 1st failure, then 10 s, …
+# Connecting happens once per run, so it can afford more patience: short
+# server hiccups (tens of seconds) should not stop the whole run
+CONNECT_RETRIES = 5  # attempts, with pauses of 5, 10, 20, 30 s
+
+# Server / network conditions that usually pass by themselves
+_TRANSIENT_FDSN = (FDSNTimeoutException, FDSNInternalServerException,
+                   FDSNBadGatewayException, FDSNServiceUnavailableException,
+                   FDSNTooManyRequestsException)
 
 
 def _is_no_data(exc: Exception) -> bool:
     """True when the server reply means 'no data available', not a failure."""
-    s = str(exc)
-    return 'No data' in s or '204' in s
+    return isinstance(exc, FDSNNoDataException) or 'No data' in str(exc)
+
+
+def _is_transient(exc: Exception) -> bool:
+    """True for errors worth retrying: connection resets, timeouts, HTTP
+    429 / 5xx.  Bad requests, missing data and unparseable server replies
+    are not retried — repeating the same request cannot fix them."""
+    if _is_no_data(exc):
+        return False
+    if isinstance(exc, _TRANSIENT_FDSN + (OSError, http.client.HTTPException)):
+        return True
+    # obspy wraps connection-level errors (e.g. ConnectionResetError) and
+    # unlisted HTTP codes into a generic FDSNException
+    msg = str(exc)
+    return isinstance(exc, FDSNException) and (
+        'Unknown Error' in msg or 'Unknown HTTP code: 5' in msg)
+
+
+def _call_with_retry(fn, what: str, attempts: int = MAX_RETRIES):
+    """Call fn(), retrying transient errors with a growing pause.
+
+    Any other exception, and the last transient one, is re-raised.
+    """
+    for attempt in range(1, attempts + 1):
+        try:
+            return fn()
+        except Exception as exc:
+            if attempt == attempts or not _is_transient(exc):
+                raise
+            wait = RETRY_WAIT_S * attempt
+            print(f"  [RETRY]  {what}  attempt {attempt}/{attempts} "
+                  f"failed ({type(exc).__name__}) — retrying in {wait:.0f} s")
+            time.sleep(wait)
 
 
 def _fetch_with_retry(fetch, what: str):
-    """Run fetch() retrying transient errors (connection resets, timeouts).
+    """Run fetch() with retries; return (result, status).
 
-    Returns (result, status) where status is 'ok', 'nodata' or 'error'.
-    'nodata' is returned immediately (it is a valid server answer, not an
-    error); everything else is retried MAX_RETRIES times before giving up.
+    status is 'ok', 'nodata' (a valid server answer, returned at once) or
+    'error' (after printing what went wrong).
     """
-    for attempt in range(1, MAX_RETRIES + 1):
-        try:
-            return fetch(), 'ok'
-        except Exception as exc:
-            if _is_no_data(exc):
-                return None, 'nodata'
-            if attempt < MAX_RETRIES:
-                print(f"  [RETRY]  {what}  attempt {attempt}/{MAX_RETRIES} "
-                      f"failed ({type(exc).__name__}) — retrying in "
-                      f"{RETRY_WAIT_S:.0f} s")
-                time.sleep(RETRY_WAIT_S)
-            else:
-                print(f"  [ERR]    {what}  {exc}")
-    return None, 'error'
+    try:
+        return _call_with_retry(fetch, what), 'ok'
+    except Exception as exc:
+        if _is_no_data(exc):
+            return None, 'nodata'
+        print(f"  [ERR]    {what}  {type(exc).__name__}: {exc}")
+        return None, 'error'
+
+
+def _probe_service(client: Client, service: str):
+    """Fetch the description (WADL) of one FDSN service directly.
+
+    Returns the service parameters, 'absent' when the server answers that
+    the service does not exist (e.g. HTTP 404: IRIS has no event service),
+    or None when the request failed for network reasons.
+    """
+    import urllib.request
+    import urllib.error
+    from obspy.clients.fdsn.wadl_parser import WADLParser
+    try:
+        url = client._build_url(service, 'application.wadl')
+        headers = dict(getattr(client, 'request_headers', None) or {})
+        with urllib.request.urlopen(urllib.request.Request(url, headers=headers),
+                                    timeout=20) as resp:
+            data = resp.read()
+    except urllib.error.HTTPError as exc:
+        return 'absent' if exc.code in (400, 404, 410, 501) else None
+    except Exception:
+        return None
+    try:
+        return WADLParser(data).parameters
+    except Exception:
+        return None
+
+
+def _connect(site: str, needed: tuple) -> Client:
+    """Create an FDSN client that really offers the needed services.
+
+    obspy discovers a server's services (event / station / dataselect) in
+    background threads.  A connection reset during that discovery leaves the
+    client silently without that service, and the first query then fails
+    with "The current client does not have an event service".  Moreover
+    obspy caches that (failed) discovery for the whole process.  So:
+      • the services are checked explicitly, and the services found are
+        accumulated over several attempts (a flaky server drops a different
+        request each time), clearing obspy's cache between attempts;
+      • a service still missing is asked for directly: an explicit "does
+        not exist" (HTTP 404) stops with a clear message, while a service
+        that only could not be reached is assumed to be the standard FDSN
+        one (queries have their own retries) instead of aborting the run.
+    The tracebacks printed by obspy's background threads are hidden.
+    """
+    from copy import deepcopy
+    from obspy.clients.fdsn.header import DEFAULT_SERVICES
+
+    previous_hook = threading.excepthook
+    threading.excepthook = lambda args: None
+    found, absent, client, last_error = {}, set(), None, ''
+    try:
+        for attempt in range(1, CONNECT_RETRIES + 1):
+            if attempt > 1:
+                cache = getattr(Client, '_Client__service_discovery_cache',
+                                None)
+                if isinstance(cache, dict):
+                    cache.clear()
+            try:
+                client = Client(site)
+                found.update(client.services)
+            except ValueError as exc:
+                # unknown data-centre name or malformed URL: a config error,
+                # retrying cannot help
+                print(f"\n\n  [ERROR] {exc}\n          '{site}' is neither a "
+                      f"known data-centre name (e.g. INGV, IRIS, GEOFON, "
+                      f"ORFEUS) nor a valid FDSN URL: check fdsn_site / "
+                      f"fdsn_site_events in the config.\n")
+                sys.exit(1)
+            except Exception as exc:
+                last_error = f"{type(exc).__name__}: {exc}"
+            if client is not None:
+                for service in [s for s in needed if s not in found]:
+                    params = _probe_service(client, service)
+                    if params == 'absent':
+                        absent.add(service)
+                    elif params is not None:
+                        found[service] = params
+            missing = [s for s in needed if s not in found and s not in absent]
+            if client is not None and (absent or not missing):
+                break                     # done, or definitely not offered
+            if attempt < CONNECT_RETRIES:
+                wait = min(30.0, RETRY_WAIT_S * 2 ** (attempt - 1))
+                what = (f"no answer for the {', '.join(missing)} service"
+                        if client is not None else f"cannot connect "
+                        f"({last_error})")
+                print(f"\n  [RETRY]  {site}: {what} — retrying in "
+                      f"{wait:.0f} s", end=' ', flush=True)
+                time.sleep(wait)
+    finally:
+        threading.excepthook = previous_hook
+
+    if client is None:
+        print(f"\n\n  [ERROR] Cannot connect to {site}: {last_error}")
+        print("          Check the internet connection or try again later.\n")
+        sys.exit(1)
+    if absent:
+        print(f"\n\n  [ERROR] {site} does not offer: {', '.join(sorted(absent))}")
+        if 'event' in absent:
+            print("          For the catalog set fdsn_site_events (e.g. "
+                  "\"USGS\") or use a local catalog (existing_catalog_pf).")
+        print()
+        sys.exit(1)
+
+    for key, value in found.items():
+        client.services.setdefault(key, value)
+    unreachable = [s for s in needed if s not in found]
+    for service in unreachable:
+        client.services[service] = deepcopy(DEFAULT_SERVICES[service])
+    if unreachable:
+        print(f"\n  [WARN] {site}: the {', '.join(unreachable)} service "
+              f"description never arrived (network errors) — assuming the "
+              f"standard FDSN service.", end=' ')
+    return client
 
 
 def _atomic_write(st, out_path: str) -> None:
@@ -639,8 +1180,12 @@ def _atomic_write(st, out_path: str) -> None:
     later run would mistake for complete and skip.
     """
     tmp_path = out_path + '.part'
-    st.write(tmp_path, format='MSEED')
-    os.replace(tmp_path, out_path)
+    try:
+        st.write(tmp_path, format='MSEED')
+        os.replace(tmp_path, out_path)
+    finally:
+        if os.path.exists(tmp_path):        # write failed or was interrupted
+            os.remove(tmp_path)
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -655,6 +1200,8 @@ def _points_from_obspy(cat) -> list:
             origin = ev.preferred_origin() or ev.origins[0]
         except IndexError:
             continue
+        if origin.latitude is None or origin.longitude is None:
+            continue
         try:
             mag = (ev.preferred_magnitude() or ev.magnitudes[0]).mag
         except (IndexError, AttributeError):
@@ -663,7 +1210,9 @@ def _points_from_obspy(cat) -> list:
             lat=origin.latitude, lon=origin.longitude,
             depth_km=(origin.depth or 0.0) / 1000.0,
             mag=mag,
+            t=origin.time.timestamp,
             time_str=origin.time.strftime('%Y-%m-%d  %H:%M:%S'),
+            name='',                  # FDSN events are named only when saved
         ))
     return pts
 
@@ -674,62 +1223,813 @@ def _points_from_pyrocko(events) -> list:
         lat=ev.lat, lon=ev.lon,
         depth_km=(ev.depth or 0.0) / 1000.0,
         mag=ev.magnitude,                       # may be None in .pf files
+        t=ev.time,
         time_str=util.time_to_str(ev.time)[:19],
+        name=ev.name or '',
     ) for ev in events]
 
 
-# One distinct color per integer magnitude value (floor).
-# Keys are the integer magnitude floor; the last entry is used for all higher values.
-_MAG_COLOR_MAP = {
-    0: '#BDBDBD',   # light gray
-    1: '#FFEE58',   # yellow
-    2: '#FFA726',   # orange
-    3: '#FF5722',   # deep orange
-    4: '#E53935',   # red
-    5: '#AD1457',   # pink/crimson
-    6: '#6A1B9A',   # purple
-    7: '#1565C0',   # blue
-    8: '#00695C',   # dark teal
-}
-_MAG_COLOR_MAX_KEY  = max(_MAG_COLOR_MAP)
-_MAG_COLOR_OVERFLOW = '#212121'   # near-black for M ≥ 9
-_MAG_COLOR_UNKNOWN  = '#795548'   # brown for events without a magnitude
+# ── Marker size: magnitude ────────────────────────────────────────────────────
+
+_R_MIN_PX  = 4.0         # radius of the smallest event of the catalog (px)
+_R_MAX_PX  = 22.0        # upper limit for the largest one (px)
+_R_GROWTH  = 2.0         # max radius factor per magnitude unit (area × 4)
+_PX_TO_CM  = 2.54 / 96   # screen pixel → cm, for the static pygmt map
+_PANEL_PX  = 270         # height of the depth–time panel under the map (px)
 
 
-def _mag_color(mag) -> str:
-    """Return a CSS color for a magnitude (one color per integer floor)."""
-    if mag is None:
-        return _MAG_COLOR_UNKNOWN
-    key = max(0, int(mag))   # floor; negative mags → 0
-    if key > _MAG_COLOR_MAX_KEY:
-        return _MAG_COLOR_OVERFLOW
-    return _MAG_COLOR_MAP[key]
+def _mag_radius_fn(points):
+    """Return (radius(mag) in px, magnitudes to show in the size legend).
+
+    The radius grows exponentially with magnitude, so the marker AREA grows
+    by a constant factor per magnitude unit (as the radiated energy does).
+    The rate adapts to the catalog — the largest event reaches _R_MAX_PX —
+    but radii never grow faster than _R_GROWTH per unit, so a narrow
+    magnitude range is not blown up.  Events without magnitude get the
+    smallest size (drawn with a dashed outline).
+    """
+    mags = [p['mag'] for p in points if p['mag'] is not None]
+    if not mags:
+        return (lambda m: _R_MIN_PX), []
+    lo, hi = min(mags), max(mags)
+    rate = _R_GROWTH if hi - lo < 1e-6 else min(
+        _R_GROWTH, (_R_MAX_PX / _R_MIN_PX) ** (1.0 / (hi - lo)))
+
+    def radius(m):
+        return _R_MIN_PX if m is None else _R_MIN_PX * rate ** (m - lo)
+
+    ints = list(range(math.ceil(lo), math.floor(hi) + 1))
+    if len(ints) >= 2:
+        step = max(1, math.ceil((len(ints) - 1) / 4))     # at most ~5 entries
+        legend = [float(i) for i in ints[::step]]
+    else:
+        legend = sorted({round(lo, 1), round(hi, 1)})
+    return radius, legend
 
 
-def _build_folium_map(ev_points, inv, cfg: dict, event_area: bool = True):
+# ── Marker colour: depth or origin time ──────────────────────────────────────
+
+# Perceptually uniform colour maps (matplotlib viridis / plasma) as stops
+_VIRIDIS = ['#440154', '#482878', '#3e4989', '#31688e', '#26828e',
+            '#1f9e89', '#35b779', '#6ece58', '#b5de2b', '#fde725']
+_PLASMA  = ['#0d0887', '#46039f', '#7201a8', '#9c179e', '#bd3786',
+            '#d8576b', '#ed7953', '#fb9f3a', '#fdca26', '#f0f921']
+
+
+def _colour_scales(points) -> dict:
+    """Colour scales for depth and origin time (folium map payload).
+
+    Stops and tick labels run from the top of the colour bar downwards:
+      depth : viridis, shallow = yellow (top) → deep = purple.  With 20+
+              events the 2nd–98th percentile range is used, so a few
+              outliers do not squeeze every other event into one colour;
+              the clipped ends are labelled ≤ / ≥.
+      time  : plasma, oldest = dark (top) → most recent = bright.
+    """
+    import numpy as np
+
+    def _range(values, robust, pad):
+        v = np.asarray(values, float)
+        lo, hi = float(v.min()), float(v.max())
+        clip_lo = clip_hi = False
+        if robust and v.size >= 20:
+            p_lo, p_hi = (float(x) for x in np.percentile(v, [2, 98]))
+            clip_lo, clip_hi = p_lo > lo, p_hi < hi
+            lo, hi = p_lo, p_hi
+        if hi - lo < 1e-9:               # single event or identical values
+            lo, hi = lo - pad, hi + pad
+        return lo, hi, clip_lo, clip_hi
+
+    def _ticks(lo, hi, n=5):
+        return [lo + i * (hi - lo) / (n - 1) for i in range(n)]
+
+    d_lo, d_hi, clip_lo, clip_hi = _range(
+        [p['depth_km'] for p in points], True, 0.5)
+    span = d_hi - d_lo
+    dec  = 2 if span < 1 else (1 if span < 10 else 0)
+    d_labels = [f"{x:.{dec}f}" for x in _ticks(d_lo, d_hi)]
+    if clip_lo:
+        d_labels[0] = '≤ ' + d_labels[0]
+    if clip_hi:
+        d_labels[-1] = '≥ ' + d_labels[-1]
+
+    t_lo, t_hi, _, _ = _range([p['t'] for p in points], False, 1800.0)
+    span = t_hi - t_lo
+    fmt  = ('%Y-%m-%d' if span >= 5 * 86400 else
+            '%m-%d %H:%M' if span >= 6 * 3600 else '%H:%M:%S')
+    t_labels = [util.time_to_str(x, format=fmt) for x in _ticks(t_lo, t_hi)]
+
+    return {
+        'depth': dict(lo=d_lo, hi=d_hi, ticks=d_labels, title='Depth (km)',
+                      stops=_VIRIDIS[::-1]),
+        'time':  dict(lo=t_lo, hi=t_hi, ticks=t_labels,
+                      title='Origin time (UTC)', stops=_PLASMA),
+    }
+
+
+_GRID_COLOUR    = '#EF6C00'   # azimuthal selection grid (sectors / rings)
+_DROPPED_COLOUR = '#9E9E9E'   # stations dropped by the azimuthal selection
+
+
+def _selection_drawing(selection):
+    """Stations dropped by the selection, and the outer grid circle.
+
+    Returns (dropped stations as (net, sta, lat, lon, site) tuples,
+    extra circles [(lat, lon, r_km)] to include in the map frame).
+    """
+    if not selection:
+        return [], []
+    dropped = [(r['net'], r['sta'], r['lat'], r['lon'], '')
+               for r in selection['rows'] if r['status'] != 'selected']
+    return dropped, [(selection['lat0'], selection['lon0'],
+                      selection['edges'][-1])]
+
+
+def _selection_legend_rows(selection) -> list:
+    """Legend rows (HTML) for the dropped stations and the selection grid."""
+    if not selection:
+        return []
+    return [f'<span style="color:{_DROPPED_COLOUR};font-size:12px">▲</span>'
+            f'&nbsp;Dropped station',
+            f'<span style="color:{_GRID_COLOUR}">┄ ┄</span>'
+            f'&nbsp;Azimuthal grid ({selection["n_selected"]} of '
+            f'{len(selection["rows"])} kept)']
+
+
+def _grid_lines(selection, steps: int = 40):
+    """Sector boundaries of the azimuthal grid as great-circle polylines."""
+    lat0, lon0, edges = selection['lat0'], selection['lon0'], selection['edges']
+    width = 360.0 / selection['n_sectors']
+    lines = []
+    for k in range(selection['n_sectors']):
+        az = k * width
+        lines.append((az, [_destination(lat0, lon0, az, edges[0] +
+                                        (edges[-1] - edges[0]) * j / steps)
+                           for j in range(steps + 1)]))
+    return lines
+
+
+def _map_bounds(ev_points, stations, cfg, event_area, station_area,
+                extra_circles=()):
+    """(south, west, north, east) enclosing everything drawn on the map."""
+    lats, lons = [], []
+
+    def add_circle(lat, lon, r_km):
+        dlat = r_km / 111.32
+        dlon = dlat / max(math.cos(math.radians(lat)), 0.05)
+        lats.extend([lat - dlat, lat + dlat])
+        lons.extend([lon - dlon, lon + dlon])
+
+    for p in ev_points or []:
+        lats.append(p['lat'])
+        lons.append(p['lon'])
+    for _, _, lat, lon, _ in stations:
+        lats.append(lat)
+        lons.append(lon)
+    if ev_points is not None and event_area:
+        if cfg['area_type'] == 'rectangular':
+            lats += [cfg['lat_min'], cfg['lat_max']]
+            lons += [cfg['lon_min'], cfg['lon_max']]
+        else:
+            add_circle(cfg['lat_center'], cfg['lon_center'], cfg['radius_km'])
+    for lat, lon, r_km in extra_circles:
+        add_circle(lat, lon, r_km)
+    if station_area or not lats:
+        add_circle(cfg['lat_center_sta'], cfg['lon_center_sta'],
+                   cfg['radius_km_sta'])
+    return min(lats), min(lons), max(lats), max(lons)
+
+
+# JavaScript framing of the folium map (see _build_folium_map)
+_FIT_BOUNDS_JS = """
+{% macro script(this, kwargs) %}
+(function () {
+  var map = {{ this._parent.get_name() }};
+  var bounds = {{ this.bounds }};
+  var touched = false;
+  ['mousedown', 'touchstart', 'wheel', 'keydown'].forEach(function (ev) {
+    map.getContainer().addEventListener(ev, function () { touched = true; },
+                                        { passive: true });
+  });
+  function frame() {
+    if (touched) { return; }
+    map.invalidateSize();
+    map.fitBounds(bounds, { padding: [20, 20], maxZoom: 13 });
+  }
+  frame();
+  window.addEventListener('load', frame);
+  map.on('resize', frame);
+})();
+{% endmacro %}
+"""
+
+
+# JavaScript event layer of the folium map, rendered by a branca MacroElement
+# after the map and the "Events" feature group exist.  From a JSON payload
+# (see _build_folium_map) it draws:
+#   • the event markers on the map
+#   • the legend, with the depth / time colour switch
+#   • the panel below the map (when payload.panel is true): depth–time plot
+#     linked to the map, time-window slider and Play animation
+# NB: this is a Jinja template — never write "{#" in the JS.
+_EVENT_LAYER_JS = """
+{% macro script(this, kwargs) %}
+(function () {
+  var map = {{ this._parent.get_name() }};
+  var group = {{ this.group_name }};
+  var cfg = {{ this.payload }};
+  /* EV[i] = [lat, lon, depth_km, mag | null, epoch_s, radius_px, time_str, name] */
+  var EV = cfg.events;
+  var mode = cfg.mode;
+  var chart = null, hiRing = null;
+
+  /* ── helpers ──────────────────────────────────────────────────────────── */
+  function rgb(hex) {
+    return [1, 3, 5].map(function (k) { return parseInt(hex.substr(k, 2), 16); });
+  }
+  function cmap(stops, x) {
+    if (!(x > 0)) { x = 0; }              /* also catches NaN */
+    if (x > 1) { x = 1; }
+    var n = stops.length - 1;
+    var i = Math.min(Math.floor(x * n), n - 1), f = x * n - i;
+    var a = rgb(stops[i]), b = rgb(stops[i + 1]);
+    return 'rgb(' + [0, 1, 2].map(function (k) {
+      return Math.round(a[k] + f * (b[k] - a[k]));
+    }).join(',') + ')';
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function colourOf(e) {
+    var s = cfg[mode], v = (mode === 'depth') ? e[2] : e[4];
+    return cmap(s.stops, (v - s.lo) / (s.hi - s.lo));
+  }
+  function magText(e) { return (e[3] === null) ? '?' : e[3].toFixed(1); }
+  function tipText(e) {
+    return 'M ' + magText(e) + ' · ' + e[2].toFixed(1) + ' km · ' + esc(e[6]);
+  }
+  function fmtTime(t, fmt) {               /* UTC, from epoch seconds */
+    var s = new Date(t * 1000).toISOString();
+    if (fmt === 'year')  { return s.slice(0, 4); }
+    if (fmt === 'month') { return s.slice(0, 7); }
+    if (fmt === 'day')   { return s.slice(0, 10); }
+    if (fmt === 'hm')    { return s.slice(11, 16); }
+    if (fmt === 'dhm')   { return s.slice(5, 10) + ' ' + s.slice(11, 16); }
+    return s.slice(0, 10) + ' ' + s.slice(11, 16);
+  }
+  function svgEl(tag, attrs, parent) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs) { el.setAttribute(k, attrs[k]); }
+    if (parent) { parent.appendChild(el); }
+    return el;
+  }
+
+  /* ── map markers ──────────────────────────────────────────────────────── */
+  var markers = EV.map(function (e, i) {
+    var mk = L.circleMarker([e[0], e[1]], {
+      radius: e[5], color: '#222', weight: 0.7, opacity: 0.9,
+      fillOpacity: 0.85, dashArray: (e[3] === null) ? '3,3' : null
+    });
+    mk.bindPopup(
+      (e[7] ? '<b>' + esc(e[7]) + '</b><br>' : '') +
+      esc(e[6]) + ' UTC<br>Magnitude : ' + magText(e) +
+      '<br>Depth : ' + e[2].toFixed(2) + ' km' +
+      '<br>Lat / Lon : ' + e[0].toFixed(4) + ' / ' + e[1].toFixed(4),
+      { maxWidth: 260 });
+    mk.bindTooltip(tipText(e));
+    mk.on('mouseover', function () { if (chart) { chart.highlight(i); } });
+    mk.on('mouseout', function () { if (chart) { chart.highlight(-1); } });
+    group.addLayer(mk);
+    return mk;
+  });
+
+  /* red ring on the map around the event hovered in the panel */
+  function ringOn(i) {
+    ringOff();
+    if (!map.hasLayer(group)) { return; }
+    hiRing = L.circleMarker([EV[i][0], EV[i][1]], {
+      radius: EV[i][5] + 4, color: '#e53935', weight: 3, fill: false,
+      interactive: false
+    }).addTo(map);
+  }
+  function ringOff() {
+    if (hiRing) { map.removeLayer(hiRing); hiRing = null; }
+  }
+
+  /* ── panel: depth–time plot + time-window slider + animation ──────────── */
+  function buildTimeline() {
+    var H = cfg.panel_px, SH = H - 40;
+    var M = { left: 58, right: 20, top: 10 };
+    var CH = SH - 78;                 /* height of the depth–time plot */
+    var SY = M.top + CH + 44;         /* centre line of the slider */
+
+    var panel = document.createElement('div');
+    panel.style.cssText = 'position:relative;height:' + H + 'px;' +
+      'box-sizing:border-box;padding:6px 10px 0;border-top:1px solid #bbb;' +
+      'background:#fafafa;font:12px/1.4 sans-serif;user-select:none;' +
+      '-webkit-user-select:none';
+    var mc = map.getContainer();
+    mc.parentNode.insertBefore(panel, mc.nextSibling);
+
+    var bar = document.createElement('div');
+    bar.style.cssText = 'display:flex;align-items:center;gap:10px;' +
+      'height:28px;white-space:nowrap;overflow:hidden';
+    bar.innerHTML =
+      '<button class="tl-play" style="width:78px;cursor:pointer">▶ Play</button>' +
+      '<label>speed <select class="tl-speed">' +
+      '<option value="0.5">0.5×</option><option value="1" selected>1×</option>' +
+      '<option value="2">2×</option><option value="4">4×</option>' +
+      '</select></label>' +
+      '<select class="tl-anim" title="Animation type">' +
+      '<option value="window">sliding window</option>' +
+      '<option value="cumul">cumulative</option></select>' +
+      '<button class="tl-reset" style="cursor:pointer">Show all</button>' +
+      '<span class="tl-info" style="font-weight:bold"></span>' +
+      '<span style="margin-left:auto;color:#777;overflow:hidden;' +
+      'text-overflow:ellipsis" title="Drag on the plot or on the slider to ' +
+      'choose a time window; double-click the plot to show all events">' +
+      'drag to select a time window · double-click: all</span>';
+    panel.appendChild(bar);
+    var playBtn  = bar.querySelector('.tl-play');
+    var speedSel = bar.querySelector('.tl-speed');
+    var animSel  = bar.querySelector('.tl-anim');
+    var info     = bar.querySelector('.tl-info');
+
+    var svg = svgEl('svg', { height: SH }, panel);
+    svg.style.cssText = 'display:block;width:100%;touch-action:none';
+    var tip = document.createElement('div');
+    tip.style.cssText = 'position:absolute;display:none;pointer-events:none;' +
+      'white-space:nowrap;background:rgba(255,255,255,.95);' +
+      'border:1px solid #999;border-radius:4px;padding:2px 6px';
+    panel.appendChild(tip);
+
+    /* axis ranges (loops, not Math.min.apply: fine for any catalog size) */
+    var tMin = Infinity, tMax = -Infinity, dLo = Infinity, dHi = -Infinity;
+    EV.forEach(function (e) {
+      tMin = Math.min(tMin, e[4]); tMax = Math.max(tMax, e[4]);
+      dLo = Math.min(dLo, e[2]);   dHi = Math.max(dHi, e[2]);
+    });
+    /* margins large enough for the biggest markers at the edges */
+    if (tMax - tMin < 60) { tMin -= 1800; tMax += 1800; }
+    var D0 = tMin - 0.03 * (tMax - tMin), D1 = tMax + 0.03 * (tMax - tMin);
+    if (dHi - dLo < 0.1) { dLo -= 0.5; dHi += 0.5; }
+    var dPad = 0.12 * (dHi - dLo);
+    dLo -= dPad; dHi += dPad;
+
+    var W = 0, w0 = D0, w1 = D1;      /* svg width, time window */
+    var inside = [], dots = [], el = {}, hiDot = null;
+    var playing = false, raf = null, lastTs = null, drag = null;
+
+    function PW() { return W - M.left - M.right; }
+    function X(t) { return M.left + (t - D0) / (D1 - D0) * PW(); }
+    function T(x) { return D0 + (x - M.left) / PW() * (D1 - D0); }
+    function Y(d) { return M.top + (d - dLo) / (dHi - dLo) * CH; }
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function setA(node, attrs) {
+      for (var k in attrs) { node.setAttribute(k, attrs[k]); }
+    }
+
+    function niceStep(span, n) {
+      var raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+      var f = raw / mag;
+      return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag;
+    }
+    function depthTicks() {
+      var st = niceStep(dHi - dLo, 4), out = [];
+      for (var d = Math.ceil(dLo / st) * st; d <= dHi + 1e-9; d += st) {
+        out.push(Math.round(d / st) * st);
+      }
+      return out;
+    }
+    function timeTicks() {
+      var span = D1 - D0, out = [], i, t;
+      var raw = span / Math.max(2, Math.floor(PW() / 110));
+      var steps = [60, 300, 900, 1800, 3600, 10800, 21600, 43200, 86400,
+                   172800, 604800, 1209600];
+      for (i = 0; i < steps.length; i++) {
+        if (steps[i] >= raw) {
+          var st = steps[i];
+          var fmt = st >= 86400 ? 'day' : (span < 86400 ? 'hm' : 'dhm');
+          for (t = Math.ceil(D0 / st) * st; t <= D1; t += st) {
+            out.push({ t: t, label: fmtTime(t, fmt) });
+          }
+          return out;
+        }
+      }
+      /* months / years: calendar-aligned steps */
+      var months = [1, 2, 3, 6, 12, 24, 60, 120], ms = 120;
+      for (i = 0; i < months.length; i++) {
+        if (months[i] * 2629746 >= raw) { ms = months[i]; break; }
+      }
+      var d0 = new Date(D0 * 1000);
+      var idx = d0.getUTCFullYear() * 12 + d0.getUTCMonth() + 1;
+      idx = Math.ceil(idx / ms) * ms;
+      for (;; idx += ms) {
+        t = Date.UTC(Math.floor(idx / 12), idx % 12, 1) / 1000;
+        if (t > D1) { break; }
+        out.push({ t: t, label: fmtTime(t, ms >= 12 ? 'year' : 'month') });
+      }
+      return out;
+    }
+
+    function draw() {
+      W = svg.getBoundingClientRect().width || (panel.clientWidth - 20);
+      W = Math.max(W, M.left + M.right + 100);
+      while (svg.firstChild) { svg.removeChild(svg.firstChild); }
+
+      var clip = svgEl('clipPath', { id: 'tl-clip' }, svg);
+      svgEl('rect', { x: M.left, y: M.top, width: PW(), height: CH }, clip);
+      svgEl('rect', { x: M.left, y: M.top, width: PW(), height: CH,
+                      fill: '#fff', stroke: '#999', 'data-role': 'plot' }, svg);
+      depthTicks().forEach(function (d) {
+        var y = Y(d);
+        svgEl('line', { x1: M.left, x2: M.left + PW(), y1: y, y2: y,
+                        stroke: '#eee', 'pointer-events': 'none' }, svg);
+        svgEl('text', { x: M.left - 6, y: y + 4, 'text-anchor': 'end',
+                        'font-size': 11, fill: '#333' }, svg).textContent =
+          String(+d.toFixed(3));
+      });
+      svgEl('text', { x: 14, y: M.top + CH / 2, 'text-anchor': 'middle',
+                      'font-size': 11, fill: '#333',
+                      transform: 'rotate(-90 14 ' + (M.top + CH / 2) + ')' },
+            svg).textContent = 'Depth (km)';
+      timeTicks().forEach(function (tk) {
+        var x = X(tk.t);
+        if (x < M.left || x > M.left + PW()) { return; }
+        svgEl('line', { x1: x, x2: x, y1: M.top, y2: M.top + CH,
+                        stroke: '#eee', 'pointer-events': 'none' }, svg);
+        svgEl('line', { x1: x, x2: x, y1: M.top + CH, y2: M.top + CH + 4,
+                        stroke: '#666' }, svg);
+        svgEl('text', { x: x, y: M.top + CH + 16, 'text-anchor': 'middle',
+                        'font-size': 11, fill: '#333' }, svg).textContent =
+          tk.label;
+      });
+      svgEl('text', { x: M.left + PW(), y: M.top + CH + 29,
+                      'text-anchor': 'end', 'font-size': 10, fill: '#777' },
+            svg).textContent = 'origin time (UTC)';
+
+      /* events: same order as on the map (biggest first) */
+      var g = svgEl('g', { 'clip-path': 'url(#tl-clip)' }, svg);
+      dots = EV.map(function (e, i) {
+        var c = svgEl('circle', { cx: X(e[4]), cy: Y(e[2]),
+                                  r: Math.max(2, 0.7 * e[5]), stroke: '#222',
+                                  'stroke-width': 0.6, 'data-role': 'ev',
+                                  'data-i': i, style: 'cursor:pointer' }, g);
+        if (e[3] === null) { c.setAttribute('stroke-dasharray', '2,2'); }
+        return c;
+      });
+
+      /* time window: shading outside it, edges, slider */
+      var shade = { y: M.top, height: CH, fill: '#777', 'fill-opacity': 0.15,
+                    'pointer-events': 'none' };
+      el.shL = svgEl('rect', shade, svg);
+      el.shR = svgEl('rect', shade, svg);
+      var edge = { y1: M.top, y2: M.top + CH, stroke: '#1565C0',
+                   'stroke-width': 1.2, 'pointer-events': 'none' };
+      el.lnL = svgEl('line', edge, svg);
+      el.lnR = svgEl('line', edge, svg);
+      svgEl('rect', { x: M.left, y: SY - 3, width: PW(), height: 6, rx: 3,
+                      fill: '#d6d6d6', 'data-role': 'track' }, svg);
+      el.band = svgEl('rect', { y: SY - 5, height: 10, rx: 4, fill: '#1565C0',
+                                'fill-opacity': 0.55, 'data-role': 'band',
+                                style: 'cursor:grab' }, svg);
+      var handle = { y: SY - 11, width: 10, height: 22, rx: 3, fill: '#fff',
+                     stroke: '#1565C0', 'stroke-width': 2,
+                     style: 'cursor:ew-resize' };
+      el.h0 = svgEl('rect', handle, svg);
+      el.h1 = svgEl('rect', handle, svg);
+      el.h0.setAttribute('data-role', 'h0');
+      el.h1.setAttribute('data-role', 'h1');
+
+      hiDot = null;
+      recolour();
+      update(true);
+    }
+
+    /* show / hide map markers without changing their drawing order */
+    function showMarker(i) {
+      var p = markers[i]._path;
+      if (p) { p.style.display = inside[i] ? '' : 'none'; }
+    }
+    /* Leaflet recreates the paths when the Events layer is switched on again */
+    group.on('add', function () {
+      for (var i = 0; i < EV.length; i++) { showMarker(i); }
+    });
+
+    function update(force) {
+      var x0 = X(w0), x1 = X(w1), L0 = M.left, R0 = M.left + PW();
+      setA(el.shL, { x: L0, width: Math.max(0, x0 - L0) });
+      setA(el.shR, { x: x1, width: Math.max(0, R0 - x1) });
+      setA(el.lnL, { x1: x0, x2: x0 });
+      setA(el.lnR, { x1: x1, x2: x1 });
+      setA(el.band, { x: x0, width: Math.max(2, x1 - x0) });
+      setA(el.h0, { x: x0 - 5 });
+      setA(el.h1, { x: x1 - 5 });
+      var n = 0;
+      for (var i = 0; i < EV.length; i++) {
+        var inn = EV[i][4] >= w0 && EV[i][4] <= w1;
+        if (inn) { n++; }
+        if (force || inn !== inside[i]) {
+          inside[i] = inn;
+          dots[i].setAttribute('fill-opacity', inn ? 0.85 : 0.12);
+          dots[i].setAttribute('stroke-opacity', inn ? 0.9 : 0.2);
+          showMarker(i);
+        }
+      }
+      var all = (w0 <= D0 && w1 >= D1);
+      var fmt = (D1 - D0 >= 3 * 86400) ? 'day' : 'full';
+      info.textContent = (all ? 'whole catalog' :
+        fmtTime(w0, fmt) + ' → ' + fmtTime(w1, fmt)) +
+        '  ·  ' + n + ' / ' + EV.length + ' events';
+    }
+
+    function recolour() {
+      dots.forEach(function (c, i) { c.setAttribute('fill', colourOf(EV[i])); });
+    }
+
+    function highlight(i) {
+      if (hiDot) { hiDot.parentNode.removeChild(hiDot); hiDot = null; }
+      if (i < 0 || !dots[i]) { return; }
+      hiDot = svgEl('circle', { cx: X(EV[i][4]), cy: Y(EV[i][2]),
+                                r: Math.max(2, 0.7 * EV[i][5]) + 3,
+                                fill: 'none', stroke: '#e53935',
+                                'stroke-width': 2, 'pointer-events': 'none' },
+                    svg);
+    }
+
+    function openEvent(i) {
+      if (!map.hasLayer(group)) { return; }
+      var ll = markers[i].getLatLng();
+      if (!map.getBounds().contains(ll)) { map.panTo(ll); }
+      markers[i].openPopup();
+    }
+
+    function showAll() { stop(); w0 = D0; w1 = D1; update(false); }
+
+    /* ── animation ── */
+    function play() {
+      var span = D1 - D0;
+      if (animSel.value === 'window') {
+        var width = w1 - w0;
+        if (width > 0.9 * span) { width = span / 10; w1 = D1; }
+        if (w1 >= D1) { w0 = D0; w1 = D0 + width; }   /* (re)start */
+      } else {
+        /* (re)start from the first event, then add events as time passes */
+        if (w1 >= D1 || w1 - D0 > 0.9 * span) { w1 = tMin; }
+        w0 = D0;
+      }
+      playing = true;
+      playBtn.textContent = '❚❚ Pause';
+      lastTs = null;
+      update(false);
+      raf = requestAnimationFrame(step);
+    }
+    function step(ts) {
+      if (!playing) { return; }
+      if (lastTs !== null) {
+        /* the whole time span is crossed in 15 s at speed 1× */
+        var dt = (ts - lastTs) / 1000 * parseFloat(speedSel.value) *
+                 (D1 - D0) / 15;
+        var width = w1 - w0;
+        w1 = Math.min(D1, w1 + dt);
+        if (animSel.value === 'window') { w0 = w1 - width; }
+        update(false);
+        if (w1 >= D1) { stop(); return; }
+      }
+      lastTs = ts;
+      raf = requestAnimationFrame(step);
+    }
+    function stop() {
+      playing = false;
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+      playBtn.textContent = '▶ Play';
+    }
+    playBtn.addEventListener('click', function () {
+      if (playing) { stop(); } else { play(); }
+    });
+    bar.querySelector('.tl-reset').addEventListener('click', showAll);
+
+    /* ── mouse: drag handles / window, brush on the plot, click an event ── */
+    function svgX(ev) { return ev.clientX - svg.getBoundingClientRect().left; }
+    svg.addEventListener('pointerdown', function (ev) {
+      if (ev.button !== 0) { return; }
+      stop();
+      var role = ev.target.getAttribute('data-role') || 'plot';
+      drag = { role: role, x: svgX(ev), w0: w0, w1: w1, moved: false,
+               i: +ev.target.getAttribute('data-i') };
+      svg.setPointerCapture(ev.pointerId);
+      if (role === 'band') { el.band.style.cursor = 'grabbing'; }
+      tip.style.display = 'none';
+      ev.preventDefault();
+    });
+    svg.addEventListener('pointermove', function (ev) {
+      if (!drag) { return; }
+      var x = svgX(ev), minW = (D1 - D0) / 400;
+      if (Math.abs(x - drag.x) > 3) { drag.moved = true; }
+      if (!drag.moved) { return; }
+      if (drag.role === 'h0') {
+        w0 = clamp(T(x), D0, w1 - minW);
+      } else if (drag.role === 'h1') {
+        w1 = clamp(T(x), w0 + minW, D1);
+      } else if (drag.role === 'band') {
+        var width = drag.w1 - drag.w0;
+        w0 = clamp(drag.w0 + T(x) - T(drag.x), D0, D1 - width);
+        w1 = w0 + width;
+      } else {                  /* plot, event or slider track: new window */
+        var a = clamp(T(drag.x), D0, D1), b = clamp(T(x), D0, D1);
+        w0 = Math.min(a, b);
+        w1 = Math.min(D1, Math.max(a, b, w0 + minW));
+      }
+      update(false);
+    });
+    svg.addEventListener('pointerup', function () {
+      if (!drag) { return; }
+      if (!drag.moved && drag.role === 'ev') { openEvent(drag.i); }
+      el.band.style.cursor = 'grab';
+      drag = null;
+    });
+    svg.addEventListener('pointercancel', function () { drag = null; });
+    svg.addEventListener('dblclick', showAll);
+
+    /* ── hover: tooltip in the panel + ring on the map ── */
+    svg.addEventListener('mouseover', function (ev) {
+      if (drag || ev.target.getAttribute('data-role') !== 'ev') { return; }
+      var i = +ev.target.getAttribute('data-i');
+      highlight(i);
+      ringOn(i);
+      tip.innerHTML = tipText(EV[i]);
+      tip.style.display = 'block';
+      var pr = panel.getBoundingClientRect();
+      tip.style.left = Math.max(0, Math.min(ev.clientX - pr.left + 12,
+                                            pr.width - tip.offsetWidth - 4)) + 'px';
+      tip.style.top = Math.max(0, ev.clientY - pr.top - 32) + 'px';
+    });
+    svg.addEventListener('mouseout', function (ev) {
+      if (ev.target.getAttribute('data-role') !== 'ev') { return; }
+      highlight(-1);
+      ringOff();
+      tip.style.display = 'none';
+    });
+
+    /* redraw when the window size changes (and once the page is laid out) */
+    var pending = false;
+    function redraw() {
+      if (pending) { return; }
+      pending = true;
+      requestAnimationFrame(function () { pending = false; draw(); });
+    }
+    window.addEventListener('resize', redraw);
+    window.addEventListener('load', redraw);
+    draw();
+
+    return { highlight: highlight, recolour: recolour };
+  }
+
+  if (cfg.panel) { chart = buildTimeline(); }
+
+  function colourbar(mode) {
+    var s = cfg[mode], H = 120, n = s.ticks.length;
+    var h = '<div style="margin-top:8px"><b>' + s.title + '</b></div>' +
+      '<div style="position:relative;width:160px;height:' + (H + 14) + 'px">' +
+      '<div style="position:absolute;left:0;top:7px;width:14px;height:' + H +
+      'px;border:1px solid #888;background:linear-gradient(to bottom,' +
+      s.stops.join(',') + ')"></div>';
+    s.ticks.forEach(function (lab, i) {
+      var y = 7 + i * H / (n - 1);
+      h += '<div style="position:absolute;left:15px;top:' + y +
+           'px;width:5px;border-top:1px solid #555"></div>' +
+           '<div style="position:absolute;left:24px;top:' + (y - 9) +
+           'px;white-space:nowrap">' + esc(lab) + '</div>';
+    });
+    return h + '</div>';
+  }
+
+  function sizeLegend() {
+    function item(r, label, dashed) {
+      var d = 2 * r + 2;
+      return '<div style="text-align:center">' +
+        '<svg width="' + d + '" height="' + d + '"><circle cx="' + (r + 1) +
+        '" cy="' + (r + 1) + '" r="' + r + '" fill="#cfcfcf" stroke="#222"' +
+        ' stroke-width="0.7"' + (dashed ? ' stroke-dasharray="3,3"' : '') +
+        '/></svg><div>' + label + '</div></div>';
+    }
+    var h = '<div style="margin-top:8px"><b>Magnitude</b></div>' +
+      '<div style="display:flex;align-items:flex-end;gap:10px;margin-top:2px">';
+    cfg.sizes.forEach(function (s) { h += item(s[1], 'M ' + s[0], false); });
+    if (cfg.unknown_mag) { h += item(cfg.r_min, 'M ?', true); }
+    return h + '</div>';
+  }
+
+  var legend = L.control({ position: 'bottomleft' });
+  legend.onAdd = function () {
+    var div = L.DomUtil.create('div');
+    div.style.cssText = 'background:white;padding:10px 14px;border-radius:8px;' +
+      'border:1px solid #ccc;font:12px/1.5 sans-serif;' +
+      'overflow-y:auto;box-shadow:2px 2px 6px rgba(0,0,0,.2)';
+    div.innerHTML = '<b>Colour events by</b><br>' +
+      '<label style="cursor:pointer"><input type="radio" name="evcolour"' +
+      ' value="depth"> depth</label>&nbsp;&nbsp;' +
+      '<label style="cursor:pointer"><input type="radio" name="evcolour"' +
+      ' value="time"> origin time</label>' +
+      '<div class="evcolourbar"></div>' + sizeLegend() + cfg.extra;
+    L.DomEvent.disableClickPropagation(div);
+    L.DomEvent.disableScrollPropagation(div);
+    return div;
+  };
+  legend.addTo(map);
+
+  var box = legend.getContainer();
+  /* keep the legend inside the map, which is shorter when the panel is on */
+  function fitLegend() {
+    box.style.maxHeight = Math.max(120, map.getSize().y - 30) + 'px';
+  }
+  fitLegend();
+  map.on('resize', fitLegend);
+
+  function setMode(m) {
+    mode = m;
+    markers.forEach(function (mk, i) {
+      mk.setStyle({ fillColor: colourOf(EV[i]) });
+    });
+    if (chart) { chart.recolour(); }
+    box.querySelector('.evcolourbar').innerHTML = colourbar(mode);
+    box.querySelector('input[value="' + mode + '"]').checked = true;
+  }
+  box.querySelectorAll('input[name="evcolour"]').forEach(function (inp) {
+    inp.addEventListener('change', function () { setMode(this.value); });
+  });
+  setMode(cfg.mode);
+})();
+{% endmacro %}
+"""
+
+
+def _build_folium_map(ev_points, inv, cfg: dict, event_area: bool = True,
+                      station_area: bool = True, selection=None):
     """Build the folium map.
 
-    ev_points  : list of normalized event dicts, or None in continuous mode
-    event_area : draw the configured event search area (set False when the
-                 catalog comes from a local file — the area does not apply)
+    ev_points    : list of normalized event dicts, or None in continuous mode
+    event_area   : draw the configured event search area (False when the
+                   catalog comes from a local file — the area does not apply)
+    station_area : draw the station search area (False when the stations
+                   come from a local file)
+    selection    : report of the azimuthal selection (None when off): the
+                   grid and the dropped stations are drawn as well
+
+    Events are drawn by a JavaScript layer (_EVENT_LAYER_JS): size scales
+    with magnitude, colour shows depth or origin time (switch in the legend).
+    Under the map a panel shows depth vs time, linked to the map, with a
+    time-window slider and a Play animation.  Drawing in JavaScript also
+    keeps the HTML light for catalogs with thousands of events (no
+    per-event folium objects).
     """
     import folium
+    from branca.element import MacroElement
+    from jinja2 import Template
 
     is_continuous = (ev_points is None)
+    stations = _unique_stations(inv)
+    dropped, extra = _selection_drawing(selection)
+    south, west, north, east = _map_bounds(ev_points, stations + dropped, cfg,
+                                           event_area, station_area, extra)
+    sel_info = ({(r['net'], r['sta']): r for r in selection['rows']}
+                if selection else {})
 
-    # Map centre: mean of the events when available, else the config areas
+    # Base layers (switchable from the layer panel, top right).  All of these
+    # are free and need no API key.  Only OpenStreetMap has show=True: folium
+    # would otherwise display the LAST layer added at start-up.
+    # zoom_snap: fractional zoom levels, so that the framing is tight also
+    # for large areas (e.g. a 1000 km station ring)
+    m = folium.Map(location=[(south + north) / 2, (west + east) / 2],
+                   zoom_start=9, tiles=None, zoom_snap=0.25)
     if ev_points:
-        clat = sum(p['lat'] for p in ev_points) / len(ev_points)
-        clon = sum(p['lon'] for p in ev_points) / len(ev_points)
-    elif is_continuous or cfg['area_type'] == 'circular':
-        clat = cfg['lat_center_sta'] if is_continuous else cfg['lat_center']
-        clon = cfg['lon_center_sta'] if is_continuous else cfg['lon_center']
-    else:
-        clat = (cfg['lat_min'] + cfg['lat_max']) / 2
-        clon = (cfg['lon_min'] + cfg['lon_max']) / 2
-
-    m = folium.Map(location=[clat, clon], zoom_start=9,
-                   tiles='CartoDB positron')
+        # Leave room under the map for the depth–time panel
+        m.get_root().header.add_child(folium.Element(
+            f"<style>#{m.get_name()} {{ height: calc(100% - {_PANEL_PX}px) "
+            f"!important; }}</style>"))
+    folium.TileLayer('OpenStreetMap', name='OpenStreetMap').add_to(m)
+    folium.TileLayer(
+        tiles=('https://server.arcgisonline.com/ArcGIS/rest/services/'
+               'World_Imagery/MapServer/tile/{z}/{y}/{x}'),
+        attr='Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics',
+        name='Satellite (Esri)', show=False,
+    ).add_to(m)
+    folium.TileLayer(
+        tiles='https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+        attr=('Map data &copy; OpenStreetMap contributors, SRTM | '
+              'Map style &copy; OpenTopoMap (CC-BY-SA)'),
+        name='Topographic (OpenTopoMap)', show=False,
+        max_zoom=17,
+    ).add_to(m)
+    folium.TileLayer(
+        tiles=('https://server.arcgisonline.com/ArcGIS/rest/services/'
+               'World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}'),
+        attr='Tiles &copy; Esri &mdash; Source: Esri',
+        name='Shaded relief (Esri)', show=False,
+        max_zoom=13,
+    ).add_to(m)
 
     # ── event search area boundary (FDSN event query only) ────────────────────
     if not is_continuous and event_area:
@@ -748,78 +2048,132 @@ def _build_folium_map(ev_points, inv, cfg: dict, event_area: bool = True):
                 fill=False, tooltip='Event search area',
             ).add_to(m)
 
-    # ── station search area boundary (always) ─────────────────────────────────
-    folium.Circle(
-        location=[cfg['lat_center_sta'], cfg['lon_center_sta']],
-        radius=cfg['radius_km_sta'] * 1000,
-        color='#1565C0', weight=2, dash_array='4',
-        fill=False, tooltip='Station search area',
-    ).add_to(m)
+    # ── station search area boundary (FDSN station query only) ────────────────
+    if station_area:
+        for r_km in (cfg['radius_km_sta_min'], cfg['radius_km_sta']):
+            if r_km > 0:
+                folium.Circle(
+                    location=[cfg['lat_center_sta'], cfg['lon_center_sta']],
+                    radius=r_km * 1000,
+                    color='#1565C0', weight=2, dash_array='4',
+                    fill=False, tooltip=f'Station search area ({r_km:g} km)',
+                ).add_to(m)
 
-    # ── events (event mode only) ──────────────────────────────────────────────
-    if not is_continuous:
-        ev_group = folium.FeatureGroup(name=f'Events ({len(ev_points)})')
-        for p in ev_points:
-            mag     = p['mag']
-            mag_txt = f"{mag:.1f}" if mag is not None else '?'
-            popup_html = (
-                f"<b>{p['time_str']} UTC</b><br>"
-                f"Magnitude : {mag_txt}<br>"
-                f"Depth     : {p['depth_km']:.1f} km<br>"
-                f"Lat / Lon : {p['lat']:.4f} / {p['lon']:.4f}"
-            )
-            folium.CircleMarker(
-                location=[p['lat'], p['lon']],
-                radius=max(4, (mag if mag is not None else 1.5) * 2.5),
-                color=_mag_color(mag),
-                fill=True, fill_color=_mag_color(mag), fill_opacity=0.75,
-                popup=folium.Popup(popup_html, max_width=240),
-                tooltip=f"M {mag_txt}",
-            ).add_to(ev_group)
-        ev_group.add_to(m)
+    # ── azimuthal selection grid: sector boundaries and ring edges ────────────
+    if selection:
+        grid = folium.FeatureGroup(name='Azimuthal grid')
+        if selection['rings_given']:
+            for edge in selection['edges']:
+                if edge > 0:
+                    folium.Circle(
+                        location=[selection['lat0'], selection['lon0']],
+                        radius=edge * 1000, color=_GRID_COLOUR, weight=1.8,
+                        opacity=0.9, dash_array='5,6', fill=False,
+                        tooltip=f'Ring edge {edge:g} km',
+                    ).add_to(grid)
+        for az, pts in _grid_lines(selection):
+            folium.PolyLine(pts, color=_GRID_COLOUR, weight=1.8, opacity=0.9,
+                            dash_array='5,6',
+                            tooltip=f'Sector boundary {az:g}°').add_to(grid)
+        grid.add_to(m)
 
-    # ── stations (CSS triangle marker) ───────────────────────────────────────
-    n_sta = sum(len(net) for net in inv) if inv else 0
-    sta_group = folium.FeatureGroup(name=f'Stations ({n_sta})')
-    if inv is not None:
-        for net in inv:
-            for sta in net:
-                popup_html = (
-                    f"<b>{net.code}.{sta.code}</b><br>"
-                    f"{sta.site.name}<br>"
-                    f"Lat / Lon : {sta.latitude:.4f} / {sta.longitude:.4f}"
-                )
-                # Upward-pointing triangle via CSS border trick
-                triangle_html = (
-                    '<div style="'
-                    'width:0;height:0;'
-                    'border-left:8px solid transparent;'
-                    'border-right:8px solid transparent;'
-                    'border-bottom:16px solid #1565C0;'
-                    '"></div>'
-                )
-                folium.Marker(
-                    location=[sta.latitude, sta.longitude],
-                    icon=folium.DivIcon(
-                        html=triangle_html,
-                        icon_size=(16, 16),
-                        icon_anchor=(8, 16),
-                    ),
-                    popup=folium.Popup(popup_html, max_width=200),
-                    tooltip=f"{net.code}.{sta.code}",
-                ).add_to(sta_group)
+    # ── events: size = magnitude, colour = depth / time (JavaScript layer) ────
+    if ev_points:
+        radius, legend_mags = _mag_radius_fn(ev_points)
+        ev_group = folium.FeatureGroup(
+            name=f'Events ({len(ev_points)})').add_to(m)
+        # Biggest events first, so that smaller ones stay visible on top
+        order = sorted(ev_points, key=lambda p: -radius(p['mag']))
+        rows = ['<span style="color:#1565C0;font-size:15px">▲</span>'
+                '&nbsp;Station']
+        if event_area:
+            rows.append('<span style="color:#607D8B">─ ─</span>'
+                        '&nbsp;Event search area')
+        if station_area:
+            rows.append('<span style="color:#1565C0">─ ─</span>'
+                        '&nbsp;Station search area')
+        rows += _selection_legend_rows(selection)
+        payload = dict(
+            mode=cfg['map_color_by'],
+            events=[[p['lat'], p['lon'], round(p['depth_km'], 3), p['mag'],
+                     p['t'], round(radius(p['mag']), 2), p['time_str'],
+                     p['name']] for p in order],
+            sizes=[[f"{v:g}", round(radius(v), 2)] for v in legend_mags],
+            unknown_mag=any(p['mag'] is None for p in ev_points),
+            r_min=_R_MIN_PX,
+            panel=True,
+            panel_px=_PANEL_PX,
+            extra='<div style="margin-top:10px">' + '<br>'.join(rows) + '</div>',
+            **_colour_scales(ev_points),
+        )
+        layer = MacroElement()
+        layer._template = Template(_EVENT_LAYER_JS)
+        layer.group_name = ev_group.get_name()
+        # "</" inside a string would close the <script> block early
+        layer.payload = json.dumps(payload).replace('</', '<\\/')
+        layer.add_to(m)
+
+    # ── stations (CSS triangle markers, drawn above the events) ──────────────
+    def triangle_icon(colour, half):
+        # Upward-pointing triangle via CSS border trick
+        return folium.DivIcon(
+            html=(f'<div style="width:0;height:0;'
+                  f'border-left:{half}px solid transparent;'
+                  f'border-right:{half}px solid transparent;'
+                  f'border-bottom:{2 * half}px solid {colour};"></div>'),
+            icon_size=(2 * half, 2 * half),
+            icon_anchor=(half, 2 * half),
+        )
+
+    def station_popup(net_code, sta_code, lat, lon, site):
+        r = sel_info.get((net_code, sta_code))
+        geo = (f"<br>Distance : {r['dist_km']:.0f} km<br>"
+               f"Azimuth : {r['az']:.0f}°" if r else '')
+        why = (f"<br><i>dropped: {r['status']}</i>"
+               if r and r['status'] != 'selected' else '')
+        return folium.Popup(f"<b>{net_code}.{sta_code}</b><br>{site or ''}<br>"
+                            f"Lat / Lon : {lat:.4f} / {lon:.4f}{geo}{why}",
+                            max_width=220)
+
+    if dropped:          # drawn first, so the selected ones stay on top
+        drop_group = folium.FeatureGroup(
+            name=f'Dropped stations ({len(dropped)})')
+        for net_code, sta_code, lat, lon, site in dropped:
+            folium.Marker(
+                location=[lat, lon], icon=triangle_icon(_DROPPED_COLOUR, 5),
+                popup=station_popup(net_code, sta_code, lat, lon, site),
+                tooltip=f"{net_code}.{sta_code} (dropped)",
+            ).add_to(drop_group)
+        drop_group.add_to(m)
+
+    sta_group = folium.FeatureGroup(name=f'Stations ({len(stations)})')
+    for net_code, sta_code, lat, lon, site in stations:
+        folium.Marker(
+            location=[lat, lon], icon=triangle_icon('#1565C0', 8),
+            popup=station_popup(net_code, sta_code, lat, lon, site),
+            tooltip=f"{net_code}.{sta_code}",
+        ).add_to(sta_group)
     sta_group.add_to(m)
 
     folium.LayerControl(collapsed=False).add_to(m)
 
-    # ── bottom-left panel: magnitude legend OR continuous info ────────────────
+    # Frame everything drawn (events, stations, areas).  Done in JavaScript
+    # rather than with m.fit_bounds(): a one-off fit at script time uses
+    # whatever size the window has at that instant (wrong in a background
+    # tab or while the window is still opening), so the fit is repeated on
+    # page load and on resize until the user moves the map.
+    framing = MacroElement()
+    framing._template = Template(_FIT_BOUNDS_JS)
+    framing.bounds = json.dumps([[south, west], [north, east]])
+    framing.add_to(m)
+
+    # ── continuous mode: info panel (event mode has the JS legend instead) ────
     if is_continuous:
-        n_sta   = sum(len(net) for net in inv) if inv else 0
-        t0      = UTCDateTime(cfg['tmin'])
-        t1_end  = UTCDateTime(cfg['tmax'])
-        n_days  = max(1, int((t1_end - t0) / 86400))
-        ch      = cfg.get('chunk_hours', 24)
-        n_files = n_sta * int(n_days * 24 / ch)
+        n_files  = len(stations) * len(_continuous_chunks(cfg))
+        area_row = ('<br><span style="color:#1565C0">─ ─</span>'
+                    '&nbsp;Station search area' if station_area else '')
+        area_row += ''.join('<br>' + row
+                            for row in _selection_legend_rows(selection))
         panel_html = f"""
     <div style="
         position: fixed; bottom: 30px; left: 30px; z-index: 1000;
@@ -828,81 +2182,47 @@ def _build_folium_map(ev_points, inv, cfg: dict, event_area: bool = True):
         box-shadow: 2px 2px 6px rgba(0,0,0,.2);">
       <b>Continuous download</b><br>
       {cfg['tmin'][:10]} → {cfg['tmax'][:10]}<br>
-      Stations  : {n_sta}<br>
-      Chunk     : {ch} h / file<br>
+      Stations  : {len(stations)}<br>
+      Chunk     : {cfg['chunk_hours']} h / file<br>
       Est. files: ~{n_files}<br>
-      <span style="color:#1565C0;font-size:16px">▲</span>&nbsp;Station<br>
-      <span style="color:#1565C0">─ ─</span>&nbsp;Station search area
+      <span style="color:#1565C0;font-size:16px">▲</span>&nbsp;Station{area_row}
     </div>"""
         m.get_root().html.add_child(folium.Element(panel_html))
-    else:
-        rows = ''
-        for m_int, color in sorted(_MAG_COLOR_MAP.items()):
-            label = (f'M ≥ {m_int}' if m_int == _MAG_COLOR_MAX_KEY
-                     else f'M {m_int}')
-            rows += (f'<span style="color:{color};font-size:16px">●</span>'
-                     f'&nbsp;{label}<br>\n')
-        rows += (f'<span style="color:{_MAG_COLOR_OVERFLOW};font-size:16px">●</span>'
-                 f'&nbsp;M ≥ {_MAG_COLOR_MAX_KEY + 1}<br>\n')
-        rows += (f'<span style="color:{_MAG_COLOR_UNKNOWN};font-size:16px">●</span>'
-                 f'&nbsp;M unknown<br>\n')
-        rows += ('<span style="color:#1565C0;font-size:16px">▲</span>&nbsp;Station<br>\n'
-                 '<span style="color:#607D8B">─ ─</span>&nbsp;Event area&nbsp;&nbsp;'
-                 '<span style="color:#1565C0">─ ─</span>&nbsp;Station area')
-        legend_html = f"""
-    <div style="
-        position: fixed; bottom: 30px; left: 30px; z-index: 1000;
-        background: white; padding: 12px 16px; border-radius: 8px;
-        border: 1px solid #ccc; font-size: 12px; line-height: 1.8;
-        box-shadow: 2px 2px 6px rgba(0,0,0,.2);">
-      <b>Legend</b><br>
-      {rows}
-    </div>"""
-        m.get_root().html.add_child(folium.Element(legend_html))
 
     return m
 
 
-def _build_pygmt_map(ev_points, inv, cfg: dict, event_area: bool = True):
-    """Static fallback map.  ev_points=None signals continuous mode."""
+def _build_pygmt_map(ev_points, inv, cfg: dict, event_area: bool = True,
+                     station_area: bool = True, show: bool = True,
+                     selection=None):
+    """Static fallback map.  ev_points=None signals continuous mode.
+
+    Same conventions as the folium map: size scales with magnitude, colour
+    shows depth or time (config key map_color_by), with a colour bar, and a
+    depth–time panel under the map (no time slider: the image is static).
+    """
     import pygmt
     import numpy as np
 
-    # Map region with a small margin:
-    # continuous → station search area; local catalog → bounding box of the
-    # events themselves; FDSN catalog → configured event search area
-    margin = 0.1
-    if ev_points is None:
-        r = _radius_km_to_deg(cfg['radius_km_sta']) + 0.05
-        region = [
-            cfg['lon_center_sta'] - r, cfg['lon_center_sta'] + r,
-            cfg['lat_center_sta'] - r, cfg['lat_center_sta'] + r,
-        ]
-    elif not event_area:
-        lons = [p['lon'] for p in ev_points]
-        lats = [p['lat'] for p in ev_points]
-        region = [
-            min(lons) - margin, max(lons) + margin,
-            min(lats) - margin, max(lats) + margin,
-        ]
-    elif cfg['area_type'] == 'rectangular':
-        region = [
-            cfg['lon_min'] - margin, cfg['lon_max'] + margin,
-            cfg['lat_min'] - margin, cfg['lat_max'] + margin,
-        ]
-    else:
-        r = _radius_km_to_deg(cfg['radius_km']) + 0.05
-        region = [
-            cfg['lon_center'] - r, cfg['lon_center'] + r,
-            cfg['lat_center'] - r, cfg['lat_center'] + r,
-        ]
+    stations = _unique_stations(inv)
+    dropped, extra = _selection_drawing(selection)
+    south, west, north, east = _map_bounds(ev_points, stations + dropped, cfg,
+                                           event_area, station_area, extra)
+    pad    = max(0.05, 0.05 * max(north - south, east - west))
+    region = [west - pad, east + pad, south - pad, north + pad]
 
     fig = pygmt.Figure()
     fig.basemap(region=region, projection='M15c', frame='a')
     fig.coast(land='gray90', water='lightblue',
-              shorelines='1/0.4p,black', resolution='h')
+              shorelines='1/0.4p,black',
+              resolution='h' if north - south < 5 else 'i')
 
-    # Event search area boundary (FDSN event query only)
+    def circle(lat, lon, r_km, pen):
+        # geodesic circle: exact also for radii of hundreds of km
+        pts = [_destination(lat, lon, a, r_km) for a in range(0, 361, 2)]
+        fig.plot(x=[p[1] for p in pts], y=[p[0] for p in pts], pen=pen)
+
+    # Search areas (only those that were actually used for a query)
     if ev_points is not None and event_area:
         if cfg['area_type'] == 'rectangular':
             fig.plot(
@@ -913,46 +2233,107 @@ def _build_pygmt_map(ev_points, inv, cfg: dict, event_area: bool = True):
                 pen='1p,gray50,dashed',
             )
         else:
-            angles = np.linspace(0, 360, 361)
-            r_deg  = _radius_km_to_deg(cfg['radius_km'])
-            fig.plot(
-                x=cfg['lon_center'] + r_deg * np.cos(np.radians(angles)),
-                y=cfg['lat_center'] + r_deg * np.sin(np.radians(angles)),
-                pen='1p,gray50,dashed',
-            )
+            circle(cfg['lat_center'], cfg['lon_center'], cfg['radius_km'],
+                   '1p,gray50,dashed')
+    if station_area:
+        for r_km in (cfg['radius_km_sta_min'], cfg['radius_km_sta']):
+            if r_km > 0:
+                circle(cfg['lat_center_sta'], cfg['lon_center_sta'], r_km,
+                       '1p,royalblue,dashed')
 
-    # Events (missing magnitudes get a default size)
+    # Azimuthal selection grid and the stations it dropped
+    if selection:
+        grid_pen = f'0.6p,{_GRID_COLOUR},dotted'
+        if selection['rings_given']:
+            for edge in selection['edges']:
+                if edge > 0:
+                    circle(selection['lat0'], selection['lon0'], edge,
+                           grid_pen)
+        for _, pts in _grid_lines(selection):
+            fig.plot(x=[p[1] for p in pts], y=[p[0] for p in pts],
+                     pen=grid_pen)
+        if dropped:
+            fig.plot(x=[s[3] for s in dropped], y=[s[2] for s in dropped],
+                     style='t0.2c', fill=_DROPPED_COLOUR, pen='0.3p,gray40')
+
+    # Events: biggest first so that smaller ones stay visible on top
     if ev_points:
-        sizes = [max(0.08, (p['mag'] if p['mag'] is not None else 1.5) * 0.04)
-                 for p in ev_points]
-        fig.plot(x=[p['lon'] for p in ev_points],
-                 y=[p['lat'] for p in ev_points],
-                 size=sizes, style='cc', color='red', pen='0.3p,darkred')
+        radius, _ = _mag_radius_fn(ev_points)
+        pts = sorted(ev_points, key=lambda p: -radius(p['mag']))
+        # Same colour ranges as the folium map (robust depth range included)
+        scale = _colour_scales(pts)[cfg['map_color_by']]
+        lo, hi = scale['lo'], scale['hi']
+        if cfg['map_color_by'] == 'depth':
+            vals  = [p['depth_km'] for p in pts]
+            label = 'Depth (km)'
+        else:
+            t0    = lo
+            vals  = [(p['t'] - t0) / 86400.0 for p in pts]
+            lo, hi = 0.0, (hi - t0) / 86400.0
+            label = 'Days since ' + util.time_to_str(t0, format='%Y-%m-%d')
+        # background=True: values beyond a clipped end take the end colour
+        pygmt.makecpt(cmap='viridis' if cfg['map_color_by'] == 'depth'
+                      else 'plasma', series=[lo, hi], background=True,
+                      reverse=(cfg['map_color_by'] == 'depth'))
+        fig.plot(x=[p['lon'] for p in pts], y=[p['lat'] for p in pts],
+                 size=[2 * radius(p['mag']) * _PX_TO_CM for p in pts],
+                 fill=vals, cmap=True, style='cc', pen='0.3p,gray20')
+        # Triangles at the colour-bar ends that were clipped (≤ / ≥)
+        ends = (('b' if scale['ticks'][0].startswith('≤') else '') +
+                ('f' if scale['ticks'][-1].startswith('≥') else ''))
+        fig.colorbar(position='JBC+e' + ends if ends else 'JBC',
+                     frame=['af', f'x+l"{label}"'])
 
     # Stations
-    if inv is not None:
-        sta_lons = [sta.longitude for net in inv for sta in net]
-        sta_lats = [sta.latitude  for net in inv for sta in net]
-        if sta_lons:
-            fig.plot(x=sta_lons, y=sta_lats,
-                     style='t0.35c', color='royalblue', pen='0.5p,navy')
+    if stations:
+        fig.plot(x=[s[3] for s in stations], y=[s[2] for s in stations],
+                 style='t0.35c', fill='royalblue', pen='0.5p,navy')
 
-    fig.show()
+    # Depth–time panel under the map and its colour bar (same sizes and
+    # colours as the map; depth increases downwards)
+    if ev_points:
+        t_lo  = min(p['t'] for p in pts)
+        t_hi  = max(p['t'] for p in pts)
+        # margins large enough for the biggest markers at the edges
+        t_pad = max(1800.0, 0.04 * (t_hi - t_lo))
+        depths = [p['depth_km'] for p in pts]
+        d_lo, d_hi = min(depths), max(depths)
+        d_pad = max(0.2, 0.15 * (d_hi - d_lo))
+        iso   = lambda t: util.time_to_str(t, format='%Y-%m-%dT%H:%M:%S')
+        fig.shift_origin(yshift='-7c')
+        fig.basemap(region=[iso(t_lo - t_pad), iso(t_hi + t_pad),
+                            d_lo - d_pad, d_hi + d_pad],
+                    projection='X15c/-4c',
+                    frame=['WSen', 'xaf+l"Origin time (UTC)"',
+                           'yaf+l"Depth (km)"'])
+        fig.plot(x=np.array([np.datetime64(int(round(p['t'] * 1000)), 'ms')
+                             for p in pts]),
+                 y=depths,
+                 size=[2 * max(2.0, 0.7 * radius(p['mag'])) * _PX_TO_CM
+                       for p in pts],
+                 fill=vals, cmap=True, style='cc', pen='0.3p,gray20')
+
+    if show:
+        fig.show()
     return fig
 
 
-def show_preview_map(ev_points, inv, cfg: dict, event_area: bool = True) -> None:
+def show_preview_map(ev_points, inv, cfg: dict, event_area: bool = True,
+                     station_area: bool = True, selection=None) -> None:
     """Display the preview map; tries folium first, then pygmt.
 
-    ev_points  : normalized event dicts (see _points_from_*), or None in
-                 continuous mode
-    event_area : draw the configured event search area (False for local .pf)
+    ev_points    : normalized event dicts (see _points_from_*), or None in
+                   continuous mode
+    event_area   : draw the event search area (False for a local .pf)
+    station_area : draw the station search area (False for a local XML)
+    selection    : azimuthal selection report, or None when it is off
     """
-    backend = cfg.get('map_backend', 'folium')
+    backend = cfg['map_backend']
 
     if backend == 'folium':
         try:
-            m = _build_folium_map(ev_points, inv, cfg, event_area)
+            m = _build_folium_map(ev_points, inv, cfg, event_area,
+                                  station_area, selection)
             tmp = tempfile.NamedTemporaryFile(
                 suffix='.html', delete=False,
                 prefix='seismic_preview_',
@@ -973,7 +2354,8 @@ def show_preview_map(ev_points, inv, cfg: dict, event_area: bool = True) -> None
 
     if backend == 'pygmt':
         try:
-            _build_pygmt_map(ev_points, inv, cfg, event_area)
+            _build_pygmt_map(ev_points, inv, cfg, event_area, station_area,
+                             selection=selection)
             return
         except ImportError:
             print("  [WARN] pygmt not installed either. No map shown.")
@@ -993,16 +2375,16 @@ def _obspy_ev_to_pyrocko(ev, label: str) -> model.Event | None:
         origin = ev.preferred_origin() or ev.origins[0]
     except IndexError:
         return None
+    if origin.latitude is None or origin.longitude is None:
+        return None
 
     try:
         mag = (ev.preferred_magnitude() or ev.magnitudes[0]).mag
     except (IndexError, AttributeError):
         mag = None
 
-    # Build pyrocko time from obspy UTCDateTime string
-    t_raw   = str(origin.time)                          # e.g. "2024-01-15T03:22:10.123456Z"
-    t_str   = t_raw[0:10] + ' ' + t_raw[11:23]         # "2024-01-15 03:22:10.123"
-    ptime   = util.str_to_time(t_str)
+    # Both obspy and pyrocko count seconds since 1970-01-01 UTC
+    ptime = origin.time.timestamp
 
     return model.Event(
         name=_event_name_from_time(label, ptime),
@@ -1035,6 +2417,7 @@ def save_catalog(cat: Catalog, cfg: dict) -> list:
         if pev is not None:
             pf_events.append(pev)
     pf_events.sort(key=lambda e: e.time)
+    _dedupe_event_names(pf_events)
 
     pf_path = base + '.pf'
     model.dump_events(pf_events, pf_path)   # default format='basic'
@@ -1062,18 +2445,40 @@ def save_catalog(cat: Catalog, cfg: dict) -> list:
 # 6 ─ SAVE STATION METADATA
 # ═════════════════════════════════════════════════════════════════════════════
 
-def save_stations(inv, cfg: dict) -> None:
+def save_station_metadata(inv, inv_all, selection, cfg: dict,
+                          local_sta: bool) -> None:
+    """Save the StationXML (FDSN stations only) and the selection report."""
+    if not local_sta:
+        print("  Saving station metadata …")
+        save_stations(inv, cfg, inv_all if selection else None)
+    else:
+        print("  [SKIP] Station metadata loaded from local file — "
+              "not re-saved.")
+    if selection:
+        save_selection_report(selection, cfg)
+
+
+def save_stations(inv, cfg: dict, inv_all=None) -> None:
     """Write station metadata (with response) to META_DATA/.
 
-    Two outputs:
-      META_DATA/<name>.xml                  ← full inventory in a single file
+    Outputs:
+      META_DATA/<name>.xml                  ← inventory in a single file
       META_DATA/<name>/<name>_NET_STA.xml   ← one StationXML per station
+      META_DATA/<name>_all.xml              ← all candidates, when inv is the
+                                              result of the azimuthal
+                                              selection (inv_all given)
     """
     if inv is None:
         print("  [SKIP] No inventory to save.")
         return
     os.makedirs(META_DIR, exist_ok=True)
     name = cfg['station_file_name']
+
+    if inv_all is not None:
+        path = os.path.join(META_DIR, name + '_all.xml')
+        inv_all.write(path, format='STATIONXML')
+        print(f"  Saved: {path}   (all {len(_unique_stations(inv_all))} "
+              f"candidates)")
 
     # ── full inventory, single file ──────────────────────────────────────────
     path = os.path.join(META_DIR, name + '.xml')
@@ -1116,12 +2521,12 @@ def download_waveforms(pf_events: list, inv, client: Client, cfg: dict) -> None:
 
     tbef = cfg['t_before_s']
     taft = cfg['t_after_s']
-    loc  = cfg['location']
+    # In FDSN bulk requests an empty location code must be written as "--"
+    loc  = cfg['location'] or '--'
     # FDSN bulk lines take ONE channel pattern each → split "HH?,BH?" up front
     chan_patterns = [c.strip() for c in cfg['channel'].split(',')]
 
-    # Unique (net, sta) code pairs — a station may appear in several epochs
-    stations = sorted({(net.code, sta.code) for net in inv for sta in net})
+    stations = [(net, sta) for net, sta, *_ in _unique_stations(inv)]
 
     n_ev = len(pf_events)
     n_dl = n_skip = n_nodata = n_err = 0
@@ -1130,7 +2535,7 @@ def download_waveforms(pf_events: list, inv, client: Client, cfg: dict) -> None:
         # Event folder name = pev.name  (already contains label + timestamp)
         ev_name = pev.name
         ev_dir  = os.path.join(DATA_DIR, ev_name)
-        t0      = UTCDateTime(util.time_to_str(pev.time))
+        t0      = UTCDateTime(pev.time)
         t1, t2  = t0 - tbef, t0 + taft
 
         print(f"\n[{idx:>4}/{n_ev}]  {ev_name}")
@@ -1191,41 +2596,55 @@ def download_waveforms(pf_events: list, inv, client: Client, cfg: dict) -> None:
 # 8 ─ CONTINUOUS WAVEFORM DOWNLOAD
 # ═════════════════════════════════════════════════════════════════════════════
 
+def _continuous_chunks(cfg: dict) -> list:
+    """Time chunks (t1, t2) of the continuous download.
+
+    Chunks sit on a fixed grid — multiples of chunk_hours counted from
+    1970-01-01 00:00 UTC, i.e. midnight-aligned for daily chunks — and are
+    always complete, also where tmin / tmax fall inside a chunk.  So a file
+    name always means the same time span, and runs with different tmin /
+    tmax never mistake a partial file for a complete one when resuming.
+    """
+    chunk = cfg['chunk_hours'] * 3600.0
+    tmax  = UTCDateTime(cfg['tmax']).timestamp
+    t     = (UTCDateTime(cfg['tmin']).timestamp // chunk) * chunk
+    chunks = []
+    while t < tmax:
+        chunks.append((UTCDateTime(t), UTCDateTime(t + chunk)))
+        t += chunk
+    return chunks
+
+
 def download_continuous(inv, client: Client, cfg: dict) -> None:
     """Download continuous waveforms in fixed-size time chunks, in parallel.
 
     Output: DATA/CONTINUOUS/{event_label}_yyyy_mm_dd_{NET}_{STA}.mseed
-            (sub-daily chunks add _HH_MM after the date)
+            (chunks that are not whole days add _HH_MM after the date)
     Existing files are skipped, so an interrupted run resumes where it left.
     """
     if inv is None:
         print("  [SKIP] No inventory – cannot download waveforms.")
         return
 
-    tmin  = UTCDateTime(cfg['tmin'])
-    tmax  = UTCDateTime(cfg['tmax'])
-    chunk = cfg.get('chunk_hours', 24) * 3600   # seconds
+    chunk = cfg['chunk_hours'] * 3600   # seconds
     label = cfg['event_label']
     chan  = cfg['channel']
     loc   = cfg['location']
-    n_workers = max(1, int(cfg.get('parallel_downloads', 4)))
+    n_workers = max(1, int(cfg['parallel_downloads']))
 
     cont_dir = os.path.join(DATA_DIR, 'CONTINUOUS')
     os.makedirs(cont_dir, exist_ok=True)
 
-    # Unique (net, sta) code pairs — a station may appear in several epochs
-    stations = sorted({(net.code, sta.code) for net in inv for sta in net})
+    stations = [(net, sta) for net, sta, *_ in _unique_stations(inv)]
 
-    # Sub-daily chunks need HH_MM in the filename, otherwise every chunk of
-    # the same day maps to the same file and gets skipped as "already on disk"
-    t_fmt = '%Y_%m_%d' if chunk >= 86400 else '%Y_%m_%d_%H_%M'
+    # Chunks that are not whole days need HH_MM in the filename, otherwise
+    # several chunks would map to one file and be skipped as "already on disk"
+    t_fmt = '%Y_%m_%d' if chunk % 86400 == 0 else '%Y_%m_%d_%H_%M'
 
     # Build the full task list up front, skipping files already on disk
     tasks  = []
     n_skip = 0
-    t1 = tmin
-    while t1 < tmax:
-        t2 = min(t1 + chunk, tmax)
+    for t1, t2 in _continuous_chunks(cfg):
         date_str = t1.strftime(t_fmt)
         for net_code, sta_code in stations:
             fname    = f"{label}_{date_str}_{net_code}_{sta_code}.mseed"
@@ -1234,7 +2653,6 @@ def download_continuous(inv, client: Client, cfg: dict) -> None:
                 n_skip += 1
             else:
                 tasks.append((t1, t2, net_code, sta_code, out_path))
-        t1 = t2
 
     print(f"  {len(tasks)} file(s) to download  "
           f"({n_skip} already on disk, {n_workers} parallel connections)")
@@ -1335,26 +2753,35 @@ def main() -> None:
 
     # ── 1. Configuration ──────────────────────────────────────────────────────
     cfg = load_or_create_config(config_path)
+    validate_config(cfg)
     print_config_summary(cfg)
     cfg = ask_modify_config(config_path, cfg)
+    validate_config(cfg)
+
+    mode      = cfg['download_mode']
+    local_sta = bool(cfg.get('existing_stations_xml'))
+    local_cat = mode == 'event' and bool(cfg.get('existing_catalog_pf'))
+    sta_src   = ("local file — will NOT be re-saved" if local_sta
+                 else "FDSN — will be saved in META_DATA/")
 
     # ── 2. Connect to FDSN ────────────────────────────────────────────────────
-    # Main client: used for stations and waveforms
+    # Main client: stations (unless local) and waveforms.  The catalog comes
+    # from fdsn_site_events (e.g. IRIS → USGS) or from a local file.
+    ev_site     = cfg.get('fdsn_site_events') or cfg['fdsn_site']
+    need_events = mode == 'event' and not local_cat
+    needed      = ('dataselect',) if local_sta else ('station', 'dataselect')
+    if need_events and ev_site == cfg['fdsn_site']:
+        needed += ('event',)
+
     print(f"\n  Connecting to {cfg['fdsn_site']} …", end=' ', flush=True)
-    client = Client(cfg['fdsn_site'])
+    client = _connect(cfg['fdsn_site'], needed)
     print("Connected.")
-
-    # Optional separate client for event queries (e.g. IRIS → USGS)
-    ev_site = cfg.get('fdsn_site_events') or None
-    if ev_site and ev_site != cfg['fdsn_site']:
+    event_client = client
+    if need_events and ev_site != cfg['fdsn_site']:
         print(f"  Connecting to {ev_site} (events) …", end=' ', flush=True)
-        event_client = Client(ev_site)
+        event_client = _connect(ev_site, ('event',))
         print("Connected.")
-    else:
-        event_client = client
     print()
-
-    mode = cfg.get('download_mode', 'event')
 
     # ══════════════════════════════════════════════════════════════════════════
     if mode == 'continuous':
@@ -1362,28 +2789,31 @@ def main() -> None:
 
         # ── 3. Stations ───────────────────────────────────────────────────────
         print(f"[STEP 1/3]  Loading station inventory …")
-        inv   = get_stations(client, cfg)
-        n_sta = sum(len(net) for net in inv) if inv else 0
+        inv_all = get_stations(client, cfg)
+        inv, selection = apply_station_selection(inv_all, cfg)
+        n_sta = len(_unique_stations(inv))
 
         # ── 4. Preview map (stations only) ────────────────────────────────────
-        print(f"[STEP 2/3]  Building preview map "
-              f"({cfg.get('map_backend', 'folium')}) …\n")
-        show_preview_map(None, inv, cfg)   # cat=None → continuous map
+        print(f"[STEP 2/3]  Building preview map ({cfg['map_backend']}) …\n")
+        show_preview_map(None, inv, cfg, station_area=not local_sta,
+                         selection=selection)
 
         # ── 5. Confirmation ───────────────────────────────────────────────────
-        chunk_h = cfg.get('chunk_hours', 24)
-        tspan   = UTCDateTime(cfg['tmax']) - UTCDateTime(cfg['tmin'])
-        n_days  = max(1, int(tspan / 86400))
-        est     = n_sta * int(n_days * 24 / chunk_h)
-        sta_src = ("local file — will NOT be re-saved"
-                   if cfg.get('existing_stations_xml')
-                   else "FDSN — will be saved in META_DATA/")
+        chunks = _continuous_chunks(cfg)
+        c_from = chunks[0][0].strftime('%Y-%m-%d %H:%M')
+        c_to   = chunks[-1][1].strftime('%Y-%m-%d %H:%M')
         print(f"\n  Summary before download:")
         print(f"    Mode      : CONTINUOUS")
-        print(f"    Period    : {cfg['tmin']}  →  {cfg['tmax']}  ({n_days} days)")
+        print(f"    Period    : {cfg['tmin']}  →  {cfg['tmax']}")
+        print(f"                (complete chunks: {c_from} → {c_to})")
         print(f"    Stations  : {n_sta}   [{sta_src}]")
-        print(f"    Chunk     : {chunk_h} h / file   (~{est} files total)")
-        print(f"    Parallel  : {cfg.get('parallel_downloads', 4)} connections")
+        if selection:
+            print(f"                (azimuthal selection: {n_sta} of "
+                  f"{len(selection['rows'])}, max gap "
+                  f"{selection['gap_after']:.0f}°)")
+        print(f"    Chunks    : {len(chunks)} × {cfg['chunk_hours']} h"
+              f"   (~{n_sta * len(chunks)} files total)")
+        print(f"    Parallel  : {cfg['parallel_downloads']} connections")
         print(f"    Output    : {os.path.join(DATA_DIR, 'CONTINUOUS')}\n")
 
         ans = input("  Proceed with download? [y/N]: ").strip().lower()
@@ -1393,12 +2823,7 @@ def main() -> None:
 
         # ── 6. Save stations (only when they came from FDSN) + download ───────
         print(f"\n{'─' * w}")
-        if not cfg.get('existing_stations_xml'):
-            print("  Saving station metadata …")
-            save_stations(inv, cfg)
-        else:
-            print("  [SKIP] Station metadata loaded from local file — "
-                  "not re-saved.")
+        save_station_metadata(inv, inv_all, selection, cfg, local_sta)
 
         print(f"\n{'─' * w}")
         print(f"[STEP 3/3]  Downloading continuous waveforms …")
@@ -1409,48 +2834,64 @@ def main() -> None:
     # ══════════════════════════════════════════════════════════════════════════
 
         # ── 3. Events: local .pf file OR FDSN query ───────────────────────────
-        existing_pf = cfg.get('existing_catalog_pf') or None
-        if existing_pf:
+        failed = []
+        if local_cat:
             print(f"[STEP 1/4]  Loading catalog from local .pf file …")
             pf_events = load_catalog_from_pf(
-                _resolve_local_path(existing_pf, CAT_DIR),
+                _resolve_local_path(cfg['existing_catalog_pf'], CAT_DIR),
                 cfg['event_label'])
             ev_points = _points_from_pyrocko(pf_events)
             n_events  = len(pf_events)
             cat       = None       # nothing to (re-)save
         else:
             pf_events = None       # built by save_catalog after confirmation
-            ev_site_label = ev_site if ev_site else cfg['fdsn_site']
-            print(f"[STEP 1/4]  Querying event catalog from {ev_site_label} …")
-            cat       = query_events(event_client, cfg)
-            ev_points = _points_from_obspy(cat)
-            n_events  = len(cat)
+            print(f"[STEP 1/4]  Querying event catalog from {ev_site} …")
+            cat, failed = query_events(event_client, cfg)
+            ev_points   = _points_from_obspy(cat)
+            n_events    = len(cat)
 
         if n_events == 0:
             print("\n  No events found. Check your parameters and try again.\n")
             sys.exit(0)
 
+        # A local catalog is not limited to tmin–tmax, but the FDSN station
+        # query is: stations active only outside that window would be missed
+        if local_cat and not local_sta:
+            t_lo = UTCDateTime(cfg['tmin']).timestamp
+            t_hi = UTCDateTime(cfg['tmax']).timestamp
+            n_out = sum(1 for ev in pf_events if not t_lo <= ev.time <= t_hi)
+            if n_out:
+                print(f"  [WARN] {n_out} of {n_events} events fall outside "
+                      f"tmin → tmax ({cfg['tmin']} → {cfg['tmax']}),\n"
+                      f"         the window used for the FDSN station query: "
+                      f"stations active only at\n"
+                      f"         those times may be missing.  Widen tmin / "
+                      f"tmax to cover the whole catalog.\n")
+
         # ── 4. Stations ───────────────────────────────────────────────────────
         print(f"[STEP 2/4]  Loading station inventory …")
-        inv   = get_stations(client, cfg)
-        n_sta = sum(len(net) for net in inv) if inv else 0
+        inv_all = get_stations(client, cfg)
+        inv, selection = apply_station_selection(inv_all, cfg)
+        n_sta = len(_unique_stations(inv))
 
         # ── 5. Preview map ────────────────────────────────────────────────────
-        print(f"[STEP 3/4]  Building preview map "
-              f"({cfg.get('map_backend', 'folium')}) …\n")
-        show_preview_map(ev_points, inv, cfg,
-                         event_area=(existing_pf is None))
+        print(f"[STEP 3/4]  Building preview map ({cfg['map_backend']}) …\n")
+        show_preview_map(ev_points, inv, cfg, event_area=not local_cat,
+                         station_area=not local_sta, selection=selection)
 
         # ── 6. Confirmation ───────────────────────────────────────────────────
-        cat_src = (f"local file — will NOT be re-saved" if existing_pf
+        cat_src = ("local file — will NOT be re-saved" if local_cat
                    else "FDSN — will be saved in CAT/")
-        sta_src = ("local file — will NOT be re-saved"
-                   if cfg.get('existing_stations_xml')
-                   else "FDSN — will be saved in META_DATA/")
+        if failed:
+            cat_src += f" — INCOMPLETE, {len(failed)} time window(s) failed"
         print(f"\n  Summary before download:")
         print(f"    Mode      : EVENT")
         print(f"    Events    : {n_events}   [{cat_src}]")
         print(f"    Stations  : {n_sta}   [{sta_src}]")
+        if selection:
+            print(f"                (azimuthal selection: {n_sta} of "
+                  f"{len(selection['rows'])}, max gap "
+                  f"{selection['gap_after']:.0f}°)")
         print(f"    Window    : -{cfg['t_before_s']} s  /  +{cfg['t_after_s']} s")
         print(f"    Output    : {WORK_DIR}\n")
 
@@ -1469,12 +2910,7 @@ def main() -> None:
 
         # ── 8. Save stations (only when they came from FDSN) ──────────────────
         print(f"\n{'─' * w}")
-        if not cfg.get('existing_stations_xml'):
-            print("  Saving station metadata …")
-            save_stations(inv, cfg)
-        else:
-            print("  [SKIP] Station metadata loaded from local file — "
-                  "not re-saved.")
+        save_station_metadata(inv, inv_all, selection, cfg, local_sta)
 
         # ── 9. Download event waveforms ───────────────────────────────────────
         print(f"\n{'─' * w}")
@@ -1486,4 +2922,10 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        # Waveforms are written atomically: whatever is on disk is complete
+        print("\n\n  Interrupted.  Files saved so far are complete — "
+              "re-run with the same config to resume.\n")
+        sys.exit(130)

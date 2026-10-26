@@ -104,16 +104,23 @@ depth = 790
 tags = GOSSIP_id:47845, mag:4.0, INGV_id:43928662, mag:4.0
 --------------------------------------------
 name = flegrei_2026_05_21_03_50_52
-time = 2026-05-21 03:50:52.069
-latitude = 40.806
-longitude = 14.106167
-depth = 3130
+time = 2026-05-21 03:50:52.089
+latitude = 40.807667
+longitude = 14.1105
+depth = 3330
 tags = GOSSIP_id:52834, mag:4.4, INGV_id:45927482, mag:4.4
 --------------------------------------------
+name = flegrei_2026_07_31_17_46_43
+time = 2026-07-31 17:46:43.630
+latitude = 40.830333
+longitude = 14.140167
+depth = 2370
+tags = GOSSIP_id:53787, mag:4.7, INGV_id:46725592, mag:4.7
+--------------------------------------------
 name = flegrei_2026_07_31_20_00_09
-time = 2026-07-31 20:00:09.160
-latitude = 40.8265
-longitude = 14.102667
-magnitude = 3.8
-moment = 5.62341e+14
-depth = 2680
+time = 2026-07-31 20:00:09.109
+latitude = 40.8285
+longitude = 14.105167
+depth = 2620
+tags = GOSSIP_id:53883, mag:3.8, INGV_id:46728062, mag:3.8
+--------------------------------------------
