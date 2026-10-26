@@ -16,22 +16,22 @@ import subprocess
 import sys
 
 FILTERS = {
-    'catalog': ('Catalogues', ('*.pf', '*.yaml', '*.yml', '*.xml', '*.qml',
-                               '*.quakeml')),
-    'stations': ('Stations', ('*.xml', '*.pf', '*.txt', '*.yaml', '*.yml')),
-    'session': ('Sessions', ('*.yaml',)),
+    'catalog': ('Cataloghi', ('*.pf', '*.yaml', '*.yml', '*.xml', '*.qml',
+                              '*.quakeml')),
+    'stations': ('Stazioni', ('*.xml', '*.pf', '*.txt', '*.yaml', '*.yml')),
+    'session': ('Sessioni', ('*.yaml',)),
     'pdf': ('PDF', ('*.pdf',)),
     'svg': ('SVG', ('*.svg',)),
     'png': ('PNG', ('*.png',)),
-    'pf': ('Pyrocko events', ('*.pf',)),
+    'pf': ('Eventi pyrocko', ('*.pf',)),
     'yaml': ('YAML', ('*.yaml',)),
     'csv': ('CSV', ('*.csv',)),
 }
 
 
 def qt_filter(kind):
-    label, pats = FILTERS.get(kind, ('All files', ('*',)))
-    return '%s (%s);;All files (*)' % (label, ' '.join(pats))
+    label, pats = FILTERS.get(kind, ('Tutti i file', ('*',)))
+    return '%s (%s);;Tutti i file (*)' % (label, ' '.join(pats))
 
 
 class Dialogs:

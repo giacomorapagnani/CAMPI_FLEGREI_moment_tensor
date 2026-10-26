@@ -590,6 +590,21 @@ def _upsample(grid, max_cells, max_factor=8.):
         dims=['lat', 'lon'])
 
 
+def _sea_to_nan(z, sea):
+    '''
+    Sea cells -> NaN (painted with the water colour), except a one-cell band
+    along the coast kept at 0 m. The exact coastline is then drawn by the
+    GSHHG water fill: the band avoids water-coloured DEM steps on land, the
+    NaN sea hides the hairline joints between the GSHHG polygons.
+    '''
+    from scipy import ndimage
+    z = num.array(z, dtype=float)
+    deep = ndimage.binary_erosion(sea, iterations=1, border_value=1)
+    z[sea & ~deep] = 0.
+    z[deep] = num.nan
+    return z
+
+
 def _draw_topography(fig, region, projection, width_cm, opts, tmp):
     pygmt = _pygmt()
     import xarray as xr
@@ -619,9 +634,7 @@ def _draw_topography(fig, region, projection, width_cm, opts, tmp):
         xs, ys, z, name = topography.grid(padded, max_cells=max_cells,
                                           bathymetry=bathy)
         if not bathy:
-            # sea at 0 m: the GSHHG coastline paints the water (smoother
-            # than the 3 arcsec DEM sea mask)
-            z = num.where(num.isfinite(z), z, 0.)
+            z = _sea_to_nan(z, ~num.isfinite(z))
         grid = xr.DataArray(z.astype(num.float32),
                             coords={'lat': ys, 'lon': xs},
                             dims=['lat', 'lon'])
@@ -634,7 +647,9 @@ def _draw_topography(fig, region, projection, width_cm, opts, tmp):
             raise ExportError('impossibile scaricare GMT earth_relief_%s: %s'
                               % (res, e))
         if not bathy:
-            grid = grid.clip(min=0.)
+            zg = num.asarray(grid.values, dtype=float)
+            grid = grid.copy(data=_sea_to_nan(zg, ~(zg > 0.)).astype(
+                num.float32))
         name = 'GMT earth_relief_%s' % res
     else:
         raise ExportError('unknown topography source: %s' % source)
@@ -745,7 +760,14 @@ def export_map(app, req):
                             box='+gwhite@25+p0.3p,gray40+c0.1c')
 
             if opts.get('mag_legend', True):
-                _mag_legend(fig, layers, style, tmp, 'jTR+jTR+o0.2c')
+                # legend for the events inside the figure only
+                inside = []
+                for la in layers:
+                    lo = la.cat.lon[la.idx]
+                    la_ = la.cat.lat[la.idx]
+                    m = (lo >= w) & (lo <= e) & (la_ >= s) & (la_ <= n)
+                    inside.append(_Sub(la, la.idx[m]))
+                _mag_legend(fig, inside, style, tmp, 'jTR+jTR+o0.2c')
             if sta_sets and opts.get('station_legend', True):
                 _station_legend(fig, sta_sets, tmp, 'jTL+jTL+o0.2c')
 

@@ -136,7 +136,18 @@ def beachball_polygons(mt, bb_type, eps=0.01):
             mt, beachball_type=bb_type, position=(0., 0.), size=1.0,
             color_t='T', color_p='P', edgecolor='E')
     except Exception:
-        return None
+        # pyrocko cannot draw (nearly) purely isotropic tensors: a full
+        # circle, compressional for an explosion, empty for an implosion
+        # or when the deviatoric/DC part is drawn
+        try:
+            tr = num.trace(mt.m())
+        except Exception:
+            return None
+        phi = num.linspace(0., 2. * num.pi, 73)
+        ring = num.round(num.column_stack([num.cos(phi), num.sin(phi)])
+                         .ravel(), 3).tolist()
+        fill = 1 if (bb_type == 'full' and tr > 0.) else 0
+        return [[fill, 1, ring]]
 
     polys = []
     for patch in patches:

@@ -120,11 +120,17 @@ CG.debounce = function (fn, ms) {
 CG.rafThrottle = function (fn) {
   let pending = false;
   let lastArgs = null;
+  const run = () => {
+    if (!pending) return;
+    pending = false;
+    fn(...lastArgs);
+  };
   return function (...args) {
     lastArgs = args;
     if (pending) return;
     pending = true;
-    requestAnimationFrame(() => { pending = false; fn(...lastArgs); });
+    requestAnimationFrame(run);
+    setTimeout(run, 60);      // animation frames are paused in hidden windows
   };
 };
 
@@ -195,8 +201,11 @@ CG.parseTime = function (s) {
   const mi = m[5] ? +m[5] : 0;
   const se = m[6] ? +m[6] : 0;
   const fr = m[7] ? parseFloat(m[7]) : 0;
-  if (M < 1 || M > 12 || D < 1 || D > 31 || h > 23 || mi > 59 || se > 60) return NaN;
-  return Date.UTC(Y, M - 1, D, h, mi, se) / 1000 + fr;
+  if (M < 1 || M > 12 || D < 1 || D > 31 || h > 23 || mi > 59 || se > 59) return NaN;
+  const ms = Date.UTC(Y, M - 1, D, h, mi, se);
+  const chk = new Date(ms);
+  if (chk.getUTCFullYear() !== Y || chk.getUTCMonth() !== M - 1 || chk.getUTCDate() !== D) return NaN;   // e.g. 31 April
+  return ms / 1000 + fr;
 };
 
 /* Plotly axis value (date string or ms number) -> seconds. */

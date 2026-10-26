@@ -461,7 +461,9 @@ CG.mapLayer = (function () {
         const label = Ls.style.labels ? '<span class="sta-label">' + CG.esc(st.sta) + '</span>' : '';
         const icon = L.divIcon({className: 'sta-icon', html: triangleSVG(color) + label,
           iconSize: [16, 14], iconAnchor: [8, 10]});
-        const mk = L.marker([st.lat, st.lon], {icon, keyboard: false, riseOnHover: true});
+        // clicks bubble to the map, so that the tools also work over stations
+        const mk = L.marker([st.lat, st.lon], {icon, keyboard: false, riseOnHover: true,
+          bubblingMouseEvents: true});
         mk.bindTooltip(stationHTML(Ls, st), {direction: 'top', offset: [0, -8], className: 'cg-tip', opacity: 1});
         staGroup.addLayer(mk);
       }

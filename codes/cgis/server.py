@@ -134,8 +134,8 @@ def api_dialog_open(app, req):
              'session': paths.SESSIONS_DIR}.get(kind, paths.PROJECT_ROOT)
     if not op.isdir(start):
         start = paths.PROJECT_ROOT
-    title = {'catalog': 'Add catalogue', 'stations': 'Add stations',
-             'session': 'Open session'}.get(kind, 'Open')
+    title = {'catalog': 'Aggiungi catalogo', 'stations': 'Aggiungi stazioni',
+             'session': 'Apri sessione'}.get(kind, 'Apri')
     res = app.dialogs.open_files(title, start, kind,
                                  multiple=kind != 'session')
     if res is None:
@@ -152,7 +152,7 @@ def api_dialog_save(app, req):
         start_dir = paths.PLOTS_DIR
     if not name.lower().endswith('.' + fmt):
         name = op.splitext(name)[0] + '.' + fmt
-    res = app.dialogs.save_file(req.get('title') or 'Save',
+    res = app.dialogs.save_file(req.get('title') or 'Salva',
                                 op.join(start_dir, name), fmt)
     if res is None:
         return {'available': False, 'path': None}

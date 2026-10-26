@@ -58,7 +58,11 @@ CG.sections = (function () {
       title: 'Trascina per spostare l\'estremo'}).addTo(group);
     const mB = L.marker([S.lat2, S.lon2], {icon: endIcon(S.label + '′', act), draggable: true, keyboard: false,
       title: 'Trascina per spostare l\'estremo'}).addTo(group);
-    const select = () => { setActive(S); CG.ui.showTab('sec'); };
+    const select = () => {
+      if (CG.tools.mode) return;          // clicks belong to the active tool
+      setActive(S);
+      CG.ui.showTab('sec');
+    };
     corridor.on('click', select);
     line.on('click', select);
     const onDrag = () => {
@@ -74,9 +78,20 @@ CG.sections = (function () {
     for (const m of [mA, mB]) {
       m.on('drag', onDrag);
       m.on('dragend', () => { setActive(S); refresh(S, true); CG.session.changed(); });
+      m.on('dragstart', () => CG.mapLayer.hideTooltip());
       m.on('click', select);
     }
     S.map = {group, corridor, line, mA, mB};
+  }
+
+  /* Restyle the map layers of a section (active / inactive) in place. */
+  function styleOnMap(S) {
+    if (!S.map) return;
+    const act = S === CG.activeSection;
+    S.map.corridor.setStyle({weight: act ? 1.5 : 1, fillOpacity: act ? 0.06 : 0.03});
+    S.map.line.setStyle({color: act ? '#000' : '#444', weight: act ? 3 : 2});
+    S.map.mA.setIcon(endIcon(S.label, act));
+    S.map.mB.setIcon(endIcon(S.label + '′', act));
   }
 
   function updateCorridor(S) {
@@ -307,7 +322,7 @@ CG.sections = (function () {
       const proj = Ly.secProj[S.uid];
       if (!proj) return a;
       let n = 0;
-      for (let i = 0; i < Ly.n; i++) if (Ly.base[i] && inCorridor(S, proj, i)) n++;
+      for (let i = 0; i < Ly.n; i++) if (Ly.base[i] && Number.isFinite(Ly.dep[i]) && inCorridor(S, proj, i)) n++;
       return a + n;
     }, 0);
     $('sec-info').innerHTML = 'Lunghezza ' + S.length.toFixed(2) + ' km · azimut ' + S.azimuth.toFixed(1) +
@@ -424,8 +439,8 @@ CG.sections = (function () {
   function setActive(S) {
     const prev = CG.activeSection;
     CG.activeSection = S;
-    if (prev && prev !== S && CG.sectionList.includes(prev)) drawOnMap(prev);
-    if (S) drawOnMap(S);
+    if (prev && prev !== S && CG.sectionList.includes(prev)) styleOnMap(prev);
+    if (S) styleOnMap(S);
     dirty = true;
     render();
     syncControls();
