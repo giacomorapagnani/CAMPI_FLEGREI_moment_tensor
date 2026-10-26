@@ -86,6 +86,11 @@ CG.session = (function () {
     try {
       clear(false);
       CG.settings = merge(CG.defaults(), state.settings || {});
+      // colour maps that no longer exist (removed palettes) -> defaults
+      const def = CG.defaults();
+      for (const k of ['cmapDepth', 'cmapTime']) {
+        if (!(CG.settings[k] in CG.config.cmaps)) CG.settings[k] = def[k];
+      }
       CG.settings.lasso = Array.isArray(state.lasso) && state.lasso.length >= 3 ? state.lasso : null;
       if (state.view) {
         CG.mapLayer.setBasemap(state.view.basemap || CG.settings.basemap);

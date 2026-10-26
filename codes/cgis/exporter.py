@@ -165,8 +165,9 @@ class Style:
         self.cmap = d.get('cmap') or (colormaps.DEFAULT_DEPTH_CMAP
                                       if self.color_by == 'depth'
                                       else colormaps.DEFAULT_TIME_CMAP)
-        if self.cmap not in colormaps.CMAPS:
-            raise ExportError('unknown colour map: %s' % self.cmap)
+        if self.cmap not in colormaps.CMAPS:     # e.g. from an old session
+            self.cmap = colormaps.DEFAULT_DEPTH_CMAP \
+                if self.color_by == 'depth' else colormaps.DEFAULT_TIME_CMAP
         self.reverse = bool(d.get('reverse', False))
         self.vmin = _opt(d, 'vmin', 0.)
         self.vmax = _opt(d, 'vmax', 1.)

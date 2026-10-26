@@ -333,7 +333,8 @@ CG.ui = (function () {
     const st = CG.settings;
     const sel = $('st-cmap');
     if (!sel.options.length) {
-      sel.innerHTML = Object.keys(CG.config.cmaps).map((k) => '<option value="' + k + '">' + k + '</option>').join('');
+      sel.innerHTML = Object.keys(CG.config.cmaps).map((k) => '<option value="' + k + '">' +
+        CG.esc(k.replace(/_/g, ' ')) + '</option>').join('');
     }
     sel.value = st[cmapKey()];
     $('st-rev').checked = st[revKey()];

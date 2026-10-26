@@ -2,24 +2,26 @@
 Colour maps shared by the viewer (sent to the browser) and the figure
 export (written as GMT CPT files), so that colours are identical in both.
 
-Each map is a list of 17 equally spaced anchors (sampled from matplotlib),
-linearly interpolated in RGB.
+Each map is a list of 17 equally spaced anchors (sampled from matplotlib,
+or computed for the pastel maps), linearly interpolated in RGB.
 '''
 
 import numpy as num
 
 _ANCHORS = {
     'viridis': '440154 48186a 472d7b 424086 3b528b 33638d 2c728e 26828e 21918c 1fa088 28ae80 3fbc73 5ec962 84d44b addc30 d8e219 fde725',  # noqa
-    'plasma': '0d0887 310597 4c02a1 6600a7 7e03a8 9511a1 aa2395 bc3587 cc4778 da5a6a e66c5c f0804e f89540 fdac33 fdc527 f8df25 f0f921',  # noqa
-    'inferno': '000004 0b0724 210c4a 3d0965 57106e 71196e 8a226a a32c61 bc3754 d24644 e45a31 f1731d f98e09 fcac11 f9cb35 f2ea69 fcffa4',  # noqa
-    'magma': '000004 0a0822 1d1147 36106b 51127c 6a1c81 832681 9c2e7f b73779 d0416f e75263 f56b5c fc8961 fea772 fec488 fde2a3 fcfdbf',  # noqa
     'cividis': '00224e 002e6a 1a386f 32436d 434e6c 535a6d 61656f 6f7073 7d7c78 8c8878 9b9476 aba072 bcae6c cdbb63 dec958 f0d846 fee838',  # noqa
-    'turbo': '30123b 4040a2 466be3 4294ff 28bceb 18ddc2 32f298 6dfe62 a4fc3c cdec34 eecf3a fdac34 fb7e21 eb500e d02f05 a91601 7a0403',  # noqa
     'RdYlBu': 'a50026 c41e27 de402e f16640 f98e52 fdb567 fed485 feeca2 feffc0 ebf7e4 d1ecf4 b0dcea 8ec2dc 6da4cc 4f81ba 3d5ba7 313695',  # noqa
-    'Spectral': '9e0142 c1274a dd4a4c f06744 f98e52 fdb567 fed481 feec9f ffffbe eff9a6 d6ee9b b1dfa3 86cfa5 5eb9a9 3d95b8 4471b2 5e4fa2',  # noqa
     'coolwarm': '3b4cc0 4e68d8 6282ea 779af7 8db0fe a3c2fe b9d0f9 ccd9ed dddcdc ecd3c5 f5c4ac f7b093 f4987a eb7d62 dd5f4b ca3b37 b40426',  # noqa
-    'jet': '000080 0000c8 0000ff 0040ff 0080ff 00c0ff 16ffe1 49ffad 7dff7a b1ff46 e4ff13 ffd000 ff9400 ff5900 ff1e00 c40000 800000',  # noqa
     'gray': '000000 101010 202020 303030 404040 505050 606060 707070 808080 909090 a0a0a0 b0b0b0 c0c0c0 d0d0d0 e0e0e0 f0f0f0 ffffff',  # noqa
+    # pastel: mono-colour (light -> deep) and bi-colour, interpolated in
+    # CIELAB / CIE LCh
+    'pastello_giallo': 'f6e8ba f2e2b2 eedda9 ebd7a1 e7d198 e3cc90 e0c688 dcc180 d9bb78 d5b56f d1b067 ceaa5f cba457 c79f4f c49947 c0943f bd8e37',  # noqa
+    'pastello_blu_intenso': 'cfdef1 c5d7ed bbcfe8 b1c8e4 a7c1df 9db9db 93b2d6 89abd2 7ea4cd 749dc9 6995c5 5f8ec0 5387bc 4781b7 3a7ab3 2a73af 136caa',  # noqa
+    'pastello_verde': 'd4eacf cbe3c7 c2ddc0 bad7b8 b1d0b1 a8caa9 9fc3a2 97bd9a 8eb793 86b08c 7daa85 75a47e 6c9e76 649770 5b9169 538b62 4a855b',  # noqa
+    'pastello_rosso': 'f7d3cc f4cac3 f0c2b9 edb9b0 e9b1a7 e6a89e e2a095 de978c da8f83 d6867a d17e71 cd7569 c86d61 c46458 bf5c50 ba5348 b54a40',  # noqa
+    'pastello_blu_corallo': '6a95c9 7895cb 8695cd 9494cd a194cc ad93ca b993c8 c493c4 cd93c0 d693bb de94b5 e496af ea98aa ee9aa4 f19d9e f2a198 f3a593',  # noqa
+    'pastello_verde_pesca': '5aa79a 61aa97 69ad93 72af90 7bb28d 84b489 8eb686 98b884 a3b982 adbb80 b8bc7f c2bd7f cdbd80 d8be82 e2be85 ecbf89 f6bf8e',  # noqa
 }
 
 CMAPS = {
