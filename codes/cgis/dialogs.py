@@ -17,7 +17,8 @@ import sys
 
 FILTERS = {
     'catalog': ('Cataloghi', ('*.pf', '*.yaml', '*.yml', '*.xml', '*.qml',
-                              '*.quakeml')),
+                              '*.quakeml', '*.txt', '*.csv', '*.tsv',
+                              '*.dat')),
     'stations': ('Stazioni', ('*.xml', '*.pf', '*.txt', '*.yaml', '*.yml')),
     'session': ('Sessioni', ('*.yaml',)),
     'pdf': ('PDF', ('*.pdf',)),

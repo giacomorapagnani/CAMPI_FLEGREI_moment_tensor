@@ -55,6 +55,11 @@ CG.plots = (function () {
     return CG.cats.filter((L) => L.style.visible && L.style.plots);
   }
 
+  /* layers with a time axis (catalogues without times are left out) */
+  function timeLayers() {
+    return plotLayers().filter((L) => !L.noTime);
+  }
+
   /* Highlight rings as pixel-sized layout shapes: cheap to update, and
    * unlike restyling a trace they do not reset the axis types. */
   function ringShapes(points, xref, yref) {
@@ -72,7 +77,7 @@ CG.plots = (function () {
     const traces = [];
     st.map = [];
     const greyOutside = CG.timeWindow() !== null;
-    for (const L of plotLayers()) {
+    for (const L of timeLayers()) {
       const x = [], y = [], c = [], s = [], idx = [];
       const yy = yKey === 'dep' ? L.dep : L.mag;
       for (let i = 0; i < L.n; i++) {
@@ -147,7 +152,7 @@ CG.plots = (function () {
   function cumPlot() {
     const div = el('cum');
     const data = [];
-    plotLayers().forEach((L, k) => {
+    timeLayers().forEach((L, k) => {
       const ts = [], m0 = [];
       for (let i = 0; i < L.n; i++) {
         if (!L.base[i]) continue;
@@ -413,6 +418,7 @@ CG.plots = (function () {
     const hv = CG.hover;
     if (!hv || !hv.L.vis[hv.i] || !hv.L.style.plots) return [];
     if (tab === 'td' || tab === 'tm') {
+      if (hv.L.noTime) return [];
       const v = tab === 'td' ? hv.L.dep[hv.i] : hv.L.mag[hv.i];
       return Number.isFinite(v) ? ringShapes([[CG.plotlyDate(hv.L.t[hv.i]), v]]) : [];
     }

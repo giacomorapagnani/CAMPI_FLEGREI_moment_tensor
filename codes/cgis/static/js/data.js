@@ -62,6 +62,7 @@ CG.makeCatalogLayer = function (p, options) {
     mt: p.mt,
     hasMag: p.has_mag,
     hasMT: p.has_mt,
+    noTime: !!p.no_time,         // text catalogue without times
     mtIdx: new Int32Array(n).fill(-1),
     x0: new Float64Array(n),
     y0: new Float64Array(n),
@@ -327,8 +328,9 @@ CG.computeVis = function () {
   for (const L of CG.cats) {
     const base = L.base, vis = L.vis, t = L.t;
     ntot += L.n;
+    const always = !w || L.noTime;
     for (let i = 0; i < L.n; i++) {
-      const v = base[i] && (!w || (t[i] >= w[0] && t[i] <= w[1])) ? 1 : 0;
+      const v = base[i] && (always || (t[i] >= w[0] && t[i] <= w[1])) ? 1 : 0;
       vis[i] = v;
       nvis += v;
       nbase += base[i];

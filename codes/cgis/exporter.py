@@ -203,6 +203,8 @@ class Style:
         '''Colour values in CPT units (depth km or decimal year).'''
         if self.color_by == 'depth':
             return cat.depth_km[idx]
+        if getattr(cat, 'no_time', False):
+            return num.full(len(idx), num.nan)
         return decimal_year(cat.time[idx])
 
     def cpt_range(self):

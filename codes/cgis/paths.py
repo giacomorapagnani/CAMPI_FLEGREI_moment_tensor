@@ -18,7 +18,8 @@ PLOTS_DIR = op.join(PROJECT_ROOT, 'PLOTS', 'cgis')
 SESSIONS_DIR = op.join(PACKAGE_DIR, 'sessions')
 STATIC_DIR = op.join(PACKAGE_DIR, 'static')
 
-CATALOG_EXTENSIONS = ('.pf', '.yaml', '.yml', '.xml', '.qml', '.quakeml')
+CATALOG_EXTENSIONS = ('.pf', '.yaml', '.yml', '.xml', '.qml', '.quakeml',
+                      '.txt', '.csv', '.tsv', '.dat')
 STATION_EXTENSIONS = ('.xml', '.pf', '.txt', '.yaml', '.yml')
 
 

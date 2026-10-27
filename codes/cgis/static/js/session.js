@@ -23,7 +23,8 @@ CG.session = (function () {
     delete settings.lasso;
     settings.activeSection = CG.activeSection ? CG.activeSection.label : null;
     return {
-      layers: CG.cats.map((L) => ({kind: 'catalog', path: L.path, options: L.style}))
+      layers: CG.cats.map((L) => ({kind: 'catalog', path: L.path,
+        options: L.mapping ? Object.assign({}, L.style, {mapping: L.mapping}) : L.style}))
         .concat(CG.stas.map((L) => ({kind: 'stations', path: L.path, options: L.style}))),
       view: {lat: c.lat, lon: c.lng, zoom: map.getZoom(), basemap: CG.settings.basemap},
       settings,

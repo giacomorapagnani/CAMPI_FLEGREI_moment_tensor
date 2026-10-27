@@ -25,6 +25,15 @@ class CatalogError(Exception):
     pass
 
 
+class NeedsMapping(Exception):
+    '''A text catalogue whose columns must be confirmed by the user.'''
+
+    def __init__(self, guess, preview):
+        Exception.__init__(self, 'columns to be confirmed')
+        self.guess = guess
+        self.preview = preview
+
+
 BEACHBALL_TYPES = ('dc', 'deviatoric', 'full')
 
 
@@ -188,9 +197,13 @@ def rotated_mt(mt, azimuth_deg):
 
 class Catalog:
 
-    def __init__(self, cid, path, events, n_skipped=0):
+    def __init__(self, cid, path, events, n_skipped=0, mapping=None):
         self.id = cid
         self.path = path
+        self.mapping = mapping          # columns of a text catalogue
+        # text catalogue without times: always visible, no time axis
+        self.no_time = bool(mapping and (mapping.get('time') or {}).get(
+            'kind') == 'none')
         self.name = op.basename(path)
         self.events = events
         self.n_skipped = n_skipped
@@ -230,9 +243,11 @@ class Catalog:
                 else:
                     mt = None
 
+            no_moment = bool((getattr(ev, 'extras', None) or {}).get(
+                '_cgis_no_moment'))
             if _finite(ev.magnitude):
                 self.mag[i] = ev.magnitude
-            elif mt is not None:
+            elif mt is not None and not no_moment:
                 try:
                     mw = mt.moment_magnitude()
                     if math.isfinite(mw):
@@ -248,8 +263,12 @@ class Catalog:
     def payload(self):
         evs = self.events
 
-        tstr = [util.time_to_str(ev.time, format='%Y-%m-%d %H:%M:%S.3FRAC')
-                for ev in evs]
+        if self.no_time:
+            tstr = ['non disponibile'] * len(evs)
+        else:
+            tstr = [util.time_to_str(ev.time,
+                                     format='%Y-%m-%d %H:%M:%S.3FRAC')
+                    for ev in evs]
 
         mag_type = [ev.magnitude_type if _finite(ev.magnitude) else None
                     for ev in evs]
@@ -269,7 +288,8 @@ class Catalog:
             extras = getattr(ev, 'extras', None)
             if extras:
                 for k, v in extras.items():
-                    items.append([str(k), str(v)])
+                    if not str(k).startswith('_'):
+                        items.append([str(k), str(v)])
             info.append(items or None)
 
         mt = None
@@ -298,7 +318,9 @@ class Catalog:
             'lat': _round_list(self.lat, 6),
             'lon': _round_list(self.lon, 6),
             'depth': _round_list(self.depth_km, 5),
-            'time': _round_list(self.time, 3),
+            'time': _round_list(num.full(len(evs), num.nan)
+                                if self.no_time else self.time, 3),
+            'no_time': self.no_time,
             'mag': _round_list(self.mag, 3),
             'names': [ev.name or '' for ev in evs],
             'tstr': tstr,
@@ -306,6 +328,7 @@ class Catalog:
             'tags': tags if any(t is not None for t in tags) else None,
             'info': info if any(x is not None for x in info) else None,
             'mt': mt,
+            'mapping': self.mapping,
         }
 
     # -------------------------------------------------------------- beachballs
@@ -384,12 +407,24 @@ def _load_quakeml(path):
                            % (op.basename(path), str(e) or type(e).__name__))
 
 
-def load_catalog(cid, path):
+def load_catalog(cid, path, mapping=None):
+    '''
+    Load a catalogue. Text tables may raise :class:`NeedsMapping` when
+    their columns are not recognised and no ``mapping`` is given.
+    '''
     if not op.isfile(path):
         raise CatalogError('file non trovato: %s' % path)
 
     ext = op.splitext(path)[1].lower()
-    if ext in ('.xml', '.qml', '.quakeml'):
+    used_mapping = None
+    n_text_skipped = 0
+    if ext in ('.txt', '.csv', '.tsv', '.dat'):
+        from . import textcat
+        events, n_text_skipped, used_mapping, prev = textcat.load(
+            path, mapping)
+        if events is None:
+            raise NeedsMapping(used_mapping, prev)
+    elif ext in ('.xml', '.qml', '.quakeml'):
         events = _load_quakeml(path)
     else:
         try:
@@ -418,4 +453,5 @@ def load_catalog(cid, path):
             'nessun evento valido (con tempo e coordinate) in %s'
             % op.basename(path))
 
-    return Catalog(cid, path, good, n_skipped)
+    return Catalog(cid, path, good, n_skipped + n_text_skipped,
+                   mapping=used_mapping)

@@ -6,11 +6,13 @@ the per-run token (header ``X-CGIS-Token``) that is embedded in the page,
 so that other web pages cannot use the API.
 '''
 
+import copy
 import json
 import logging
 import mimetypes
 import os
 import os.path as op
+import re
 import secrets
 import subprocess
 import sys
@@ -24,7 +26,9 @@ import numpy as num
 
 from . import __version__, paths, colormaps, session, geo, topography
 from . import exporter
-from .catalog import load_catalog, CatalogError, BEACHBALL_TYPES
+from .catalog import load_catalog, CatalogError, NeedsMapping, \
+    BEACHBALL_TYPES
+from . import textcat
 from .stations import load_stations, StationError
 from .dialogs import Dialogs
 
@@ -173,15 +177,34 @@ def _input_path(req):
 
 def api_catalog_load(app, req):
     path = _input_path(req)
+    mapping = req.get('mapping') or None
+    if mapping is not None and not isinstance(mapping, dict):
+        raise ApiError('invalid column mapping')
     cid = app.new_id('c')
     t0 = time.time()
-    cat = load_catalog(cid, path)
+    try:
+        cat = load_catalog(cid, path, mapping=mapping)
+    except NeedsMapping as e:
+        return {'needs_mapping': True, 'guess': e.guess,
+                'preview': e.preview, 'path': paths.rel(path)}
     with app.lock:
         app.catalogs[cid] = cat
     payload = cat.payload()
     logger.info('loaded %s: %d events (%d skipped) in %.1f s',
                 cat.name, len(cat.events), cat.n_skipped, time.time() - t0)
     return payload
+
+
+def api_catalog_inspect(app, req):
+    '''Preview and column guess of a text catalogue (mapping dialog).'''
+    path = _input_path(req)
+    delim = req.get('delimiter')
+    header = req.get('header')
+    table, guess, confident = textcat.inspect(
+        path, delimiter=delim if delim in textcat.DELIMITERS else None,
+        header=header if isinstance(header, bool) else None)
+    return {'guess': guess, 'preview': textcat.preview(table),
+            'confident': confident}
 
 
 def api_catalog_remove(app, req):
@@ -223,8 +246,30 @@ def api_catalog_export(app, req):
         raise ApiError('nessun evento da esportare')
     events.sort(key=lambda ev: ev.time)
     fmt = 'yaml' if path.lower().endswith(('.yaml', '.yml')) else 'basic'
+    if fmt == 'basic':
+        events = [_extras_to_tags(ev) for ev in events]
     model.dump_events(events, filename=path, format=fmt)
     return {'path': path, 'n': len(events)}
+
+
+def _extras_to_tags(ev):
+    '''
+    The basic .pf format cannot store event extras (columns of text
+    catalogues): write them as "key:value" tags of a copy of the event.
+    '''
+    extras = getattr(ev, 'extras', None)
+    if not extras:
+        return ev
+    ev = copy.copy(ev)
+    tags = list(ev.tags or [])
+    for k, v in extras.items():
+        if str(k).startswith('_'):
+            continue
+        tag = '%s:%s' % (str(k).strip(), str(v).strip())
+        tags.append(re.sub(r'[,\n\r]+', ';', tag))
+    ev.extras = {}
+    ev.tags = tags
+    return ev
 
 
 def api_stations_load(app, req):
@@ -365,6 +410,7 @@ API = {
     'dialog_save': api_dialog_save,
     'catalog_load': api_catalog_load,
     'catalog_remove': api_catalog_remove,
+    'catalog_inspect': api_catalog_inspect,
     'catalog_beachballs': api_catalog_beachballs,
     'catalog_export': api_catalog_export,
     'stations_load': api_stations_load,

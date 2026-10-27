@@ -228,7 +228,7 @@ CG.mapLayer = (function () {
         ctx.strokeStyle = '#e00000';
         ctx.lineWidth = 1.5;
         for (const Ly of CG.cats) {
-          if (!Ly.style.visible) continue;
+          if (!Ly.style.visible || Ly.noTime) continue;
           const scale = (st.bbShow && Ly.style.beachballs) ? st.bbScale : 1;
           for (let i = 0; i < Ly.n; i++) {
             if (!Ly.vis[i] || Ly.t[i] <= tlim) continue;

@@ -72,37 +72,242 @@ CG.ui = (function () {
 
   /* ===================================================== file loading */
 
+  /* Load a catalogue. Text tables whose columns are not recognised open
+   * the column dialog; ``opts.replace`` reloads an existing layer in place
+   * (e.g. with new columns). */
   async function loadCatalog(path, options, opts) {
     opts = opts || {};
-    const done = CG.busy('Caricamento ' + path.split('/').pop() + '…');
-    try {
-      const p = await CG.api('catalog_load', {path});
-      if (CG.cats.some((L) => L.path === p.path)) {
-        CG.api('catalog_remove', {id: p.id}).catch(() => {});
-        if (!opts.quiet) CG.toast('Catalogo già caricato: ' + p.name, 'info');
+    const style = Object.assign({}, options || {});
+    let mapping = style.mapping || null;
+    delete style.mapping;
+    const label = path.split('/').pop();
+    let p = null;
+    for (;;) {
+      const done = CG.busy('Caricamento ' + label + '…');
+      let err = null;
+      p = null;
+      try {
+        p = await CG.api('catalog_load', {path, mapping});
+      } catch (e) {
+        err = e;
+      } finally {
+        done();
+      }
+      if (err) {
+        if (mapping && opts.lastPreview) {
+          // the columns chosen in the dialog did not work: let the user fix them
+          CG.error(err, 'colonne');
+          mapping = await columnDialog(path, mapping, opts.lastPreview);
+          if (!mapping) return null;
+          continue;
+        }
+        CG.error(err, 'catalogo');
         return null;
       }
-      const L = CG.makeCatalogLayer(p, options);
-      const first = CG.cats.length === 0 && CG.stas.length === 0;
-      CG.cats.push(L);
-      renderLayers();
-      CG.invalidate('data');
-      if (first && opts.fit !== false) CG.mapLayer.fitTo([L]);
-      CG.sections.projectLayer(L);
-      if (!opts.quiet) {
-        const parts = [p.n + ' eventi'];
-        parts.push(p.has_mag ? 'magnitudo ✓' : 'senza magnitudo');
-        if (p.has_mt) parts.push(p.mt.idx.length + ' tensori momento');
-        if (p.n_skipped) parts.push(p.n_skipped + ' scartati (senza tempo/coordinate)');
-        CG.toast(p.name + ': ' + parts.join(' · '), 'ok');
+      if (p.needs_mapping) {
+        opts.lastPreview = p.preview;
+        mapping = await columnDialog(path, p.guess, p.preview);
+        if (!mapping) return null;
+        continue;
       }
-      return L;
-    } catch (e) {
-      CG.error(e, 'catalogo');
-      return null;
-    } finally {
-      done();
+      break;
     }
+
+    const old = opts.replace || null;
+    if (!old && CG.cats.some((L) => L.path === p.path)) {
+      CG.api('catalog_remove', {id: p.id}).catch(() => {});
+      if (!opts.quiet) CG.toast('Catalogo già caricato: ' + p.name, 'info');
+      return null;
+    }
+    const L = CG.makeCatalogLayer(p, old ? old.style : style);
+    L.mapping = p.mapping || null;
+    const first = CG.cats.length === 0 && CG.stas.length === 0;
+    if (old && CG.cats.includes(old)) {
+      CG.cats.splice(CG.cats.indexOf(old), 1, L);
+      CG.api('catalog_remove', {id: old.id}).catch(() => {});
+      if (CG.hover && CG.hover.L === old) CG.hover = null;
+    } else {
+      CG.cats.push(L);
+    }
+    renderLayers();
+    CG.invalidate('data');
+    if (first && opts.fit !== false) CG.mapLayer.fitTo([L]);
+    CG.sections.projectLayer(L);
+    CG.session.changed();
+    if (!opts.quiet) {
+      const parts = [p.n + ' eventi'];
+      parts.push(p.has_mag ? 'magnitudo ✓' : 'senza magnitudo');
+      if (p.has_mt) parts.push(p.mt.idx.length + ' tensori momento');
+      if (p.n_skipped) parts.push(p.n_skipped + ' righe scartate (senza tempo/coordinate)');
+      const actions = L.mapping ? [{label: 'Colonne…', fn: () => editColumns(L)}] : [];
+      CG.toast(p.name + ': ' + parts.join(' · '), 'ok', L.mapping ? 9000 : 5000, actions);
+    }
+    return L;
+  }
+
+  /* --------------------------------------------------- column dialog */
+
+  const TIME_KINDS = [
+    ['column', 'una colonna (data e ora, secondi epoch o anno decimale)'],
+    ['ymd', 'colonne anno, mese, giorno, ora, minuti, secondi'],
+    ['name', 'dal nome dell\'evento (…_AAAA_MM_GG_hh_mm_ss)'],
+    ['none', 'nessun tempo (stessa data per tutti)'],
+  ];
+  const MT_KINDS = [
+    ['none', 'nessuno'],
+    ['sdr', 'strike, dip, rake'],
+    ['ned', '6 componenti NED: mnn mee mdd mne mnd med'],
+    ['use', '6 componenti USE/GMT: mrr mtt mff mrt mrf mtf (= m1…m6)'],
+  ];
+  const MT_LABELS = {sdr: ['strike', 'dip', 'rake'], ned: ['mnn', 'mee', 'mdd', 'mne', 'mnd', 'med'],
+    use: ['mrr', 'mtt', 'mff', 'mrt', 'mrf', 'mtf']};
+
+  /* Ask which column is what. Resolves to a mapping, or null. */
+  function columnDialog(path, guess, preview) {
+    return new Promise((resolve) => {
+      let mp = JSON.parse(JSON.stringify(guess));
+      if (mp.mt && mp.mt.kind === 'gmt') mp.mt.kind = 'use';
+      let pv = preview;
+      let answered = false;
+      const body = document.createElement('div');
+      body.className = 'coldlg';
+
+      const colOptions = (sel, optional) => {
+        const first = pv.rows[0] || [];
+        return (optional ? '<option value="">—</option>' : '<option value="">(scegli)</option>') +
+          pv.names.map((n, i) => {
+            const v = (first[i] || '').slice(0, 22);
+            return '<option value="' + i + '"' + (sel === i ? ' selected' : '') + '>' +
+              CG.esc(n + (v ? '  ·  ' + v : '')) + '</option>';
+          }).join('');
+      };
+      const sel = (id, value, optional) => '<select id="' + id + '">' + colOptions(value, optional) + '</select>';
+      const opt = (list, value) => list.map(([v, l]) => '<option value="' + v + '"' + (v === value ? ' selected' : '') +
+        '>' + CG.esc(l) + '</option>').join('');
+
+      const draw = () => {
+        const t = mp.time || {kind: 'column', cols: [null, null]};
+        const tc = t.cols || [];
+        let timeHTML = '';
+        if (t.kind === 'column') {
+          timeHTML = '<label class="form-row"><span>Data / ora</span>' + sel('cd-t0', tc[0], false) + '</label>' +
+            '<label class="form-row"><span>Ora (se separata)</span>' + sel('cd-t1', tc[1] === undefined ? null : tc[1], true) + '</label>';
+        } else if (t.kind === 'ymd') {
+          timeHTML = ['anno', 'mese', 'giorno', 'ora', 'minuti', 'secondi'].map((l, k) =>
+            '<label class="form-row"><span>' + l + '</span>' + sel('cd-y' + k, tc[k] === undefined ? null : tc[k], k >= 3) + '</label>').join('');
+        }
+        const m = mp.mt || {kind: 'none', cols: []};
+        const mtHTML = m.kind === 'none' ? '' : MT_LABELS[m.kind].map((l, k) =>
+          '<label class="form-row"><span>' + l + '</span>' + sel('cd-m' + k, (m.cols || [])[k], false) + '</label>').join('');
+        const table = '<div class="cd-preview"><table><tr>' + pv.names.map((n) => '<th>' + CG.esc(n) + '</th>').join('') +
+          '</tr>' + pv.rows.map((r) => '<tr>' + r.map((c) => '<td>' + CG.esc(c) + '</td>').join('') + '</tr>').join('') +
+          '</table></div>';
+        body.innerHTML =
+          '<p class="muted small">' + CG.esc(path.split('/').pop()) + ' · ' + pv.n_rows + ' righe. ' +
+          'Indica il significato delle colonne (le scelte vengono salvate nella sessione).</p>' +
+          '<div class="row"><label>Separatore</label><select id="cd-delim">' +
+          opt(Object.entries(pv.delimiters), pv.delimiter) + '</select>' +
+          '<label class="chk"><input type="checkbox" id="cd-header"' + (pv.header ? ' checked' : '') +
+          '> la prima riga è l\'intestazione</label></div>' + table +
+          '<div class="form">' +
+          '<div class="form-sep">Tempo</div>' +
+          '<label class="form-row" style="grid-column: 1 / -1"><span>Tempo da</span><select id="cd-tkind">' +
+          opt(TIME_KINDS, t.kind) + '</select></label>' + timeHTML +
+          '<div class="form-sep">Posizione</div>' +
+          '<label class="form-row"><span>Latitudine</span>' + sel('cd-lat', mp.lat, false) + '</label>' +
+          '<label class="form-row"><span>Longitudine</span>' + sel('cd-lon', mp.lon, false) + '</label>' +
+          '<label class="form-row"><span>Profondità</span>' + sel('cd-dep', mp.depth, true) + '</label>' +
+          '<label class="form-row"><span>Unità</span><select id="cd-dunit">' +
+          opt([['km', 'km'], ['m', 'metri']], mp.depth_unit) + '</select></label>' +
+          '<label class="form-row" style="grid-column: 1 / -1"><span>Verso</span><select id="cd-dsign">' +
+          opt([['down', 'profondità positiva verso il basso'], ['up', 'quota: valori negativi sotto il livello del mare']],
+            mp.depth_sign) + '</select></label>' +
+          '<div class="form-sep">Evento</div>' +
+          '<label class="form-row"><span>Magnitudo</span>' + sel('cd-mag', mp.mag, true) + '</label>' +
+          '<label class="form-row"><span>Tipo magnitudo</span>' + sel('cd-mtype', mp.magtype_col, true) + '</label>' +
+          '<label class="form-row"><span>Nome / ID</span>' + sel('cd-name', mp.name, true) + '</label>' +
+          '<label class="form-row"><span>Tipo fisso</span><input type="text" id="cd-mtfix" value="' +
+          CG.esc(mp.mag_type || '') + '" placeholder="es. ML"></label>' +
+          '<div class="form-sep">Meccanismo focale</div>' +
+          '<label class="form-row" style="grid-column: 1 / -1"><span>Tensore</span><select id="cd-mtkind">' +
+          opt(MT_KINDS, m.kind) + '</select></label>' + mtHTML +
+          '</div>';
+
+        const num = (id) => {
+          const el = body.querySelector('#' + id);
+          return el && el.value !== '' ? parseInt(el.value, 10) : null;
+        };
+        const read = () => {
+          const tk = body.querySelector('#cd-tkind').value;
+          let cols = [];
+          if (tk === 'column') cols = [num('cd-t0'), num('cd-t1')];
+          else if (tk === 'ymd') cols = [0, 1, 2, 3, 4, 5].map((k) => num('cd-y' + k));
+          const mk = body.querySelector('#cd-mtkind').value;
+          const mcols = mk === 'none' ? [] : MT_LABELS[mk].map((_, k) => num('cd-m' + k));
+          mp = Object.assign(mp, {
+            time: {kind: tk, cols},
+            lat: num('cd-lat'), lon: num('cd-lon'), depth: num('cd-dep'),
+            depth_unit: body.querySelector('#cd-dunit').value,
+            depth_sign: body.querySelector('#cd-dsign').value,
+            mag: num('cd-mag'), magtype_col: num('cd-mtype'), name: num('cd-name'),
+            mag_type: body.querySelector('#cd-mtfix').value.trim() || null,
+            mt: {kind: mk, cols: mcols},
+          });
+        };
+        body._read = read;
+        body.querySelector('#cd-tkind').onchange = () => {
+          read();
+          const k = body.querySelector('#cd-tkind').value;
+          mp.time = {kind: k, cols: k === 'ymd' ? [null, null, null, null, null, null] : [null, null]};
+          draw();
+        };
+        body.querySelector('#cd-mtkind').onchange = () => { read(); draw(); };
+        const reinspect = async () => {
+          read();
+          try {
+            const r = await CG.api('catalog_inspect', {path, delimiter: body.querySelector('#cd-delim').value,
+              header: body.querySelector('#cd-header').checked});
+            pv = r.preview;
+            mp = r.guess;
+            if (mp.mt && mp.mt.kind === 'gmt') mp.mt.kind = 'use';
+            draw();
+          } catch (e) { CG.error(e, 'colonne'); }
+        };
+        body.querySelector('#cd-delim').onchange = reinspect;
+        body.querySelector('#cd-header').onchange = reinspect;
+      };
+      draw();
+      modal({
+        title: 'Colonne del catalogo', body, wide: true, focus: false,
+        buttons: [{label: 'Annulla'}, {label: 'Carica', primary: true, fn: () => {
+          body._read();
+          const t = mp.time;
+          if (mp.lat === null || mp.lon === null) { CG.toast('Scegli latitudine e longitudine', 'error'); return false; }
+          if (t.kind === 'column' && t.cols[0] === null) { CG.toast('Scegli la colonna del tempo', 'error'); return false; }
+          if (t.kind === 'ymd' && t.cols.slice(0, 3).some((c) => c === null)) { CG.toast('Scegli anno, mese e giorno', 'error'); return false; }
+          if (t.kind === 'name' && mp.name === null) { CG.toast('Per il tempo dal nome scegli la colonna del nome', 'error'); return false; }
+          if (mp.mt.kind !== 'none' && mp.mt.cols.some((c) => c === null)) { CG.toast('Scegli tutte le colonne del tensore', 'error'); return false; }
+          mp.delimiter = pv.delimiter;
+          mp.header = pv.header;
+          answered = true;
+          resolve(mp);
+          return true;
+        }}],
+        onClose: () => { if (!answered) resolve(null); },
+      });
+    });
+  }
+
+  /* Change the columns of a text catalogue already loaded. */
+  async function editColumns(L) {
+    if (!L.mapping || !CG.cats.includes(L)) return;
+    let r;
+    try {
+      r = await CG.api('catalog_inspect', {path: L.path, delimiter: L.mapping.delimiter, header: L.mapping.header});
+    } catch (e) { CG.error(e, 'colonne'); return; }
+    const mp = await columnDialog(L.path, L.mapping, r.preview);
+    if (!mp) return;
+    await loadCatalog(L.path, {mapping: mp}, {replace: L, fit: false, lastPreview: r.preview});
   }
 
   async function loadStations(path, options, opts) {
@@ -280,7 +485,8 @@ CG.ui = (function () {
         '> beachball</label></div>' : '') +
       '<div class="row"><label class="chk"><input type="checkbox" class="pl"' + (s.plots ? ' checked' : '') +
       '> nei grafici e nelle sezioni</label></div>' +
-      '<div class="row"><button class="small exp">esporta eventi visibili…</button></div>' +
+      '<div class="row"><button class="small exp">esporta eventi visibili…</button>' +
+      (L.mapping ? '<button class="small cols">colonne…</button>' : '') + '</div>' +
       '<div class="muted small">' + CG.esc(L.path) + (L.nSkipped ? '<br>' + L.nSkipped + ' eventi scartati' : '') + '</div>';
     const cm = el.querySelector('.cmode'), cc = el.querySelector('.ccol');
     cm.value = s.color ? 'fixed' : 'auto';
@@ -301,6 +507,8 @@ CG.ui = (function () {
     const bb = el.querySelector('.bb');
     if (bb) bb.onchange = () => { s.beachballs = bb.checked; CG.invalidate('style'); };
     el.querySelector('.pl').onchange = (e) => { s.plots = e.target.checked; CG.invalidate('style'); };
+    const colsBtn = el.querySelector('.cols');
+    if (colsBtn) colsBtn.onclick = () => editColumns(L);
     el.querySelector('.exp').onclick = () => {
       exportEvents([{id: L.id, indices: CG.visibleIndices(L)}], L.name.replace(/\.[^.]+$/, '') + '_sel');
     };
@@ -934,7 +1142,8 @@ CG.ui = (function () {
         if (Number.isNaN(ya) || Number.isNaN(yb)) { CG.toast('Valore non valido', 'error'); return false; }
         const tmw = CG.settings.time;
         const win = v['tx-win'] && CG.timeWindow() ? [tmw.mode === 'cumulative' ? CG.timebar.domain[0] : tmw.t0, tmw.t1] : null;
-        const layers = exportLayers({plotsOnly: true, beachballs: false});
+        const layers = exportLayers({plotsOnly: true, beachballs: false})
+          .filter((o) => !CG.cats.find((x) => x.id === o.id).noTime);
         // in time plots all filtered events are shown, out-of-window ones in grey
         for (const o of layers) {
           if (CG.timeWindow() === null) continue;

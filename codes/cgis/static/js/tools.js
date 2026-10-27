@@ -70,7 +70,23 @@ CG.tools = (function () {
     const pts = [];
     const line = L.polyline([], {color: '#d00', weight: 2.5, renderer: CG.toolsRenderer}).addTo(group);
     const rubber = L.polyline([], {color: '#d00', weight: 1.5, dashArray: '5,5', renderer: CG.toolsRenderer}).addTo(group);
+    // circle centred on the first point, radius = first segment
+    let circle = null;
     let finished = false;
+
+    function setCircle(ll) {
+      const c = pts[0];
+      // spherical radius: the same Earth model Leaflet uses to draw the circle,
+      // so that the second point lies exactly on it
+      const r = CG.geo.inverse(c.lat, c.lng, ll.lat, ll.lng).dist;
+      if (!(r > 0)) return;
+      if (!circle) {
+        circle = L.circle(c, {radius: r, color: '#d00', weight: 1.5, dashArray: '6,5', fill: false,
+          interactive: false, renderer: CG.toolsRenderer}).addTo(group);
+      } else {
+        circle.setRadius(r);
+      }
+    }
 
     function info(extra) {
       let total = 0;
@@ -85,6 +101,7 @@ CG.tools = (function () {
         const g = segs[segs.length - 1];
         html += '<br>Ultimo tratto: ' + CG.fmtKm(g.dist) + ' · az. ' + g.az.toFixed(1) + '°';
       }
+      if (segs.length) html += '<br>Raggio (1° tratto): ' + CG.fmtKm(segs[0].dist);
       if (extra) html += '<br><span class="muted">al cursore: ' + CG.fmtKm(extra.dist) + ' · az. ' + extra.az.toFixed(1) + '° · tot. ' + CG.fmtKm(total + extra.dist) + '</span>';
       html += '<br><span class="muted">' + Math.max(0, pts.length - 1) + ' tratti · Esc/D per cancellare</span>';
       measureBox().innerHTML = html;
@@ -96,6 +113,7 @@ CG.tools = (function () {
       if (pts.length && samePixel(map, pts[pts.length - 1], ll)) return;
       pts.push(ll);
       line.setLatLngs(pts);
+      if (pts.length === 2) setCircle(ll);
       const total = info();
       L.circleMarker(ll, {radius: 3.5, color: '#d00', weight: 2, fillColor: '#fff', fillOpacity: 1,
         renderer: CG.toolsRenderer, interactive: false}).addTo(group)
@@ -116,6 +134,7 @@ CG.tools = (function () {
         if (finished || !pts.length) return;
         const last = pts[pts.length - 1];
         rubber.setLatLngs([last, e.latlng]);
+        if (pts.length === 1) setCircle(e.latlng);
         info(CG.geo.vincenty(last.lat, last.lng, e.latlng.lat, e.latlng.lng));
       },
     });
