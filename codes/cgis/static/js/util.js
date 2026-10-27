@@ -188,6 +188,18 @@ CG.plotlyDate = function (t) {
     '.' + pad(d.getUTCMilliseconds(), 3);
 };
 
+/* Event times of a layer as Plotly date strings (cached). Plotly reads
+ * numeric dates in the local time zone of the computer, strings as they
+ * are: strings keep the plots in UTC. */
+CG.plotlyTimes = function (L) {
+  if (!L._plotlyTimes) {
+    const out = new Array(L.n);
+    for (let i = 0; i < L.n; i++) out[i] = Number.isFinite(L.t[i]) ? CG.plotlyDate(L.t[i]) : null;
+    L._plotlyTimes = out;
+  }
+  return L._plotlyTimes;
+};
+
 /* Parse 'YYYY[-MM[-DD[ HH[:MM[:SS[.fff]]]]]]' (UTC) -> seconds, NaN if invalid. */
 CG.parseTime = function (s) {
   if (s === null || s === undefined) return NaN;

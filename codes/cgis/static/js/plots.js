@@ -62,10 +62,18 @@ CG.plots = (function () {
 
   /* Highlight rings as pixel-sized layout shapes: cheap to update, and
    * unlike restyling a trace they do not reset the axis types. */
-  function ringShapes(points, xref, yref) {
-    return points.map(([x, y]) => ({type: 'circle', xref: xref || 'x', yref: yref || 'y',
-      xsizemode: 'pixel', ysizemode: 'pixel', xanchor: x, yanchor: y, x0: -11, x1: 11, y0: -11, y1: 11,
-      line: {color: '#000', width: 2.5}, layer: 'above'}));
+  /* Ring around a point of radius ``r`` px (as on the map: white halo,
+   * black line, 4 px outside the symbol). */
+  function ringShapes(points, r, xref, yref) {
+    const R = (r || 7) + 4;
+    const out = [];
+    for (const [x, y] of points) {
+      for (const [color, width] of [['#fff', 4], ['#000', 2]]) {
+        out.push({type: 'circle', xref: xref || 'x', yref: yref || 'y', xsizemode: 'pixel', ysizemode: 'pixel',
+          xanchor: x, yanchor: y, x0: -R, x1: R, y0: -R, y1: R, line: {color, width}, layer: 'above'});
+      }
+    }
+    return out;
   }
 
   /* ----------------------------------------------- time-depth / time-mag */
@@ -80,13 +88,14 @@ CG.plots = (function () {
     for (const L of timeLayers()) {
       const x = [], y = [], c = [], s = [], idx = [];
       const yy = yKey === 'dep' ? L.dep : L.mag;
+      const tt = CG.plotlyTimes(L);
       for (let i = 0; i < L.n; i++) {
         if (!L.base[i] || !Number.isFinite(yy[i])) continue;
         if (!L.vis[i]) {
-          if (greyOutside) { grey.x.push(L.t[i] * 1000); grey.y.push(yy[i]); }
+          if (greyOutside) { grey.x.push(tt[i]); grey.y.push(yy[i]); }
           continue;
         }
-        x.push(L.t[i] * 1000); y.push(yy[i]); c.push(L.colors[i]);
+        x.push(tt[i]); y.push(yy[i]); c.push(L.colors[i]);
         s.push(2 * L.r[i] * PLOT_SIZE); idx.push(i);
       }
       st.map.push({L, idx});
@@ -160,9 +169,10 @@ CG.plots = (function () {
       }
       ts.sort((a, b) => L.t[a] - L.t[b]);
       const x = new Array(ts.length), yn = new Array(ts.length), ym = new Array(ts.length);
+      const tt = CG.plotlyTimes(L);
       let cm = 0;
       ts.forEach((i, j) => {
-        x[j] = L.t[i] * 1000;
+        x[j] = tt[i];
         yn[j] = j + 1;
         const kk = L.mtIdx[i];
         let mo = kk >= 0 && L.mt.m0[kk] ? L.mt.m0[kk] : NaN;
@@ -420,7 +430,7 @@ CG.plots = (function () {
     if (tab === 'td' || tab === 'tm') {
       if (hv.L.noTime) return [];
       const v = tab === 'td' ? hv.L.dep[hv.i] : hv.L.mag[hv.i];
-      return Number.isFinite(v) ? ringShapes([[CG.plotlyDate(hv.L.t[hv.i]), v]]) : [];
+      return Number.isFinite(v) ? ringShapes([[CG.plotlyDate(hv.L.t[hv.i]), v]], hv.L.r[hv.i] * PLOT_SIZE) : [];
     }
     if (tab === 'pt') {
       const k = hv.L.mtIdx[hv.i];
@@ -431,7 +441,7 @@ CG.plots = (function () {
         const tr = hv.L.mt[a + '_tr'][k], pl = hv.L.mt[a + '_pl'][k];
         if (tr !== null && pl !== null) pts.push(eqArea(tr, pl));
       }
-      return ringShapes(pts);
+      return ringShapes(pts, 4.5);
     }
     return [];
   }

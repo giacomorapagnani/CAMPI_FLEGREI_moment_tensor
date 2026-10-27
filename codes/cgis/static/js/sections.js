@@ -401,9 +401,13 @@ CG.sections = (function () {
     if (!S || !hv || !hv.L.vis[hv.i] || !hv.L.style.plots) return [];
     const proj = hv.L.secProj[S.uid];
     if (!proj || !inCorridor(S, proj, hv.i) || !Number.isFinite(hv.L.dep[hv.i])) return [];
-    return [{type: 'circle', xref: 'x', yref: 'y', xsizemode: 'pixel', ysizemode: 'pixel',
-      xanchor: proj.s[hv.i], yanchor: hv.L.dep[hv.i], x0: -12, x1: 12, y0: -12, y1: 12,
-      line: {color: '#000', width: 2.5}, layer: 'above'}];
+    // same size as the symbol in the section (beachballs are larger)
+    const st = CG.settings;
+    const bb = S.showBB && st.bbShow && hv.L.style.beachballs && hv.L.mtIdx[hv.i] >= 0;
+    const R = hv.L.r[hv.i] * PLOT_SIZE * (bb ? st.bbScale : 1) + 4;
+    return [['#fff', 4], ['#000', 2]].map(([color, width]) => ({type: 'circle', xref: 'x', yref: 'y',
+      xsizemode: 'pixel', ysizemode: 'pixel', xanchor: proj.s[hv.i], yanchor: hv.L.dep[hv.i],
+      x0: -R, x1: R, y0: -R, y1: R, line: {color, width}, layer: 'above'}));
   }
 
   function highlight(source) {
