@@ -187,10 +187,25 @@ def _detect_delimiter(lines):
     return 'ws'
 
 
+def _is_comment(line):
+    return line.lstrip().startswith(('#', '%'))
+
+
+def _looks_header(fields):
+    nonnum = sum(1 for h in fields if h and not _is_number(h)
+                 and not _DATETIME_RE.match(h) and not _is_missing(h))
+    return nonnum >= max(1, len(fields) // 2)
+
+
 def read_table(path, delimiter=None, header=None):
     '''
     Parse a text table. ``delimiter`` (',', ';', '\\t', '|', 'ws') and
     ``header`` (True/False) override the automatic detection.
+
+    Lines starting with '#' (or '%') are comments and data lines that
+    contain '#' are left out. The header is the first non-comment line
+    when it looks like one, otherwise the last comment line right before
+    the data (e.g. "#EventID,Time,...").
     '''
     text = _read_text(path)
     lines = []
@@ -202,39 +217,53 @@ def read_table(path, delimiter=None, header=None):
     if not lines:
         raise TextCatalogError('%s è vuoto' % op.basename(path))
 
-    first = lines[0].strip()
-    comment_header = first.startswith('#') or first.startswith('%')
-    body = [ln for ln in lines[1:] if not ln.strip().startswith(('#', '%'))]
-    sample = body[:200] if body else lines[:1]
-
+    nc = [k for k, ln in enumerate(lines) if not _is_comment(ln)]
+    if not nc:
+        raise TextCatalogError('%s contiene solo commenti (#)'
+                               % op.basename(path))
+    k0 = nc[0]
+    first = lines[k0]
+    others = [lines[k] for k in nc[1:]]
+    sample = [ln for ln in (others[:200] or [first]) if '#' not in ln] \
+        or [first]
     delim = delimiter if delimiter in DELIMITERS else \
         _detect_delimiter(sample)
 
-    head_line = first.lstrip('#%').strip() if comment_header else first
-    head = _split(head_line, delim)
+    head_first = _split(first.strip(), delim)
+    prev = lines[k0 - 1] if k0 > 0 else None   # comment line before data
+    head_prev = _split(prev.lstrip().lstrip('#%').strip(), delim) \
+        if prev is not None else None
 
+    hdr = None
     if header is None:
-        nonnum = sum(1 for h in head if h and not _is_number(h)
-                     and not _DATETIME_RE.match(h) and not _is_missing(h))
-        header = comment_header or nonnum >= max(1, len(head) // 2)
+        if _looks_header(head_first):
+            hdr, data = head_first, others
+        elif head_prev and _looks_header(head_prev):
+            hdr, data = head_prev, [first] + others
+        else:
+            data = [first] + others
+    elif header:
+        hdr, data = head_first, others
+    else:
+        data = [first] + others
 
-    rows_src = body if header else [first] + body
-    rows = [_split(ln, delim) for ln in rows_src]
+    # rows containing '#' are not included (commented or flagged events)
+    data = [ln for ln in data if '#' not in ln]
+    rows = [_split(ln, delim) for ln in data]
     rows = [r for r in rows if any(c.strip() for c in r)]
     if not rows:
         raise TextCatalogError('%s non contiene righe di dati'
                                % op.basename(path))
 
-    hdr = None
-    if header:
-        ncol = max(set(len(r) for r in rows[:200]),
-                   key=[len(r) for r in rows[:200]].count)
-        hdr = head
+    if hdr is not None:
+        counts = [len(r) for r in rows[:200]]
+        ncol = max(set(counts), key=counts.count)
         if len(hdr) == ncol - 1:
             hdr = [''] + hdr        # e.g. "#" over an index column
-        elif len(hdr) > ncol and comment_header and hdr and \
-                normalize_name(hdr[0])[0] == '':
+        elif len(hdr) == ncol + 1 and normalize_name(hdr[0])[0] == '':
             hdr = hdr[1:]
+        elif abs(len(hdr) - ncol) > 1 and header is None:
+            hdr = None              # not the header of these columns
     return Table(hdr, rows, delim, len(lines))
 
 

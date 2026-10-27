@@ -9,6 +9,7 @@ shown in the event tooltip).
 '''
 
 import math
+import re
 import os.path as op
 import threading
 from collections import OrderedDict
@@ -392,6 +393,25 @@ def _xml_kind(path):
     return 'unknown'
 
 
+def _load_pyrocko_events(path):
+    '''
+    pyrocko events file. Lines starting with '#' are ignored by pyrocko;
+    indented ones ("   # depth = ...") are removed here as well.
+    '''
+    with open(path, 'rb') as f:
+        raw = f.read()
+    if not re.search(rb'(?m)^[ \t]+#', raw):
+        return model.load_events(path)
+    import tempfile
+    kept = b'\n'.join(ln for ln in raw.splitlines()
+                      if not ln.lstrip().startswith(b'#'))
+    with tempfile.TemporaryDirectory(prefix='cgis_') as tmp:
+        fn = op.join(tmp, op.basename(path))
+        with open(fn, 'wb') as f:
+            f.write(kept + b'\n')
+        return model.load_events(fn)
+
+
 def _load_quakeml(path):
     from pyrocko.io import quakeml
     kind = _xml_kind(path)
@@ -428,7 +448,7 @@ def load_catalog(cid, path, mapping=None):
         events = _load_quakeml(path)
     else:
         try:
-            events = model.load_events(path)
+            events = _load_pyrocko_events(path)
         except Exception as e:
             raise CatalogError(
                 'impossibile leggere %s come catalogo pyrocko: %s'
