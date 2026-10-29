@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>csta</title>
+<meta name="csta-token" content="{{TOKEN}}">
+<link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ===================================================== toolbar -->
+  <header id="toolbar">
+    <div class="brand">csta</div>
+    <button id="btn-open" class="primary" title="Apri file di stazioni da META_DATA (O)">＋ Apri</button>
+    <button id="btn-new" title="Nuovo catalogo vuoto">＋ Nuovo<span class="txt"> catalogo</span></button>
+    <span class="sep"></span>
+    <button id="btn-undo" class="icon-btn" title="Annulla (⌘Z)" disabled><svg width="16" height="14" viewBox="0 0 16 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 1 1.5 4.5 5 8"/><path d="M1.5 4.5H10a4.5 4.5 0 0 1 0 9H6"/></svg></button>
+    <button id="btn-redo" class="icon-btn" title="Ripeti (⇧⌘Z)" disabled><svg width="16" height="14" viewBox="0 0 16 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 1l3.5 3.5L11 8"/><path d="M14.5 4.5H6a4.5 4.5 0 0 0 0 9h4"/></svg></button>
+    <span class="sep"></span>
+    <button id="btn-rect" class="tool" title="Seleziona con un rettangolo (R)">▭<span class="txt"> Rettangolo</span></button>
+    <button id="btn-lasso" class="tool" title="Seleziona con un lazo (L)">◌<span class="txt"> Lazo</span></button>
+    <button id="btn-circle" class="tool" title="Seleziona entro un raggio (C)">◯<span class="txt"> Cerchio</span></button>
+    <button id="btn-measure" class="tool" title="Misura distanze (D)">📏<span class="txt"> Distanza</span></button>
+    <button id="btn-fit" title="Adatta la mappa alle stazioni visibili (F)">⤢</button>
+    <span class="sep"></span>
+    <label class="tb-label"><span class="txt">Colore</span>
+      <select id="opt-color">
+        <option value="cat">catalogo</option>
+        <option value="cls">tipo di strumento</option>
+        <option value="net">rete</option>
+        <option value="state">attiva / chiusa</option>
+      </select>
+    </label>
+    <label class="chk"><input type="checkbox" id="opt-labels"> etichette</label>
+    <span class="grow"></span>
+    <button id="btn-help" title="Aiuto e scorciatoie (?)">?</button>
+  </header>
+
+  <div id="main">
+    <!-- =================================================== sidebar -->
+    <aside id="sidebar">
+      <section class="box">
+        <h3>Cataloghi</h3>
+        <div id="cat-list"></div>
+      </section>
+
+      <section class="box">
+        <h3>Selezione</h3>
+        <div id="sel-info" class="sel-info">Nessuna stazione selezionata</div>
+        <div class="btn-row">
+          <button id="sel-all" class="small" title="Seleziona tutte le stazioni visibili (⌘A)">Tutte</button>
+          <button id="sel-none" class="small" title="Deseleziona (Esc)">Nessuna</button>
+          <button id="sel-invert" class="small" title="Inverti la selezione tra le stazioni visibili">Inverti</button>
+        </div>
+        <div class="btn-row">
+          <button id="sel-paste" class="small" title="Seleziona da una lista di codici (NET.STA o STA)">Incolla lista…</button>
+          <button id="sel-file" class="small" title="Seleziona da un file di codici (es. BLACKLIST)">Lista da file…</button>
+          <button id="sel-zoom" class="small" title="Zoom sulle stazioni selezionate (Z)">Zoom</button>
+        </div>
+      </section>
+
+      <section class="box">
+        <h3>Operazioni sulla selezione</h3>
+        <div class="row"><label>Da</label><select id="op-src" class="cat-select"></select></div>
+        <div class="row"><label>A</label><select id="op-dst" class="cat-select"></select></div>
+        <div class="btn-row">
+          <button id="op-copy" title="Copia le stazioni selezionate presenti in «Da» nel catalogo «A»">Copia</button>
+          <button id="op-move" title="Sposta le stazioni selezionate da «Da» a «A»">Sposta</button>
+          <button id="op-delete" class="danger" title="Elimina le stazioni selezionate dal catalogo «Da» (Canc)">Elimina da «Da»</button>
+        </div>
+        <div class="btn-row">
+          <button id="op-newsel" title="Nuovo catalogo con le stazioni selezionate">Nuovo catalogo dalla selezione…</button>
+        </div>
+      </section>
+
+      <section class="box">
+        <h3>Operazioni tra cataloghi</h3>
+        <div class="row"><label>Catalogo</label><select id="set-a" class="cat-select"></select></div>
+        <div class="row"><label>Operazione</label>
+          <select id="set-op" class="wide">
+            <option value="union">∪ unione</option>
+            <option value="inter">∩ intersezione</option>
+            <option value="diff">− differenza (primo meno secondo)</option>
+            <option value="sym">Δ solo in uno dei due</option>
+          </select>
+        </div>
+        <div class="row"><label>Catalogo</label><select id="set-b" class="cat-select"></select></div>
+        <div id="set-hint" class="muted small"></div>
+        <div class="btn-row"><button id="set-run">Crea nuovo catalogo…</button></div>
+      </section>
+
+      <section class="box">
+        <h3>Filtri <button id="f-reset" class="small link">azzera</button></h3>
+        <div class="row"><label>Testo</label><input type="text" id="f-text" class="wide" placeholder="codice o sito"></div>
+        <div class="row"><label>Rete</label><select id="f-net" class="wide"></select></div>
+        <div class="row"><label>Canali</label><select id="f-band" class="wide"></select></div>
+        <div class="row"><label>Tipo</label><select id="f-cls" class="wide"></select></div>
+        <div class="row"><label>Stato</label>
+          <select id="f-state" class="wide">
+            <option value="">tutte</option>
+            <option value="active">attive oggi</option>
+            <option value="closed">chiuse</option>
+          </select>
+        </div>
+        <div class="row"><label title="Stazioni con un'epoca che si sovrappone all'intervallo (UTC)">Attiva tra</label>
+          <input type="text" id="f-t0" class="date" placeholder="aaaa-mm-gg">
+          <input type="text" id="f-t1" class="date" placeholder="aaaa-mm-gg">
+        </div>
+        <div class="row"><label>Presenza</label>
+          <select id="f-pres" class="wide">
+            <option value="">qualsiasi</option>
+            <option value="all">in tutti i cataloghi visibili</option>
+            <option value="one">in un solo catalogo</option>
+            <option value="multi">in più cataloghi</option>
+            <option value="diff">versioni diverse tra cataloghi</option>
+          </select>
+        </div>
+        <div class="row"><label title="Distanza massima da un punto (km)">Entro km</label>
+          <input type="text" id="f-rmax" class="num" placeholder="km">
+          <input type="text" id="f-lat0" class="num" placeholder="lat">
+          <input type="text" id="f-lon0" class="num" placeholder="lon">
+        </div>
+        <div id="f-info" class="muted small"></div>
+      </section>
+    </aside>
+
+    <!-- ==================================================== centre -->
+    <section id="center">
+      <div id="map-wrap">
+        <div id="map"></div>
+        <div id="legend" class="map-overlay"></div>
+        <div id="mode-hint" class="map-overlay"></div>
+        <div id="measure-box" class="map-overlay"></div>
+        <div id="empty-hint" class="map-overlay">
+          <div>Nessun catalogo aperto</div>
+          <button class="primary" id="btn-open2">＋ Apri file da META_DATA</button>
+        </div>
+      </div>
+      <div id="splitter" title="Trascina per ridimensionare"></div>
+      <div id="bottom">
+        <div id="table-bar">
+          <span id="tbl-count"></span>
+          <span class="grow"></span>
+          <button id="btn-detail" class="small" title="Dettagli della stazione selezionata (I)" disabled>Dettagli</button>
+        </div>
+        <div id="table-wrap">
+          <table id="tbl"><thead></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div id="tooltip"></div>
+<div id="menu" class="menu"></div>
+<div id="toasts"></div>
+<div id="busy"><div class="spinner"></div><div id="busy-msg"></div></div>
+
+<script src="/static/vendor/leaflet/leaflet.js"></script>
+<script src="/static/js/util.js"></script>
+<script src="/static/js/data.js"></script>
+<script src="/static/js/map.js"></script>
+<script src="/static/js/table.js"></script>
+<script src="/static/js/dialogs.js"></script>
+<script src="/static/js/ui.js"></script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

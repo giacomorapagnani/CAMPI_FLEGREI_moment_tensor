@@ -49,7 +49,11 @@ class QtDialogs(Dialogs):
                            'kind': file_kind})
 
 
-def run_window(url, dialogs, title='cgis'):
+def run_window(url, dialogs, title='cgis', confirm_close=None):
+    '''
+    ``confirm_close``: optional callable returning a question (or None) to
+    ask before the window closes, e.g. about unsaved changes.
+    '''
     from PyQt5 import QtCore, QtGui, QtWidgets
     from PyQt5 import QtWebEngineWidgets  # noqa: F401 (before QApplication)
     from PyQt5.QtWebEngineWidgets import (QWebEngineView, QWebEnginePage,
@@ -58,8 +62,8 @@ def run_window(url, dialogs, title='cgis'):
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QtWidgets.QApplication.instance() or QtWidgets.QApplication(
-        ['cgis'])
-    app.setApplicationName('cgis')
+        [title])
+    app.setApplicationName(title)
 
     class Bridge(QtCore.QObject):
         request = QtCore.pyqtSignal(object)
@@ -108,7 +112,18 @@ def run_window(url, dialogs, title='cgis'):
             return QWebEnginePage.acceptNavigationRequest(
                 self, qurl, nav_type, is_main_frame)
 
-    win = QtWidgets.QMainWindow()
+    class Window(QtWidgets.QMainWindow):
+        def closeEvent(self, ev):
+            msg = confirm_close() if confirm_close else None
+            if msg:
+                Box = QtWidgets.QMessageBox
+                if Box.question(self, title, msg, Box.Yes | Box.No,
+                                Box.No) != Box.Yes:
+                    ev.ignore()
+                    return
+            ev.accept()
+
+    win = Window()
     win.setWindowTitle(title)
     view = QWebEngineView(win)
     page = Page(view)
