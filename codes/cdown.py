@@ -5,10 +5,12 @@ download_catalog_waveforms_station_xml.py
 Interactive FDSN downloader: catalog, station metadata, waveforms.
 
   1. Reads (or creates) CAT/config_cat/config.yaml
-  2. Gets events and stations — from FDSN or from local files (see config)
+  2. Gets events and/or stations — from FDSN or from local files — as the
+     mode requires: event | continuous | catalog | stations (see config)
   3. Shows an interactive preview map (folium → fallback: pygmt)
-  4. After confirmation saves catalog + station metadata (only what came
-     from FDSN — local sources are never re-saved) and downloads waveforms
+  4. After confirmation (and, for output names already on disk, the choice
+     overwrite / another name) saves catalog + station metadata — local
+     sources are never re-saved — and then downloads the waveforms
 
 Output layout
 ─────────────
@@ -34,6 +36,7 @@ Dependencies: obspy, pyrocko, pyyaml, folium (or pygmt as fallback)
 import os
 import re
 import sys
+import glob
 import json
 import math
 import time
@@ -43,6 +46,7 @@ import threading
 import subprocess
 import webbrowser
 import tempfile
+import warnings
 import http.client
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -54,8 +58,13 @@ from obspy.clients.fdsn.header import (
     FDSNException, FDSNNoDataException, FDSNTimeoutException,
     FDSNInternalServerException, FDSNBadGatewayException,
     FDSNServiceUnavailableException, FDSNTooManyRequestsException)
-from obspy import UTCDateTime
+from obspy import UTCDateTime, Stream
 from obspy.core.event import Catalog
+
+# Harmless obspy notice printed for every equipment / response identifier
+# that is not a URI (INGV StationXML has many: dozens of lines per query)
+warnings.filterwarnings('ignore', category=UserWarning,
+                        message='Given string seems to not be a valid URI')
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -81,9 +90,15 @@ DEFAULT_CONFIG = """\
 #  Edit this file, then run  download_catalog_waveforms_station_xml.py
 # ══════════════════════════════════════════════════════════════════════════════
 #
-#  The script has two modes (→ download_mode):
+#  The script has four modes (→ download_mode):
 #    "event"      : catalog + station metadata + one waveform excerpt per event
 #    "continuous" : station metadata + continuous waveforms between tmin & tmax
+#    "catalog"    : the event catalog only
+#    "stations"   : the station metadata only
+#
+#  If an output name (catalog_name, station_file_name) is already used on
+#  disk, the script asks whether to overwrite it or to use another name,
+#  before anything is saved or downloaded.
 #
 #  Events and stations can each come from FDSN *or* from LOCAL files already
 #  on disk (→ LOCAL SOURCES below).  Whatever is loaded from a local file is
@@ -91,10 +106,19 @@ DEFAULT_CONFIG = """\
 
 # ── Download mode ─────────────────────────────────────────────────────────────
 
-# "event"      → one waveform excerpt per event of the catalog
+# "event"      → catalog + stations + one waveform excerpt per event
 #                  Files: DATA/<event_name>/<event_name>_NET_STA.mseed
-# "continuous" → continuous stream for every station across tmin → tmax
+# "continuous" → stations + continuous stream for every station, tmin → tmax
 #                  Files: DATA/CONTINUOUS/<event_label>_yyyy_mm_dd_NET_STA.mseed
+# "catalog"    → the event catalog only (no stations, no waveforms)
+#                  Files: CAT/<catalog_name>.xml .txt .pf
+# "stations"   → the station metadata only (no events, no waveforms); with
+#                the azimuthal selection on, also a way to thin out a local
+#                StationXML (existing_stations_xml) without any download
+#                  Files: META_DATA/<station_file_name>...  (see below)
+# Typical large-event workflow: "stations" (ring + azimuthal selection, check
+# the map) and "catalog" first, then "event" with existing_stations_xml and
+# existing_catalog_pf pointing to those files: only waveforms are downloaded.
 download_mode: "event"
 
 # ── LOCAL SOURCES (both optional) ─────────────────────────────────────────────
@@ -147,10 +171,16 @@ event_label: "EV"
 #   Produces:  META_DATA/<station_file_name>.xml            (full inventory)
 #              META_DATA/<station_file_name>/
 #                  <station_file_name>_NET_STA.xml          (one per station)
-# With the azimuthal selection on, those files hold the SELECTED stations
-# only, and two more files are written:
-#              META_DATA/<station_file_name>_all.xml        (all candidates;
-#                                                            FDSN only)
+# With the azimuthal selection on, you get one file with ALL the stations
+# and one with the SELECTED stations only:
+#   stations from FDSN:
+#              META_DATA/<station_file_name>_all.xml        (all candidates)
+#              META_DATA/<station_file_name>.xml            (selected) + the
+#              per-station folder (selected)
+#   stations from a local file (existing_stations_xml):
+#              your local file                              (all — not copied)
+#              META_DATA/<station_file_name>.xml            (selected)
+#   in both cases:
 #              META_DATA/<station_file_name>_selection.txt  (selection report)
 station_file_name: "stations"
 
@@ -233,12 +263,26 @@ radius_km_sta:      50.0    # outer radius (km)
 #                      closer than the first edge or farther than the last
 #                      one are dropped.  null = one single ring (no limit)
 #   azi_max_per_cell : maximum number of stations kept in each cell
+#   azi_check_data   : true = before choosing, ask the FDSN availability
+#                      service which candidates really have data in the time
+#                      to download: a station without data is skipped and the
+#                      next one of the SAME cell is taken.
+#                        event mode : an event counts as recorded when at
+#                                     least half of its window has data
+#                        continuous / stations mode : data in tmin → tmax
+#                      INGV and the other EIDA nodes offer the service;
+#                      IRIS / EarthScope retired it: there the check is
+#                      skipped with a warning.
+#                      The check lasts at most ~5 min (a busy server can be
+#                      very slow): stations not checked by then are kept as
+#                      candidates, after the verified ones.
 # The map shows the grid, the kept stations and (in grey) the dropped ones;
 # the summary reports the largest azimuthal gap before / after.
 azi_select:        false
 azi_sectors:       12
 azi_rings_km:      null     # e.g. [100, 300, 600, 1000]
 azi_max_per_cell:  2
+azi_check_data:    true
 
 # ── Station / channel selection ───────────────────────────────────────────────
 
@@ -319,7 +363,7 @@ def load_or_create_config(path: str) -> dict:
 
 # Keys that only accept a fixed set of values
 _CHOICES = {
-    'download_mode': ('event', 'continuous'),
+    'download_mode': ('event', 'continuous', 'catalog', 'stations'),
     'area_type':     ('rectangular', 'circular'),
     'map_backend':   ('folium', 'pygmt'),
     'map_color_by':  ('depth', 'time'),
@@ -357,9 +401,9 @@ def validate_config(cfg: dict) -> None:
         errors.append(f"radius_km_sta_min: {r_min!r} — must be a number ≥ 0")
     elif _is_num(cfg.get('radius_km_sta')) and r_min >= cfg['radius_km_sta']:
         errors.append("radius_km_sta_min must be smaller than radius_km_sta")
-    if not isinstance(cfg.get('azi_select'), bool):
-        errors.append(f"azi_select: {cfg.get('azi_select')!r} — must be "
-                      f"true or false")
+    for key in ('azi_select', 'azi_check_data'):
+        if not isinstance(cfg.get(key), bool):
+            errors.append(f"{key}: {cfg.get(key)!r} — must be true or false")
     for key, top in (('azi_sectors', 360), ('azi_max_per_cell', 10000)):
         v = cfg.get(key)
         if isinstance(v, bool) or not isinstance(v, int) or not 1 <= v <= top:
@@ -394,61 +438,80 @@ def print_config_summary(cfg: dict) -> None:
     print("\n" + "═" * w)
     print("  CONFIGURATION SUMMARY")
     print("═" * w)
-    ev_site = cfg.get('fdsn_site_events') or cfg['fdsn_site']
-    print(f"  FDSN site       : {cfg['fdsn_site']}  (stations + waveforms)")
-    if ev_site != cfg['fdsn_site']:
+    # Only what the selected mode actually uses is shown
+    mode         = cfg['download_mode']
+    uses_events  = mode in ('event', 'catalog')
+    uses_sta     = mode != 'catalog'
+    existing_pf  = (cfg.get('existing_catalog_pf') or None) \
+        if mode == 'event' else None
+    existing_sta = cfg.get('existing_stations_xml') or None
+    ev_site      = cfg.get('fdsn_site_events') or cfg['fdsn_site']
+
+    print(f"  ── Mode         : {mode.upper()}")
+    if mode in ('event', 'continuous'):
+        print(f"  FDSN site       : {cfg['fdsn_site']}  (stations + waveforms)")
+    elif mode == 'stations' and not existing_sta:
+        print(f"  FDSN site       : {cfg['fdsn_site']}  (stations)")
+    if uses_events and not existing_pf and \
+            (ev_site != cfg['fdsn_site'] or mode == 'catalog'):
         print(f"  FDSN events     : {ev_site}  (catalog query)")
     print(f"  Time window     : {cfg['tmin']}  →  {cfg['tmax']}")
-    print(f"  Event area      : {cfg['area_type']}")
-    if cfg['area_type'] == 'rectangular':
-        print(f"    lat [{cfg['lat_min']:.3f} – {cfg['lat_max']:.3f}]  "
-              f"lon [{cfg['lon_min']:.3f} – {cfg['lon_max']:.3f}]")
-    else:
-        print(f"    centre ({cfg['lat_center']:.4f}, {cfg['lon_center']:.4f})  "
-              f"radius {cfg['radius_km']:.1f} km")
-    sta_ring = (f"ring {cfg['radius_km_sta_min']:g}–{cfg['radius_km_sta']:g} km"
-                if cfg['radius_km_sta_min'] else
-                f"radius {cfg['radius_km_sta']:g} km")
-    print(f"  Station area    : centre ({cfg['lat_center_sta']:.4f}, "
-          f"{cfg['lon_center_sta']:.4f})  {sta_ring}")
-    if cfg['azi_select']:
-        rings = (f"rings {cfg['azi_rings_km']} km" if cfg['azi_rings_km']
-                 else "no rings")
-        print(f"  Azimuthal sel.  : {cfg['azi_sectors']} sectors × {rings}, "
-              f"max {cfg['azi_max_per_cell']} per cell")
-    else:
-        print(f"  Azimuthal sel.  : off")
-    existing_sta = cfg.get('existing_stations_xml') or None
-    sta_src = f"EXISTING FILE → {existing_sta}" if existing_sta else "FDSN query"
-    print(f"  Station source  : {sta_src}")
-    def _v(key):   # 'or' would hide legitimate 0 / 0.0 values
-        val = cfg.get(key)
-        return '–' if val is None else val
-    mag_str   = f"{_v('mag_min')}  –  {_v('mag_max')}"
-    depth_str = f"{_v('depth_min_km')}  –  {_v('depth_max_km')}  km"
-    mode = cfg.get('download_mode', 'event')
-    print(f"  ── Mode         : {mode.upper()}")
-    if mode == 'continuous':
-        print(f"  Chunk size      : {cfg.get('chunk_hours', 24)} h per file")
-        print(f"  Parallel        : {cfg.get('parallel_downloads', 4)} connections")
-    else:
-        print(f"  Magnitude       : {mag_str}")
-        print(f"  Depth           : {depth_str}")
-    print(f"  Network         : {cfg['network']}   Station: {cfg['station']}")
-    print(f"  Channel         : {cfg['channel']}")
-    if mode == 'event':
-        print(f"  Waveform window : -{cfg['t_before_s']} s  /  +{cfg['t_after_s']} s")
-        existing_pf = cfg.get('existing_catalog_pf') or None
+
+    if uses_events:
         if existing_pf:
             print(f"  Catalog source  : LOCAL FILE → {existing_pf}")
-            print(f"                    (event area/filters above are ignored)")
+            print(f"                    (event area and filters are ignored)")
         else:
-            print(f"  Catalog source  : FDSN query")
+            def _v(key):   # 'or' would hide legitimate 0 / 0.0 values
+                val = cfg.get(key)
+                return '–' if val is None else val
+            print(f"  Event area      : {cfg['area_type']}")
+            if cfg['area_type'] == 'rectangular':
+                print(f"    lat [{cfg['lat_min']:.3f} – {cfg['lat_max']:.3f}]  "
+                      f"lon [{cfg['lon_min']:.3f} – {cfg['lon_max']:.3f}]")
+            else:
+                print(f"    centre ({cfg['lat_center']:.4f}, "
+                      f"{cfg['lon_center']:.4f})  "
+                      f"radius {cfg['radius_km']:.1f} km")
+            print(f"  Magnitude       : {_v('mag_min')}  –  {_v('mag_max')}")
+            print(f"  Depth           : {_v('depth_min_km')}  –  "
+                  f"{_v('depth_max_km')}  km")
             print(f"  Catalog name    : {cfg['catalog_name']}")
-    print(f"  Event label     : {cfg['event_label']}")
-    print(f"  Station file    : {cfg['station_file_name']}")
+
+    if uses_sta:
+        if existing_sta:
+            print(f"  Station source  : LOCAL FILE → {existing_sta}")
+        else:
+            sta_ring = (f"ring {cfg['radius_km_sta_min']:g}–"
+                        f"{cfg['radius_km_sta']:g} km"
+                        if cfg['radius_km_sta_min'] else
+                        f"radius {cfg['radius_km_sta']:g} km")
+            print(f"  Station area    : centre ({cfg['lat_center_sta']:.4f}, "
+                  f"{cfg['lon_center_sta']:.4f})  {sta_ring}")
+            print(f"  Network         : {cfg['network']}   "
+                  f"Station: {cfg['station']}")
+        print(f"  Channel         : {cfg['channel']}"
+              f"   Location: {cfg['location']}")
+        if cfg['azi_select']:
+            rings = (f"rings {cfg['azi_rings_km']} km" if cfg['azi_rings_km']
+                     else "no rings")
+            print(f"  Azimuthal sel.  : {cfg['azi_sectors']} sectors × "
+                  f"{rings}, max {cfg['azi_max_per_cell']} per cell")
+        else:
+            print(f"  Azimuthal sel.  : off")
+        print(f"  Station file    : {cfg['station_file_name']}")
+
+    if mode == 'event':
+        print(f"  Waveform window : -{cfg['t_before_s']} s  /  "
+              f"+{cfg['t_after_s']} s")
+    if mode == 'continuous':
+        print(f"  Chunk size      : {cfg['chunk_hours']} h per file")
+        print(f"  Parallel        : {cfg['parallel_downloads']} connections")
+    if mode in ('event', 'continuous'):
+        print(f"  Event label     : {cfg['event_label']}")
     print(f"  Map backend     : {cfg['map_backend']}"
-          f"   (events coloured by {cfg['map_color_by']})")
+          + (f"   (events coloured by {cfg['map_color_by']})"
+             if uses_events else ''))
     print("═" * w + "\n")
 
 
@@ -697,10 +760,11 @@ def query_events(client: Client, cfg: dict):
         t2 = min(t1 + chunk, tmax)
         label = f"{t1.strftime('%Y-%m-%d')} → {t2.strftime('%Y-%m-%d')}"
         print(f"  Querying events  {label} … ", end='', flush=True)
+        # few and essential requests: as patient as the station query
         tmp, status = _fetch_with_retry(
             lambda: client.get_events(starttime=t1, endtime=t2,
                                       **geo, **filters),
-            f"events {label}")
+            f"events {label}", attempts=CONNECT_RETRIES)
         if status == 'ok':
             cat += tmp
             print(f"{len(tmp)} events")
@@ -851,23 +915,280 @@ def _max_azimuthal_gap(azimuths) -> float:
 _MIN_SEP_CELL = 0.2
 
 
-def select_stations_azimuthal(inv, cfg: dict):
-    """Keep at most azi_max_per_cell stations in each sector × ring cell.
+# ── Data availability (FDSN availability service) ────────────────────────────
 
-    Distance and azimuth are measured from lat/lon_center_sta.  Inside a
-    cell the stations closest to the cell centre are kept, so that the
-    selection stays evenly spread, and near-duplicates of a station already
-    kept are avoided when possible.  Returns (selected inventory or None,
-    report); the report describes every candidate and feeds the summary,
-    the map and the selection file.
+_AVAIL_CHUNK      = 10    # stations per availability request: the server
+                          # time grows with the stations asked about (INGV
+                          # ≈ 0.3 s per station, much more when it is busy)
+                          # and hardly with the length of the period
+_AVAIL_WORKERS    = 4     # availability requests run in parallel
+_AVAIL_TIMEOUT_S  = 120   # per request
+_AVAIL_BUDGET_S   = 300   # whole check: once this is over, the stations not
+                          # checked yet stay unchecked (kept as candidates,
+                          # after the verified ones) — a busy server must not
+                          # stall the script for an hour
+_AVAIL_JOIN_S     = 86400 # event windows closer than this (e.g. a sequence)
+                          # are asked about together, in one time segment
+_AVAIL_MAX_WINDOWS = 20   # up to this many segments: one request each,
+                          # otherwise one request for the whole span
+_EVENT_MIN_COVER  = 0.5   # an event counts as recorded if ≥ 50 % of its
+                          # waveform window has data
+_PERIOD_MIN_COVER = 0.01  # continuous / stations: below 1 % of tmin → tmax
+                          # a station counts as having no data
+
+
+def _has_data(cov, per_event: bool) -> bool:
+    """True when a coverage value means 'this station has data'.
+
+    cov None = could not be checked: the station is given the benefit of
+    the doubt (kept as a candidate, after the verified ones).
     """
-    from copy import deepcopy
+    if cov is None:
+        return True
+    return cov > 0 if per_event else cov >= _PERIOD_MIN_COVER
+
+
+def _availability_url(cfg: dict, client):
+    """URL of the FDSN availability service of fdsn_site (or None)."""
+    from obspy.clients.fdsn.header import URL_MAPPINGS
+    base = getattr(client, 'base_url', None)
+    if not base:
+        site = cfg['fdsn_site']
+        base = URL_MAPPINGS.get(site.upper(), site)
+    if not str(base).startswith('http'):
+        return None
+    return str(base).rstrip('/') + '/fdsnws/availability/1/query'
+
+
+def _merge_windows(windows: list, join_s: float) -> list:
+    """Merge time windows [(t1, t2), …] closer than join_s into segments."""
+    segments = []
+    for t1, t2 in sorted(windows):
+        if segments and t1 - segments[-1][1] <= join_s:
+            segments[-1][1] = max(segments[-1][1], t2)
+        else:
+            segments.append([t1, t2])
+    return [tuple(s) for s in segments]
+
+
+def _fetch_availability(url: str, cfg: dict, stations: list,
+                        segments: list, mergegaps: float, progress=None):
+    """Data spans {(net, sta): [(start, end), …]} (epoch seconds).
+
+    stations  : [(net, sta), …], asked about in this order (most useful
+                first: if the time runs out, the last ones stay unchecked)
+    segments  : time intervals [(t1, t2), …] to ask about
+    mergegaps : gaps shorter than this (s) are merged by the server
+    progress  : optional callback progress(done, total) after each block
+    One GET request per (segment, block of stations) — POST is broken on
+    some servers, e.g. INGV — run in parallel.  A block matching too many
+    streams (HTTP 413) or timing out is split in two.  After _AVAIL_BUDGET_S
+    no new request is sent.  Raises LookupError when the server has no
+    availability service.
+
+    Returns (spans, unchecked, late): unchecked is the set of stations that
+    could not be checked — a flaky or busy server does not cancel the whole
+    check — and late is True when the time budget ran out.
+    """
+    import urllib.request
+    import urllib.parse
+    import urllib.error
+
+    deadline = time.monotonic() + _AVAIL_BUDGET_S
+    late = threading.Event()      # time budget exhausted
+    stop = threading.Event()      # Ctrl-C / fatal error: send nothing more
+
+    def iso(t):
+        return UTCDateTime(t).strftime('%Y-%m-%dT%H:%M:%S')
+
+    def one_block(t1, t2, block):
+        """(spans, unchecked stations) of one block; splits it if needed."""
+        found, failed, pending = {}, set(), [block]
+        while pending:
+            chunk = pending.pop()
+            left  = deadline - time.monotonic()
+            if left <= 0:
+                late.set()
+            if stop.is_set() or left <= 0:
+                failed.update(chunk)
+                continue
+            query = url + '?' + urllib.parse.urlencode(dict(
+                network=','.join(sorted({n for n, _ in chunk})),
+                station=','.join(sorted({s for _, s in chunk})),
+                location=cfg['location'] or '--', channel=cfg['channel'],
+                starttime=iso(t1), endtime=iso(t2), format='text',
+                merge='quality,samplerate,overlap',
+                mergegaps=f'{mergegaps:.0f}', nodata='204'))
+
+            def fetch():
+                try:
+                    with urllib.request.urlopen(
+                            query, timeout=min(_AVAIL_TIMEOUT_S,
+                                               max(left, 10.0))) as resp:
+                        return resp.status, resp.read().decode('utf-8',
+                                                               'replace')
+                except urllib.error.HTTPError as exc:
+                    if exc.code >= 500 or exc.code == 429:
+                        raise               # transient: retried
+                    return exc.code, ''     # an answer, not a network error
+                except (TimeoutError, urllib.error.URLError) as exc:
+                    # Too slow: retrying the same request would only waste
+                    # the same time again — ask about fewer stations instead
+                    if isinstance(exc, TimeoutError) or isinstance(
+                            getattr(exc, 'reason', None), TimeoutError):
+                        return 'timeout', ''
+                    raise
+
+            try:
+                status, body = _call_with_retry(fetch, 'availability',
+                                                verbose=False)
+            except Exception as exc:
+                # A server that cannot be reached is not split (it would only
+                # multiply the failing requests): these stations stay
+                # unchecked, the rest of the check goes on.
+                if not _is_transient(exc):
+                    raise
+                failed.update(chunk)
+                continue
+            if status in (413, 'timeout') and len(chunk) > 1:
+                half = len(chunk) // 2
+                pending += [chunk[:half], chunk[half:]]
+                continue
+            if status == 'timeout':
+                failed.update(chunk)
+                continue
+            if status in (404, 501):
+                raise LookupError(f'HTTP {status}')
+            if status not in (200, 204):
+                raise RuntimeError(f'HTTP {status}')
+            wanted = set(chunk)             # net × sta lists may match more
+            for line in body.splitlines():
+                parts = line.split()
+                if len(parts) < 6 or line.startswith('#'):
+                    continue
+                if (parts[0], parts[1]) in wanted:
+                    found.setdefault((parts[0], parts[1]), []).append(
+                        (UTCDateTime(parts[-2]).timestamp,
+                         UTCDateTime(parts[-1]).timestamp))
+        return found, failed
+
+    blocks = [stations[i:i + _AVAIL_CHUNK]
+              for i in range(0, len(stations), _AVAIL_CHUNK)]
+    # block by block, all the segments of a block together: the stations
+    # asked about first are completely checked first
+    tasks  = [(t1, t2, b) for b in blocks for t1, t2 in segments]
+    spans, unchecked = {}, set()
+    pool = ThreadPoolExecutor(max_workers=_AVAIL_WORKERS)
+    try:
+        futures = [pool.submit(one_block, *task) for task in tasks]
+        for done, fut in enumerate(as_completed(futures), 1):
+            found, failed = fut.result()
+            for key, sp in found.items():
+                spans.setdefault(key, []).extend(sp)
+            unchecked |= failed
+            if progress:
+                progress(done, len(tasks))
+    except BaseException:
+        # 404, Ctrl-C …: drop the queued requests, send nothing more
+        stop.set()
+        pool.shutdown(wait=False, cancel_futures=True)
+        raise
+    pool.shutdown(wait=True)
+    if unchecked and len(unchecked) == len(stations) and not late.is_set():
+        raise ConnectionError('every availability request failed')
+    return spans, unchecked, late.is_set()
+
+
+def _covered(spans: list, t1: float, t2: float) -> float:
+    """Seconds of t1 → t2 covered by the union of the spans."""
+    total, reached = 0.0, t1
+    for a, b in sorted(spans):
+        a, b = max(a, reached), min(b, t2)
+        if b > a:
+            total  += b - a
+            reached = b
+    return total
+
+
+def data_coverage(inv, cfg: dict, client, windows: list, per_event: bool,
+                  stations=None, progress=None):
+    """Coverage of the candidate stations, from the availability service.
+
+    windows   : [(t1, t2), …] epoch seconds — the event waveform windows
+                (per_event) or the single period tmin → tmax
+    per_event : coverage = fraction of the windows with ≥ 50 % data
+                otherwise = covered fraction of the single window
+    stations  : [(net, sta), …] to check, most useful first (default: all
+                the stations of inv)
+    progress  : optional callback progress(done, total)
+    Returns ({(net, sta): coverage}, note or None), or (None, reason) when
+    the check could not be done.  coverage None = station not checked.
+    """
+    url = _availability_url(cfg, client)
+    if url is None:
+        return None, f"no FDSN URL known for '{cfg['fdsn_site']}'"
+    if stations is None:
+        stations = [(n, s) for n, s, *_ in _unique_stations(inv)]
+    t_first = min(w[0] for w in windows)
+    t_last  = max(w[1] for w in windows)
+    if per_event:
+        # Ask only about the (short) event windows; windows close in time
+        # (a sequence) share one request — the server time grows with the
+        # number of requests, hardly with the length of each.  Too many
+        # segments left: the whole span at once.
+        segments = _merge_windows(windows, _AVAIL_JOIN_S)
+        if len(segments) > _AVAIL_MAX_WINDOWS:
+            segments = [(t_first, t_last)]
+        mergegaps = 10.0
+    else:
+        segments = [(t_first, t_last)]
+        # over a long period only the rough coverage matters: merging short
+        # gaps keeps the server's answer small (≤ 1 day for ≥ 200 days)
+        mergegaps = min(86400.0, max(10.0, (t_last - t_first) / 200))
+    try:
+        spans, unchecked, late = _fetch_availability(
+            url, cfg, stations, segments, mergegaps, progress)
+    except LookupError:
+        return None, (f"{cfg['fdsn_site']} does not offer the availability "
+                      f"service")
+    except Exception as exc:
+        return None, f"availability request failed ({type(exc).__name__})"
+    cov = {}
+    for key in stations:
+        if key in unchecked:
+            cov[key] = None                   # could not be checked
+            continue
+        sp = spans.get(key, [])
+        if per_event:
+            recorded = sum(1 for a, b in windows
+                           if _covered(sp, a, b) >= _EVENT_MIN_COVER * (b - a))
+            cov[key] = recorded / len(windows)
+        else:
+            a, b = windows[0]
+            cov[key] = _covered(sp, a, b) / (b - a)
+    why = (f"the server is too slow, the check stops after "
+           f"{_AVAIL_BUDGET_S / 60:.0f} min" if late else "network errors")
+    note = (f"{len(unchecked)} station(s) could not be checked ({why}): "
+            f"kept as candidates, after the verified ones"
+            if unchecked else None)
+    return cov, note
+
+
+# ── Azimuthal station selection ──────────────────────────────────────────────
+
+def _cell_rows(inv, cfg: dict):
+    """Distance, azimuth and sector × ring cell of every station of inv.
+
+    Returns (rows, ring edges in km, rings_given).  Each row has net, sta,
+    lat, lon, dist_km, az and cell (sector, ring) — None outside the rings,
+    with status 'outside rings' — plus, inside a cell, cx / cy (position
+    relative to the cell centre, in cell sizes) and off_centre.
+    """
     from obspy.geodetics import gps2dist_azimuth
 
     lat0, lon0 = cfg['lat_center_sta'], cfg['lon_center_sta']
     n_sec = cfg['azi_sectors']
     width = 360.0 / n_sec
-    k_max = cfg['azi_max_per_cell']
 
     rows = []
     for net, sta, lat, lon, _ in _unique_stations(inv):
@@ -880,7 +1201,6 @@ def select_stations_azimuthal(inv, cfg: dict):
     edges = (list(cfg['azi_rings_km']) if rings_given else
              [0.0, max((r['dist_km'] for r in rows), default=0.0) + 1e-6])
 
-    cells = {}
     for r in rows:
         d = r['dist_km']
         ring = next((i for i in range(len(edges) - 1)
@@ -898,16 +1218,85 @@ def select_stations_azimuthal(inv, cfg: dict):
         r['cy'] = ((d - 0.5 * (edges[ring] + edges[ring + 1]))
                    / (edges[ring + 1] - edges[ring]))
         r['off_centre'] = math.hypot(r['cx'], r['cy'])
+    return rows, edges, rings_given
+
+
+def _check_order(inv, cfg: dict) -> list:
+    """Stations to ask the availability service about, most useful first.
+
+    Round-robin over the cells — first the station closest to the centre of
+    every cell, then the second one of every cell, … — so that, if the
+    check stops early, what is missing are the stations least likely to be
+    kept.  Stations outside the rings are dropped anyway: not asked about.
+    """
+    rows, _, _ = _cell_rows(inv, cfg)
+    cells = {}
+    for r in rows:
+        if r['cell'] is not None:
+            cells.setdefault(r['cell'], []).append(r)
+    ranked = []
+    for members in cells.values():
+        members.sort(key=lambda r: (r['off_centre'], r['net'], r['sta']))
+        ranked += [(rank, r['off_centre'], r['net'], r['sta'])
+                   for rank, r in enumerate(members)]
+    return [(net, sta) for _, _, net, sta in sorted(ranked)]
+
+
+def select_stations_azimuthal(inv, cfg: dict, coverage=None,
+                              per_event: bool = False, n_windows: int = 1):
+    """Keep at most azi_max_per_cell stations in each sector × ring cell.
+
+    Distance and azimuth are measured from lat/lon_center_sta.  With a data
+    check (coverage given) stations without data are skipped, so the next
+    station of the same cell takes their place, and stations with more data
+    come first.  Then the stations closest to the cell centre are kept, so
+    that the selection stays evenly spread, avoiding near-duplicates of a
+    station already kept when possible.  Returns (selected inventory or
+    None, report); the report describes every candidate and feeds the
+    summary, the map and the selection file.
+    """
+    from copy import deepcopy
+
+    lat0, lon0 = cfg['lat_center_sta'], cfg['lon_center_sta']
+    n_sec = cfg['azi_sectors']
+    k_max = cfg['azi_max_per_cell']
+
+    rows, edges, rings_given = _cell_rows(inv, cfg)
+    cells = {}
+    for r in rows:
+        key = (r['net'], r['sta'])
+        checked = coverage is not None and key in coverage
+        r['cov'] = coverage[key] if checked else None
+        if not checked:
+            r['data_txt'] = '-'             # no data check (for this one)
+        elif r['cov'] is None:
+            r['data_txt'] = '?'             # check failed for this one
+        elif per_event:
+            r['data_txt'] = f"{round(r['cov'] * n_windows)}/{n_windows} ev"
+        else:
+            r['data_txt'] = f"{r['cov']:.0%}"
+        if r['cell'] is None:
+            continue                        # outside the rings
+        if r['cov'] is not None and not _has_data(r['cov'], per_event):
+            r['status'] = 'no data'          # the next one of the cell wins
+            continue
         cells.setdefault(r['cell'], []).append(r)
 
     def near(a, b):
         return math.hypot(a['cx'] - b['cx'], a['cy'] - b['cy']) < _MIN_SEP_CELL
 
+    def preference(r):
+        # more data first (rounded to 10 %, so that tiny differences do not
+        # override the geometry; unchecked stations come after the verified
+        # ones), then closest to the cell centre
+        data = round(r['cov'], 1) if r['cov'] is not None else 0.0
+        return (-data, r['off_centre'], r['net'], r['sta'])
+
     chosen = set()
     for members in cells.values():
-        members.sort(key=lambda r: (r['off_centre'], r['net'], r['sta']))
+        members.sort(key=preference)
         picked = []
-        # 1st pass: closest to the cell centre, skipping near-duplicates of a
+        # 1st pass: in order of preference, skipping near-duplicates of a
         # station already kept (e.g. two networks sharing one site);
         # 2nd pass: take those back only if the cell would stay below k_max
         for r in members:
@@ -930,7 +1319,7 @@ def select_stations_azimuthal(inv, cfg: dict):
         rows=rows, edges=edges, rings_given=rings_given,
         n_sectors=n_sec, max_per_cell=k_max, lat0=lat0, lon0=lon0,
         n_cells=n_sec * (len(edges) - 1), n_filled=len(cells),
-        n_selected=len(chosen),
+        n_selected=len(chosen), data_check=None,
         gap_before=_max_azimuthal_gap([r['az'] for r in rows]),
         gap_after=_max_azimuthal_gap(
             [r['az'] for r in rows if r['status'] == 'selected']),
@@ -938,19 +1327,56 @@ def select_stations_azimuthal(inv, cfg: dict):
     return (sel if chosen else None), report
 
 
-def apply_station_selection(inv, cfg: dict):
-    """Run the azimuthal selection when it is switched on.
+def apply_station_selection(inv, cfg: dict, client=None, windows=None,
+                            per_event: bool = False):
+    """Run the azimuthal selection (and its data check) when switched on.
 
+    windows / per_event : time to check for data — see data_coverage().
     Returns (inventory to use, report or None).
     """
     if not cfg['azi_select'] or inv is None:
         return inv, None
-    sel, rep = select_stations_azimuthal(inv, cfg)
-    rows   = rep['rows']
-    n_full = sum(r['status'] == 'cell full' for r in rows)
-    n_out  = sum(r['status'] == 'outside rings' for r in rows)
-    rings  = (f"{len(rep['edges']) - 1} ring(s) {rep['edges']} km"
-              if rep['rings_given'] else "no rings")
+
+    coverage, check = None, 'off (azi_check_data: false)'
+    if cfg['azi_check_data'] and windows:
+        what = (f"{len(windows)} event window(s)" if per_event
+                else "tmin → tmax")
+        head = f"  Checking which candidates have data ({what}) … "
+        t0   = time.monotonic()
+
+        def progress(done, total):
+            # a live counter: a slow server must not look like a frozen script
+            print(f"\r{head}{done}/{total} requests  "
+                  f"({time.monotonic() - t0:.0f} s)", end='', flush=True)
+
+        print(head, end='', flush=True)
+        coverage, note = data_coverage(inv, cfg, client, windows, per_event,
+                                       _check_order(inv, cfg), progress)
+        print('\r' + head, end='')
+        if coverage is None:
+            check = f"skipped — {note}"
+            print(f"{' ' * 30}\n  [WARN] Data check skipped: {note}.\n"
+                  f"         The selection uses the station metadata only.")
+        else:
+            n_ok = sum(c is not None and _has_data(c, per_event)
+                       for c in coverage.values())
+            check = (f"availability service of {cfg['fdsn_site']}: "
+                     f"{n_ok} of {len(coverage)} candidates have data")
+            print(f"{n_ok} of {len(coverage)} have data  "
+                  f"({time.monotonic() - t0:.0f} s){' ' * 10}")
+            if note:
+                check += f" — INCOMPLETE: {note}"
+                print(f"  [WARN] Data check incomplete: {note}.")
+
+    sel, rep = select_stations_azimuthal(
+        inv, cfg, coverage, per_event, len(windows) if windows else 1)
+    rep['data_check'] = check
+    rows    = rep['rows']
+    n_full  = sum(r['status'] == 'cell full' for r in rows)
+    n_out   = sum(r['status'] == 'outside rings' for r in rows)
+    n_empty = sum(r['status'] == 'no data' for r in rows)
+    rings   = (f"{len(rep['edges']) - 1} ring(s) {rep['edges']} km"
+               if rep['rings_given'] else "no rings")
     print(f"  Azimuthal selection: {rep['n_sectors']} sectors × {rings}, "
           f"max {rep['max_per_cell']} per cell")
     print(f"    candidates : {len(rows):4d} stations   "
@@ -958,12 +1384,14 @@ def apply_station_selection(inv, cfg: dict):
     print(f"    selected   : {rep['n_selected']:4d} stations   "
           f"(max azimuthal gap {rep['gap_after']:.0f}°)")
     print(f"    cells      : {rep['n_filled']} of {rep['n_cells']} "
+          f"contain stations with data" if coverage is not None else
+          f"    cells      : {rep['n_filled']} of {rep['n_cells']} "
           f"contain stations")
-    print(f"    dropped    : {n_full} (cell already full), "
-          f"{n_out} (outside the rings)\n")
+    print(f"    dropped    : {n_full} (cell already full), {n_empty} (no "
+          f"data), {n_out} (outside the rings)\n")
     if sel is None:
         print("  [WARN] No station left after the selection: check "
-              "azi_rings_km against the station distances.\n")
+              "azi_rings_km, the channel and the time window.\n")
     return sel, rep
 
 
@@ -971,11 +1399,18 @@ def save_selection_report(rep: dict, cfg: dict) -> None:
     """Write META_DATA/<station_file_name>_selection.txt."""
     os.makedirs(META_DIR, exist_ok=True)
     path = os.path.join(META_DIR, cfg['station_file_name'] + '_selection.txt')
-    rows = sorted(rep['rows'], key=lambda r: (r['status'] != 'selected',
+    order = {'selected': 0, 'cell full': 1, 'no data': 2, 'outside rings': 3}
+    rows = sorted(rep['rows'], key=lambda r: (order.get(r['status'], 4),
                                               r['az']))
     with open(path, 'w') as fh:
         fh.write(f"# Azimuthal station selection — reference point "
                  f"{rep['lat0']:.4f} N, {rep['lon0']:.4f} E\n")
+        source = (f"local file {cfg['existing_stations_xml']}"
+                  if cfg.get('existing_stations_xml') else
+                  f"FDSN {cfg['fdsn_site']}, channel {cfg['channel']}, "
+                  f"{cfg['radius_km_sta_min']:g}–{cfg['radius_km_sta']:g} km")
+        fh.write(f"# candidates from: {source}\n")
+        fh.write(f"# data check: {rep.get('data_check') or 'off'}\n")
         fh.write(f"# {rep['n_sectors']} sectors of "
                  f"{360.0 / rep['n_sectors']:g}°, ring edges (km): "
                  f"{rep['edges'] if rep['rings_given'] else 'none'}, "
@@ -984,12 +1419,13 @@ def save_selection_report(rep: dict, cfg: dict) -> None:
                  f"max azimuthal gap {rep['gap_before']:.1f}° (all) → "
                  f"{rep['gap_after']:.1f}° (selected)\n")
         fh.write(f"{'NET':<4} {'STA':<6} {'dist_km':>8} {'az_deg':>7} "
-                 f"{'sector':>6} {'ring':>4}  status\n")
+                 f"{'sector':>6} {'ring':>4} {'data':>9}  status\n")
         for r in rows:
             sec, ring = (r['cell'][0] + 1, r['cell'][1] + 1) if r['cell'] \
                 else ('-', '-')
             fh.write(f"{r['net']:<4} {r['sta']:<6} {r['dist_km']:8.1f} "
-                     f"{r['az']:7.1f} {sec:>6} {ring:>4}  {r['status']}\n")
+                     f"{r['az']:7.1f} {sec:>6} {ring:>4} {r['data_txt']:>9}  "
+                     f"{r['status']}\n")
     print(f"  Saved: {path}")
 
 
@@ -1027,10 +1463,12 @@ def _is_transient(exc: Exception) -> bool:
         'Unknown Error' in msg or 'Unknown HTTP code: 5' in msg)
 
 
-def _call_with_retry(fn, what: str, attempts: int = MAX_RETRIES):
+def _call_with_retry(fn, what: str, attempts: int = MAX_RETRIES,
+                     verbose: bool = True):
     """Call fn(), retrying transient errors with a growing pause.
 
     Any other exception, and the last transient one, is re-raised.
+    verbose=False retries silently (the caller reports the outcome).
     """
     for attempt in range(1, attempts + 1):
         try:
@@ -1039,19 +1477,21 @@ def _call_with_retry(fn, what: str, attempts: int = MAX_RETRIES):
             if attempt == attempts or not _is_transient(exc):
                 raise
             wait = RETRY_WAIT_S * attempt
-            print(f"  [RETRY]  {what}  attempt {attempt}/{attempts} "
-                  f"failed ({type(exc).__name__}) — retrying in {wait:.0f} s")
+            if verbose:
+                print(f"  [RETRY]  {what}  attempt {attempt}/{attempts} "
+                      f"failed ({type(exc).__name__}) — retrying in "
+                      f"{wait:.0f} s")
             time.sleep(wait)
 
 
-def _fetch_with_retry(fetch, what: str):
+def _fetch_with_retry(fetch, what: str, attempts: int = MAX_RETRIES):
     """Run fetch() with retries; return (result, status).
 
     status is 'ok', 'nodata' (a valid server answer, returned at once) or
     'error' (after printing what went wrong).
     """
     try:
-        return _call_with_retry(fetch, what), 'ok'
+        return _call_with_retry(fetch, what, attempts), 'ok'
     except Exception as exc:
         if _is_no_data(exc):
             return None, 'nodata'
@@ -1329,6 +1769,7 @@ def _colour_scales(points) -> dict:
 
 _GRID_COLOUR    = '#EF6C00'   # azimuthal selection grid (sectors / rings)
 _DROPPED_COLOUR = '#9E9E9E'   # stations dropped by the azimuthal selection
+_NODATA_COLOUR  = '#E57373'   # … because they have no data (data check)
 
 
 def _selection_drawing(selection):
@@ -1345,15 +1786,29 @@ def _selection_drawing(selection):
                       selection['edges'][-1])]
 
 
+def _dropped_colour(selection, net: str, sta: str) -> str:
+    """Grey for stations dropped by the geometry, red for 'no data'."""
+    for r in selection['rows']:
+        if r['net'] == net and r['sta'] == sta:
+            return _NODATA_COLOUR if r['status'] == 'no data' \
+                else _DROPPED_COLOUR
+    return _DROPPED_COLOUR
+
+
 def _selection_legend_rows(selection) -> list:
     """Legend rows (HTML) for the dropped stations and the selection grid."""
     if not selection:
         return []
-    return [f'<span style="color:{_DROPPED_COLOUR};font-size:12px">▲</span>'
-            f'&nbsp;Dropped station',
-            f'<span style="color:{_GRID_COLOUR}">┄ ┄</span>'
-            f'&nbsp;Azimuthal grid ({selection["n_selected"]} of '
-            f'{len(selection["rows"])} kept)']
+    rows = [f'<span style="color:{_DROPPED_COLOUR};font-size:12px">▲</span>'
+            f'&nbsp;Dropped station (cell full / outside rings)']
+    if any(r['status'] == 'no data' for r in selection['rows']):
+        rows.append(f'<span style="color:{_NODATA_COLOUR};font-size:12px">'
+                    f'▲</span>&nbsp;No data — replaced by the next station '
+                    f'of its cell')
+    rows.append(f'<span style="color:{_GRID_COLOUR}">┄ ┄</span>'
+                f'&nbsp;Azimuthal grid ({selection["n_selected"]} of '
+                f'{len(selection["rows"])} kept)')
+    return rows
 
 
 def _grid_lines(selection, steps: int = 40):
@@ -2084,8 +2539,8 @@ def _build_folium_map(ev_points, inv, cfg: dict, event_area: bool = True,
             name=f'Events ({len(ev_points)})').add_to(m)
         # Biggest events first, so that smaller ones stay visible on top
         order = sorted(ev_points, key=lambda p: -radius(p['mag']))
-        rows = ['<span style="color:#1565C0;font-size:15px">▲</span>'
-                '&nbsp;Station']
+        rows = (['<span style="color:#1565C0;font-size:15px">▲</span>'
+                 '&nbsp;Station'] if stations or dropped else [])
         if event_area:
             rows.append('<span style="color:#607D8B">─ ─</span>'
                         '&nbsp;Event search area')
@@ -2129,6 +2584,8 @@ def _build_folium_map(ev_points, inv, cfg: dict, event_area: bool = True,
         r = sel_info.get((net_code, sta_code))
         geo = (f"<br>Distance : {r['dist_km']:.0f} km<br>"
                f"Azimuth : {r['az']:.0f}°" if r else '')
+        if r and r.get('data_txt', '-') != '-':
+            geo += f"<br>Data : {r['data_txt']}"
         why = (f"<br><i>dropped: {r['status']}</i>"
                if r and r['status'] != 'selected' else '')
         return folium.Popup(f"<b>{net_code}.{sta_code}</b><br>{site or ''}<br>"
@@ -2139,10 +2596,12 @@ def _build_folium_map(ev_points, inv, cfg: dict, event_area: bool = True,
         drop_group = folium.FeatureGroup(
             name=f'Dropped stations ({len(dropped)})')
         for net_code, sta_code, lat, lon, site in dropped:
+            colour = _dropped_colour(selection, net_code, sta_code)
+            why = 'no data' if colour == _NODATA_COLOUR else 'dropped'
             folium.Marker(
-                location=[lat, lon], icon=triangle_icon(_DROPPED_COLOUR, 5),
+                location=[lat, lon], icon=triangle_icon(colour, 5),
                 popup=station_popup(net_code, sta_code, lat, lon, site),
-                tooltip=f"{net_code}.{sta_code} (dropped)",
+                tooltip=f"{net_code}.{sta_code} ({why})",
             ).add_to(drop_group)
         drop_group.add_to(m)
 
@@ -2167,24 +2626,33 @@ def _build_folium_map(ev_points, inv, cfg: dict, event_area: bool = True,
     framing.bounds = json.dumps([[south, west], [north, east]])
     framing.add_to(m)
 
-    # ── continuous mode: info panel (event mode has the JS legend instead) ────
+    # ── no events (continuous / stations modes): info panel ───────────────────
+    # (the event modes have the JavaScript legend instead)
     if is_continuous:
-        n_files  = len(stations) * len(_continuous_chunks(cfg))
         area_row = ('<br><span style="color:#1565C0">─ ─</span>'
                     '&nbsp;Station search area' if station_area else '')
         area_row += ''.join('<br>' + row
                             for row in _selection_legend_rows(selection))
+        if cfg['download_mode'] == 'continuous':
+            n_files = len(stations) * len(_continuous_chunks(cfg))
+            info = (f"<b>Continuous download</b><br>"
+                    f"{cfg['tmin'][:10]} → {cfg['tmax'][:10]}<br>"
+                    f"Stations  : {len(stations)}<br>"
+                    f"Chunk     : {cfg['chunk_hours']} h / file<br>"
+                    f"Est. files: ~{n_files}<br>")
+        else:
+            of = (f" (of {len(selection['rows'])} candidates)"
+                  if selection else '')
+            info = (f"<b>Station metadata</b><br>"
+                    f"Stations  : {len(stations)}{of}<br>"
+                    f"Channel   : {cfg['channel']}<br>")
         panel_html = f"""
     <div style="
         position: fixed; bottom: 30px; left: 30px; z-index: 1000;
         background: white; padding: 12px 16px; border-radius: 8px;
         border: 1px solid #ccc; font-size: 12px; line-height: 1.9;
         box-shadow: 2px 2px 6px rgba(0,0,0,.2);">
-      <b>Continuous download</b><br>
-      {cfg['tmin'][:10]} → {cfg['tmax'][:10]}<br>
-      Stations  : {len(stations)}<br>
-      Chunk     : {cfg['chunk_hours']} h / file<br>
-      Est. files: ~{n_files}<br>
+      {info}
       <span style="color:#1565C0;font-size:16px">▲</span>&nbsp;Station{area_row}
     </div>"""
         m.get_root().html.add_child(folium.Element(panel_html))
@@ -2252,9 +2720,12 @@ def _build_pygmt_map(ev_points, inv, cfg: dict, event_area: bool = True,
         for _, pts in _grid_lines(selection):
             fig.plot(x=[p[1] for p in pts], y=[p[0] for p in pts],
                      pen=grid_pen)
-        if dropped:
-            fig.plot(x=[s[3] for s in dropped], y=[s[2] for s in dropped],
-                     style='t0.2c', fill=_DROPPED_COLOUR, pen='0.3p,gray40')
+        for colour in (_DROPPED_COLOUR, _NODATA_COLOUR):
+            group = [s for s in dropped
+                     if _dropped_colour(selection, s[0], s[1]) == colour]
+            if group:
+                fig.plot(x=[s[3] for s in group], y=[s[2] for s in group],
+                         style='t0.2c', fill=colour, pen='0.3p,gray40')
 
     # Events: biggest first so that smaller ones stay visible on top
     if ev_points:
@@ -2445,12 +2916,114 @@ def save_catalog(cat: Catalog, cfg: dict) -> list:
 # 6 ─ SAVE STATION METADATA
 # ═════════════════════════════════════════════════════════════════════════════
 
+# ── Output names already in use: overwrite or choose another name ────────────
+
+def _catalog_set(name: str) -> list:
+    """Every file of a catalog saved under this name."""
+    return [os.path.join(CAT_DIR, name + ext) for ext in ('.xml', '.txt', '.pf')]
+
+
+def _station_set(name: str) -> list:
+    """Every station file this script may have written under this name."""
+    base = os.path.join(META_DIR, name)
+    files = [base + '.xml', base + '_all.xml', base + '_selection.txt']
+    files += sorted(glob.glob(os.path.join(glob.escape(base),
+                                           glob.escape(name) + '_*.xml')))
+    return files
+
+
+def _resolve_name(kind: str, cfg: dict, key: str, set_fn, protected: set):
+    """Make sure the output name cfg[key] can be written.
+
+    If files of that name already exist, ask whether to overwrite them or to
+    use another name (the new name is used for this run only).  A name that
+    would overwrite one of the input files (protected) is always refused.
+    Returns the existing files to delete before saving — so that no stale
+    file of the old set survives — or None if the user aborts.
+    """
+    while True:
+        name     = cfg[key]
+        files    = set_fn(name)
+        hit      = [f for f in files if os.path.abspath(f) in protected]
+        existing = [f for f in files if os.path.exists(f)]
+        if hit:
+            print(f"\n  [!] The {kind} name '{name}' would overwrite the "
+                  f"input file {os.path.relpath(hit[0], WORK_DIR)}.")
+        elif not existing:
+            return []
+        else:
+            print(f"\n  [EXISTS] {kind} '{name}' is already on disk:")
+            for f in existing[:6]:
+                print(f"           {os.path.relpath(f, WORK_DIR)}")
+            if len(existing) > 6:
+                print(f"           … and {len(existing) - 6} more")
+            ans = input("  Overwrite it? [y = overwrite / n = save under "
+                        "another name]: ").strip().lower()
+            if ans == 'y':
+                return existing
+        while True:
+            new = input(f"  New {kind} name (empty = abort): ").strip()
+            if not new:
+                return None
+            if '/' in new or os.sep in new or new in ('.', '..'):
+                print("  ! Please type a plain name, not a path.")
+                continue
+            break
+        cfg[key] = new
+        print(f"  → this run will use '{new}' "
+              f"(the config file is not changed)")
+
+
+def resolve_output_names(cfg: dict, save_cat: bool, save_sta: bool):
+    """Check catalog and station output names before anything is written.
+
+    Returns the list of old files to delete, or None if the user aborted.
+    """
+    protected = set()
+    for key, base in (('existing_catalog_pf', CAT_DIR),
+                      ('existing_stations_xml', META_DIR)):
+        if cfg.get(key):
+            protected.add(os.path.abspath(_resolve_local_path(cfg[key], base)))
+    to_delete = []
+    for wanted, kind, key, set_fn in (
+            (save_cat, 'catalog', 'catalog_name', _catalog_set),
+            (save_sta, 'station set', 'station_file_name', _station_set)):
+        if not wanted:
+            continue
+        old = _resolve_name(kind, cfg, key, set_fn, protected)
+        if old is None:
+            return None
+        to_delete += old
+    return to_delete
+
+
+def remove_old_outputs(files: list) -> None:
+    """Delete the files of an output set that is being overwritten."""
+    for f in files:
+        if os.path.isfile(f):
+            os.remove(f)
+    if files:
+        print(f"  Removed {len(files)} old file(s) being overwritten.")
+
+
 def save_station_metadata(inv, inv_all, selection, cfg: dict,
                           local_sta: bool) -> None:
-    """Save the StationXML (FDSN stations only) and the selection report."""
+    """Save the station metadata of this run and the selection report.
+
+    FDSN stations: StationXML (+ per-station files); with the azimuthal
+    selection also <name>_all.xml with every candidate.  Local StationXML:
+    the file itself is never copied; with the selection on, the SELECTED
+    stations are written to <name>.xml (they are a new subset of it).
+    """
     if not local_sta:
         print("  Saving station metadata …")
         save_stations(inv, cfg, inv_all if selection else None)
+    elif selection and inv is not None:
+        os.makedirs(META_DIR, exist_ok=True)
+        path = os.path.join(META_DIR, cfg['station_file_name'] + '.xml')
+        inv.write(path, format='STATIONXML')
+        print(f"  Saved: {path}   ({len(_unique_stations(inv))} selected "
+              f"stations; all the stations are in your local file)")
     else:
         print("  [SKIP] Station metadata loaded from local file — "
               "not re-saved.")
@@ -2505,13 +3078,51 @@ def save_stations(inv, cfg: dict, inv_all=None) -> None:
 # 7 ─ EVENT WAVEFORM DOWNLOAD
 # ═════════════════════════════════════════════════════════════════════════════
 
+_WF_BLOCK = 10    # stations per bulk waveform request: small replies get
+                  # through a busy server more easily, and a failing request
+                  # costs only its own stations, not the whole event
+
+
+def _fetch_event_bulk(client: Client, keys: list, loc: str,
+                      chan_patterns: list, t1, t2, what: str):
+    """Waveforms of the stations keys [(net, sta), …] between t1 and t2.
+
+    Bulk requests of _WF_BLOCK stations; a block that still fails after the
+    retries is split in two, down to single stations, so that one station
+    the server cannot deliver does not take the others with it.
+    Returns (stream, set of stations whose request failed).
+    """
+    pending = [keys[i:i + _WF_BLOCK] for i in range(0, len(keys), _WF_BLOCK)]
+    st, failed = Stream(), set()
+    while pending:
+        part = pending.pop(0)
+        bulk = [(net, sta, loc, ch, t1, t2)
+                for net, sta in part for ch in chan_patterns]
+        label = (f"{what} {part[0][0]}.{part[0][1]}" if len(part) == 1 else
+                 f"{what} ({len(part)} stations)")
+        got, status = _fetch_with_retry(
+            lambda: client.get_waveforms_bulk(bulk), label)
+        if status == 'ok' and got is not None:
+            st += got
+        elif status == 'error':
+            if len(part) > 1:
+                half = len(part) // 2
+                print(f"  [SPLIT]  retrying as {half} + {len(part) - half} "
+                      f"stations")
+                pending[:0] = [part[:half], part[half:]]
+            else:
+                failed.add(part[0])
+    return st, failed
+
+
 def download_waveforms(pf_events: list, inv, client: Client, cfg: dict) -> None:
     """Download event waveforms: one miniSEED file per (event, station) pair.
 
-    All stations still missing on disk are fetched with a single bulk request
-    per event (client.get_waveforms_bulk → one HTTP round-trip instead of one
-    per station); the returned stream is split per station at save time.
-    Existing files are skipped, so an interrupted run resumes where it left.
+    The stations still missing on disk are fetched with bulk requests
+    (client.get_waveforms_bulk → one HTTP round-trip for _WF_BLOCK stations
+    instead of one per station); the returned stream is split per station
+    at save time.  Existing files are skipped, so an interrupted run resumes
+    where it left.
     """
     if inv is None:
         print("  [SKIP] No inventory available – cannot download waveforms.")
@@ -2541,8 +3152,7 @@ def download_waveforms(pf_events: list, inv, client: Client, cfg: dict) -> None:
         print(f"\n[{idx:>4}/{n_ev}]  {ev_name}")
         os.makedirs(ev_dir, exist_ok=True)
 
-        # One bulk request holding only the stations still missing on disk
-        bulk    = []
+        # Bulk requests holding only the stations still missing on disk
         targets = {}                       # (net, sta) → output file path
         for net_code, sta_code in stations:
             out_path = os.path.join(
@@ -2551,8 +3161,6 @@ def download_waveforms(pf_events: list, inv, client: Client, cfg: dict) -> None:
                 n_skip += 1
                 continue
             targets[(net_code, sta_code)] = out_path
-            for ch in chan_patterns:
-                bulk.append((net_code, sta_code, loc, ch, t1, t2))
 
         skipped_here = len(stations) - len(targets)
         if not targets:
@@ -2561,13 +3169,10 @@ def download_waveforms(pf_events: list, inv, client: Client, cfg: dict) -> None:
         if skipped_here:
             print(f"  [SKIP]   {skipped_here} station(s) already on disk")
 
-        st, status = _fetch_with_retry(
-            lambda: client.get_waveforms_bulk(bulk), ev_name)
-
-        if status == 'error':
-            n_err += len(targets)
-            continue
-        if status == 'nodata' or st is None or len(st) == 0:
+        st, failed = _fetch_event_bulk(client, list(targets), loc,
+                                       chan_patterns, t1, t2, ev_name)
+        n_err += len(failed)
+        if len(st) == 0 and not failed:
             print(f"  [–]      no data for the {len(targets)} "
                   f"requested station(s)")
             n_nodata += len(targets)
@@ -2575,6 +3180,8 @@ def download_waveforms(pf_events: list, inv, client: Client, cfg: dict) -> None:
 
         # Split the bulk stream per station and save one file each
         for (net_code, sta_code), out_path in targets.items():
+            if (net_code, sta_code) in failed:
+                continue                   # error already printed
             sub = st.select(network=net_code, station=sta_code)
             if len(sub) == 0:
                 print(f"  [–]      {net_code}.{sta_code}  no data")
@@ -2761,96 +3368,72 @@ def main() -> None:
     mode      = cfg['download_mode']
     local_sta = bool(cfg.get('existing_stations_xml'))
     local_cat = mode == 'event' and bool(cfg.get('existing_catalog_pf'))
-    sta_src   = ("local file — will NOT be re-saved" if local_sta
-                 else "FDSN — will be saved in META_DATA/")
 
-    # ── 2. Connect to FDSN ────────────────────────────────────────────────────
+    # What the selected mode uses
+    uses_events    = mode in ('event', 'catalog')
+    uses_stations  = mode in ('event', 'continuous', 'stations')
+    uses_waveforms = mode in ('event', 'continuous')
+
+    # ── 2. Connect to FDSN — only to the services this run really uses ───────
     # Main client: stations (unless local) and waveforms.  The catalog comes
     # from fdsn_site_events (e.g. IRIS → USGS) or from a local file.
     ev_site     = cfg.get('fdsn_site_events') or cfg['fdsn_site']
-    need_events = mode == 'event' and not local_cat
-    needed      = ('dataselect',) if local_sta else ('station', 'dataselect')
+    need_events = uses_events and not local_cat
+    needed = ()
+    if uses_stations and not local_sta:
+        needed += ('station',)
+    if uses_waveforms:
+        needed += ('dataselect',)
     if need_events and ev_site == cfg['fdsn_site']:
         needed += ('event',)
 
-    print(f"\n  Connecting to {cfg['fdsn_site']} …", end=' ', flush=True)
-    client = _connect(cfg['fdsn_site'], needed)
-    print("Connected.")
-    event_client = client
+    client = event_client = None
+    if needed:
+        print(f"\n  Connecting to {cfg['fdsn_site']} …", end=' ', flush=True)
+        client = event_client = _connect(cfg['fdsn_site'], needed)
+        print("Connected.")
     if need_events and ev_site != cfg['fdsn_site']:
         print(f"  Connecting to {ev_site} (events) …", end=' ', flush=True)
         event_client = _connect(ev_site, ('event',))
         print("Connected.")
+    if not needed and not need_events:
+        if uses_stations and cfg['azi_select'] and cfg['azi_check_data']:
+            print("\n  Local files only — just the data check will ask "
+                  f"{cfg['fdsn_site']}.")
+        else:
+            print("\n  Local files only — no FDSN connection needed.")
     print()
 
-    # ══════════════════════════════════════════════════════════════════════════
-    if mode == 'continuous':
-    # ══════════════════════════════════════════════════════════════════════════
+    n_steps = {'event': 4, 'continuous': 3, 'catalog': 2, 'stations': 2}[mode]
+    counter = iter(range(1, n_steps + 1))
 
-        # ── 3. Stations ───────────────────────────────────────────────────────
-        print(f"[STEP 1/3]  Loading station inventory …")
-        inv_all = get_stations(client, cfg)
-        inv, selection = apply_station_selection(inv_all, cfg)
-        n_sta = len(_unique_stations(inv))
+    def step(text):
+        print(f"[STEP {next(counter)}/{n_steps}]  {text}")
 
-        # ── 4. Preview map (stations only) ────────────────────────────────────
-        print(f"[STEP 2/3]  Building preview map ({cfg['map_backend']}) …\n")
-        show_preview_map(None, inv, cfg, station_area=not local_sta,
-                         selection=selection)
-
-        # ── 5. Confirmation ───────────────────────────────────────────────────
-        chunks = _continuous_chunks(cfg)
-        c_from = chunks[0][0].strftime('%Y-%m-%d %H:%M')
-        c_to   = chunks[-1][1].strftime('%Y-%m-%d %H:%M')
-        print(f"\n  Summary before download:")
-        print(f"    Mode      : CONTINUOUS")
-        print(f"    Period    : {cfg['tmin']}  →  {cfg['tmax']}")
-        print(f"                (complete chunks: {c_from} → {c_to})")
-        print(f"    Stations  : {n_sta}   [{sta_src}]")
-        if selection:
-            print(f"                (azimuthal selection: {n_sta} of "
-                  f"{len(selection['rows'])}, max gap "
-                  f"{selection['gap_after']:.0f}°)")
-        print(f"    Chunks    : {len(chunks)} × {cfg['chunk_hours']} h"
-              f"   (~{n_sta * len(chunks)} files total)")
-        print(f"    Parallel  : {cfg['parallel_downloads']} connections")
-        print(f"    Output    : {os.path.join(DATA_DIR, 'CONTINUOUS')}\n")
-
-        ans = input("  Proceed with download? [y/N]: ").strip().lower()
-        if ans != 'y':
-            print("\n  Aborted. Nothing was saved.\n")
-            sys.exit(0)
-
-        # ── 6. Save stations (only when they came from FDSN) + download ───────
-        print(f"\n{'─' * w}")
-        save_station_metadata(inv, inv_all, selection, cfg, local_sta)
-
-        print(f"\n{'─' * w}")
-        print(f"[STEP 3/3]  Downloading continuous waveforms …")
-        download_continuous(inv, client, cfg)
-
-    # ══════════════════════════════════════════════════════════════════════════
-    else:   # mode == 'event'
-    # ══════════════════════════════════════════════════════════════════════════
-
-        # ── 3. Events: local .pf file OR FDSN query ───────────────────────────
-        failed = []
+    # ── 3. Events: local .pf file OR FDSN query ───────────────────────────────
+    cat = pf_events = ev_points = None
+    failed, n_events = [], 0
+    if uses_events:
         if local_cat:
-            print(f"[STEP 1/4]  Loading catalog from local .pf file …")
+            step("Loading catalog from local .pf file …")
             pf_events = load_catalog_from_pf(
                 _resolve_local_path(cfg['existing_catalog_pf'], CAT_DIR),
                 cfg['event_label'])
             ev_points = _points_from_pyrocko(pf_events)
             n_events  = len(pf_events)
-            cat       = None       # nothing to (re-)save
         else:
-            pf_events = None       # built by save_catalog after confirmation
-            print(f"[STEP 1/4]  Querying event catalog from {ev_site} …")
+            step(f"Querying event catalog from {ev_site} …")
             cat, failed = query_events(event_client, cfg)
             ev_points   = _points_from_obspy(cat)
             n_events    = len(cat)
 
         if n_events == 0:
+            if failed:
+                print(f"\n  The catalog could not be downloaded: "
+                      f"{len(failed)} time window(s) failed with network "
+                      f"errors.\n  The server ({ev_site}) may be busy or "
+                      f"temporarily down: try again later.\n")
+                sys.exit(1)
             print("\n  No events found. Check your parameters and try again.\n")
             sys.exit(0)
 
@@ -2868,54 +3451,130 @@ def main() -> None:
                       f"         those times may be missing.  Widen tmin / "
                       f"tmax to cover the whole catalog.\n")
 
-        # ── 4. Stations ───────────────────────────────────────────────────────
-        print(f"[STEP 2/4]  Loading station inventory …")
+    # ── 4. Stations (+ optional azimuthal selection) ──────────────────────────
+    inv_all = inv = selection = None
+    n_sta = 0
+    if uses_stations:
+        step("Loading station inventory …")
         inv_all = get_stations(client, cfg)
-        inv, selection = apply_station_selection(inv_all, cfg)
+        # Time to check for data (azimuthal selection with azi_check_data):
+        # the waveform window of every event, or the whole period
+        if mode == 'event':
+            windows = [(p['t'] - cfg['t_before_s'], p['t'] + cfg['t_after_s'])
+                       for p in ev_points]
+        else:
+            windows = [(UTCDateTime(cfg['tmin']).timestamp,
+                        UTCDateTime(cfg['tmax']).timestamp)]
+        inv, selection = apply_station_selection(
+            inv_all, cfg, client, windows, per_event=(mode == 'event'))
         n_sta = len(_unique_stations(inv))
+        if mode == 'stations' and inv_all is None:
+            print("\n  No stations found. Check your parameters and try "
+                  "again.\n")
+            sys.exit(0)
 
-        # ── 5. Preview map ────────────────────────────────────────────────────
-        print(f"[STEP 3/4]  Building preview map ({cfg['map_backend']}) …\n")
-        show_preview_map(ev_points, inv, cfg, event_area=not local_cat,
-                         station_area=not local_sta, selection=selection)
+    # ── 5. Preview map ────────────────────────────────────────────────────────
+    step(f"Building preview map ({cfg['map_backend']}) …\n")
+    show_preview_map(ev_points if uses_events else None, inv, cfg,
+                     event_area=need_events,
+                     station_area=uses_stations and not local_sta,
+                     selection=selection)
 
-        # ── 6. Confirmation ───────────────────────────────────────────────────
+    # ── 6. Summary and confirmation ───────────────────────────────────────────
+    save_cat = cat is not None              # only catalogs from FDSN
+    save_sta = uses_stations and (
+        (not local_sta and inv_all is not None) or selection is not None)
+
+    print(f"\n  Summary:")
+    print(f"    Mode      : {mode.upper()}")
+    if uses_events:
         cat_src = ("local file — will NOT be re-saved" if local_cat
-                   else "FDSN — will be saved in CAT/")
+                   else f"FDSN {ev_site}")
         if failed:
             cat_src += f" — INCOMPLETE, {len(failed)} time window(s) failed"
-        print(f"\n  Summary before download:")
-        print(f"    Mode      : EVENT")
         print(f"    Events    : {n_events}   [{cat_src}]")
+    if uses_stations:
+        sta_src = ("local file — will NOT be re-saved" if local_sta
+                   else f"FDSN {cfg['fdsn_site']}")
         print(f"    Stations  : {n_sta}   [{sta_src}]")
         if selection:
             print(f"                (azimuthal selection: {n_sta} of "
                   f"{len(selection['rows'])}, max gap "
                   f"{selection['gap_after']:.0f}°)")
-        print(f"    Window    : -{cfg['t_before_s']} s  /  +{cfg['t_after_s']} s")
-        print(f"    Output    : {WORK_DIR}\n")
+    if mode == 'event':
+        print(f"    Window    : -{cfg['t_before_s']} s  /  "
+              f"+{cfg['t_after_s']} s")
+    if mode == 'continuous':
+        chunks = _continuous_chunks(cfg)
+        c_from = chunks[0][0].strftime('%Y-%m-%d %H:%M')
+        c_to   = chunks[-1][1].strftime('%Y-%m-%d %H:%M')
+        print(f"    Period    : {cfg['tmin']}  →  {cfg['tmax']}")
+        print(f"                (complete chunks: {c_from} → {c_to})")
+        print(f"    Chunks    : {len(chunks)} × {cfg['chunk_hours']} h"
+              f"   (~{n_sta * len(chunks)} files total)")
+        print(f"    Parallel  : {cfg['parallel_downloads']} connections")
 
-        ans = input("  Proceed with download? [y/N]: ").strip().lower()
-        if ans != 'y':
-            print("\n  Aborted. Nothing was saved.\n")
-            sys.exit(0)
+    outputs = []
+    if save_cat:
+        outputs.append(f"CAT/{cfg['catalog_name']}.xml .txt .pf")
+    if save_sta:
+        name = cfg['station_file_name']
+        if not local_sta:
+            outputs.append(f"META_DATA/{name}.xml + META_DATA/{name}/"
+                           + (" (selected)" if selection else ""))
+            if selection:
+                outputs.append(f"META_DATA/{name}_all.xml (all candidates)")
+        elif selection and inv is not None:
+            outputs.append(f"META_DATA/{name}.xml (selected)")
+        if selection:
+            outputs.append(f"META_DATA/{name}_selection.txt")
+    if mode == 'event':
+        outputs.append("DATA/<event_name>/  (event waveforms)")
+    if mode == 'continuous':
+        outputs.append("DATA/CONTINUOUS/  (continuous waveforms)")
+    if not outputs:
+        print("\n  Nothing to save with these settings (preview only).\n")
+        sys.exit(0)
+    print("    Output    : " + "\n                ".join(outputs))
 
-        # ── 7. Save catalog (only when it came from FDSN) ─────────────────────
-        print(f"\n{'─' * w}")
-        if cat is not None:
+    question = {'event':      'Proceed with the download?',
+                'continuous': 'Proceed with the download?',
+                'catalog':    'Save the catalog?',
+                'stations':   'Save the station metadata?'}[mode]
+    ans = input(f"\n  {question} [y/N]: ").strip().lower()
+    if ans != 'y':
+        print("\n  Aborted. Nothing was saved.\n")
+        sys.exit(0)
+
+    # ── 7. Output names already on disk: overwrite or use another name ────────
+    old_files = resolve_output_names(cfg, save_cat, save_sta)
+    if old_files is None:
+        print("\n  Aborted. Nothing was saved.\n")
+        sys.exit(0)
+    print(f"\n{'─' * w}")
+    remove_old_outputs(old_files)
+
+    # ── 8. Catalog and station metadata first: saved before any waveform ─────
+    if uses_events:
+        if save_cat:
             print("  Saving catalog …")
             pf_events = save_catalog(cat, cfg)
         else:
             print("  [SKIP] Catalog loaded from local file — not re-saved.")
-
-        # ── 8. Save stations (only when they came from FDSN) ──────────────────
-        print(f"\n{'─' * w}")
+    if uses_stations:
+        if uses_events:
+            print(f"\n{'─' * w}")
         save_station_metadata(inv, inv_all, selection, cfg, local_sta)
 
-        # ── 9. Download event waveforms ───────────────────────────────────────
+    # ── 9. Waveforms ──────────────────────────────────────────────────────────
+    if mode == 'event':
         print(f"\n{'─' * w}")
-        print(f"[STEP 4/4]  Downloading event waveforms …")
+        step("Downloading event waveforms …")
         download_waveforms(pf_events, inv, client, cfg)
+    elif mode == 'continuous':
+        print(f"\n{'─' * w}")
+        step("Downloading continuous waveforms …")
+        download_continuous(inv, client, cfg)
 
     print(f"{'═' * w}")
     print("  All done.\n")
